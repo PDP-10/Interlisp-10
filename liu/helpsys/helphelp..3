@@ -1,0 +1,50 @@
+OK or STOP <CR> will terminate Helpsys; <ctrl-E> may be used
+to terminate output without leaving Helpsys.
+
+
+Inquiries are made in the form of simple sentences entered in
+UPPER-CASE, void of punctuation and ended with a carriage-return
+For example:
+
+     TELL ME ABOUT CAR <CR>
+
+will respond with the description of the function CAR.
+
+     TELL ME ABOUT NONLISTS IN CAR <CR>
+
+will respond with all sentences in the description of CAR
+which contain the single word NONLISTS.
+
+     WHAT ARE THE ARGS FOR ADDPROP <CR>
+
+will respond with the argument list of ADDPROP.
+
+     TELL ME ABOUT THE FIRST ARG OF ADDPROP <CR>
+
+will respond with all sentences containing a reference to the first
+argument in the description of ADDPROP.
+
+Helpsys knows about every item that appears in the index in the
+INTERLISP manual. This includes variables, property names,
+clisp operators, makefile options, edit commands, etc., as well
+as phrases. For example,
+
+    TELL ME ABOUT COROUTINES AND GENERATORS
+
+will present information corresponding to the indicated topic.
+
+At any point, the user can type MORE, causing Helpsys to display
+additional information, one page at a time, starting from the
+point it last left off. After each page, Helpsys will query the 
+user with More? at which time the user can respond Y or N.
+
+Helpsys provides spelling correction and completion, e.g.
+
+    TELL ME ABOUT CLISP$FLG
+
+will present the user with a list of all topics beginning with
+the letters CLISP, and ending with the letters FLG. The user
+can then select the topic by typing the corresponding
+number.
+
+

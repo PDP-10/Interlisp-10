@@ -1,0 +1,267 @@
+(FILECREATED " 1-MAR-83 09:23:05" <LISPUSERS>DURATIONTRAN.MASINTER;1 9307   
+
+      changes to:  (VARS DURATIONTRANCOMS))
+
+
+(PRETTYCOMPRINT DURATIONTRANCOMS)
+
+(RPAQQ DURATIONTRANCOMS (COMS (VARS DURATIONCLISPWORDS)
+			      (FNS \DURATIONTRAN \CLISPKEYWORDPROCESS)
+			      (PROP CLISPWORD * (APPLY (QUOTE APPEND)
+						       DURATIONCLISPWORDS))
+			      [ALISTS * (LIST (CONS (QUOTE PRETTYEQUIVLST)
+						    (APPLY (QUOTE APPEND)
+							   DURATIONCLISPWORDS]
+			      (MACROS \MACRO.EVAL)))
+
+(RPAQQ COMS NOBIND)
+
+(RPAQQ DURATIONCLISPWORDS ((TIMERUNITS timerUnits TimerUnits timerunits)
+			   (USINGBOX usingBox UsingBox usingbox)
+			   (USINGTIMER usingTimer UsingTImer usingtimer)
+			   (FORDURATION forDuration forduration ForDuration FORDURATIONOF 
+					forDurationOf fordurationof ForDurationOf DURING during)
+			   (RESOURCENAME resourceName ResourceName resourcename)
+			   (UNTILDATE untilDate untildate UNTILDATETIME UntilDate untildatetime 
+				      untilDateTime UntilDateTime)))
+(DEFINEQ
+
+(\DURATIONTRAN
+  [LAMBDA (FORM)                   (* lmm " 1-MAR-83 06:56")
+    (PROG ((BODY FORM)
+	   (OLDTIMER)
+	   (EXPANSION)
+	   (SETUPFORM (QUOTE (SETUPTIMER FORDURATION OLDTIMER . TIMERUNITSLST)))
+	   (EXPIREDFORM (QUOTE (TIMEREXPIRED? \DurationLimit . TIMERUNITSLST)))
+	   USINGTIMER USINGBOX FORDURATION RESOURCENAME UNTILDATE TIMERUNITS TIMERUNITSLST TEMP)
+          (DECLARE (SPECVARS USINGTIMER USINGBOX FORDURATION RESOURCENAME UNTILDATE)
+		   (GLOBALVARS LCASEFLG))
+
+          (* DURATIONCLISPWORDS is a list of lists, each one of which has the canonical word for some CLISPWORD as second 
+	  element. First element is the all-caps version, so that SPECVARS communication can take place.)
+
+
+          [\MACRO.EVAL (BQUOTE (SETQ BODY , (for L in DURATIONCLISPWORDS as Z
+					       by (BQUOTE (\CLISPKEYWORDPROCESS , Z (QUOTE , L)))
+					       first (SETQ Z (QUOTE BODY)) do NIL
+					       finally (RETURN Z]
+          (COND
+	    ((NOT (LITATOM RESOURCENAME))
+	      (SETERRORN 14 FORM)
+	      (ERRORX)))
+          (COND
+	    (USINGBOX (SETQ USINGTIMER USINGBOX)))
+          [COND
+	    ((EQ RESOURCENAME T)
+	      (SETQ RESOURCENAME (QUOTE \ForDurationOfBox]
+          (COND
+	    ((AND RESOURCENAME USINGTIMER)
+	      (ERROR "Both 'usingTimer' and 'resourceName' specified" FORM)))
+          [COND
+	    ((NULL TIMERUNITS)     (* Standard case)
+	      NIL)
+	    (UNTILDATE (ERROR "Can't specify timerUnits for 'untilDate'" FORM))
+	    ((COND
+		[(CONSTANTEXPRESSIONP TIMERUNITS)
+		  (SETQ TEMP (U-CASE (EVAL TIMERUNITS)))
+		  (COND
+		    ((FMEMB TEMP (QUOTE (MS MILS MILLISECS MILLISECONDS)))
+                                   (* Standard case)
+		      (SETQ TIMERUNITS)
+		      T)
+		    ((FMEMB TEMP (QUOTE (TICS TICKS SECS SECONDS)))
+		      T)
+		    (T (ERROR "Wrong timerUnits specified" FORM]
+		(T (ERROR "Non-constant timerUnits not yet implemented" FORM)))
+	      (SETQ TIMERUNITSLST (LIST TIMERUNITS]
+          (COND
+	    ((AND (NULL FORDURATION)
+		  (NULL UNTILDATE))
+	      (ERROR "No duration interval" FORM))
+	    ((AND FORDURATION UNTILDATE)
+	      (ERROR "Both 'untilDate' and 'forDuration' specified" FORM)))
+          [COND
+	    (UNTILDATE (SETQ FORDURATION UNTILDATE)
+                                   (* Make the "interval" be the thing supplied for the "date")
+		       (SETQ SETUPFORM (QUOTE (SETUPTIMER.DATE FORDURATION OLDTIMER)))
+		       (SETQ TIMERUNITSLST (QUOTE ((QUOTE SECS]
+          [COND
+	    ([AND (PROG1 RESOURCENAME 
+                                   (* Comment PPLossage))
+		  (NOT (MEMBER (GETDEF RESOURCENAME (QUOTE GLOBALRESOURCES)
+				       NIL
+				       (QUOTE NOERROR))
+			       (QUOTE ((NCREATE (QUOTE FIXP))
+					(IPLUS 1000000]
+	      (PUTDEF RESOURCENAME (QUOTE GLOBALRESOURCES)
+		      (SELECTQ (SYSTEMTYPE)
+			       [D (QUOTE (NCREATE (QUOTE FIXP]
+			       ((TOPS20 TENEX)
+				 (IPLUS 1000000))
+			       (SETQ RESOURCENAME]
+          (SETQ EXPANSION (BQUOTE ([LAMBDA (\DurationLimit)
+				      (DECLARE (LOCALVARS \DurationLimit))
+				      (until , EXPIREDFORM . BODY]
+				    , SETUPFORM)))
+          (SETQ OLDTIMER (OR RESOURCENAME USINGTIMER))
+          [COND
+	    (RESOURCENAME (SETQ EXPANSION (LIST (QUOTE GLOBALRESOURCE)
+						RESOURCENAME EXPANSION]
+          (CLISPTRAN (PROG1 FORM 
+                                   (* Comment PPLossage))
+		     (SUBPAIR (QUOTE (BODY FORDURATION OLDTIMER TIMERUNITSLST))
+			      (LIST BODY FORDURATION OLDTIMER TIMERUNITSLST)
+			      EXPANSION))
+          (COND
+	    (LCASEFLG (MAP FORM (FUNCTION (LAMBDA (X)
+			       (COND
+				 ((AND (SETQ EXPANSION (GETPROP (CAR X)
+								(QUOTE CLISPWORD)))
+				       (LISTP EXPANSION)
+				       (SETQ EXPANSION (CDR EXPANSION))
+				       (LITATOM EXPANSION)
+				       (NEQ EXPANSION (CAR X)))
+				   (/RPLACA X EXPANSION])
+
+(\CLISPKEYWORDPROCESS
+  [LAMBDA (FORM WORDLST)           (* JonL "24-DEC-82 22:46")
+
+          (* Looks for the first "keyword" in the list FORM which is mentioned in the WORDLST -- and if one is found, the the 
+	  first keyword in WORDLST is presumed to be the name of a variable to be set to the keyword's value.
+	  Returns the original list with the keyword pair non-destructively spliced out.)
+
+
+    (COND
+      ((NULL FORM)
+	NIL)
+      ((FMEMB (CAR FORM)
+	      WORDLST)
+	(SET (CAR WORDLST)
+	     (CADR FORM))
+	(CDDR FORM))
+      ((NLISTP FORM)
+	FORM)
+      (T (PROG (TMP)
+	       (RETURN (COND
+			 ((find X in WORDLST suchthat (SETQ TMP (FMEMB X FORM)))
+			   (SET (CAR WORDLST)
+				(CADR TMP))
+			   (NCONC (LDIFF FORM TMP)
+				  (CDDR TMP)))
+			 (T FORM])
+)
+
+(PUTPROPS TIMERUNITS CLISPWORD (\DURATIONTRAN . timerUnits))
+
+(PUTPROPS timerUnits CLISPWORD (\DURATIONTRAN . timerUnits))
+
+(PUTPROPS TimerUnits CLISPWORD (\DURATIONTRAN . timerUnits))
+
+(PUTPROPS timerunits CLISPWORD (\DURATIONTRAN . timerUnits))
+
+(PUTPROPS USINGBOX CLISPWORD (\DURATIONTRAN . usingBox))
+
+(PUTPROPS usingBox CLISPWORD (\DURATIONTRAN . usingBox))
+
+(PUTPROPS UsingBox CLISPWORD (\DURATIONTRAN . usingBox))
+
+(PUTPROPS usingbox CLISPWORD (\DURATIONTRAN . usingBox))
+
+(PUTPROPS USINGTIMER CLISPWORD (\DURATIONTRAN . usingTimer))
+
+(PUTPROPS usingTimer CLISPWORD (\DURATIONTRAN . usingTimer))
+
+(PUTPROPS UsingTImer CLISPWORD (\DURATIONTRAN . usingTimer))
+
+(PUTPROPS usingtimer CLISPWORD (\DURATIONTRAN . usingTimer))
+
+(PUTPROPS FORDURATION CLISPWORD (\DURATIONTRAN . forDuration))
+
+(PUTPROPS forDuration CLISPWORD (\DURATIONTRAN . forDuration))
+
+(PUTPROPS forduration CLISPWORD (\DURATIONTRAN . forDuration))
+
+(PUTPROPS ForDuration CLISPWORD (\DURATIONTRAN . forDuration))
+
+(PUTPROPS FORDURATIONOF CLISPWORD (\DURATIONTRAN . forDurationOf))
+
+(PUTPROPS forDurationOf CLISPWORD (\DURATIONTRAN . forDurationOf))
+
+(PUTPROPS fordurationof CLISPWORD (\DURATIONTRAN . forDurationOf))
+
+(PUTPROPS ForDurationOf CLISPWORD (\DURATIONTRAN . forDurationOf))
+
+(PUTPROPS DURING CLISPWORD (\DURATIONTRAN . during))
+
+(PUTPROPS during CLISPWORD (\DURATIONTRAN . during))
+
+(PUTPROPS RESOURCENAME CLISPWORD (\DURATIONTRAN . resourceName))
+
+(PUTPROPS resourceName CLISPWORD (\DURATIONTRAN . resourceName))
+
+(PUTPROPS ResourceName CLISPWORD (\DURATIONTRAN . resourceName))
+
+(PUTPROPS resourcename CLISPWORD (\DURATIONTRAN . resourceName))
+
+(PUTPROPS UNTILDATE CLISPWORD (\DURATIONTRAN . untildate))
+
+(PUTPROPS untilDate CLISPWORD (\DURATIONTRAN . untilDate))
+
+(PUTPROPS untildate CLISPWORD (\DURATIONTRAN . untildate))
+
+(PUTPROPS UNTILDATETIME CLISPWORD (\DURATIONTRAN . untildatetime))
+
+(PUTPROPS UntilDate CLISPWORD (\DURATIONTRAN . untilDate))
+
+(PUTPROPS untildatetime CLISPWORD (\DURATIONTRAN . untildatetime))
+
+(PUTPROPS untilDateTime CLISPWORD (\DURATIONTRAN . untilDateTime))
+
+(PUTPROPS UntilDateTime CLISPWORD (\DURATIONTRAN . untilDateTime))
+
+(ADDTOVAR PRETTYEQUIVLST (TIMERUNITS . for)
+			 (timerUnits . for)
+			 (TimerUnits . for)
+			 (timerunits . for)
+			 (USINGBOX . for)
+			 (usingBox . for)
+			 (UsingBox . for)
+			 (usingbox . for)
+			 (USINGTIMER . for)
+			 (usingTimer . for)
+			 (UsingTImer . for)
+			 (usingtimer . for)
+			 (FORDURATION . for)
+			 (forDuration . for)
+			 (forduration . for)
+			 (ForDuration . for)
+			 (FORDURATIONOF . for)
+			 (forDurationOf . for)
+			 (fordurationof . for)
+			 (ForDurationOf . for)
+			 (DURING . for)
+			 (during . for)
+			 (RESOURCENAME . for)
+			 (resourceName . for)
+			 (ResourceName . for)
+			 (resourcename . for)
+			 (UNTILDATE . for)
+			 (untilDate . for)
+			 (untildate . for)
+			 (UNTILDATETIME . for)
+			 (UntilDate . for)
+			 (untildatetime . for)
+			 (untilDateTime . for)
+			 (UntilDateTime . for))
+(DECLARE: EVAL@COMPILE 
+
+(PUTPROPS \MACRO.EVAL MACRO [Z (PROG ((X (EXPANDMACRO (CAR Z)
+						      T)))
+				     (COND
+				       ((EQ X (CAR Z))
+					 (ERROR "No macro property -- \MACRO.EVAL" X))
+				       (T (RETURN (EVAL X])
+)
+(DECLARE: DONTCOPY
+  (FILEMAP (NIL (1038 5834 (\DURATIONTRAN 1050 . 5007) (\CLISPKEYWORDPROCESS 5011 . 5831)))))
+STOP

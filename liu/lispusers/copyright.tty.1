@@ -1,0 +1,101 @@
+                              COPYRIGHT
+
+
+
+After this file is loaded, files will "automatically" insert a
+copyright notice near the front of files (i.e. right after the
+FILECREATED expression) specifying the years it was edited and the
+"owner".  The format of the copyright notice is:
+
+(*                        Copyright (c) 1981
+                                  by
+                         Foo Bars Corporation                       *)
+
+"Automatically" means that once a file has a copyright notice then
+every version will have a new copyright notice inserted into the file
+without user intervention.  (The copyright information necessary to
+keep the copyright up to date is stored at the end of the file.)  If a
+file has no copyright information associated with it (i.e. it is
+either a new file or an "old" file of which no copyright question has
+every been asked), then the user will be asked if he wants it
+copyrighted.  If the answer is YES then the user will also be asked
+who the owner of the file should be.  If the answer is NO, then that
+information is retained and the user will never be asked again.  The
+ownership question uses ASKUSER and the keys used in ASKUSER are
+generated using the variable COPYRIGHTOWNERS.  COPYRIGHTOWNERS is a
+list of entries of the form
+
+	(KEY OWNERSTRING) 
+
+where KEY is used as a response to ASKUSER and OWNERSTRING is a string
+which is the full identification of the owner.  Even if
+COPYRIGHTOWNERS is NIL, there are always two response the user can
+make: (1) specify an OWNERSTRING which is different than any elements
+on COPYRIGHTOWNERS or (2) specify that the user really does not want a
+copyright notice.
+
+For example, if COPYRIGHTOWNERS has the value
+
+	((BBN "Bolt Beranek and Newman Inc.")
+	 (XEROX "Xerox Corporation"))
+
+Then for a new file FOO the following interaction will take place:
+
+	Do you want to Copyright FOO? Yes
+        Copyright owner: {user typed ?}
+	one of:
+	BBN - Bolt Beranek and Newman Inc.
+	XEROX - Xerox Corporation
+	[ - new copyright owner -- type one line of text
+	] - no copyright notice -- I changed my mind
+
+	Copyright owner: BBN
+
+Then "Foo Bars Corporation" in the above copyright notice example
+would have been "Bolt Beranek and Newman Inc."
+
+Any year the file has been edited is considered a "copyright year" and
+therefore kept with the copyright information.  For example, if a file
+has been edited in 1981, 1982, and 1984, then the copyright notice
+would look like:
+
+(*                   Copyright (c) 1981,1982,1984
+                                  by
+                           Martin D. Yonke                          *)
+
+
+
+                 User Control of the Copyright Notice
+
+Since all of this happens automatically (except the initial user
+interaction), there are a couple of ways for the user to control the
+process.
+
+The variable COPYRIGHTFLG can have several values -- NO means do not
+even ask the user if he wants a copyright notice (i.e. as if the
+COPYRIGHT package had never been loaded); ASK means ask the user on
+each new file; and YES means the user always wants a copyright notice
+and just ask who the copyright owner of this file should be.  The
+default for COPYRIGHTFLG is ASK.
+
+For a file which has a copyright notice that the user wants to get
+rid of in all following versions of the file he can use the function
+
+	(REMOVECOPYRIGHT FILE) 
+
+where FILE specifies the file to get rid of the copyright notice.  The
+user will not be asked again about any copyright information for FILE.
+
+To remove all current copyright information about a file, call
+
+	(UNDOCOPYRIGHT FILE)
+
+The next time the file is made, the user will be asked about a
+copyright notice for FILE unless COPYRIGHTFLG is NO.
+
+
+NOTE: Either the source or compiled version of the file has to be
+loaded before a call to REMOVECOPYRIGHT or UNDOCOPYRIGHT otherwise an
+error is generated.  The file should be remade afterwards.
+
+Questions and comments to Martin Yonke (Yonke@BBND)

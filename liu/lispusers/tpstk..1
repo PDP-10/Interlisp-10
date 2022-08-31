@@ -1,0 +1,539 @@
+(FILECREATED "19-Jan-83 15:02:52" <DDYER>TPSTK..18 19016  
+
+      previous date: " 6-JAN-83 23:40:26" <DDYER>TPSTK..17)
+
+
+(PRETTYCOMPRINT TPSTKCOMS)
+
+(RPAQQ TPSTKCOMS [(FILES (SYSLOAD COMPILED FROM VALUEOF (FILENAMEFIELD (INPUT)
+								       (QUOTE DIRECTORY)))
+			 PRINTOPT)
+		  (FNS * TPSTKFNS)
+		  (EDITHIST * TPSTKEDITHIST)
+		  (VARS * TPSTKVARS)
+		  (LISPXMACROS * TPSTKLISPXMACROS)
+		  (IFPROP HELP TR BR TPSTK TRACECONS TPQ)
+		  (DECLARE: DONTEVAL@LOAD DOEVAL@COMPILE DONTCOPY COMPILERVARS (ADDVARS (NLAMA)
+											(NLAML)
+											(LAMA)))
+		  (IFPROP HELP TPB)
+		  (BLOCKS (TPSTKBLOCK GETBLIPS MAKEREALBNAMES PRODUCEFRAME SHOWFRAME TPB TPBINDING 
+				      TPSTK (ENTRIES TPSTK TPB GETBLIPS)
+				      (SPECVARS TPSTKPREVIOUS])
+(FILESLOAD (SYSLOAD COMPILED FROM VALUEOF (FILENAMEFIELD (INPUT)
+							 (QUOTE DIRECTORY)))
+	   PRINTOPT)
+
+(RPAQQ TPSTKFNS (DOFORFILEFNS FINDFILEFOR GETBLIPS MAKEREALBNAMES PRODUCEFRAME SHOWFRAME TPB 
+			      TPBINDING TPQ TPSTK))
+(DEFINEQ
+
+(DOFORFILEFNS
+  [LAMBDA (FN L)                                            (* DD: " 9-Aug-80 00:37")
+    (PROG ((FILESLST (FINDFILEFOR L))
+	   FNSLST)
+          (RETURN (COND
+		    (FILESLST (printout T "files : " FILESLST T)
+			      (for X inside FILESLST do (SETQ FNSLST (UNION (INFILECOMS?
+									      NIL
+									      (QUOTE FNS)
+									      (FILECOMS X))
+									    FNSLST)))
+			      (APPLY FN FNSLST))
+		    (T "no files matched"])
+
+(FINDFILEFOR
+  [LAMBDA (L)                                               (* DD: " 9-Aug-80 00:46")
+    (PROG ((L (MKLIST L))
+	   FILES)
+          [for X inside L do (for TYPE inside (TYPESOF (U-CASE X))
+				do (COND
+				     ((EQ TYPE (QUOTE FILES))
+				       (SETQ FILES (UNION (MKLIST (U-CASE X))
+							  FILES)))
+				     (T (SETQ FILES (UNION (WHEREIS X TYPE)
+							   FILES]
+          (SETQ FILES (DREMOVE NIL FILES))
+          (RETURN FILES])
+
+(GETBLIPS
+  [LAMBDA (SP)                                              (* edited: " 9-DEC-81 00:35")
+    (SELECTQ (SYSTEMTYPE)
+	     [VAX (for X VAL CELL from 1 to (BLIPVAL (QUOTE *ANY*)
+						     SP T)
+		     do (BLIPVAL (QUOTE *ANY*)
+				 SP X (SETQ CELL (CONS)))
+			(push VAL CELL)
+			(RPLNODE CELL (SELECTQ (CDR CELL)
+					       (1 (QUOTE *FORM*))
+					       (2 (QUOTE *TAIL*))
+					       (3 (QUOTE *FN*))
+					       (4 (QUOTE *ARGVAL*))
+					       (SHOULDNT))
+				 (CAR CELL))
+		     finally (RETURN (DREVERSE VAL]
+	     (PROG (*FN* *TAIL* *FORM* *ARGVAL* RES)
+	           (DECLARE (SPECVARS *FORM* *TAIL* *FN* *ARGVAL*))
+                                                            (* gather four lists of blips.)
+	           [for CB in (QUOTE (*FN* *TAIL* *FORM* *ARGVAL*))
+		      do (SET CB (for I from 1 to (BLIPVAL CB SP T)
+				    collect (CONS CB (BLIPVAL CB SP I]
+                                                            (* now attempt to organize them rationally)
+	           (SETQ RES (NCONC (SETQ RES (for X in *FORM* as Y in *TAIL*
+						 join (LIST X Y)))
+				    (LDIFFERENCE (NCONC *FORM* *TAIL*)
+						 RES)))     (* try to insert *fn* blips in places they beling in, 
+							    after *form* blips)
+	           [SETQ RES (for X in RES join (COND
+						  [(EQ (CAR X)
+						       (QUOTE *FORM*))
+						    (for Y in *FN* when (EQ (CDR Y)
+									    (CADR X))
+						       do (RETURN (LIST Y X]
+						  (T (LIST X]
+                                                            (* Try to insert the *argval* blips in the appropriate 
+							    places, between *fn* and the following *tail* blip)
+	           [SETQ RES (for (A X Y Z) on RES
+				eachtime (SETQ X (CAR A))
+					 (SETQ Y (CADR A))
+					 (SETQ Z (CADDR A))
+				join (COND
+				       [(AND (EQ (CAR X)
+						 (QUOTE *TAIL*))
+					     (EQ (CAR Y)
+						 (QUOTE *FN*))
+					     (EQ (CAR Z)
+						 (QUOTE *FORM*))
+					     (TAILP (CDR X)
+						    (CDR Z))
+					     (for (EE FF) on (CDR Z)
+						while (AND *ARGVAL*(NEQ (CDR X)
+									EE))
+						do (SETQ FF (CONS (CAR *ARGVAL*)
+								  FF))
+						   (SETQ *ARGVAL*(CDR *ARGVAL*))
+						finally (RETURN (NCONC (LIST X)
+								       (DREVERSE FF]
+				       (T (LIST X]
+	           (SETQ RES (NCONC RES (LDIFFERENCE (NCONC *FN* *ARGVAL*)
+						     RES)))
+	           (RETURN RES])
+
+(MAKEREALBNAMES
+  [LAMBDA (AL SN ACT)                                       (* DD: "14-Oct-80 16:57")
+    (AND (MEMB NIL AL)
+	 (FNTYP SN)
+	 (for X on AL as Y in (ARGLIST SN) when (EQ (CAR X)
+						    NIL)
+	    do (RPLACA X (COND
+			 (ACT (PACK* (QUOTE {)
+				     Y
+				     (QUOTE })))
+			 (T Y])
+
+(PRODUCEFRAME
+  [LAMBDA (AC)                                              (* DD: "15-Dec-82 17:49")
+    (PROG ((CSF AC))
+          (while CSF
+	     do (PRODUCE CSF)
+		(SETQ CSF (STKNTH 1 CSF CSF])
+
+(SHOWFRAME
+  [LAMBDA (SP TYP)                                          (* DD: " 6-JAN-83 18:14")
+    (PROG (NA AL AV BLIPS (SN (STKNAME SP))
+	      (REAL (REALFRAMEP SP))
+	      (INTERP (REALFRAMEP SP T))
+	      TSP1 TSP2 (LL (LINELENGTH))
+	      (NAMES (FMEMB (QUOTE NAMES)
+			    TYP))
+	      (FNFORM (FMEMB (QUOTE FN)
+			     TYP))
+	      (SHORT (FMEMB (QUOTE SHORT)
+			    TYP)))
+          [COND
+	    ((NULL NAMES)
+	      (SETQ NA (STKNARGS SP))
+	      (SETQ AL (VARIABLES SP))
+	      (SETQ AV (STKARGS SP))
+	      (AND (MEMB (QUOTE BLIPS)
+			 TYP)
+		   (SETQ BLIPS (GETBLIPS SP]
+          (OR SN (RETURN))
+          (AND (INTERSECTION (QUOTE (INTERP REAL))
+			     TYP)
+	       (NOT REAL)
+	       (RETURN))
+          (AND (MEMB (QUOTE INTERP)
+		     TYP)
+	       (NOT INTERP)
+	       (RETURN))
+          (AND (MEMB (QUOTE DUMMY)
+		     TYP)
+	       REAL
+	       (RETURN))
+          (AND REAL (NOT NAMES)
+	       (OR (NOT FNFORM)
+		   SHORT)
+	       (MAKEREALBNAMES AL SN (MEMB (QUOTE ACTUAL)
+					   TYP)))
+          [COND
+	    ((AND FNFORM (NOT NAMES))
+	      (PRINTOPTIMUM (CONS SN (COND
+				    (SHORT AL)
+				    (T AV)))
+			    NIL T)
+	      (TERPRI T))
+	    (T (printout T (COND
+			   ((LISTP SN)
+			     (CAR SN))
+			   (T SN)))
+	       (COND
+		 (NAMES (PRIN1 "  " T))
+		 (T (printout T 13 (COND
+				(REAL (FNTYP SN))
+				(T (QUOTE dummy)))
+			      21 .I2 NA)
+		    (COND
+		      ((NOT (EQUAL (STKNTH 1 SP TSP1)
+				   (STKNTH -1 SP TSP2)))
+			(PRIN1 (QUOTE /=)
+			       T)))
+		    [COND
+		      ((AND (NULL AL)
+			    (NULL BLIPS))
+			(TERPRI T))
+		      (SHORT (TAB 24)
+			     (PRINTOPTIMUM AL (IDIFFERENCE LL 24)
+					   T T)
+			     (TERPRI T))
+		      (T (for I in AL as J in AV
+			    do (printout T 24 I 38)
+			       (PRINTOPTIMUM J (IDIFFERENCE LL 38)
+					     T T)
+			       (TERPRI T))
+			 (for I in BLIPS
+			    do (printout T 24 (CAR I)
+					 38)
+			       (PRINTOPTIMUM (CDR I)
+					     (IDIFFERENCE LL 38)
+					     T T)
+			       (TERPRI T]
+		    (RELSTK TSP1)
+		    (RELSTK TSP2]
+          (RETURN T])
+
+(TPB
+  [LAMBDA (ALIST)                                           (* DD: "11-DEC-81 19:22")
+    (SETQ ALIST (MKLIST ALIST))
+    (for X outof (PRODUCEFRAME (QUOTE TPB)) do (TPBINDING ALIST X))
+    (for X in ALIST
+       do (printout T "topval" 13 .FR 25 X " = ")
+	  (PRINTOPTIMUM (GETTOPVAL X)
+			(IDIFFERENCE (LINELENGTH)
+				     28)
+			T T)
+	  (TERPRI T])
+
+(TPBINDING
+  [LAMBDA (VAR SP)                                          (* DD: "11-DEC-81 19:31")
+    (PROG ((REAL (REALFRAMEP SP))
+	   (NAMES (VARIABLES SP))
+	   (REALNAMES (VARIABLES SP))
+	   (SN (STKNAME SP))
+	   (LEN (LENGTH VAR))
+	   REALNAME PRINTED)
+          [COND
+	    (REAL (MAKEREALBNAMES NAMES SN NIL)
+		  (MAKEREALBNAMES REALNAMES SN REAL))
+	    (T (for I from -1 by -1 do (SETQ REALNAME (STKNTH I SP REALNAME)) repeatuntil
+									       (REALFRAMEP REALNAME]
+          [AND (INTERSECTION VAR NAMES)
+	       (PROG ((ARGS (STKARGS SP))
+		      (LL (LINELENGTH)))
+		     (for X in NAMES as Y in REALNAMES as Z in ARGS
+			do (COND
+			     ((FMEMB X VAR)
+			       [printout T # (COND
+					   ((NOT PRINTED)
+					     (PRIN1 SN)
+					     [COND
+					       ((NOT REAL)
+						 (PRIN1 " in ")
+						 (PRIN1 (STKNAME REALNAME]
+					     (SETQ PRINTED T))
+					   (T (PRIN1 "   ..."]
+			       (COND
+				 ((IGREATERP LEN 1)
+				   (printout T .FR 25 Y)))
+			       (TAB 25 T)
+			       (PRIN1 " = " T)
+			       (PRINTOPTIMUM Z (IDIFFERENCE LL 28)
+					     T T)
+			       (TERPRI T]
+          (AND REALNAME (RELSTK REALNAME])
+
+(TPQ
+  [LAMBDA (OPTIONS)                                         (* DD: "15-DEC-82 15:58")
+    (PROG ((TPSTKPREVIOUS (OR BTQPREVIOUS TPSTKPREVIOUS))
+	   VAL)
+          [SETQ VAL (TPSTK (APPEND OPTIONS (QUOTE (+ NAMES]
+          (SETQ BTQPREVIOUS TPSTKPREVIOUS)
+          (RETURN VAL])
+
+(TPSTK
+  [LAMBDA (OPTIONS)                                         (* DD: " 3-JAN-83 20:17")
+    [RESETFORM (GCGAG)
+	       (PROG (FROMFRAME TOFRAME OPT OPT1 JOINED FROMSP)
+		     [SETQ TPSTKPREVIOUS
+		       (COND
+			 ((AND OPTIONS (SETQ OPT1 (for Y X on (MKLIST OPTIONS) eachtime
+										(SETQ X (CAR Y))
+										RETR
+						     when (COND
+							    ((FIXP X)
+							      [COND
+								((NULL TOFRAME)
+								  (SETQ TOFRAME X)
+								  (SETQ FROMFRAME 0))
+								(T (SETQ FROMFRAME TOFRAME)
+								   (SETQ TOFRAME
+								     (COND
+								       ((ILESSP X FROMFRAME)
+									 X)
+								       (T (IDIFFERENCE X FROMFRAME]
+							      (SETQ X NIL))
+							    ((EQ X (QUOTE TO))
+							      (SETQ TOFRAME (CADR Y))
+							      (SETQ Y (CDR Y))
+							      (SETQ X NIL))
+							    ((EQ X (QUOTE FROM))
+							      (SETQ FROMFRAME (CADR Y))
+							      (SETQ Y (CDR Y))
+							      (SETQ X NIL))
+							    ((FMEMB X TPSTKOPTIONS)
+							      X)
+							    ((SETQ X (FIXSPELL X TPSTKOPTIONS 70))
+							      (GO RETR))
+							    (T (printout T (CAR Y)
+									 " isn't a TPSTK option" T)
+							       (SETQ X NIL)))
+						     collect X)))
+			   (for X on OPT1
+			      do [COND
+				   [(EQ (CAR X)
+					T)                  (* T appends default to the list)
+				     (SETQ TPSTKPREVIOUS (SETQ OPT (UNION OPT TPSTKDEFAULT]
+				   ((EQ (CAR X)
+					(QUOTE +))          (* + appends previous to the remainder of the list)
+				     (OR JOINED (SETQ OPT (UNION OPT TPSTKPREVIOUS)))
+				     (SETQ JOINED T))
+				   [(EQ (CAR X)
+					(QUOTE -))          (* -
+							    apends previous less the remainder of the list)
+				     (OR JOINED (SETQ OPT (UNION OPT TPSTKPREVIOUS)))
+				     (SETQ JOINED T)
+				     (while [AND (CADR X)
+						 (NOT (FMEMB (CADR X)
+							     (QUOTE (+ - T]
+					do (SETQ OPT (REMOVE (CADR X)
+							     OPT))
+					   (SETQ X (CDR X]
+				   (T (OR (FMEMB (CAR X)
+						 OPT)
+					  (SETQ OPT (CONS (CAR X)
+							  OPT]
+			      finally (RETURN OPT)))
+			 (T (OR TPSTKPREVIOUS TPSTKDEFAULT]
+		     (PRIN1 "{" T)
+		     (PRINTDEF TPSTKPREVIOUS NIL NIL T NIL T)
+		     (PRIN1 "}" T)
+		     (TERPRI T)
+		     [SETQ FROMSP (COND
+			 ((BOUNDP (QUOTE LASTPOS))
+			   (STKNTH 0 LASTPOS))
+			 (T (STKPOS (QUOTE TPSTK)
+				    1]
+		     [AND FROMFRAME (SETQ FROMSP (COND
+			      ((FIXP FROMFRAME)
+				(STKNTH FROMFRAME FROMSP))
+			      (T (STKPOS FROMFRAME 0 FROMSP]
+		     (COND
+		       (FROMSP (for X PFLAG outof (PRODUCEFRAME FROMSP) do (SETQ PFLAG
+									     (SHOWFRAME X 
+										    TPSTKPREVIOUS))
+				  repeatwhile (COND
+						((NULL PFLAG))
+						((NULL TOFRAME))
+						((FIXP TOFRAME)
+						  (IGREATERP (SETQ TOFRAME (SUB1 TOFRAME))
+							     0))
+						((NEQ (STKNAME FROMSP)
+						      TOFRAME)))
+				  finally (RELSTK FROMSP]
+    (CONSTANT (MKATOM ""])
+)
+
+(RPAQQ TPSTKEDITHIST (TPSTK.LISP))
+(DECLARE: DONTCOPY 
+
+(ADDTOVAR EDITHISTALIST (TPSTK.LISP (("14-Oct-80 16:55:23" . "27-Sep-80 00:50:24")
+				     DD:
+				     (<DDYER>TPSTK.LISP.21 . T)
+				     (TPSTKVARS TPSTKDEFAULT TPSTKOPTIONS TPSTKPREVIOUS 
+						TPSTKLISPXMACROS (TR HELP)
+						(BR HELP)
+						(TPSTK HELP)
+						(TPB HELP)
+						BR TPSTK TR UNBR SHOWFRAME TPB TPBINDING NOBIND)
+				     (rearranged to allow option of using PRIN2 in PRINTOPTIMUM and 
+						 related functions))
+				    ("14-Oct-80 16:58:02" DD: <DDYER>TPSTK.LISP.22 (MAKEREALBNAMES)
+							  (made MAKEREALBNAMES defensive about 
+								function names. Names with no 
+								corresponding defintion CAN get 
+								there!))
+				    (("16-Oct-80 20:49:25" . "16-Oct-80 15:35:05")
+				     DD:
+				     (<DDYER>TPSTK.LISP.26 . <DDYER>TPSTK.LISP.23)
+				     (TPSTKPREVIOUS (TPSTK HELP)
+						    TPSTKOPTIONS TPSTK SHOWFRAME)
+				     NIL)
+				    (("17-Oct-80 15:36:14" . "17-Oct-80 14:33:59")
+				     DD:
+				     (<DDYER>TPSTK.LISP.28 . <DDYER>TPSTK.LISP.27)
+				     (GETBLIPS)
+				     (greatly improved GETBLIPS so blips printout))
+				    (("11-Dec-80 21:17:17" . "17-Oct-80 15:45:29")
+				     DD:
+				     (<DDYER>TPSTK.LISP.30 . <DDYER>TPSTK.LISP.29)
+				     (SHOWFRAME TPSTKPREVIOUS)
+				     (fixed bug in printing interpreted LAMBDA expressions))
+				    ("11-Dec-80 21:31:57" DD: <DDYER>TPSTK.LISP.31 (TPSTKCOMS)
+							  (fixing blocks))
+				    ((" 4-Dec-81 15:29:20" . "26-Dec-80 16:49:10")
+				     DD:
+				     (<DDYER>TPSTK..3 . <DDYER>TPSTK.LISP.32)
+				     (GETBLIPS TPSTKFNS TPSTKVARS TPSTKPREVIOUS TPSTKCOMS)
+				     (fixed a bug in BCOMPLing GETBLIPS))
+				    (" 8-DEC-81 23:04:00" edited: TPSTK.;2 (GETBLIPS TPB TPSTK))
+				    (" 9-DEC-81 00:27:26" edited: TPSTK.;4
+							  (TPSTKCOMS GETBLIPS MAKEREALBNAMES 
+								     PRODUCEFRAME SHOWFRAME TPB 
+								     TPBINDING TPSTK))
+				    (" 9-DEC-81 00:36:45" edited: TPSTK.;5 (TPSTKCOMS TPSTKPREVIOUS 
+										      GETBLIPS))
+				    ("11-Dec-81 15:50:11" DD: <DDYER>TPSTK..5 (TPB TPBINDING TPSTK))
+				    ("11-Dec-81 15:58:43" DD: <DDYER>TPSTK..6 (TPBINDING))
+				    ("11-DEC-81 19:25:42" DD: TPSTK.;7 (TPBINDING PRODUCEFRAME TPB 
+										  TPSTK 
+										  MAKEREALBNAMES)
+							  (tweaked TPB format))
+				    ("11-DEC-81 19:32:34" DD: TPSTK.;8 (TPSTK TPB TPBINDING))
+				    ("15-DEC-81 12:47:05" DD: TPSTK.;9 (TPSTKCOMS))
+				    ("16-SEP-82 21:46:29" DD: /lisp/ddyer/lisp/init/TPSTK.;2
+							  (TPSTKCOMS))
+				    ("15-DEC-82 14:30:26" DD: /lisp/ddyer/lisp/init.4/TPSTK.;2
+							  (GETBLIPS PRODUCEFRAME SHOWFRAME TPB TPSTK)
+							  (added options NAMES FROM and TO))
+				    ("15-DEC-82 14:50:15" DD: /lisp/ddyer/lisp/init.4/TPSTK.;3
+							  (TPSTK))
+				    ("15-DEC-82 15:24:48" DD: /lisp/ddyer/lisp/init.4/TPSTK.;4
+							  (TPSTK BTQ))
+				    ("15-DEC-82 16:37:32" DD: /lisp/ddyer/lisp/init.4/TPSTK.;5
+							  (BTQ SHOWFRAME TPSTK TPQ))
+				    ("15-DEC-82 16:43:44" DD: /lisp/ddyer/lisp/init.4/TPSTK.;6
+							  (TPSTK)
+							  (added the option of function-format 
+								 printing))
+				    ("15-Dec-82 17:55:00" DD: <DDYER>TPSTK..14 (GETBLIPS PRODUCEFRAME 
+											 TPB TPSTK))
+				    ("15-Dec-82 18:06:54" DD: <DDYER>TPSTK..15 (GETBLIPS SHOWFRAME 
+											 TPB TPSTK))
+				    (" 3-JAN-83 20:18:26" DD: /lisp/ddyer/lisp/init.4/TPSTK.;2
+							  (GETBLIPS TPB TPSTK))
+				    (" 3-JAN-83 20:58:14" DD: /lisp/ddyer/lisp/init.4/TPSTK.;3
+							  (TPB))
+				    (" 6-JAN-83 18:15:16" DD: /lisp/ddyer/lisp/init.4/TPSTK.;2
+							  (GETBLIPS SHOWFRAME TPB TPSTK))
+				    (" 6-JAN-83 23:40:38" DD: /lisp/ddyer/lisp/init.4/TPSTK.;3
+							  (TPB TPSTK))))
+)
+
+(RPAQQ TPSTKVARS (TPSTKDEFAULT TPSTKOPTIONS (TPSTKPREVIOUS)
+			       (BTQPREVIOUS)
+			       (TRACECONSEDFNS)))
+
+(RPAQQ TPSTKDEFAULT (SHORT REAL))
+
+(RPAQQ TPSTKOPTIONS (NAMES SHORT REAL BLIPS DUMMY ACTUAL T + - FROM TO FN))
+
+(RPAQQ TPSTKPREVIOUS NIL)
+
+(RPAQQ BTQPREVIOUS NIL)
+
+(RPAQQ TRACECONSEDFNS NIL)
+
+(RPAQQ TPSTKLISPXMACROS (BR TPB TPSTK TR UNBR TPQ))
+
+(ADDTOVAR LISPXMACROS (BR (DOFORFILEFNS (QUOTE BREAK)
+					LISPXLINE))
+		      (TPB (TPB LISPXLINE))
+		      (TPSTK (TPSTK LISPXLINE))
+		      (TR (DOFORFILEFNS (QUOTE TRACE)
+					LISPXLINE))
+		      (UNBR (DOFORFILEFNS (QUOTE UNBREAK)
+					  LISPXLINE))
+		      (TPQ (TPQ LISPXLINE)))
+
+(ADDTOVAR LISPXCOMS BR)
+
+(PUTPROPS TR HELP (is an addition to the standard break package. Given any atom, it traces ALL the 
+		      functions found in the same file as that atom. See also: BR UNBR))
+
+(PUTPROPS BR HELP (breaks all functions is the file containing its argument. See also: TR UNBR))
+
+(PUTPROPS TPSTK HELP (is a superior replacement for BAKTRACE. OPTIONS is a list of options. NIL means 
+			 use PREVIOUS options list. options are as follows:
+			 ((T means append TPSTKDEFAULT options, plus rest of options list)
+			  (+ means append TPSTKPREVIOUS options to the rest of the list)
+			  (- means remove the following from TPSTKPREVIOUS)
+			  (NAMES means show names of functions only)
+			  (SHORT type arg names only. Otherwise type arg names and values.)
+			  (REAL type REALFRAMEP frames only.)
+			  (INTERP is REALFRAMEP T frames, which includes interpreted special forms)
+			  (DUMMY means show dummy frames only)
+			  (BLIPS means show blip fields)
+			  (ACUAL means show local variables inside { })
+			  (FROM XX shows frames starting at frame XX above LASTPOS. XX can be a frame 
+				name or a number of frames)
+			  (TO XX stops at frame XX above the first shown. XX can be a frame name or a 
+			      number of frames. The FROM and TO specs are not remembered between 
+			      calls to TPSTK)
+			  (FN causes the printing to be formatted as function calls))))
+
+(PUTPROPS TRACECONS HELP (advises each of a list of funtions, and arranges to count the number of 
+				  conses done within the scope of that routine. TRACECONSRPT prints 
+				  the findings, and TRACECONSCLEAR reinitializes things.))
+
+(PUTPROPS TPQ HELP (is like TPSTK, except that it always adds option NAMES))
+(DECLARE: DONTEVAL@LOAD DOEVAL@COMPILE DONTCOPY COMPILERVARS 
+
+(ADDTOVAR NLAMA )
+
+(ADDTOVAR NLAML )
+
+(ADDTOVAR LAMA )
+)
+
+(PUTPROPS TPB HELP (ascends the stack printing the bindings for each variable listed. Local variables 
+			    print in { }))
+[DECLARE: DONTEVAL@LOAD DOEVAL@COMPILE DONTCOPY
+(BLOCK: TPSTKBLOCK GETBLIPS MAKEREALBNAMES PRODUCEFRAME SHOWFRAME TPB TPBINDING TPSTK
+	(ENTRIES TPSTK TPB GETBLIPS)
+	(SPECVARS TPSTKPREVIOUS))
+]
+(DECLARE: DONTCOPY
+  (FILEMAP (NIL (1017 12310 (DOFORFILEFNS 1029 . 1517) (FINDFILEFOR 1521 . 2016) (GETBLIPS 2020 . 4580) 
+(MAKEREALBNAMES 4584 . 4924) (PRODUCEFRAME 4928 . 5145) (SHOWFRAME 5149 . 7330) (TPB 7334 . 7744) (
+TPBINDING 7748 . 8988) (TPQ 8992 . 9294) (TPSTK 9298 . 12307)))))
+STOP

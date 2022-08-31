@@ -1,0 +1,108 @@
+(FILECREATED "11-Sep-81 13:11:15" <GOLDMAN>COPYFILE..3 4503   
+
+     changes to:  COPYFILECOMS RENFILE COPYFILE
+
+     previous date: "10-Sep-81 17:44:09" <GOLDMAN>COPYFILE.FIX.3)
+
+
+(PRETTYCOMPRINT COPYFILECOMS)
+
+(RPAQQ COPYFILECOMS ((FNS RENFILE COPYFILE TRANSFORM)
+		     (LOCALVARS . T)))
+(DEFINEQ
+
+(RENFILE
+  [LAMBDA (OLD NEW)
+    (PROG ((VAL (COPYFILE OLD NEW)))												     |
+          (DELFILE (CAR VAL))												     |
+          (RETURN (CADR VAL])
+
+(COPYFILE
+  [LAMBDA (SOURCEFILE DESTFILE)                             (* lmm: "19-JUL-78 04:01")
+    (RESETLST (PROG (MAPADR PREV OMAPADR DELTA FC)												     |
+		    (DECLARE (SPECVARS MAPADR))												     |
+		    (RESETSAVE (INPUT))												     |
+		    (INFILE SOURCEFILE)												     |
+		    (RESETSAVE NIL (LIST (QUOTE CLOSEF?)												     |
+					 (INPUT)))												     |
+		    (OR DESTFILE (SETQ DESTFILE (NAMEFIELD (INPUT)												     |
+							   T)))												     |
+		    [OR [AND (IGREATERP (GETEOFPTR (INPUT))												     |
+					100)												     |
+			     (FILEPOS "(FILECREATED " (INPUT)												     |
+				      0 40)												     |
+			     (EQ (CAR (SETQ FC (READ NIL FILERDTBL)))												     |
+				 (QUOTE FILECREATED))												     |
+			     (SETQ OMAPADR (FIXP (CADDDR FC]												     |
+			(RETURN (PROGN (TENEX (CONCAT "COPY " (SETQ SOURCEFILE (CLOSEF (INPUT)))												     |
+						      " (TO) " DESTFILE " 
+")												     |
+					      T)												     |
+				       (LIST SOURCEFILE (INFILEP DESTFILE]                                                                                                     |
+                                                            (* source is copied byte for byte to destination, except												     |
+							    for the FILECREATED expression and the FILEMAP)												     |
+		    (RESETSAVE (OUTPUT))												     |
+		    (OUTFILE DESTFILE)												     |
+		    (RESETSAVE NIL (LIST [FUNCTION (LAMBDA (FL)												     |
+					     (CLOSEF FL)												     |
+					     (AND RESETSTATE (DELFILE FL]												     |
+					 (OUTPUT)))												     |
+		    (SETFILEPTR (INPUT)												     |
+				0)												     |
+		    (RESETSAVE (LINELENGTH FILELINELENGTH))												     |
+		    [SETQ PREV (SOME (CDDDDR FC)												     |
+				     (FUNCTION (LAMBDA (X Y)												     |
+					 (AND (EQ X (QUOTE previous))												     |
+					      (EQ (CADR Y)												     |
+						  (QUOTE date:]												     |
+		    [COND												     |
+		      ((EQ (CAR (CDDDDR FC))												     |
+			   (QUOTE changes))												     |
+			(SETQ CHANGES (LDIFF (CDDR (CDDDDR FC))												     |
+					     PREV]												     |
+		    (PRINTDATE1 (OUTPUT)												     |
+				CHANGES												     |
+				(CADR FC)												     |
+				(CADDR PREV)												     |
+				(CADDDR PREV))              (* PRINTDATE1 sets MAPADR freely)												     |
+		    (SKREAD)                                (* input fileptr is 3 CR-LFs behind output fileptr)												     |
+		    [SETQ DELTA (IDIFFERENCE (GETFILEPTR (OUTPUT))												     |
+					     (GETFILEPTR (INPUT]												     |
+		    (COPYBYTES (INPUT)												     |
+			       (OUTPUT)												     |
+			       (GETFILEPTR (INPUT))												     |
+			       OMAPADR)												     |
+		    (SETFILEPTR (INPUT)												     |
+				OMAPADR)												     |
+		    (PROGN [PRIN1 (PROG1 (GETFILEPTR (OUTPUT))												     |
+					 (SETFILEPTR (OUTPUT)												     |
+						     (CAR MAPADR]												     |
+			   (SETFILEPTR (OUTPUT)												     |
+				       -1))												     |
+		    (PRIN2 (TRANSFORM (READ NIL FILERDTBL)												     |
+				      DELTA)												     |
+			   NIL FILERDTBL)                   (* copy the rest of the file)												     |
+		    (COPYBYTES (INPUT)												     |
+			       (OUTPUT))												     |
+		    (RETURN (LIST (INPUT)												     |
+				  (OUTPUT])
+
+(TRANSFORM
+  [LAMBDA (L DELTA)
+    (COND
+      ((LISTP L)
+	(CONS (TRANSFORM (CAR L)
+			 DELTA)
+	      (TRANSFORM (CDR L)
+			 DELTA)))
+      ((FIXP L)
+	(IPLUS L DELTA))
+      (T L])
+)
+(DECLARE: DOEVAL@COMPILE DONTCOPY
+
+(LOCALVARS . T)
+)
+(DECLARE: DONTCOPY
+  (FILEMAP (NIL (312 4422 (RENFILE 324 . 503) (COPYFILE 507 . 4213) (TRANSFORM 4217 . 4419)))))
+STOP

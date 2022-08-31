@@ -1,0 +1,61 @@
+(FILECREATED " 3-JAN-82 19:33:38" <LISPUSERS>COPYRIGHT.;12 1941   
+
+     previous date: "28-DEC-81 21:30:24" <LISPUSERS>COPYRIGHT.;11)
+
+
+(* Copyright (c) 1981,1982 by Bolt Beranek and Newman Inc.)
+
+
+(PRETTYCOMPRINT COPYRIGHTCOMS)
+
+(RPAQQ COPYRIGHTCOMS ((FNS PRINTCOPYRIGHT1 YEARSTOSTRING)
+		      (VARS (COPYRIGHTSYMBOL "(c)")
+			    (COPYRIGHTPRETTYFLG))))
+(DEFINEQ
+
+(PRINTCOPYRIGHT1
+  [LAMBDA (OWNER)                  (* lmm "28-DEC-81 21:27")
+
+          (* * This actually prints the copyright notice * *)
+
+
+    (DECLARE (SPECVARS COPYRIGHTPRETTYFLG))
+    (COND
+      (COPYRIGHTPRETTYFLG          (* prettyprint it *)
+			  (PROG ((LL (LINELENGTH)))
+			        (printout NIL "(" COMMENTFLG .CENTER (IDIFFERENCE LL 2)
+					  (CONCAT "Copyright " COPYRIGHTSYMBOL " "
+						  (YEARSTOSTRING (CDR OWNER)))
+					  T .CENTER LL "by" T .CENTER LL (CAR OWNER)
+					  .FR LL (CONCAT COMMENTFLG ")")
+					  T T)))
+      (T                           (* just print it straight *)
+	 (printout NIL "(" COMMENTFLG " Copyright " COPYRIGHTSYMBOL , (YEARSTOSTRING (CDR OWNER))
+		   " by "
+		   (CAR OWNER)
+		   ")" T T T])
+
+(YEARSTOSTRING
+  [LAMBDA (YEARS)                  (* M.Yonke "12-Aug-81 21:15")
+
+          (* * YEARS is either a list -- e.g., (1981 1982) -- or an integer. It returns either a string of the form "1981,1982"
+ 
+	  or the integer respectively * *)
+
+
+    (COND
+      ((FIXP YEARS))
+      (T (PROG (STR)
+	       (SETQ STR (MKSTRING YEARS))
+	       (SETQ STR (bind POS_0 while (SETQ POS (STRPOS " " STR (ADD1 POS)))
+			    do (RPLSTRING STR POS ",") finally (RETURN STR)))
+	       (RETURN (SUBSTRING STR 2 -2])
+)
+
+(RPAQ COPYRIGHTSYMBOL "(c)")
+
+(RPAQQ COPYRIGHTPRETTYFLG NIL)
+(DECLARE: DONTCOPY (PUTPROPS COPYRIGHT COPYRIGHT ("Bolt Beranek and Newman Inc." 1981 1982)))
+(DECLARE: DONTCOPY
+  (FILEMAP (NIL (379 1748 (PRINTCOPYRIGHT1 391 . 1189) (YEARSTOSTRING 1193 . 1745)))))
+STOP

@@ -1,0 +1,1408 @@
+
+
+
+
+
+
+
+
+
+
+
+
+                               SECTION 12
+
+              VARIABLE BINDINGS, PUSH DOWN LIST FUNCTIONS,
+                        AND THE SPAGHETTI STACK
+
+
+
+A number of schemes have been used in different implementations  of LISP
+for storing the values of variables.  These include:
+
+    1.   Storing values on an association list paired with  the variable
+         names.
+
+    2.   Storing values on  the property list of  the atom which  is the
+         name of the variable.
+
+    3.   Storing values in a special value cell associated with the atom
+         name,  putting old  values on  a pushdown  list,  and restoring
+         these values when exiting from a function.
+
+    4.   Storing values on a pushdown list.
+
+In INTERLISP, we currently use a variation on the fourth scheme, usually
+used only  for transmitting values  of arguments to  compiled functions.
+When a function is entered, the association of names with the  values of
+variables (arguments) is accomplished  by putting both names  and values
+in a block  of storage called the  basic frame for the  function.  These
+basic frames  are allocated on  a stack or  pushdown list.  To  find the
+value  of a  variable used  freely within  a function,  successive basic
+frames are searched until a slot is found which contains the name of the
+variable, and then the corresponding value is used.   Compiled functions
+know about the relative position of variables within their  basic frame,
+and  can  pick up  these  values immediately  without  search.  However,
+compiled functions still store both the names and values of variables so
+that interpreted and compiled functions are compatible and can be freely
+intermixed,  i.e.,   free  variables  can   be  used  with   no  special
+declarations necessary.   The names are  also very useful  in debugging,
+for they make possible a complete symbolic backtrace in case of error.
+
+In  addition  to  the  binding  information,  additional  information is
+associated with each  function call: control information  indicating the
+calling function, access information  indicating the path to  search the
+basic frames, and  temporary results are also  stored on the stack  in a
+block  called  the   frame  extension.   The  interpreter   also  stores
+information about partially evaluated expressions as described below.
+
+
+12.1 The Push-Down List and the Interpreter
+
+In  addition  to  the  names  and  values  of  arguments  for functions,
+
+
+
+
+                                  12.1
+
+
+
+
+information  regarding partially-evaluated  expressions is  kept  on the
+push-down list.  For example,  consider the following definition  of the
+function fact (intentionally faulty):
+
+(FACT
+  [LAMBDA (N)
+    (COND
+      ((ZEROP N)
+        L)
+      (T (ITIMES N (FACT (SUB1 N])
+
+In  evaluating  the form  (FACT 1),  as  soon as  fact  is  entered, the
+interpreter begins  evaluating the implicit  progn following  the LAMBDA
+(see Section 4).   The first function entered  in this process  is cond.
+cond begins  to process its  list of clauses.   After calling  zerop and
+getting a NIL value, cond  proceeds to the next clause and  evaluates T.
+Since  T is  true, the  evaluation  of the  implicit progn  that  is the
+consequent of  the T  clause is  begun (see  Section 4).   This requires
+calling the function itimes.   However before itimes can be  called, its
+arguments  must  be  evaluated.   The  first  argument  is  evaluated by
+searching the  stack for the  last binding of  N; the second  involves a
+recursive call to fact, and another implicit progn, etc.
+
+Note that at each stage  of this process, some portion of  an expression
+has  been evaluated,  and another  is awaiting  evaluation.   The output
+below illustrates this by showing the state of the push-down list at the
+point in the computation of (FACT 1) when the unbound atom L is reached.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                  12.2
+
+
+
+
+_FACT(1)
+u.b.a. L {in FACT} in ((ZEROP N) L)
+(L BROKEN)
+:BTV!
+
+   *TAIL* (L)
+
+   *ARG1 (((ZEROP N) L) (T (ITIMES N (FACT (SUB1 N)))))
+COND
+
+   *FORM* (COND ((ZEROP N) L) (T (ITIMES N (FACT (SUB1 N)))))
+   *TAIL* ((COND ((ZEROP N) L) (T (ITIMES N (FACT (SUB1 N))))))
+
+   N 0
+FACT
+
+   *FORM* (FACT (SUB1 N))
+   *FN* ITIMES
+   *TAIL* ((FACT (SUB1 N)))
+   *ARGVAL* 1
+   *FORM* (ITIMES N (FACT (SUB1 N)))
+   *TAIL* ((ITIMES N (FACT (SUB1 N))))
+
+   *ARG1 (((ZEROP N) L) (T (ITIMES N (FACT (SUB1 N)))))
+COND
+
+   *FORM* (COND ((ZEROP N) L) (T (ITIMES N (FACT (SUB1 N)))))
+   *TAIL* ((COND ((ZEROP N) L) (T (ITIMES N (FACT (SUB1 N))))))
+
+   N 1
+FACT
+
+**TOP**
+
+
+Internal calls to eval, e.g., from cond and the interpreter,  are marked
+on the  push-down list  by a special  mark or  blip which  the backtrace
+                 1
+prints as *FORM*.   The genealogy of *FORM*'s  is thus a history  of the
+computation.  Other  temporary information  stored on  the stack  by the
+interpreter includes  the tail of  a partially evaluated  implicit progn
+(e.g., a cond clause or  lambda expression) and the tail of  a partially
+evaluated form (i.e., those arguments not yet evaluated), both indicated
+on the backtrace  by *TAIL*, the values  of arguments that  have already
+been  evaluated,  indicated  by *ARGVAL*,  and  the  names  of functions
+waiting to be called, indicated  by *FN*.  *ARG1, ... *ARGn are  used by
+the backtrace to indicate the (unnamed) arguments to subrs.
+
+
+
+
+------------------------------------------------------------------------
+1
+    Note that *FORM*, *TAIL*, *ARGVAL*, etc., do not actually  appear on
+    the backtrace, i.e., evaluating *FORM* or calling stkscan  to search
+    for it  will not work.  However, the functions  blipval, setblipval,
+    and  blipscan  described  below are  available  for  accessing these
+    internal blips.
+
+
+
+
+                                  12.3
+
+
+
+
+Note that a function is not actually entered and does not appear  on the
+                                                  2
+stack,  until its  arguments have  been evaluated.   Also note  that the
+*ARG1,  *FORM*, *TAIL*,  etc.   "bindings" comprise  the  actual working
+storage.  In other  words, in the above  example, if a  (lower) function
+changed  the  value  of  the  *ARG1  binding,  the  cond  would continue
+interpreting the new binding as  a list of cond clauses.   Similarly, if
+the  *ARGVAL* binding  were changed,  the new  value would  be  given to
+itimes  as  its  first  argument  after  its  second  argument  had been
+evaluated, and itimes was actually called.
+
+
+Blip Functions
+
+The temporaries  of the interpreter,  or blips, can  be accessed  by the
+following  three functions,  which currently  know about  four different
+types of blips:
+
+    *FN*      the name of a function about to be called
+    *ARGVAL*  an argument for a function about to be called
+    *FORM*    a form in the process of evaluation
+    *TAIL*    the tail of a cond clause, implicit progn, prog, etc.
+
+
+blipval[bliptyp;ipos;flg]
+                        Returns the value of the specified blip  of type
+                        bliptyp.  If flg is a number, finds the nth blip
+                        of the desired type, searching the control chain
+                        beginning at  the frame  specified by  the stack
+                        descriptor ipos.  If flg is NIL, 1 is  used.  If
+                        flg is  T, returns  the number  of blips  of the
+                        specified type at ipos.
+
+
+setblipval[bliptyp;ipos;n;val]
+                        Sets  the value  of the  specified blip  of type
+                        bliptyp.   Searches  for  the  nth  blip  of the
+                        desired type, beginning with the frame specified
+                        by the stack descriptor ipos, and  following the
+                        control chain.
+
+
+blipscan[bliptyp;ipos]  Returns a stack pointer to the frame in  which a
+                        blip of type bliptyp is located.   Search begins
+                        at the frame  specified by the  stack descriptor
+                        ipos and follows the control chain.
+
+
+12.2 The Pushdown List and Compiled Functions
+
+Calls to compiled functions, and the bindings of their  arguments, i.e.,
+
+
+
+------------------------------------------------------------------------
+2
+    except for  functions which  do not  have their  arguments evaluated
+    (although they themselves may call eval, e.g., cond).
+
+
+
+
+                                  12.4
+
+
+
+
+names  and  values, are  handled  in  the same  way  as  for interpreted
+functions  (hence  the compatibility  between  interpreted  and compiled
+functions).   However,  compiled  functions treat  free  variables  in a
+special way  that interpreted functions  do not.   Interpreted functions
+"look up" free variables when the variable is encountered, and  may look
+up the same  variable many times.   However, compiled functions  look up
+                             3
+each free variable only once.  Whenever a compiled function  is entered,
+the stack is scanned and the most recent binding for each  free variable
+used in the function is found (or if there is no binding, the value cell
+is obtained) and  stored on the  stack (and marked  in a special  way to
+distinguish this 'binding' from ordinary bindings).  Thus, following the
+bindings  of  their arguments,  compiled  functions store  on  the stack
+pointers to the bindings for each free variable used in the function.
+
+
+12.3 The Spaghetti Stack
+
+The  Bobrow/Wegbreit  paper,  "A  Model  and  Stack  Implementation  for
+Multiple Environments" [Bob3], describes an access and control mechanism
+more general  than the  simple pushdown stack.   The access  and control
+mechanism used by  INTERLISP is a slightly  modified version of  the one
+proposed  by  Bobrow  and  Wegbreit.   This  mechanism  is   called  the
+"spaghetti stack."
+
+The spaghetti  system presents the  access and control  stack as  a data
+structure composed of "frames." The functions described below operate on
+this structure.  These primitives allow user functions to manipulate the
+stack in a machine independent way.  Backtracking, coroutines,  and more
+sophisticated  control  schemes  can be  easily  implemented  with these
+primitives.
+
+
+Overview of Spaghetti Stack
+
+The evaluation of a function requires the allocation of storage  to hold
+the values of its  local variables during the computation.   In addition
+to variable bindings, an activation of a function requires a return link
+(indicating  where  control  is  to  go  after  the  completion  of  the
+computation) and room for temporaries needed during the computation.  In
+the  spaghetti  system,  one  "stack"  is  used  for  storing  all  this
+information, but  it is  best to  view this  stack as  a tree  of linked
+objects called frame extensions (or simply frames).
+
+A frame  extension is  a variable  sized block  of storage  containing a
+frame name,  a pointer to  some variable bindings  (the blink),  and two
+pointers to other frame  extensions (the alink and clink).   In addition
+to these components, a frame extension contains other  information (such
+as temporaries and reference counts) that does not interest us here.
+
+The block  of storage holding  the variable bindings  is called  a basic
+
+
+
+------------------------------------------------------------------------
+3
+    A list of all free variables is generated at compile time, and is in
+    fact obtainable from the compiled definition. See Section 18.
+
+
+
+
+                                  12.5
+
+
+
+
+frame.  A basic  frame is essentially an  array of pairs, each  of which
+contains a  variable name  and its value.   The reason  frame extensions
+point to basic  frames (rather than just  having them "built in")  is so
+that two frame extensions can  share a common basic frame.   This allows
+two processes to communicate via shared variable bindings.
+
+The chain of  frame extensions which can  be reached via  the successive
+alinks from a given frame is called the access chain of the  frame.  The
+first  frame in  the  access chain  is  the starting  frame.   The chain
+through successive clinks is called the control chain.
+
+A frame extension completely specifies the variable bindings and control
+information  necessary for  the evaluation  of a  function.   Whenever a
+function (or in fact, any form which generally binds local variables) is
+evaluated, it is associated with some frame extension.
+
+In the beginning  there is precisely  one frame extension  in existence.
+This is  the frame  in which the  top-level call  to the  interpreter is
+being run.  This frame is called the "top-level" frame.
+
+Since precisely one function  is being executed at any  instant, exactly
+one frame is distinguished as  having the "control bubble" in  it.  This
+frame is called the active frame.  Initially, the top-level frame is the
+active frame.  If  the computation in  the active frame  invokes another
+function, a new  basic frame and frame  extension are built.   The frame
+name of this basic frame will be the name of the function  being called.
+The b-, a-, and clinks of the new frame all depend on precisely  how the
+function is invoked.  The new function is then run in this new  frame by
+passing control to that frame, i.e., it is made the active frame.
+
+If  the  active computation  needs  the  value of  some  variable  it is
+obtained by searching the access chain of the active frame.   Each blink
+along the access chain is  scanned for the variable name.  If  a binding
+is found, the associated value is used.  If none is found, the top-level
+value is used.
+
+Once the active computation has been completed, control normally returns
+to the frame pointed to by the clink of the active frame.  That  is, the
+frame in the clink becomes the active frame.
+
+In most  cases, the storage  associated with the  basic frame  and frame
+extension just abandoned can  be reclaimed.  However, it is  possible to
+obtain a pointer  to a frame  extension and to  "hold on" to  this frame
+even after it has  been exited.  This pointer  can be used later  to run
+another computation in that  environment, or even "continue"  the exited
+computation.
+
+A separate data type, called a stack pointer, is used for  this purpose.
+A  stack  pointer  is just  a  cell  that literally  points  to  a frame
+extension.  Stack pointers print as #adr/framename,  e.g., #117753/COND.
+Stack pointers are returned by many of the stack  manipulating functions
+described below.  Except for  certain abbreviations (such as  "the frame
+with such-and-such a  name"), stack pointers are  the only way  the user
+can  reference a  frame extension.   As  long as  the user  has  a stack
+pointer which  references a frame  extension, that frame  extension (and
+all those that  can be reached  from it) may  not (will not)  be garbage
+collected.
+
+
+
+
+
+                                  12.6
+
+
+
+
+Note that two  stack pointers referencing  the same frame  extension are
+not  necessarily  eq,  i.e.,  (EQ  (STKPOS  'FOO)   (STKPOS  'FOO))=NIL.
+However,  eqp  can be  used  to  test if  two  different  stack pointers
+reference the same frame extension.
+
+
+12.4 Stack Functions
+
+In the descriptions  of the stack functions  below, when we refer  to an
+argument  as a  stack descriptor,  we  mean that  it is  either  a stack
+pointer or one of the following abbreviations:
+
+    1.  NIL  means the  active frame; that  is, the  frame of  the stack
+function itself.
+
+    2.  T means the top-level frame.
+
+    3.  Any other literal atom is equivalent to (STKPOS ATOM -1).
+
+    4.  A number is equivalent to (STKNTH number).
+
+
+In the stack functions described below, the following errors can occur.
+
+
+ILLEGAL STACK ARG       Occurs when a  stack descriptor is  expected and
+                        the  supplied  argument is  either  not  a legal
+                        stack  descriptor  (i.e., not  a  stack pointer,
+                        litatom, or number),  or is a litatom  or number
+                        for which there is no corresponding  stack frame
+                        (e.g., (STKNTH -1 (QUOTE FOO)) where there is no
+                        frame named FOO  in the active control  chain or
+                        (STKNTH -10 (QUOTE EVALQT)).
+
+
+STACK POINTER
+HAS BEEN RELEASED       Occurs  whenever  a  released  stack  pointer is
+                        supplied as a stack descriptor argument  for any
+                        purpose other than as a stack pointer to re-use.
+
+
+Functions
+
+stkpos[framename;n;ipos;opos]
+                        Search for  the nth  frame with  name framename.
+                        The search begins with (and includes)  the frame
+                        specified by the stack descriptor  ipos (initial
+                        position).   The   search  proceeds   along  the
+                        control  chain from  ipos if  n is  negative, or
+                        along the access chain  if n is positive.   If n
+                        is NIL, -1 is used.  Returns a stack  pointer to
+                        the  frame  if such  a  frame  exists, otherwise
+                        returns NIL.  If opos is supplied and is a stack
+                        pointer, it is reused.   If opos is not  a stack
+                        pointer  it  is  ignored.   (Note  that  (STKPOS
+                        (QUOTE STKPOS))  causes an error,  ILLEGAL STACK
+                        ARG;  it is  not permissible  to create  a stack
+                        pointer to the active frame.)
+
+
+
+
+                                  12.7
+
+
+
+
+stknth[n;ipos;opos]      Returns a stack  pointer to the nth  frame back
+                        from the frame specified by the stack descriptor
+                        ipos.  If n is negative, the control  chain from
+                        ipos is followed.   If n is positive  the access
+                        chain  is followed.   If n  equals 0,  returns a
+                        stack pointer to ipos, i.e., this provides a way
+                        to copy a  stack pointer.  Returns NIL  if there
+                        are  fewer  than  n  frames  in  the appropriate
+                        chain.   If  opos  is supplied  and  is  a stack
+                        pointer, it is reused.   If opos is not  a stack
+                        pointer it  is ignored.   (Note that  (STKNTH 0)
+                        causes an  error, ILLEGAL STACK  ARG; it  is not
+                        possible to create a stack pointer to the active
+                        frame.)
+
+
+stkname[pos]             Returns the  frame name of the  frame specified
+                        by the stack descriptor pos.
+
+
+stknthname[n;ipos]       Returns  the frame name  of the nth  frame back
+                        from  ipos.   Equivalent to  (STKNAME  (STKNTH n
+                        ipos)) but avoids creation of a stack pointer.
+
+
+In summary,  stkpos converts  function names  to stack  pointers, stknth
+converts numbers to stack  pointers, stkname converts stack  pointers to
+function names, and stknthname converts numbers to function names.
+
+
+
+The following  functions are used  for accessing and  changing bindings.
+Some  of functions  take an  argument, n,  which specifies  a particular
+binding in the basic frame.  If n is a literal atom, it is assumed to be
+the name of a variable bound in  the basic frame.  If n is a  number, it
+is assumed to reference the  nth binding in the basic frame.   The first
+binding is  1.  If the  basic frame contains  no binding with  the given
+name or if the number is  too large or too small, the error  ILLEGAL ARG
+results.
+
+
+stkscan[var;ipos;opos]   Searches beginning at ipos for a frame in which
+                        a  variable  named  var  is  bound.   The search
+                        follows  the  access  chain.   Returns  a  stack
+                        pointer to the frame if found, otherwise returns
+                        NIL.  If opos is  a stack pointer it  is reused,
+                        otherwise it is ignored.
+
+
+framescan[atom;pos]      Returns the relative position of the binding of
+                        atom in the basic frame of pos.
+
+
+stkarg[n;pos]            Returns the value of the binding specified by n
+                        in the basic frame of the frame specified by the
+                        stack descriptor pos.   n can be a  literal atom
+                        or number.
+
+
+
+
+
+                                  12.8
+
+
+
+
+stkargname[n;pos]        Returns the name of the binding specified by n,
+                        in the basic frame of the frame specified by the
+                        stack descriptor pos.   n can be a  literal atom
+                        or number.
+
+
+setstkarg[n;pos;value]   Sets the value of the binding specified by n in
+                         the basic frame  of the frame specified  by the
+                         stack descriptor pos.  n can be a  literal atom
+                         or a number.  Returns value.
+
+
+setstkargname[n;pos;name]Sets the name of the binding specified by  n in
+                         the basic frame  of the frame specified  by the
+                         stack descriptor pos.  n can be a  literal atom
+                         or a number.  Returns name.
+
+
+stknargs[pos]            Returns  the number of  arguments bound  in the
+                        basic frame of the frame specified by  the stack
+                        descriptor pos.
+
+
+As an example of the use of stknargs and stkargname:
+
+variables[pos]          returns list of variables bound at pos.
+
+can be defined by:
+
+(VARIABLES
+  [LAMBDA (POS)
+    (PROG (N L)
+          (SETQ N (STKNARGS POS))
+      LP  (COND
+            ((ZEROP N)
+              (RETURN L)))
+          (SETQ L (CONS (STKARGNAME N POS)
+                        L))
+          (SETQ N (SUB1 N))
+          (GO LP])
+
+The dual of variables is also available:
+
+
+stkargs[pos]            Returns  list of  values of  variables  bound at
+                        pos.
+
+
+
+The  following  functions  are  used  to  evaluate  an  expression  in a
+different environment, and/or to alter the flow of control.
+
+
+enveval[form;apos;cpos;aflg;cflg]
+                        evaluates form  in the environment  specified by
+                        apos and cpos.  That  is, a new active  frame is
+                        created with  the frame  specified by  the stack
+                        descriptor  apos  as its  alink,  and  the frame
+
+
+
+
+                                  12.9
+
+
+
+
+                        specified by  the stack  descriptor cpos  as its
+                        clink.  Then form is evaluated.  If aflg  is not
+                        NIL, and apos is a stack pointer, then apos will
+                        be released.  Similarly, if cflg is not NIL, and
+                        cpos  is  a  stack pointer,  then  cpos  will be
+                        released.
+
+
+envapply[fn;args;apos;cpos;aflg;cflg]
+                        applys fn to  args in the  environment specified
+                        by apos and cpos.   aflg and cflg have  the same
+                        interpretation as with enveval.
+
+
+stkeval[pos;form;flg]   Evaluates form in the access environment  of the
+                        frame specified by the stack descriptor pos.  If
+                        flg  is  not NIL  and  pos is  a  stack pointer,
+                        releases  pos.   The  definition  of  stkeval is
+                        (ENVEVAL FORM POS NIL FLG).
+
+
+stkapply[pos;fn;args;flg]
+                        Similar to stkeval but applies fn to args.
+
+
+reteval[pos;form;flg]   Evaluates form in the access environment  of the
+                        frame specified by the stack descriptor pos, and
+                        then returns from  pos with that value.   If flg
+                        is not NIL and pos is a stack pointer,  then pos
+                        is  released.   The  definition  of  reteval  is
+                        equivalent     to    (ENVEVAL FORM POS (STKNTH -
+                        1 POS) FLG T),  except  that  reteval  does  not
+                        create a stack pointer.
+
+
+retapply[pos;fn;args;flg]
+                        Similar to reteval except applies fn to args.
+
+
+retfrom[pos;val;flg]     Return  from the frame  specified by  the stack
+                        descriptor pos, with  the value val.  If  flg is
+                        not NIL, and pos is a stack pointer, then pos is
+                        released.  An attempt  to retfrom the  top level
+                        (e.g.,  (RETFROM  T)) causes  an  error, ILLEGAL
+                        STACK ARG.  Retfrom  can be written in  terms of
+                        enveval as follows:
+
+    (RETFROM
+      (LAMBDA (POS VAL FLG)
+        (ENVEVAL (LIST (QUOTE QUOTE) VAL)
+                  NIL
+                  (COND
+                    ((STKNTH -1 POS (COND (FLG POS))))
+                    (T (ERRORX (LIST 19 POS)))
+                  NIL T)))
+
+
+retto[pos;val;flg]      like retfrom, except returns to  frame specified
+                        by pos.
+
+
+
+                                 12.10
+
+
+
+
+evalv[x;pos]            Evaluates x, where x is assumed to be a litatom,
+                        in the access environment specifed by  the stack
+                        descriptor pos.  While evalv could be defined as
+                        (ENVEVAL X POS) it  is in fact  a subr  which is
+                        somewhat faster.
+
+
+function[fn;env]        If env is  NIL, function is equivalent  to quote
+                        when  interpreted and  is also  a signal  to the
+                        compiler that fn should be compiled.  If  env is
+                        a stack pointer,  then the value of  function is
+                        the expression  (FUNARG fn env).  When  a funarg
+                        expression is apply'd or is car of a  form being
+                        eval'd,  the apply  or eval  takes place  in the
+                        access  environment   specified  by   env.   For
+                        example,  if FOO  is a  funarg  expression, then
+                        (APPLY    FOO    FIE)    is     equivalent    to
+                        (ENVAPPLY (CADR FOO) FIE (CADDR FOO)).   Env can
+                        also be a list of variable names.  In this case,
+                        a new  frame is created  with the values  of the
+                        specified  variables  in the  basic  frame.  The
+                        variables  are  evaluated in  the  active access
+                        environment (the environment of  function).  The
+                        alink  of the  new  frame is  the  active access
+                        environment, and  clink is  the top  level.  The
+                        value of function is (FUNARG fn pos),  where pos
+                                                            4
+                        is a stack pointer to the new frame.
+
+
+
+The  following  functions and  variables  are used  to  manipulate stack
+pointers.
+
+
+stackp[x]               Returns  x if  x is  a stack  pointer, otherwise
+                        returns NIL.
+
+
+relstk[pos]              Release the stack pointer pos.  If pos is not a
+                        stack pointer, does nothing.  The value is pos.
+
+
+clearstk[flg]             If  flg  is  NIL,  releases  all  active stack
+                        pointers, and returns NIL.  If flg is T, returns
+                        a  list  of all  the  active  (unreleased) stack
+                        pointers.
+
+
+------------------------------------------------------------------------
+4
+    Note that the effect of  funarg in the spaghetti system  is somewhat
+    different from what it  was previously in non-spaghetti  system. Now
+    when  the  funarg  is  apply'd  or  eval'd  we  see  in  the  access
+    environment  first the  variables given  in the  list, and  then the
+    access environment at the time the funarg was created.   Formerly we
+    saw the  variables in the  list (the "own"  variables) and  then the
+    access environment at the time the funarg was used.
+
+
+
+
+                                 12.11
+
+
+
+
+clearstklst               Is  a  (global)  variable  used  by  top-level
+                        evalqt.  Every time evalqt is  re-entered (e.g.,
+                        following errors, or control-D),  clearstklst is
+                        checked.  If  its value is  T, all  active stack
+                        pointers  are released  using clearstk.   If its
+                        value is a list, then all stack pointers on that
+                        list are released.  If its value is NIL, nothing
+                        is released.  clearstklst is initially T.
+
+
+noclearstklst           is a global  variable used by  top-level evalqt.
+                        If clearstklst is T (see above) all active stack
+                        pointers  except  those  on   noclearstklst  are
+                        released.  noclearstklst is initially NIL.
+
+
+Thus if  one wishes  to use multiple  environments that  survive through
+control-D, either clearstklst  should be set to  T, or else  those stack
+pointers to be retained should be explicitly added to noclearstklst.
+
+
+copystk[pos1;pos2]      Copies the  stack, including basic  frames, from
+                        the frame specified by the stack descriptor pos1
+                        to the frame  specified by the  stack descriptor
+                        pos2.  That is, copies the frame  extensions and
+                        basic frames  in the access  chain from  pos2 to
+                        pos1 (inclusive).   Pos1 must  be in  the access
+                        chain of pos2, i.e., "above" pos2.   Returns the
+                        new pos2.  This provides a way to save an entire
+                        environment including variable bindings.
+
+
+backtrace[ipos;epos;flags]
+                        Performs  a  backtrace  beginning  at  the frame
+                        specified  by  the  stack  descriptor  ipos, and
+                        ending  with the  frame specified  by  the stack
+                        descriptor epos.  flags is a number in which the
+                        options of the backtrace are encoded.  If  a bit
+                        is   set,  the   corresponding   information  is
+                        included in the backtrace.
+
+    bit 0 - print arguments of non-subrs
+    bit 1 - print temporaries of the interpreter
+    bit 2 - print subr arguments and all temporaries
+    bit 3 - omit printing of UNTRACE: and function names
+    bit 4 - follow access chain instead of control chain.
+
+For example:  if flags=7, everything  is printed; if  flags=21Q, follows
+the access chain, prints arguments.
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                 12.12
+
+
+
+
+mapdl[mapdlfn;mapdlpos] starts  at  mapdlpos  and  applies   mapdlfn,  a
+                        function of two arguments, to the  function name
+                        at  each frame,  and the  frame  (stack pointer)
+                        itself, until the  top of the stack  is reached.
+                        Value is NIL.
+
+For  example,  mapdl[(LAMBDA (X) (AND (EXPRP X) (PRINT X)))]  will print
+all exprs on the push-down list.
+
+mapdl[(LAMBDA (X POS) (COND ((IGREATERP (STKNARGS POS) 2) (PRINT X] will
+print all functions of more than two arguments.
+
+
+searchpdl[srchfn;srchpos]
+                        similar to  mapdl, except searches  the pushdown
+                        list starting at position srchpos until it finds
+                        a  frame for  which  srchfn, a  function  of two
+                        arguments, applied to  the name of  the function
+                        and  the  frame  itself is  not  NIL.   Value is
+                        (name . frame)  if   such  a  frame   is  found,
+                        otherwise NIL.
+
+
+12.5 Releasing and Reusing Stack Pointers
+
+The creation of a single stack pointer can result in the retention  of a
+large amount of stack space.  Furthermore, this space will not  be freed
+until  the next  garbage collection,  even if  the stack  pointer  is no
+longer being used,  unless the stack  pointer is explicitly  released or
+reused.  If there  is sufficient amount of  stack space tied up  in this
+fashion, a STACK OVERFLOW condition  can occur, even in the  simplest of
+computations.  For  this reason,  the user  should consider  releasing a
+stack pointer when the environment referenced by the stack pointer is no
+longer needed.
+
+The effects of releasing a stack pointer are:
+
+     1.  The link between the stack  pointer and the stack is  broken by
+         setting  the contents  of the  stack pointer  to  the "released
+         mark" (currently unboxed  0).  A released stack  pointer prints
+         as #adr/#0.
+
+     2.  If this  stack pointer  was the last  remaining reference  to a
+         frame extension; that is, if no other stack  pointer references
+         the frame extension and  the extension is not contained  in the
+         active  control  or access  chain,  then the  extension  may be
+         reclaimed, and is  reclaimed immediately.  The  process repeats
+         for the access and control chains of the reclaimed extension so
+         that all stack space that was reachable only from  the released
+         stack pointer is reclaimed.
+
+A stack pointer may be released using the function relstk, but there are
+some  cases for  which  relstk is  not  sufficient.  For  example,  if a
+function contains a call to retfrom in which a stack pointer was used to
+specify where to return to,  it would not be possible  to simultaneously
+release  the  stack  pointer.   (A  relstk  appearing  in  the  function
+following the call to retfrom would not be executed!) To  permit release
+of  a  stack  pointer  in  this  situation,  the  stack  functions  that
+
+
+
+
+                                 12.13
+
+
+
+
+relinquish control have optional flag arguments to denote whether or not
+a stack pointer is to be released.  Note that in this case releasing the
+stack pointer will not cause the stack space to be reclaimed immediately
+because the frame referenced by the stack pointer will have  become part
+of the active environment.
+
+
+Reusing Stack Pointers
+
+Another way of  avoiding creating new stack  pointers is to  reuse stack
+pointers that  are no  longer needed.  The  stack functions  that create
+stack pointers (stkpos, stknth,  and stkscan) have an  optional argument
+which is a stack pointer to reuse.  When a stack pointer is  reused, two
+things happen.  First the  stack pointer is released (see  above).  Then
+the  pointer  to the  new  frame  extension is  deposited  in  the stack
+pointer.  The old stack pointer (with its new contents) is the  value of
+the function.  Note that the reused stack pointer will be  released even
+if the function does not find the specified frame.
+
+Note that even if stack pointers are explicitly being released, creation
+of many stack pointers can  cause a garbage collection of  stack pointer
+space, GC: 5.   Thus, if the  user's application requires  creating many
+stack pointers,  he definitely  should take  advantage of  reusing stack
+pointers.
+
+
+12.6 Spaghetti and the Block Compiler
+
+In order that the stack  discipline be consistent, it is  necessary that
+all bindings that are either  used freely or are used  for communication
+between processes, be contained  in some basic frame.  Basic  frames are
+never copied, except explicitly and presumably intentionally by copystk.
+If we have a stack structure such as:
+
+                        A
+                        |
+                  -------------
+                 |             |
+                 B1-----B------B2
+
+where frame extensions  B1 and B2  share the basic  frame B, then  if B1
+changes the value of  one of its variables  (in basic frame B),  the new
+value  will  be  seen by  B2.   If  a binding  were  stored  in  a frame
+extension, which is copied, then the two processes, B1 and B2 would each
+have  their own  copies  of the  binding.  The  block  compiler produces
+speedy  code  by avoiding  function  calls (and  hence  the  creation of
+frames).  Bindings of  variables (including specvars) in  block compiled
+code are  contained in  the frame extension.   Therefore one  should not
+block compile any function that binds a "state variable" of  some multi-
+process  computation.   We hope  to  restructure the  block  compiler to
+eliminate  this problem  - but  for  the moment  it is  a  problem.  For
+example, if we have the following two functions:
+
+
+
+
+
+
+
+
+
+
+                                 12.14
+
+
+
+
+(MARK (LAMBDA NIL (SETQ MARKPOS (STKNTH -1 (QUOTE MARK)))))
+
+(FOO (LAMBDA (Y)
+        (SETQ Y 3)
+        (MARK)
+        (SETQ Y 4)
+        (ENVEVAL (QUOTE Y) MARKPOS)))
+
+If FOO is interpreted or compiled individually (not block compiled) then
+the value  of the  enveval is  4.  However, if  FOO is  a function  in a
+compiled block and Y is a specvar, then the value of the enveval will be
+3 because the  active frame for the  block containing FOO and  the frame
+retained by mark have their own private copies of the binding of Y.
+
+
+                              5
+12.7 Coroutines and Generators
+
+This section describes an application of the spaghetti stack facility to
+provide mechanisms  for creating and  using simple generators  (with and
+without CLISP, Section  23), generalized coroutines, and  Conniver style
+possibility lists.
+
+A  generator is  like a  subroutine except  that it  retains information
+about previous times it has been called.  Some of this state may be data
+(for example, the seed in a random number generator), and some may be in
+program state (as in a recursive generator which finds all the  atoms in
+a list structure).  For example, if listgen is defined using defineq as:
+
+    (LISTGEN (L)
+       (IF L THEN (PRODUCE L:1) (LISTGEN L::1)))
+
+we  can  use  the  function  generator  (described  below)  to  create a
+generator that uses listgen to produce  the elements of a list one  at a
+time, e.g.,
+
+    GR_(GENERATOR (LISTGEN '(A B C))
+
+creates a generator, which can be called by
+
+    (GENERATE GR)
+
+to produce as values on  successive calls, A, B, C.  When  generate (not
+generator)  is  called  the  first  time,  it  simply  starts evaluating
+(LISTGEN '(A B C)).  produce gets called from listgen, and pops  back up
+to  generate with  the  indicated value  after saving  the  state.  When
+generate gets  called again,  it continues from  where the  last produce
+left off.   This process continues  until finally listgen  completes and
+
+
+
+------------------------------------------------------------------------
+5
+    Designed  and  implemented  by   D.G.  Bobrow,  who  also   did  the
+    documentation.   Early  versions of  the  Conniver possibilites-list
+    package  were  written by  Henry  Thompson. Daryle  Lewis  found and
+    corrected a number  of bugs, and wrote  the compiler macros  that go
+    with the package.
+
+
+
+
+                                 12.15
+
+
+
+
+returns a value (it doesn't  matter what it is).  generate  then returns
+gr itself  as its value,  so that the  program that called  generate can
+tell  that  it  is  finished,  i.e., there  are  no  more  values  to be
+generated.
+
+
+generator[form##;comvar##]
+                        is an nlambda function that creates  a generator
+                        which uses form## to compute values.   The value
+                        of  generator  is a  generator  handle  which is
+                        represented by a dotted pair of stack pointers.
+
+                        comvar## is optional.  If its value (eval of) is
+                        a generator handle, the list structure and stack
+                        pointers  will  be  reused.   Otherwise,  a  new
+                        generator handle will be constructed.
+
+                        generator compiles open.
+
+
+produce[val]            is  used from  within  (below) a  generator   to
+                        return  val as  the value  of  the corresponding
+                        call to generate.
+
+
+generate[handle;val]    restarts  the generator  represented  by handle.
+                        val will be returned as the value of the produce
+                        which  last  suspended  the  operation   of  the
+                        generator.   When  the  generator  runs  out  of
+                        values, generate returns handle itself.
+
+
+Examples
+
+The following function will go down recursively through a list structure
+and produce the atoms in the list structure one at a time.
+
+    [LEAVESG (L)
+        (if (ATOM L)
+            then (PRODUCE L)
+          else (LEAVESG L:1)
+               (if L::1
+                   then (LEAVESG L::1]
+
+The following  function prints each  of these atoms  as it  appears.  It
+illustrates how a loop can be set up to use a generator.
+
+    (PLEAVESG1 (L)
+       (PROG (X LHANDLE)
+             (LHANDLE_(GENERATOR (LEAVESG L)))
+        LP   (X_(GENERATE LHANDLE))
+             (if X=LHANDLE
+                 then (RETURN NIL))
+             (PRINT X)
+             (GO LP)))
+
+Note that the loop terminates when  the value of the generator is  eq to
+the dotted pair which is the value produced by the call to generator.  A
+
+
+
+
+                                 12.16
+
+
+
+
+CLISP iterative operator, OUTOF, is provided which makes it  much easier
+to write  the loop in  PLEAVESG1.  OUTOF (or  outof) can precede  a form
+which is to  be used as a  generator.  On each iteration,  the iteration
+variable will be set to successive values returned by the generator; the
+loop will be terminated automatically when the generator runs out.  Thus
+we can write
+
+    (PLEAVESG2 (L)
+       (for X outof (LEAVESG L) do (PRINT x))
+
+as equivalent to the above program PLEAVESG1.
+
+Here is another example:
+
+    (for X outof (MAPATOMS (FUNCTION PRODUCE))
+     as I from 1 to N do (PRINT X))
+
+will print the first n atoms.
+
+
+Coroutines
+
+This  package provides  facilities  for the  creation and  use  of fully
+general coroutine structures.  It  uses a stack pointer to  preserve the
+state of a coroutine, and allows arbitrary switching between n different
+coroutines rather  than just  a call  to a  generator and  return.  This
+package is slightly more efficient than the generator  package described
+above, and allows more flexibility on specification of what to do when a
+coroutine terminates.
+
+
+coroutine[callptr##;coroutptr##;coroutform##;endform##]
+                        This nlambda is  used to create a  coroutine and
+                        initialize    the   linkage.     callptr##   and
+                        coroutptr##  are  the  names  of  two variables,
+                        which will be set to appropriate stack pointers.
+                        If the  values of  callptr## or  coroutptr## are
+                        already stack pointers, the stack  pointers will
+                        be reused.   coroutform## is  the form  which is
+                        evaluated to start the coroutine; endform## is a
+                        form  to be  evaluated if  coroutform## actually
+                        returns when it  runs out of  values.  coroutine
+                        compiles open.
+
+
+resume[fromptr;toptr;val]
+                        is used to  transfer control from  one coroutine
+                        to another.  fromptr should be the stack pointer
+                        for the current coroutine, which will be smashed
+                        to preserve the current state.  toptr  should be
+                        the stack pointer which has preserved  the state
+                        of the coroutine  to be transferred to,  and val
+                        is  the  value that  is  to be  returned  to the
+                        latter  coroutine  as the  value  of  the resume
+                        which suspended the operation of that coroutine.
+
+
+
+
+
+
+
+                                 12.17
+
+
+
+
+Examples
+
+The following is  the way one might  write the LEAVES program  using the
+coroutine package:
+
+    (LEAVESC (L COROUTPTR CALLPTR)
+       (if (ATOM L) then (RESUME COROUTPTR CALLPTR)
+         else (LEAVESC L:1 COROUTPTR CALLPTR)
+              (if L::1 then (LEAVESC L::1 COROUTPTR CALLPTR))))
+
+A function PLEAVESC which uses LEAVESC can be defined as follows:
+
+(PLEAVESC (L)
+  (bind PLHANDLE LHANDLE first (COROUTNE PLHANDLE LHANDLE
+                                         (LEAVESC L LHANDLE PLHANDLE)
+                                         (RETFROM 'PLEAVESC))
+    do (PRINT (RESUME PLHANDLE LHANDLE))))
+
+By RESUMEing leavesc repeatedly, this function will print all the leaves
+of list L and then return out of pleavesc via the retfrom.   The retfrom
+is necessary to break out of the non-terminating do-loop.  This was done
+to  illustrate the  additional flexibility  allowed through  the  use of
+endform##.
+
+We use  two coroutines  working on  two trees  in the  example eqleaves,
+defined below.  eqleaves  tests to see whether  two trees have  the same
+leaf set in the same order, e.g., EQLEAVES((A B C)(A B (C))) is true.
+
+(EQLEAVES (L1 L2)
+    (bind LHANDLE1 LHANDLE2 PE EL1 EL2
+       first (COROUTINE PE LHANDLE1 (LEAVESC L1 LHANDLE1 PE) 'NO-MORE)
+             (COROUTINE PE LHANDLE2 (LEAVESC L2 LHANDLE2 PE) 'NO-MORE)
+       do (EL1_(RESUME PE LHANDLE1))
+          (EL2_(RESUME PE LHANDLE2))
+          (if EL1~=EL2
+              then (RETURN NIL))
+       repeatuntil EL1='NO-MORE finally (RETURN T)))
+
+
+                   6
+Possibilities Lists
+
+A  possibilities  list  is  the  interface  between  a  generator  and a
+consumer.   The  possibilities  list   is  initialized  by  a   call  to
+possibilities, and elements are  obtained from it by using  trynext.  By
+using  the  spaghetti  stack  to  maintain  separate  environments, this
+package allows a regime  in which a generator can  put a few items  in a
+possibilities list, suspend itself until they have been consumed, and be
+subsequently aroused and generate some more.
+
+
+
+
+
+------------------------------------------------------------------------
+6
+    These functions are based on the CONNIVER system  possibilities list
+    package.
+
+
+
+
+                                 12.18
+
+
+
+
+possibilities[form##]   This nlambda is used for the initial creation of
+                        a possibilities list.  form## will  be evaluated
+                        to create the list.  It should use the functions
+                        note and  au-revoir described below  to generate
+                        possibilities.   Normally,  one  would  set some
+                        variable  to  the  possibilities  list  which is
+                        returned, so it can be used later, e.g.,:
+
+                        (SETQ PLIST (POSSIBILITIES (GENERFN V1 V2))).
+
+                        possibilities compiles open.
+
+
+note[val;lstflg]        is used within a  generator to put items  on the
+                        possibilities list  being generated.   If lstflg
+                        is  equal to  NIL, val  is treated  as  a single
+                        item.  If lstflg  is non-NIL, then the  list val
+                        is nconced on the end of the possibilities list.
+                        Note that it is perfectly reasonable to create a
+                        possibilities list using a second generator, and
+                        note that list as possibilities for  the current
+                        generator  with lstflg  equal to  T.   The lower
+                        generator  will  be resumed  at  the appropriate
+                        point.
+
+
+au-revoir[val##]        puts an item on the possibilities list if one is
+                        given. If no argument is given to au-revoir then
+                                                        7
+                        the generator is just suspended;  NIL is not put
+                        on   the   possibilities  list   unless   it  is
+                        explicitly given as an argument to au-revoir.  A
+                        call  to  au-revoir suspends  the  generator and
+                        returns to the  consumer in such a  fashion that
+                        control will return to the generator at  the au-
+                        revoir    if   the    consumer    exhausts   the
+                        possibilities list.
+
+
+adieu[]                 returns to the  consumer the items  currently on
+                        the   possibilities  list.    It   releases  the
+                        generator so that it can no longer be resumed.
+
+
+trynext[plst##;endform##;val##]
+                        This  nlambda  allows   a  consumer  to   use  a
+                        possibilities list.   It removes the  first item
+                        from the possibilities list plst##,  and returns
+                        that  item,  provided  it  is  not  a  generator
+                        handle.  If  a generator handle  is encountered,
+
+
+
+------------------------------------------------------------------------
+7
+    au-revoir is a lambda spread so  that the case where no value  is to
+    be returned can be distinguished from the case where a NIL  value is
+    returned.
+
+
+
+
+                                 12.19
+
+
+
+
+                        the generator is reawakened.  When it  returns a
+                        possibilities list,  this list  is added  to the
+                        front  of  the  current list.   When  a  call to
+                        trynext causes a generator to be awakened, val##
+                        is returned as the value of the  au-revoir which
+                        put  that  generator  to  sleep.   If  plst## is
+                        empty,  it evaluates  endform## in  the caller's
+                        environment.
+
+                        trynext compiles open.
+
+
+cleanposlst[plst]       This function is  provided to release  any stack
+                        pointers which may be left in the plst which was
+                        not used to exhaustion.
+
+
+Examples
+
+(1) fib is a generator for fibonnaci numbers.  It starts out  by noteing
+    its two arguments, then  suspends itself.  Thereafter, on  being re-
+    awakened, it  will note two  more terms in  the series  and suspends
+    again.  printfib uses fib to print the first N fibonacci numbers.
+
+    [FIB (F1 F2)
+      (do (NOTE F1)
+          (NOTE F2)
+          (F1_F1+F2)
+          (F2_F1+F2)
+                      8
+          (AU-REVOIR)]
+
+    [PRINTFIB (N)
+         (PROG ((FL (GENERATOR (FIB 0 1))))
+               (RPTQ N (PRINT  (TRYNEXT FL)))
+               (CLEANPOSLST FL) ]
+
+    Note that fib itself will never terminate.
+
+(2) nodes is somewhat subtler.  It can be used to generate the  nodes of
+    a tree in prefix, postfix, or infix order depending on the  value of
+    type.  It takes as its first argument L a structure which  has three
+    fields;  a head,  left-daughter and  right-daughter.   Suppose these
+    fields are accessed by the functions HD, LD and RD respectively, and
+    R is the following tree:
+
+
+
+
+
+
+
+
+
+------------------------------------------------------------------------
+8
+    Note that this just suspends  the generator and adds nothing  to the
+    possibilities list except the generator.
+
+
+
+
+                                 12.20
+
+
+
+
+    (N1 _ '(+ N2 N3))                           +
+    (N2 _ '(X))                               / \
+    (N3 _ '(  ** N4 N5))                    x     **
+    (N4 _ '(Y))                                   / \
+    (N5 _ '(3))                                  y    3
+
+    Each subnode is generated  by using a possibilities list,  and these
+    are oredered  on the basis  of type.  Notice  that since  nodes ends
+    with an adieu, it does not persist.  printnodes uses nodes  to print
+    the nodes of a tree in any of the three orders.
+
+[NODES (L TYPE)
+  (PROG [(VAL (HD L))
+         (LD L)
+         [LGEN (if (LD L)
+                   then (POSSIBILITIES (NODE (LDL)
+                                             TYPE]
+         [RGEN (if (RD L)
+                   then POSSIBILITIES (NODES (RD L)
+                                             TYPE]
+       (NOTE (SELECTQ TYPE
+                      (PREFIX <! VAL LGEN RGEN>)
+                      (INFIX  <! LGEN VAL RGEN>)
+                      (POSTFIX <! LGEN RGEN VAL>)
+                      NIL)
+              T)
+       (ADIEU)]
+
+[PRINTNODES (X TYPE)
+    (foreach E from (NODES X TYPE) do (PRIN1 E) finally (TERPRI)]
+
+    When printnodes is run, it produces the following.
+
+    _(PRINTNODES N1 'INFIX)
+    X+Y**3
+
+    _(PRINTNODES N1 'POSTFIX)
+    XY3**+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                 12.21
+

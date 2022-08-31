@@ -1,0 +1,560 @@
+(FILECREATED "10-Feb-83 09:17:18" <DDYER>EDITREC..15 20992  
+
+      previous date: " 9-FEB-83 17:46:39" <DDYER>EDITREC..14)
+
+
+(PRETTYCOMPRINT EDITRECCOMS)
+
+(RPAQQ EDITRECCOMS ((FNS * EDITRECFNS)
+		    (EDITHIST * EDITRECEDITHIST)
+		    (ADDVARS (LASTEDITX))
+		    (RECORDS * EDITRECRECORDS)
+		    (VARS * EDITRECVARS)
+		    (DECLARE: DONTEVAL@LOAD DOEVAL@COMPILE DONTCOPY COMPILERVARS (ADDVARS (NLAMA)
+											  (NLAML)
+											  (LAMA)))
+		    (IFPROP HELP EDITX SHOWX)))
+
+(RPAQQ EDITRECFNS (CompatableRecords EDITX EDITX1 EditxRecordChange FetchArrayContents 
+				     FetchFunctionPointers FetchStackVariables GetTypeToEdit 
+				     HashTableContents MAKEDTD MAKEREC MakeSampleInstance REMAKEDTD 
+				     REMAKEREC RecordDataType RecordType? ReplaceArrayContents 
+				     ReplaceFunctionPointers ReplaceStackVariables SHOWX 
+				     SetHashTableContents SimilarP SimilarlyConsed))
+(DEFINEQ
+
+(CompatableRecords
+  [LAMBDA (OBJ)                                             (* DD: "29-DEC-82 13:03")
+    (for X N in USERRECLST
+       eachtime (SETQ N (CADR X))
+		(AND (LISTP N)
+		     (SETQ N (CAR N)))
+       when (RecordType? OBJ N X) collect N])
+
+(EDITX
+  [LAMBDA (OBJECT TYPE)                                     (* DD: "29-DEC-82 10:37")
+    (EDITX1 OBJECT TYPE (QUOTE EDIT])
+
+(EDITX1
+  [LAMBDA (OBJECT TYPE ACTION)                              (* DD: " 3-FEB-83 10:47")
+    (PROG (MADEREC DESCRIPTORS DESCRIPTORTYPE)
+          [COND
+	    ((NULL OBJECT)
+	      (SETQ OBJECT (CAR LASTEDITX))
+	      (OR TYPE (SETQ TYPE (CADR LASTEDITX]
+          (first (SELECTQ TYPE
+			  (? (SETQ TYPE NIL))
+			  (NIL (SETQ TYPE (fetch PASTTYPES of OBJECT)))
+			  NIL)
+	     while (NOT DESCRIPTORTYPE)
+	     do (OR TYPE (SETQ TYPE (GetTypeToEdit OBJECT)))
+		(COND
+		  [(TYPENUMBERFROMNAME TYPE)                (* the requested type is a datatype)
+		    [COND
+		      [(NEQ TYPE (QUOTE LISTP))
+			(SETQ DESCRIPTORS (RECLOOK TYPE))
+			(COND
+			  ((FMEMB (CAR DESCRIPTORS)
+				  (QUOTE (DATATYPE BLOCKRECORD ACCESSFNS)))
+			    (SETQ DESCRIPTORTYPE (QUOTE RECORD)))
+			  (T (SETQ DESCRIPTORS (GETDESCRIPTORS TYPE))
+			     (SETQ DESCRIPTORTYPE (QUOTE DATATYPE]
+		      (T (SETQ DESCRIPTORTYPE (QUOTE LISTP]
+		    (COND
+		      ((NOT (TYPENAMEP OBJECT TYPE))
+			(printout T "Warning! the object is of type " (TYPENAME OBJECT)
+				  T "but you are using it as " TYPE T]
+		  ((for X in FILEPKGTYPES thereis (OR (EQ X TYPE)
+						      (EQ (CAR (LISTP X))
+							  TYPE)))
+                                                            (* specified a FILEPKGTYPE)
+		    (SETQ DESCRIPTORTYPE (QUOTE FILEPKGTYPE)))
+		  ((SETQ DESCRIPTORS (RECLOOK TYPE))        (* a record definition)
+		    (SETQ DESCRIPTORTYPE (QUOTE RECORD)))
+		  (T (printout T "I can't find a descriptor for type " TYPE T)
+		     (SETQ TYPE)))
+	     finally (replace PASTTYPES of OBJECT with TYPE))
+          (SETQ LASTEDITX (LIST OBJECT TYPE))
+          (RETURN (SELECTQ ACTION
+			   (EDIT (SELECTQ DESCRIPTORTYPE
+					  (LISTP (EDITE OBJECT))
+					  (DATATYPE (SETQ MADEREC (MAKEDTD OBJECT TYPE DESCRIPTORS))
+						    (REMAKEDTD OBJECT TYPE
+							       (EDITE MADEREC (QUOTE (-1 TTY:)))
+							       DESCRIPTORS))
+					  (FILEPKGTYPE (PUTDEF OBJECT TYPE (EDITX1 (GETDEF OBJECT 
+											   TYPE)
+										   NIL ACTION)))
+					  (RECORD (SETQ MADEREC (MAKEREC OBJECT TYPE DESCRIPTORS))
+						  (REMAKEREC OBJECT TYPE (EDITE MADEREC
+										(QUOTE (-1 TTY:)))
+							     DESCRIPTORS))
+					  (SHOULDNT)))
+			   (SHOW (SELECTQ DESCRIPTORTYPE
+					  (DATATYPE (MAKEDTD OBJECT TYPE DESCRIPTORS))
+					  (RECORD (MAKEREC OBJECT TYPE DESCRIPTORS))
+					  (FILEPKGTYPE (GETDEF OBJECT TYPE))
+					  OBJECT))
+			   (SHOULDNT])
+
+(EditxRecordChange
+  [LAMBDA (RECNAME RECFIELDS OLDFLG)                        (* DD: "29-DEC-82 11:49")
+    (replace SampleInstance of RECNAME with NIL)
+    (replace RecordDataType of RECNAME with NIL)
+    (AND PreviousRecordChangeFn (APPLY* PreviousRecordChangeFn RECNAME RECFIELDS OLDFLG])
+
+(FetchArrayContents
+  [LAMBDA (ARR)                                             (* DD: "19-JAN-83 00:04")
+    (PROG ((TYPE (ARRAYTYP ARR))
+	   (ORIG (ARRAYORIG ARR))
+	   (SIZE (ARRAYSIZE ARR))
+	   SETDLIMIT)
+          [COND
+	    ((AND (FIXP TYPE)
+		  (ILESSP TYPE SIZE))
+	      (SETQ SETDLIMIT (IPLUS ORIG TYPE)))
+	    ((EQ TYPE (QUOTE DOUBLEPOINTER))
+	      (SETQ SETDLIMIT -1))
+	    (T (SETQ SETDLIMIT (IPLUS SIZE ORIG 1]
+          (RETURN (for I TMP from (ARRAYORIG ARR) to (SUB1 (IPLUS (ARRAYSIZE ARR)
+								  (ARRAYORIG ARR)))
+		     collect (PROGN NIL)
+			     (BQUOTE (, I , (ELT ARR I)
+					,@
+					(COND
+					  ((ILEQ SETDLIMIT I)
+					    (CONS (ELTD ARR I)))
+					  (T NIL])
+
+(FetchFunctionPointers
+  [LAMBDA (FN)                                              (* DD: "16-SEP-82 20:40")
+    (AND (CCODEP FN)
+	 (SELECTQ (SYSTEMTYPE)
+		  [VAX (for I from 0 to (IDIFFERENCE (fetch (SEQUENCE OFFSET) of FN)
+						     4)
+			  by 4 as J FIRSTCONST FIRSTGLOB FIRSTFREE FIRSTBIND FIRSTFUN K from 0
+			  first (\VAXFNINFO FN)
+				[SETQ K (BQUOTE ((args . 0)
+						  (calls ,@ FIRSTFUN)
+						  (binds ,@ FIRSTBIND)
+						  (uses ,@ FIRSTFREE)
+						  (globals ,@ FIRSTGLOB)
+						  (constants ,@ FIRSTCONST]
+			  join (NCONC1 [COND
+					 ((EQ J (CDAR K))
+					   (bind VAL VALN
+					      do (SETQ VAL (CAR K))
+						 (SETQ VALN (CDR VAL))
+						 (RPLACD VAL NIL)
+						 (SETQ K (CDR K))
+					      repeatwhile (EQ VALN (CDAR K)) finally (RETURN VAL]
+				       (LIST J (0GetBasePtr FN I T]
+		  NIL])
+
+(FetchStackVariables
+  [LAMBDA (DATUM)                                           (* DD: "16-SEP-82 20:59")
+    (for X in (VARIABLES DATUM) as Y in (STKARGS DATUM) as Z from 1 collect (LIST Z X Y])
+
+(GetTypeToEdit
+  [LAMBDA (OBJ)                                             (* DD: " 3-FEB-83 10:54")
+    (PROG (TYPES)
+          [SETQ TYPES (COND
+	      ((LITATOM OBJ)
+		(SETQ TYPES (TYPESOF OBJ))
+		(OR (BOUNDP OBJ)
+		    (SETQ TYPES (DREMOVE (QUOTE VARS)
+					 TYPES)))
+		(NCONC1 TYPES (QUOTE ATOM)))
+	      ((CompatableRecords OBJ))
+	      ((CONS (TYPENAME OBJ]
+          (SETQ TYPES (NCONC TYPES (LDIFFERENCE (MKLIST (fetch PASTTYPES of OBJ))
+						TYPES)))
+          [COND
+	    ((IGREATERP (LENGTH TYPES)
+			1)
+	      (SETQ TYPES (MKLIST (ASKUSER 20 (CAR TYPES)
+					   (LIST "which type in" TYPES "should I use")
+					   (MAKEKEYLST TYPES (CAR TYPES)
+						       NIL T]
+          (RETURN (CAR TYPES])
+
+(HashTableContents
+  [LAMBDA (H)                                               (* DD: "28-OCT-82 23:36")
+    (PROG (X)
+          [MAPHASH H (FUNCTION (LAMBDA (A B)
+		       (push X (LIST B A]
+          (RETURN X])
+
+(MAKEDTD
+  [LAMBDA (OBJECT TYPE TYPEDEF)                             (* DD: "31-JUL-82 14:22")
+    (OR TYPEDEF (SETQ TYPEDEF (GETDESCRIPTORS TYPE)))
+    (for X in TYPEDEF as I from 1 collect (LIST I (FFETCHFIELD X OBJECT))
+       finally (RETURN (LIST OBJECT TYPE $$VAL])
+
+(MAKEREC
+  [LAMBDA (OBJECT TYPE TYPEDEF)                             (* DD: "31-JUL-82 14:31")
+    (OR TYPEDEF (SETQ TYPEDEF (RECLOOK TYPE)))
+    (for X in (RECORDFIELDNAMES TYPEDEF) collect (LIST X (RECORDACCESS X OBJECT TYPEDEF (QUOTE FETCH))
+						       )
+       finally (RETURN (LIST OBJECT TYPE $$VAL])
+
+(MakeSampleInstance
+  [LAMBDA (TYPE)                                            (* DD: "29-DEC-82 12:36")
+    (PROG (INST)
+          [AND TYPE (COND
+		 ((SETQ INST (fetch SampleInstance of TYPE)))
+		 [(LISTP (ERRORSET (BQUOTE (SETQ INST (CREATE , TYPE)))
+				   (QUOTE NOBREAK)))
+		   (replace SampleInstance of TYPE with (SETQ INST (BQUOTE (, TYPE , INST]
+		 (T (replace SampleInstance of TYPE with (QUOTE NO]
+          (RETURN (CADR (LISTP INST])
+
+(REMAKEDTD
+  [LAMBDA (OBJECT TYPE NEWOBJECT TYPEDEF)                   (* DD: "31-JUL-82 14:24")
+    (OR TYPEDEF (SETQ TYPEDEF (GETDESCRIPTORS TYPE)))
+    (for X RV in (CADDR NEWOBJECT) do (COND
+					((NLISTP X))
+					((NOT (EQUAL (CADR X)
+						     (FFETCHFIELD (CAR (NTH TYPEDEF (CAR X)))
+								  OBJECT)))
+					  (/REPLACEFIELD (CAR (NTH TYPEDEF (CAR X)))
+							 OBJECT
+							 (CADR X))
+					  (SETQ RV T)))
+       finally (RETURN RV))
+    OBJECT])
+
+(REMAKEREC
+  [LAMBDA (OBJECT TYPE NEWOBJECT TYPEDEF)                   (* DD: " 9-FEB-83 13:20")
+    (OR TYPEDEF (SETQ TYPEDEF (RECLOOK TYPE)))
+    (for X RV OLDVAL in (CADDR NEWOBJECT) do (COND
+					       ((NLISTP X))
+					       ([NOT (EQUAL (CADR X)
+							    (SETQ OLDVAL (RECORDACCESS (CAR X)
+										       OBJECT TYPEDEF
+										       (QUOTE FETCH]
+						 (UNDOSAVE (LIST (QUOTE RECORDACCESS)
+								 (CAR X)
+								 OBJECT TYPEDEF (QUOTE REPLACE)
+								 OLDVAL))
+                                                            (* we do the undosave explicitly, because the /REPLACE 
+							    option of RECORDACCESS is not undoable!)
+						 (RECORDACCESS (CAR X)
+							       OBJECT TYPEDEF (QUOTE REPLACE)
+							       (CADR X))
+						 (SETQ RV T)))
+       finally (RETURN RV))
+    OBJECT])
+
+(RecordDataType
+  [LAMBDA (REC DEC)                                         (* DD: "10-Jan-83 12:49")
+    (PROG (TYP)
+          [COND
+	    ((SETQ TYP (fetch RecordDataType of REC)))
+	    ([SETQ TYP (SELECTQ [CAR (OR DEC (SETQ DEC (RECLOOK REC]
+				((RECORD TYPERECORD PROPRECORD ASSOCRECORD)
+				  (QUOTE LISTP))
+				((HASHLINK HASHRECORD)
+				  (QUOTE HARRAYP))
+				((ACCESSFN ACCESSFNS CACCESSFNS ATOMRECORD BLOCKRECORD SYNONYM)
+				  T)
+				((ARRAYRECORD ARRAYBLOCK)
+				  (QUOTE ARRAYP))
+				(DATATYPE (CADR DEC))
+				(AND (SETQ TYP (MakeSampleInstance REC DEC))
+				     (SETQ TYP (TYPENAME TYP]
+	      (replace RecordDataType of REC with TYP))
+	    (T (SETQ TYP (replace RecordDataType of REC with T]
+          (RETURN (AND (NEQ TYP T)
+		       TYP])
+
+(RecordType?
+  [LAMBDA (X TYPE DEC)                                      (* DD: "10-Jan-83 12:41")
+    (PROG (DATATYPE SAMPLE)
+          (RETURN (AND (OR DEC (SETQ DEC (RECLOOK TYPE)))
+		       (EQ (SETQ DATATYPE (TYPENAME X))
+			   (RecordDataType TYPE DEC))
+		       (COND
+			 ((EQ (CAR DEC)
+			      (QUOTE DATATYPE))
+			   T)
+			 ((EQ (CAR DEC)
+			      (QUOTE HASHLINK))
+			   NIL)
+			 (DEC (SETQ SAMPLE (MakeSampleInstance TYPE))
+			      (SimilarP DATATYPE X SAMPLE TYPE DEC])
+
+(ReplaceArrayContents
+  [LAMBDA (ARR NEWVAL)                                      (* DD: " 9-FEB-83 12:48")
+    (for X (ORIG _(ARRAYORIG ARR))
+	 (END _(IPLUS (ARRAYORIG ARR)
+		      (ARRAYSIZE ARR)))
+       in NEWVAL when (LISTP X)
+       do (/SETA ARR (CAR X)
+		 (CADR X))
+	  (AND (CDDR X)
+	       (/SETD ARR (CAR X)
+		      (CADDR X])
+
+(ReplaceFunctionPointers
+  [LAMBDA (FN PTRS)                                         (* DD: " 9-FEB-83 17:45")
+    (AND (CCODEP FN)
+	 (SELECTQ (SYSTEMTYPE)
+		  [VAX (bind (SZ _(LSH (fetch (SEQUENCE OFFSET) of FN)
+				       -2))
+			     OFF OLDVAL for X in PTRS
+			  do (COND
+			       ((NLISTP X))
+			       [(AND (FIXP (CAR X))
+				     (IGEQ (CAR X)
+					   0)
+				     (ILESSP (CAR X)
+					     SZ))
+				 (COND
+				   ((NEQ (SETQ OLDVAL (0GetBasePtr FN (SETQ OFF (LSH (CAR X)
+										     2))
+								   T))
+					 (CADR X))
+				     (UNDOSAVE (LIST (QUOTE 0SetBasePtr)
+						     FN OFF OLDVAL T))
+				     (0SetBasePtr FN OFF (CADR X)
+						  T]
+			       (T (ERROR "bad function pointer spec" X]
+		  NIL])
+
+(ReplaceStackVariables
+  [LAMBDA (DATUM NEWVALUE)                                  (* DD: " 9-FEB-83 13:38")
+    (for X OLDVAL in NEWVALUE
+       do [COND
+	    ((NEQ (SETQ OLDVAL (STKARG (CAR X)
+				       DATUM))
+		  (CADDR X))
+	      (UNDOSAVE (LIST (QUOTE SETSTKARG)
+			      (CAR X)
+			      DATUM OLDVAL))
+	      (SETSTKARG (CAR X)
+			 DATUM
+			 (CADDR X]
+	  (COND
+	    ((NEQ (SETQ OLDVAL (STKARGNAME (CAR X)
+					   DATUM))
+		  (CADR X))
+	      (UNDOSAVE (LIST (QUOTE SETSTKARGNAME)
+			      (CAR X)
+			      DATUM OLDVAL))
+	      (SETSTKARGNAME (CAR X)
+			     DATUM
+			     (CADR X])
+
+(SHOWX
+  [LAMBDA (OBJECT TYPE)                                     (* DD: "29-DEC-82 10:42")
+    (EDITX1 OBJECT TYPE (QUOTE SHOW])
+
+(SetHashTableContents
+  [LAMBDA (H NEW)                                           (* DD: "28-OCT-82 23:35")
+    (for X in NEW when (NEQ (CADR X)
+			    (GETHASH (CAR X)
+				     H))
+       do (/PUTHASH (CAR X)
+		    (CADR X)
+		    H))
+    (PROG (X)
+          [MAPHASH H (FUNCTION (LAMBDA (A B)                (* REMOVE UNWANTED ITEMS)
+		       (OR (FASSOC B NEW)
+			   (/PUTHASH B NIL H]
+          (RETURN H])
+
+(SimilarP
+  [LAMBDA (DATATYPE X SAM TYPE DEC)                         (* DD: "29-DEC-82 12:44")
+    (SELECTQ DATATYPE
+	     (LISTP (SELECTQ (CAR DEC)
+			     [ASSOCRECORD (bind (NAMES _(RECORDFIELDNAMES (OR DEC TYPE)))
+					     for ITEM in X always (AND (LISTP ITEM)
+								       (FMEMB (CAR ITEM)
+									      NAMES]
+			     (PROPRECORD (bind (NAMES _(RECORDFIELDNAMES (OR DEC TYPE)))
+					    for ITEM in X BY CDDR always (FMEMB ITEM NAMES)))
+			     ((RECORD TYPERECORD)
+			       (SimilarlyConsed X SAM))
+			     NIL))
+	     [ARRAYP (AND (EQ (ARRAYSIZE X)
+			      (ARRAYSIZE SAM))
+			  (EQ (ARRAYTYP X)
+			      (ARRAYTYP SAM]
+	     (HARRAYP T)
+	     NIL])
+
+(SimilarlyConsed
+  [LAMBDA (X Y)                                             (* DD: "29-DEC-82 12:46")
+    (OR (AND (LISTP X)
+	     (LISTP Y)
+	     (SimilarlyConsed (CAR X)
+			      (CAR Y))
+	     (SimilarlyConsed (CDR X)
+			      (CDR Y)))
+	(AND (NLISTP X)
+	     (NLISTP Y])
+)
+
+(RPAQQ EDITRECEDITHIST (EDITREC.LISP))
+(DECLARE: DONTCOPY 
+
+(ADDTOVAR EDITHISTALIST (EDITREC.LISP (("19-Nov-80 15:48:19" . " 1-Nov-80 02:50:21")
+				       DD:
+				       (<DDYER>EDITREC.LISP.6 . <DDYER>EDITREC.LISP.2)
+				       (EDITRECLISPXMACROS EDITRECCOMS EDITRECFNS MAKEREC 
+							   EDITRECEDITHIST EDITX REMAKECURRENT 
+							   REMAKEREC)
+				       (added logic to mark objects changed when appropriate))
+				      ("28-Nov-80 18:35:59" DD: <DDYER>EDITREC.LISP.7 (MAKEREC 
+											REMAKEREC)
+							    (changed to use definitions explicitly))
+				      ((" 1-Dec-80 19:36:04" . " 1-Dec-80 17:41:19")
+				       DD:
+				       (<DDYER>EDITREC.LISP.10 . <DDYER>EDITREC.LISP.9)
+				       (EDITX)
+				       (changed to improve callability))
+				      (("16-SEP-82 14:20:13" . " 1-Dec-80 19:38:05")
+				       DD:
+				       (/lisp/ddyer/lisp/init/EDITREC.;2 . <DDYER>EDITREC.LISP.11)
+				       (FetchFunctionHeader EDITRECLISPXMACROS SetHashTableContents 
+							    HashTableContents HARRAYP MAKEDTD 
+							    REMAKEDTD EDITRECRECORDS (HASHLINK 
+											PASTTYPES)
+							    (HASHLINK (PASTTYPES PASTTYPES))
+							    GETOBJECTANDTYPE EDITRECFNS GetTypeToEdit 
+							    MAKEREC REMAKEREC EDITX EDITRECCOMS 
+							    EDITRECUSERMACROS))
+				      ("16-SEP-82 14:52:44" DD: /lisp/ddyer/lisp/init/EDITREC.;3
+							    (EDITRECFNS FetchFunctionPointers 
+									EDITREC.LISP 
+									ReplaceFunctionPointers 
+									FunctionHeader))
+				      ("16-SEP-82 15:54:22" DD: /lisp/ddyer/lisp/init/EDITREC.;4
+							    (EDITX ReplaceArrayContents 
+								   FetchArrayContents ARRAYP CODEP))
+				      ("16-SEP-82 20:38:27" DD: /lisp/ddyer/lisp/init/EDITREC.;5
+							    (EDITRECRECORDS FetchArrayContents 
+									    ReplaceArrayContents))
+				      ("16-SEP-82 20:41:22" DD: /lisp/ddyer/lisp/init/EDITREC.;6
+							    (FetchFunctionPointers 
+									  ReplaceFunctionPointers))
+				      ("16-SEP-82 21:19:16" DD: /lisp/ddyer/lisp/init/EDITREC.;7
+							    (EDITX ReplaceStackVariables 
+								   FetchStackVariables STACKP))
+				      ("28-OCT-82 23:41:00" DD: /lisp/ddyer/lisp/init/EDITREC.;2
+							    ((FNS SetHashTableContents 
+								  HashTableContents)))
+				      ("29-DEC-82 11:36:36" DD: /lisp/ddyer/lisp/init.4/EDITREC.;2
+							    (EDITX GetTypeToEdit EditxRecordChange 
+								   SHOWX EDITX1))
+				      ("29-DEC-82 12:47:30" DD: /lisp/ddyer/lisp/init.4/EDITREC.;3
+							    (EditxRecordChange MakeSampleInstance 
+									       RecordType? EDITX1 
+									       SHOWX SimilarlyConsed 
+									       SimilarP 
+									       RecordDataType))
+				      ("29-DEC-82 13:22:30" DD: /lisp/ddyer/lisp/init.4/EDITREC.;4
+							    (GetTypeToEdit RecordType? 
+									   CompatableRecords)
+							    (added extra smarts to sort out 
+								   compatable records and present 
+								   them as alternatives. Also, added 
+								   SHOWX corresponding to EDITX, but 
+								   just prints))
+				      ("29-DEC-82 13:36:18" DD: /lisp/ddyer/lisp/init.4/EDITREC.;5
+							    (GetTypeToEdit))
+				      ("29-DEC-82 14:02:52" DD: /lisp/ddyer/lisp/init.4/EDITREC.;6
+							    (EDITX1 GetTypeToEdit))
+				      ("29-DEC-82 18:25:49" DD: /lisp/ddyer/lisp/init.4/EDITREC.;7
+							    (EDITX1))
+				      ("29-DEC-82 18:31:07" DD: /lisp/ddyer/lisp/init.4/EDITREC.;8
+							    (EDITX1))
+				      ("10-Jan-83 12:26:35" DD: <DDYER>EDITREC..7 (EDITX1))
+				      ("10-Jan-83 12:52:31" DD: <DDYER>EDITREC..8 (RecordType? 
+										   RecordDataType))
+				      ("12-Jan-83 13:42:56" DD: <DDYER>EDITREC..9 (FetchArrayContents)
+							    (fixed a bug which showed no ELTD 
+								   elements of arrays))
+				      ("19-JAN-83 00:10:10" DD: /lisp/ddyer/lisp/init.4/EDITREC.;2
+							    (FetchArrayContents))
+				      (" 3-FEB-83 10:49:37" DD: /lisp/ddyer/lisp/init.4/EDITREC.;4
+							    (EDITX1))
+				      (" 3-FEB-83 10:55:52" DD: /lisp/ddyer/lisp/init.4/EDITREC.;5
+							    (GetTypeToEdit))
+				      (" 9-FEB-83 12:48:53" DD: /lisp/ddyer/lisp/init/EDITREC.;2
+							    (ReplaceArrayContents))
+				      (" 9-FEB-83 13:41:43" DD: /lisp/ddyer/lisp/init/EDITREC.;3
+							    (REMAKEREC ReplaceFunctionPointers 
+								       ReplaceStackVariables))
+				      (" 9-FEB-83 17:46:46" DD: /lisp/ddyer/lisp/init/EDITREC.;4
+							    (REMAKEREC ReplaceFunctionPointers)
+							    (make things undoable as advertised.))))
+)
+
+(ADDTOVAR LASTEDITX )
+
+(RPAQQ EDITRECRECORDS (ARRAYP CODEP HARRAYP STACKP (HASHLINK (RecordDataType RecordDataType))
+			      (HASHLINK (SampleInstance SampleInstance))
+			      (HASHLINK (PASTTYPES PASTTYPES))))
+[DECLARE: EVAL@COMPILE 
+
+(ACCESSFNS ARRAYP ((Size ARRAYSIZE)
+		   (Type ARRAYTYP)
+		   (Origin ARRAYORIG)
+		   (Contents FetchArrayContents ReplaceArrayContents)))
+
+(ACCESSFNS CODEP ((NumberOfArgs NARGS)
+		  (FunctionType FNTYP)
+		  (CodeLength (IDIFFERENCE (fetch (SEQUENCE LENGTH) of DATUM)
+					   (fetch (SEQUENCE OFFSET) of DATUM)))
+		  (FunctionPointers (FetchFunctionPointers DATUM)
+				    (ReplaceFunctionPointers DATUM NEWVALUE))))
+
+(ACCESSFNS HARRAYP ((CONTENTS (HashTableContents DATUM)
+			      (SetHashTableContents DATUM NEWVALUE))))
+
+(ACCESSFNS STACKP ((FrameName STKNAME SETSTKNAME)
+		   (NumberOfArgs (STKNARGS DATUM))
+		   (Arguments FetchStackVariables ReplaceStackVariables)
+		   (AccessLink (STKNTHNAME 1 DATUM))
+		   (ControlLink (STKNTHNAME -1 DATUM))
+		   (Blips (GETBLIPS DATUM))
+		   (RealFramep? (REALFRAMEP DATUM))
+		   (InterpFramep? (REALFRAMEP DATUM T))))
+(HASHLINK (RecordDataType RecordDataType))
+(HASHLINK (SampleInstance SampleInstance))
+(HASHLINK (PASTTYPES PASTTYPES))
+]
+
+(RPAQQ EDITRECVARS ((PreviousRecordChangeFn (QUOTE CHANGERECORD))
+		    (RECORDCHANGEFN (QUOTE EditxRecordChange))))
+
+(RPAQQ PreviousRecordChangeFn CHANGERECORD)
+
+(RPAQQ RECORDCHANGEFN EditxRecordChange)
+(DECLARE: DONTEVAL@LOAD DOEVAL@COMPILE DONTCOPY COMPILERVARS 
+
+(ADDTOVAR NLAMA )
+
+(ADDTOVAR NLAML )
+
+(ADDTOVAR LAMA )
+)
+
+(PUTPROPS EDITX HELP (allows you to edit most any object usig the standard LISP editor. Optional TYPE 
+			     lets you specify how to represent the object, otherwise the resonable 
+			     choices are presented. TYPE can be a DATATYPE, RECORD name or 
+			     FILEPKGTYPE.))
+
+(PUTPROPS SHOWX HELP (similar to EDITX but just returns the record that would have been edited.))
+(DECLARE: DONTCOPY
+  (FILEMAP (NIL (931 14437 (CompatableRecords 943 . 1234) (EDITX 1238 . 1382) (EDITX1 1386 . 3948) (
+EditxRecordChange 3952 . 4280) (FetchArrayContents 4284 . 5016) (FetchFunctionPointers 5020 . 5921) (
+FetchStackVariables 5925 . 6159) (GetTypeToEdit 6163 . 6911) (HashTableContents 6915 . 7145) (MAKEDTD 
+7149 . 7456) (MAKEREC 7460 . 7797) (MakeSampleInstance 7801 . 8302) (REMAKEDTD 8306 . 8799) (REMAKEREC
+ 8803 . 9664) (RecordDataType 9668 . 10488) (RecordType? 10492 . 11009) (ReplaceArrayContents 11013 . 
+11383) (ReplaceFunctionPointers 11387 . 12156) (ReplaceStackVariables 12160 . 12793) (SHOWX 12797 . 
+12941) (SetHashTableContents 12945 . 13394) (SimilarP 13398 . 14130) (SimilarlyConsed 14134 . 14434)))
+))
+STOP

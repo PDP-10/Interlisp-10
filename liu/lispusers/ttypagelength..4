@@ -1,0 +1,43 @@
+(FILECREATED " 2-Jan-79 10:41:40" <LISPUSERS>TTYPAGELENGTH..4 1036   
+
+
+     changes to:  TTYPAGELENGTHCOMS
+
+     previous date: "29-Dec-78 16:35:23" <LISPUSERS>TTYPAGELENGTH..3)
+
+
+(PRETTYCOMPRINT TTYPAGELENGTHCOMS)
+
+(RPAQQ TTYPAGELENGTHCOMS [(FNS TTYPAGELENGTH)
+			  (DECLARE: EVAL@COMPILE DONTCOPY
+				    (P (RESETSAVE DWIMIFYCOMPFLG T])
+(DEFINEQ
+
+(TTYPAGELENGTH
+  [LAMBDA (N)                                (* Edited by M.Yonke on 
+					     29-Dec-78.)
+
+    (* * Sets the page length of the terminal to N and returns the
+    previous page length. If N is NIL, the page length is not 
+    changed.)
+
+
+    (RESETFORM (INTERRUPTABLE)
+	       (PROG1 (LOGAND (LRSH (JSYS 71 65 NIL NIL 2)
+				    25)
+			      127)
+		      (if (FIXP N)
+			  then (JSYS 143 65
+				     (LOGOR (LOGAND (JSYS 71 65 NIL NIL 2)
+						    -4261412865)
+					    (LLSH (if N gt 127
+						      then 127
+						    else N)
+						  25])
+)
+(DECLARE: EVAL@COMPILE DONTCOPY 
+(RESETSAVE DWIMIFYCOMPFLG T)
+)
+(DECLARE: DONTCOPY
+  (FILEMAP (NIL (354 945 (TTYPAGELENGTH 366 . 942)))))
+STOP

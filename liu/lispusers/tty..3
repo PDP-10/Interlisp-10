@@ -1,0 +1,228 @@
+(FILECREATED " 7-JAN-83 17:10:31" {IVY}<STEFIK>LISPUSERS>TTY.;2 9088   
+
+      changes to:  (VARS TTYCOMS)
+
+      previous date: "30-JUN-82 18:54:54" {INDIGO}<LISPUSERS>TTY.;2)
+
+
+(PRETTYCOMPRINT TTYCOMS)
+
+(RPAQQ TTYCOMS [(INITVARS (PrintStatusWindow NIL))
+		(* * Simplified TTY handling fns. Written by Mark Stefik.)
+		(FNS * TTYFNS)
+		(* * Internal fns not called directly by User.)
+		(FNS * TTYInternalFNS)
+		(VARS (TTY T))
+		(DECLARE: DONTEVAL%@LOAD DOEVAL%@COMPILE DONTCOPY COMPILERVARS
+			  (ADDVARS (NLAMA)
+				   (NLAML)
+				   (LAMA WRITE PrintStatus])
+
+(RPAQ? PrintStatusWindow NIL)
+(* * Simplified TTY handling fns. Written by Mark Stefik.)
+
+
+(RPAQQ TTYFNS (INTTY INTTYL PrintStatus WRITE))
+(DEFINEQ
+
+(INTTY
+  [LAMBDA (promptStr goodList helpStr noShiftFlg)            (* mjs: "13-JAN-82 11:58")
+
+          (* INTTY is a routine which returns an atom typed by the User at a terminal. If the User has not yet typed 
+	  anything and a promptStr has been supplied, it is typed as a prompt to the User. (If the User has typed ahead, the
+	  prompt is suppressed.) goodList (if given) is a list of acceptable answers. If the first characters typed by the 
+	  User correspond to the first characters of any element of goodlist, that element is returned as the value of 
+	  INTTY. If goodList is supplied and the User's reply matches no entry, he is warned and reprompted.
+	  If the User types ? to INTTY, the helpStr is typed out and he is re-prompted. Note: If the User types a semicolon,
+	  the entire message after it will be treated as a comment. MJS)
+
+
+    (PROG (reply (crlf (CHARACTER 13))
+		 (space (CHARACTER 32)))
+          [COND
+	    ((AND goodList (NOT noShiftFlg))                 (* Capitalize Goodlist Items.)
+	      (SETQ goodList (for Item in goodList collect (U-CASE Item]
+      ReadLoop
+          (COND
+	    [(READP TTY)
+	      (COND
+		((EQ space (PEEKC TTY))                      (* Eliminate leading blanks.)
+		  (READC TTY)
+		  (GO ReadLoop]
+	    (promptStr (PRIN1 promptStr TTY)))
+          [SETQ reply (PROG (chars char doneflg)
+			    (do [PROGN (SETQ char (READC TTY))
+				       (COND
+					 ((AND (NULL chars)
+					       promptStr
+					       (EQ char crlf))
+                                                             (* Re-prompt if just CRLF typed.)
+					   (PRIN1 promptStr T))
+					 [(OR (EQ char space)
+					      (EQ char crlf))
+                                                             (* Done if SPACE or Return Typed after some CHARS.)
+					   (COND
+					     (chars (SETQ doneflg T]
+					 (T (SETQ chars (CONS char chars]
+			       until doneflg)
+			    (RETURN (PACK (DREVERSE chars]
+          [COND
+	    [(EQ reply (QUOTE ?))
+	      (COND
+		[helpStr (WRITE helpStr)
+			 (COND
+			   (goodList (WRITE "Expecting one of: " goodList]
+		(goodList (WRITE "Expecting one of: " goodList))
+		(T (WRITE "(Sorry -- No Help Provided)"]
+	    ((STRPOS ";" reply 1 NIL T))
+	    ((NOT (ATOM reply))
+	      (WRITE "Invalid response.  Expecting one of: " goodList))
+	    (T [COND
+		 ((NOT noShiftFlg)
+		   (SETQ reply (U-CASE reply]
+	       (COND
+		 ((SETQ reply (CHECKREPLY reply goodList))
+		   (RETURN reply]
+          (CLEARBUF)
+          (GO ReadLoop])
+
+(INTTYL
+  [LAMBDA (promptStr goodList helpStr noShiftFlg)            (* mjs: "13-JAN-82 14:02")
+
+          (* INTTYL returns a list typed by the User at the terminal. If the User has not yet typed anything and a promptStr
+	  has been supplied, it is typed as a prompt to the User. (If the User has typed ahead, the prompt is suppressed.) 
+	  goodList (optional) is a list of acceptable answers. If the leading characters correspond to any element of 
+	  goodList, that element is added to the list returned. If goodList is supplied an the User's reply matches no 
+	  entry, he is warned and reprompted. helpStr is a help message supplied to the User if he types a question mark.
+	  Note: If the User types a semicolon, the entire message after it will be treated as a comment.
+	  If the User just types a carriage return, then NIL will be returned. If noShiftFlg is NIL, type-in will be 
+	  returned in upper case; it it is T, it will be returned as typed.)
+
+
+    (PROG (reply (crlf (CHARACTER 13))
+		 (space (CHARACTER 32)))
+          [COND
+	    ((AND goodList (NOT noShiftFlg))                 (* Capitalize the Goodlist items.)
+	      (SETQ goodList (for Item in goodList collect (U-CASE Item]
+      ReadLoop
+          (COND
+	    [(READP TTY)
+	      (COND
+		((EQ space (PEEKC TTY))
+		  (READC TTY)
+		  (GO ReadLoop]
+	    (promptStr (PRIN1 promptStr TTY)))
+          [SETQ reply (COND
+	      ((EQ crlf (PEEKC TTY))                         (* Return NIL (empty list) if User just types CRLF.)
+		(READC TTY)
+		NIL)
+	      (T (for char collect [PROG (chars doneFlg)
+				         (do [PROGN (SETQ char (READC TTY))
+						    (COND
+						      ((OR (EQ char space)
+							   (EQ char crlf))
+                                                             (* Done if SPACE or Return Typed-- even if no chars 
+							     typed.)
+							(SETQ doneFlg T))
+						      (T (SETQ chars (CONS char chars]
+					    until doneFlg)
+				         (RETURN (PACK (DREVERSE chars]
+		    until (EQ char crlf]
+          (COND
+	    ((NOT reply)
+	      (RETURN)))
+          [COND
+	    [(FMEMB (QUOTE ?)
+		    reply)
+	      (COND
+		[helpStr (WRITE helpStr)
+			 (COND
+			   (goodList (WRITE "Expecting subset of: " goodList]
+		(goodList (WRITE "Expecting subset of: " goodList))
+		(T (WRITE "(Sorry -- No Help Provided)"]
+	    ((STRPOS ";" reply 1 NIL T))
+	    (T [COND
+		 ((NOT noShiftFlg)
+		   (SETQ reply (U-CASE reply]
+	       (SETQ reply (for X in (MKLIST reply) collect (CHECKREPLY X goodList)))
+	       (COND
+		 ((NOTANY reply (FUNCTION NULL))
+		   (RETURN reply]
+          (CLEARBUF)
+          (GO ReadLoop])
+
+(PrintStatus
+  [LAMBDA nargs                                              (* mjs: "25-MAY-82 16:37")
+
+          (* * The PrintStatusWindow is a scrolling print window used for printing status messages. It is useful when it is 
+	  important that such status information be preserved in a place where it won't be lost in the deluge of messages in
+	  the main teletype window. PrintStatus prints an arbitrary number of arguments and a carriage return in the 
+	  StatusWindow. It prompts for bounding box for the PrintStatusWindow if not the window is not already allocated.)
+
+
+    (PROG ((I 0))
+          [COND
+	    ((NULL PrintStatusWindow)                        (* Create Status window if not there already.)
+	      (SETQ PrintStatusWindow (CREATEW NIL "Status Window"]
+                                                             (* Make window scroll. (Set each time in case window 
+							     created elsewhere.))
+          (DSPSCROLL (QUOTE ON)
+		     PrintStatusWindow)
+          (while (ILESSP I nargs) do (PRIN1 (ARG nargs (SETQ I (ADD1 I)))
+					    PrintStatusWindow))
+          (TERPRI PrintStatusWindow])
+
+(WRITE
+  [LAMBDA nargs                                              (* edited: " 7-Feb-80 12:05")
+    (PROG ((I 0))
+      TOP [while (ILESSP I nargs) do (PRIN1 (ARG nargs (SETQ I (ADD1 I]
+          (TERPRI])
+)
+(* * Internal fns not called directly by User.)
+
+
+(RPAQQ TTYInternalFNS (CHECKREPLY))
+(DEFINEQ
+
+(CHECKREPLY
+  [LAMBDA (reply goodList possibilities)                     (* mjs: "13-JAN-82 14:10")
+                                                             (* CHECKREPLY is a subroutine of INTTY and INTTY.
+							     It tries to match the reply against the items in 
+							     goodList as described below.)
+    (COND
+      ((NULL goodList)                                       (* If goodList=NIL, no work to do.)
+	reply)
+      ((MEMBER reply goodList)                               (* If spelling is correct, no work to do.)
+	reply)
+      [(SETQ possibilities (for X in goodList when (STRPOS reply X 1 NIL T) collect X))
+                                                             (* Match if an exact leading substring of 1 item in 
+							     goodList.)
+	(COND
+	  ((CDR possibilities)
+	    (WRITE "Ambiguous: " possibilities)
+	    NIL)
+	  (T (CAR possibilities]
+      ((FIXSPELL reply 70 goodList T))
+      [(SETQ possibilities (for X in goodList when (STRPOS X reply 1 NIL T) collect X))
+                                                             (* Match if one goodList item is leading substring of 
+							     reply.)
+	(COND
+	  ((CDR possibilities)
+	    (WRITE "Ambiguous: " possibilities))
+	  (T (CAR possibilities]
+      (T (WRITE "Response not recognized. Type ? for help."])
+)
+
+(RPAQQ TTY T)
+(DECLARE: DONTEVAL@LOAD DOEVAL@COMPILE DONTCOPY COMPILERVARS 
+
+(ADDTOVAR NLAMA )
+
+(ADDTOVAR NLAML )
+
+(ADDTOVAR LAMA WRITE PrintStatus)
+)
+(DECLARE: DONTCOPY
+  (FILEMAP (NIL (722 7404 (INTTY 732 . 3304) (INTTYL 3306 . 6015) (PrintStatus 6017 . 7177) (WRITE 7179
+ . 7402)) (7500 8898 (CHECKREPLY 7510 . 8896)))))
+STOP

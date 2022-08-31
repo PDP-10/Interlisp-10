@@ -1,0 +1,40 @@
+16-OCT-78 03:19:20-PDT,371;000000000000
+Date: 16 OCT 1978 0319-PDT
+From: MASINTER
+Subject: new values for ACCESS accepted
+
+ACCESS=LIST says to return a list of all file names which match
+FILE, e.g.
+
+FTP(PARC-MAXC2 <NETLISP>*.SAV LIST) 
+
+returns a list of file names (think if it as a "remote" FILDIR).
+
+
+ACCESS=DELETE says to delete the remote file (think of it
+as a "remote" DELFILE).
+
+-------
+19-OCT-78 04:55:47-PDT,460;000000000000
+Date: 19 OCT 1978 0455-PDT
+From: MASINTER
+
+Previous message not quite right. ACCESS=LIST returns a list of
+elements, CAR of which is the file name.
+
+CDR of each element is an optional a-list of property names
+and values for each of the files.
+
+(CDR is NIL for Arpanet calls to FTP).
+
+
+Note that <lispusers>dir (soon to go into the system) interfaces
+with FTP such that
+
+
+DIR {SU-AI}FOO
+
+(i.e. access across the net) works.
+
+Larry
+-------

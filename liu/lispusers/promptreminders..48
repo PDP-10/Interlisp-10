@@ -1,0 +1,514 @@
+(FILECREATED " 2-APR-83 08:49:36" {PHYLUM}<LISPUSERS>PROMPTREMINDERS.;49 19654  
+
+      changes to:  (FNS SETREMINDER \PUTREMINDER)
+
+      previous date: "22-MAR-83 17:09:04" {PHYLUM}<LISPUSERS>PROMPTREMINDERS.;47)
+
+
+(* Copyright (c) 1982, 1983 by Xerox Corporation)
+
+(PRETTYCOMPRINT PROMPTREMINDERSCOMS)
+
+(RPAQQ PROMPTREMINDERSCOMS ((* "Reminders" , which wake up periodically at PROMPTCHARS time, and 
+			       notify you of an "urgent" message via the PROMPTWINDOW)
+			    (COMS (DECLARE: DONTCOPY (MACROS NNLITATOM \CHECKTYPE \NULL.OR.FIXP 
+							     \CHARS.OR.FIXP)
+					    (MACROS NCREATE VIDEOCOLOR \GETSYSBUF))
+				  (* Lossage to be sure TIMEREXPIRED? is defined)
+				  (P (OR (GETD (QUOTE TIMEREXPIRED?))
+					 (FILESLOAD (SYSLOAD COMPILED FROM LISPUSERS)
+						    DURATION)))
+				  (INITVARS (PROMPTWINDOW T)))
+			    (DECLARE: EVAL@COMPILE DONTCOPY (RECORDS PERIODIC.PROMPT.REMINDER))
+			    (RECORDS \SHOWABLE.PROMPT.REMINDER)
+			    (GLOBALRESOURCES (\REMINDER.HOLD.TIMER (SETUPTIMER 0))
+					     (\REMINDER.FLASH.TIMER (SETUPTIMER 0)))
+			    (FNS SETREMINDER ACTIVEREMINDERNAMES INSPECTREMINDER 
+				 REMINDER.NEXTREMINDDATE REMINDER.EXPIRATIONDATE REMINDER.PERIOD)
+			    (FNS PERIODICALLYCHECKREMINDERS \PUTREMINDER \GETREMINDER \DELREMINDER)
+			    (INITVARS (DEFAULT.REMINDER.DURATION 60)
+				      (DEFAULT.REMINDER.WINKINGDURATION 10)
+				      (PERIODIC.PROMPT.REMINDERS NIL)
+				      (\PERIOD.SAVEDCARET NIL))
+			    (GLOBALVARS DEFAULT.REMINDER.DURATION DEFAULT.REMINDER.WINKINGDURATION 
+					PERIODIC.PROMPT.REMINDERS \PERIOD.SAVEDCARET 
+					DEFAULT.REMINDER.PERIOD)
+			    (FILEPKGCOMS REMINDERS)
+			    (ADDVARS (PROMPTCHARFORMS (PERIODICALLYCHECKREMINDERS)))
+			    (DECLARE: DONTEVAL@LOAD DOEVAL@COMPILE DONTCOPY COMPILERVARS
+				      (ADDVARS (NLAMA)
+					       (NLAML)
+					       (LAMA REMINDER.PERIOD REMINDER.EXPIRATIONDATE 
+						     REMINDER.NEXTREMINDDATE)))))
+
+
+
+(* "Reminders" , which wake up periodically at PROMPTCHARS time, and notify you of an "urgent" 
+message via the PROMPTWINDOW)
+
+(DECLARE: DONTCOPY 
+(DECLARE: EVAL@COMPILE 
+
+(PUTPROPS NNLITATOM MACRO (OPENLAMBDA (X)
+  (AND X (LITATOM X))))
+
+(PUTPROPS NNLITATOM DMACRO (OPENLAMBDA (X)
+  (AND X (LITATOM X))))
+
+(PUTPROPS \CHECKTYPE MACRO (X
+  (PROG ((VAR (CAR X))
+	 (PRED (CADR X)))
+        (if (AND (LISTP PRED)
+		 (MEMB (CAR PRED)
+		       (QUOTE (QUOTE FUNCTION))))
+	    then (SETQ PRED (LIST (CADR PRED)
+				  VAR)))
+        (RETURN (SUBPAIR (QUOTE (MSG VAR PRED))
+			 (LIST (CONCAT "
+ is not a suitable value for the variable:  " VAR)
+			       VAR PRED)
+			 (QUOTE (until PRED do (SETQ VAR (ERROR VAR MSG)))))))))
+
+(PUTPROPS \NULL.OR.FIXP MACRO (OPENLAMBDA (X)
+  (OR (NULL X)
+      (FIXP X))))
+
+(PUTPROPS \CHARS.OR.FIXP MACRO (OPENLAMBDA (X)
+  (OR (FIXP X)
+      (STRINGP X)
+      (LITATOM X))))
+)
+
+(DECLARE: EVAL@COMPILE 
+
+(PUTPROPS NCREATE DMACRO (X
+  (COMPILEDNCREATE X)))
+
+(PUTPROPS NCREATE 10MACRO (X
+  (if (EQUAL (CAR X)
+	     (QUOTE (QUOTE FIXP)))
+      then (QUOTE (IPLUS 1000000))
+    else (QUOTE IGNOREMACRO))))
+
+(PUTPROPS VIDEOCOLOR 10MACRO ((X)
+  (PROGN X (PRIN3 (CHARACTER (CHARCODE BELL))))))
+
+(PUTPROPS \GETSYSBUF 10MACRO (NIL (READP T)))
+)
+)
+
+
+
+(* Lossage to be sure TIMEREXPIRED? is defined)
+
+(OR (GETD (QUOTE TIMEREXPIRED?))
+    (FILESLOAD (SYSLOAD COMPILED FROM LISPUSERS)
+	       DURATION))
+
+(RPAQ? PROMPTWINDOW T)
+(DECLARE: EVAL@COMPILE DONTCOPY 
+[DECLARE: EVAL@COMPILE 
+
+(TYPERECORD PERIODIC.PROMPT.REMINDER (REMINDER.TIMEOUTBOX REMINDER.MESSAGE REMINDER.PERIOD 
+							  REMINDER.WINKINGDURATION REMINDER.DURATION 
+							  REMINDER.FINALTIME)
+	    REMINDER.TIMEOUTBOX _(SETUPTIMER 0)
+	    (ACCESSFNS ((REMINDER.NEXTREMINDDATE (GDATE (SELECTQ (SYSTEMTYPE)
+								 (D (LOGXOR MIN.FIXP
+									    (fetch 
+									      REMINDER.TIMEOUTBOX
+									       of DATUM)))
+								 (IPLUS (fetch REMINDER.TIMEOUTBOX
+									   of DATUM)
+									(IDIFFERENCE
+									  (IDATE)
+									  (IQUOTIENT (CLOCK 0)
+										     1000)))))
+						 (PROG2 (replace REMINDER.TIMEOUTBOX of DATUM
+							   with (SETUPTIMER.DATE NEWVALUE
+										 (fetch 
+									      REMINDER.TIMEOUTBOX
+										    of DATUM)))
+							(OR (STRINGP DATUM)
+							    (fetch REMINDER.NEXTREMINDDATE
+							       of DATUM))))
+			(REMINDER.EXPIRATIONDATE
+			  (AND (fetch REMINDER.FINALTIME of DATUM)
+			       (GDATE (SELECTQ (SYSTEMTYPE)
+					       (D (LOGXOR MIN.FIXP (fetch REMINDER.FINALTIME
+								      of DATUM)))
+					       (IPLUS (fetch REMINDER.FINALTIME of DATUM)
+						      (IDIFFERENCE (IDATE)
+								   (IQUOTIENT (CLOCK 0)
+									      1000))))))
+			  (PROG2 (replace REMINDER.FINALTIME of DATUM with (SETUPTIMER.DATE NEWVALUE))
+				 (fetch REMINDER.EXPIRATIONDATE of DATUM))))))
+]
+)
+[DECLARE: EVAL@COMPILE 
+
+(RECORD \SHOWABLE.PROMPT.REMINDER (NIL NIL \REMINDER.MESSAGE \REMINDER.PERIOD 
+				       \REMINDER.WINKINGDURATION \REMINDER.DURATION)
+				  (CREATE (ERROR DATUM "Creations not allowed on this record"))
+				  (ACCESSFNS ((\REMINDER.NEXTREMINDDATE (REMINDER.NEXTREMINDDATE
+									  DATUM)
+									(REMINDER.NEXTREMINDDATE
+									  DATUM NEWVALUE))
+					      (\REMINDER.EXPIRATIONDATE (REMINDER.EXPIRATIONDATE
+									  DATUM)
+									(REMINDER.EXPIRATIONDATE
+									  DATUM NEWVALUE)))))
+]
+
+(RPAQQ \REMINDER.HOLD.TIMER NIL)
+
+(RPAQQ \REMINDER.FLASH.TIMER NIL)
+(DECLARE: DOEVAL@COMPILE DONTCOPY
+
+(ADDTOVAR GLOBALVARS \REMINDER.HOLD.TIMER \REMINDER.FLASH.TIMER)
+)
+(DECLARE: DOEVAL@COMPILE DONTCOPY 
+(PUTDEF (QUOTE \REMINDER.HOLD.TIMER)
+	(QUOTE GLOBALRESOURCES)
+	(QUOTE (SETUPTIMER 0)))
+(PUTDEF (QUOTE \REMINDER.FLASH.TIMER)
+	(QUOTE GLOBALRESOURCES)
+	(QUOTE (SETUPTIMER 0)))
+)
+(DEFINEQ
+
+(SETREMINDER
+  (LAMBDA (NAME PERIOD MESSAGE INITIALDELAY EXPIRATION REMINDINGDURATION WINKINGDURATION)
+                                                             (* JonL " 2-APR-83 08:45")
+    (OR NAME (SETQ NAME (GENSYM)))
+    (\CHECKTYPE NAME (QUOTE LITATOM))
+    (\CHECKTYPE PERIOD (QUOTE \NULL.OR.FIXP))
+    (\CHECKTYPE INITIALDELAY (QUOTE \CHARS.OR.FIXP))
+    (PROG ((REMINDER (GETDEF NAME (QUOTE REMINDERS)
+			     NIL
+			     (QUOTE NOERROR)))
+	   BOX)
+          (OR REMINDER (SETQ REMINDER (create PERIODIC.PROMPT.REMINDER)))
+          (replace REMINDER.MESSAGE of REMINDER with (OR MESSAGE NAME))
+          (replace REMINDER.PERIOD of REMINDER with PERIOD)
+          (replace REMINDER.DURATION of (PROG1 REMINDER      (* Comment PPLossage))
+	     with (OR (FIXP REMINDINGDURATION)
+		      DEFAULT.REMINDER.DURATION))
+          (replace REMINDER.WINKINGDURATION of (PROG1 REMINDER 
+                                                             (* Comment PPLossage))
+	     with (OR (FIXP WINKINGDURATION)
+		      DEFAULT.REMINDER.WINKINGDURATION))
+          (PUTDEF NAME (QUOTE REMINDERS)
+		  REMINDER)
+
+          (* This call is made even for "old" reminders, to get the action of MARKASCHANGED but remember that it smashes the
+	  REMINDER.TIMEOUTBOX for the next remind time NIL)
+
+
+          (SETQ BOX (fetch REMINDER.TIMEOUTBOX of REMINDER))
+          (if (OR (STRINGP INITIALDELAY)
+		  (NNLITATOM INITIALDELAY))
+	      then (SETQ BOX (SETUPTIMER.DATE INITIALDELAY BOX))
+	    else (SETQ BOX (SETUPTIMER (OR INITIALDELAY PERIOD)
+				       BOX
+				       (QUOTE SECS))))
+          (replace REMINDER.TIMEOUTBOX of REMINDER with BOX)
+          (if EXPIRATION
+	      then (replace REMINDER.FINALTIME of REMINDER
+		      with (SETUPTIMER.DATE (if (OR (STRINGP EXPIRATION)
+						    (NNLITATOM EXPIRATION))
+						then EXPIRATION
+					      else (GDATE (IPLUS EXPIRATION
+								 (IDATE (fetch 
+									  REMINDER.NEXTREMINDDATE
+									   of REMINDER))))))
+			   (if (OR (STRINGP EXPIRATION)
+				   (NNLITATOM EXPIRATION))
+			       then (SETUPTIMER.DATE EXPIRATION)
+			     else (SETUPTIMER (IPLUS (IDIFFERENCE
+						       BOX
+						       (SELECTQ (SYSTEMTYPE)
+								(D (\DAYTIME0 (NCREATE (QUOTE FIXP))))
+								(QUOTIENT (CLOCK 0)
+									  1000)))
+						     EXPIRATION)
+					      NIL
+					      (QUOTE SECS)))))
+          (RETURN NAME))))
+
+(ACTIVEREMINDERNAMES
+  (LAMBDA NIL                                                (* JonL "29-NOV-82 16:58")
+    (MAPCAR PERIODIC.PROMPT.REMINDERS (FUNCTION CAR))))
+
+(INSPECTREMINDER
+  (LAMBDA (NAME)                                             (* JonL "25-FEB-83 19:30")
+    (AND (NNLITATOM NAME)
+	 (HASDEF NAME (QUOTE REMINDERS))
+	 (SELECTQ (SYSTEMTYPE)
+		  (D (INSPECT (GETDEF NAME (QUOTE REMINDERS))
+			      (QUOTE \SHOWABLE.PROMPT.REMINDER)))
+		  ((LAMBDA (DEF)
+		      (printout NIL T "Message: " (fetch REMINDER.MESSAGE of DEF)
+				T "Period: " (fetch REMINDER.PERIOD of DEF)
+				.TAB 20 "Winking: " (fetch REMINDER.WINKINGDURATION of DEF)
+				.TAB 40 "Reminding: " (fetch REMINDER.DURATION of DEF)
+				T "NextRemindDate: " (REMINDER.NEXTREMINDDATE NAME))
+		      (AND (SETQ DEF (REMINDER.EXPIRATIONDATE NAME))
+			   (printout NIL T "NextExpiration: " DEF))
+		      (TERPRI))
+		    (GETDEF NAME (QUOTE REMINDERS)))))))
+
+(REMINDER.NEXTREMINDDATE
+  (LAMBDA N                                                  (* JonL " 7-MAR-83 21:30")
+    (AND (IGEQ N 1)
+	 ((LAMBDA (DEF)
+	     (AND (PROG1 DEF                                 (* Comment PPLossage))
+		  (if (IEQP N 1)
+		      then (fetch REMINDER.NEXTREMINDDATE of DEF)
+		    else (replace REMINDER.NEXTREMINDDATE of DEF
+			    with (OR (STRINGP (ARG N 2))
+				     (GDATE (ARG N 2)))))))
+	   (if (type? PERIODIC.PROMPT.REMINDER (ARG N 1))
+	       then (ARG N 1)
+	     else (GETDEF (ARG N 1)
+			  (QUOTE REMINDERS)
+			  NIL
+			  (QUOTE (NOERROR NOCOPY))))))))
+
+(REMINDER.EXPIRATIONDATE
+  (LAMBDA N                                                  (* JonL " 7-MAR-83 21:29")
+    (AND (IGEQ N 1)
+	 ((LAMBDA (DEF)
+	     (AND (PROG1 DEF                                 (* Comment PPLossage))
+		  (if (IEQP N 1)
+		      then (fetch REMINDER.EXPIRATIONDATE of DEF)
+		    else (replace REMINDER.EXPIRATIONDATE of DEF
+			    with (OR (STRINGP (ARG N 2))
+				     (GDATE (ARG N 2)))))))
+	   (if (type? PERIODIC.PROMPT.REMINDER (ARG N 1))
+	       then (ARG N 1)
+	     else (GETDEF (ARG N 1)
+			  (QUOTE REMINDERS)
+			  NIL
+			  (QUOTE (NOERROR NOCOPY))))))))
+
+(REMINDER.PERIOD
+  (LAMBDA N                                                  (* JonL " 7-MAR-83 21:32")
+    (AND (IGEQ N 1)
+	 ((LAMBDA (DEF)
+	     (AND (PROG1 DEF                                 (* Comment PPLossage))
+		  (if (IEQP N 1)
+		      then (fetch REMINDER.PERIOD of DEF)
+		    else ((LAMBDA (N)
+			     (OR (IGEQ N 1)
+				 (ERRORX (LIST 27 N)))
+			     (replace REMINDER.PERIOD of DEF with N))
+			   (FIX (ARG N 2))))))
+	   (if (type? PERIODIC.PROMPT.REMINDER (ARG N 1))
+	       then (ARG N 1)
+	     else (GETDEF (ARG N 1)
+			  (QUOTE REMINDERS)
+			  NIL
+			  (QUOTE (NOERROR NOCOPY))))))))
+)
+(DEFINEQ
+
+(PERIODICALLYCHECKREMINDERS
+  (LAMBDA NIL                                                (* JonL "23-FEB-83 20:03")
+    (SELECTQ (SYSTEMTYPE)
+	     (D (if \PERIOD.SAVEDCARET
+		    then                                     (* Safety check for resetting the CARET, in case someone
+							     ^D's out of the waiting loops below.)
+			 (CARET \PERIOD.SAVEDCARET))
+		(SETQ \PERIOD.SAVEDCARET (CARET (QUOTE OFF))))
+	     NIL)
+    (bind TIMEOUT REMOVALS REMINDER SAVEDP \SavedChars (\ThisChar _ NIL) for X in 
+									PERIODIC.PROMPT.REMINDERS
+       do (if (OR (NOT (FIXP (SETQ TIMEOUT (fetch REMINDER.TIMEOUTBOX of (CADR X)))))
+		  (AND (SETQ SAVEDP (fetch REMINDER.FINALTIME of REMINDER))
+		       (TIMEREXPIRED? SAVEDP (QUOTE SECS))))
+	      then                                           (* Must be that this guy is "finished" now, or perhaps 
+							     in error.)
+		   (SETQ PERIODIC.PROMPT.REMINDERS (REMOVE X PERIODIC.PROMPT.REMINDERS))
+	    elseif (TIMEREXPIRED? TIMEOUT (QUOTE SECS))
+	      then
+	       (GLOBALRESOURCE (\REMINDER.HOLD.TIMER \REMINDER.FLASH.TIMER)
+                                                             (* When a reminder's timer has expired, then flash it at
+							     the luser.)
+		   (SETQ REMINDER (CADR X))
+		   (SELECTQ (SYSTEMTYPE)
+			    (D (DSPRESET PROMPTWINDOW)
+			       (SETQ \SavedChars (\SAVESYSBUF))
+			       (SETQ \ThisChar))
+			    NIL)
+		   (if (NOT (FIXP (SETQ SAVEDP (fetch REMINDER.PERIOD of REMINDER))))
+		       then                                  (* After having once done a reminder for which there is 
+							     a NIL interval, then shut it off)
+			    (SETQ PERIODIC.PROMPT.REMINDERS (REMOVE X PERIODIC.PROMPT.REMINDERS))
+			    (SETQ SAVEDP)
+		     else                                    (* Otherwise, set the next reminder time now, just in 
+							     case he quits out of this with a ^D)
+			  (replace REMINDER.TIMEOUTBOX of REMINDER with (SETUPTIMER SAVEDP TIMEOUT
+										    (QUOTE SECS))))
+		   (during (fetch REMINDER.DURATION of REMINDER) timerUnits (QUOTE SECS)
+		      usingTimer \REMINDER.HOLD.TIMER
+			do (SELECTQ (SYSTEMTYPE)
+				    (D NIL)
+				    (PROGN (PRIN3 (fetch REMINDER.MESSAGE of REMINDER)
+						  PROMPTWINDOW)
+					   (TERPRI PROMPTWINDOW)))
+			  repeatuntil (OR (during (fetch REMINDER.WINKINGDURATION of REMINDER)
+					     timerUnits (QUOTE SECS)
+					     usingTimer \REMINDER.FLASH.TIMER
+					       do            (* Wink the message at him in the PROMPTWINDOW at 
+							     roughly 1 second intervals)
+						  (SELECTQ (SYSTEMTYPE)
+							   (D (PRIN3 (fetch REMINDER.MESSAGE
+									of REMINDER)
+								     PROMPTWINDOW)
+							      (TERPRI PROMPTWINDOW)
+							      (if (SETQ \ThisChar (\GETSYSBUF))
+								  then (RETURN T))
+                                                             (* Exits when user types a char)
+							      (BLOCK 500)
+							      (DSPRESET PROMPTWINDOW)
+							      (BLOCK 500))
+							   (if (READP T)
+							       then (RETURN T)
+							     else (PRIN3 (CONSTANT
+									   (CHARACTER (CHARCODE
+											^G))))
+								  (DISMISS 1000))))
+					  (SELECTQ (SYSTEMTYPE)
+						   (D (to 6
+							 do 
+                                                             (* If he still hasn't responded, then Flash the whole 
+							     prompt window at him!)
+							    (DISMISS 200)
+							    (if (SETQ \ThisChar (\GETSYSBUF))
+								then (RETURN T))
+                                                             (* Exits when user types a char)
+							    (VIDEOCOLOR (PROG1 (VIDEOCOLOR T)
+									       (DISMISS 200)))
+							    (if (SETQ \ThisChar (\GETSYSBUF))
+								then (RETURN T))))
+						   NIL)))
+		   (SELECTQ (SYSTEMTYPE)
+			    (D (if (\SYSBUFP)
+				   then                      (* Losing case when the luser quickly types some 
+							     important characters after the one which released the 
+							     winking message.)
+					(PROG NIL
+					      (BKSYSBUF (CONCAT (OR \SavedChars "")
+								(if (AND \ThisChar
+									 (NEQ \ThisChar (CHARCODE
+										SPACE)))
+								    then (CHARACTER \ThisChar)
+								  elseif (NULL \SavedChars)
+								    then 
+                                                             (* Well, if there were no characters which preceed these
+							     important chars, then just punt)
+									 (RETURN)
+								  else "")
+								(\SAVESYSBUF))))
+				 else (if \SavedChars
+					  then (BKSYSBUF \SavedChars))
+				      (if (AND \ThisChar (NEQ \ThisChar (CHARCODE SPACE)))
+					  then (\PUTSYSBUF \ThisChar))))
+			    NIL)
+		   (if SAVEDP
+		       then                                  (* Make the next reminder timeout more current.)
+			    (replace REMINDER.TIMEOUTBOX of REMINDER with (SETUPTIMER SAVEDP TIMEOUT
+										      (QUOTE SECS)))))
+	      ))
+    (SELECTQ (SYSTEMTYPE)
+	     (D (CARET (PROG1 \PERIOD.SAVEDCARET (SETQ \PERIOD.SAVEDCARET))))
+	     NIL)))
+
+(\PUTREMINDER
+  (LAMBDA (NAME FILEPKGTYPE DEF)                             (* JonL " 2-APR-83 08:11")
+    (DECLARE (GLOBALVARS PERIODIC.PROMPT.REMINDERS))
+    (if (OR (NULL NAME)
+	    (NOT (LITATOM NAME))
+	    (NEQ FILEPKGTYPE (QUOTE REMINDERS)))
+	then (ERRORX (LIST 27 (if (EQ FILEPKGTYPE (QUOTE REMINDERS))
+				  then NAME
+				else FILEPKGTYPE))))
+    (if (NOT (type? PERIODIC.PROMPT.REMINDER DEF))
+	then (ERRORX (LIST 27 DEF)))
+    (PROG ((OLD (ASSOC NAME PERIODIC.PROMPT.REMINDERS)))
+          (MARKASCHANGED (PROG1 NAME                         (* Comment PPLossage))
+			 FILEPKGTYPE
+			 (if (NULL OLD)
+			     then                            (* AHA! A new definiton!)
+				  (/SETTOPVAL (QUOTE PERIODIC.PROMPT.REMINDERS)
+					      (CONS (LIST NAME DEF)
+						    PERIODIC.PROMPT.REMINDERS))
+				  (QUOTE DEFINED)
+			   elseif (EQUAL (CDDR DEF)
+					 (CDDR (CADR OLD)))
+			     then                            (* Blaaag! Notice how the CDDR depends upon 
+							     PERIODIC.PROMPT.REMINDER being a TYPERECORD so as to 
+							     skip checking the REMINDER.TIMEOUTBOX)
+				  (RETURN)
+			   else (/RPLACA (CDR OLD)
+					 DEF)
+				(QUOTE CHANGED))))
+    (replace REMINDER.TIMEOUTBOX of DEF with (SETUPTIMER (fetch REMINDER.PERIOD of DEF)
+							 (fetch REMINDER.TIMEOUTBOX of DEF)
+							 (QUOTE SECS)))
+    NAME))
+
+(\GETREMINDER
+  (LAMBDA (NAME TYPE)                                        (* JonL "21-NOV-82 17:11")
+    (CADR (ASSOC NAME PERIODIC.PROMPT.REMINDERS))))
+
+(\DELREMINDER
+  (LAMBDA (NAME FILEPKGTYPE)                                 (* JonL "26-FEB-83 12:24")
+    (if (OR (NULL NAME)
+	    (NOT (LITATOM NAME))
+	    (NEQ FILEPKGTYPE (QUOTE REMINDERS)))
+	then (ERRORX (LIST 27 (if (EQ FILEPKGTYPE (QUOTE REMINDERS))
+				  then NAME
+				else FILEPKGTYPE))))
+    (PROG ((OLDDEF (ASSOC NAME PERIODIC.PROMPT.REMINDERS)))
+          (if OLDDEF
+	      then (MARKASCHANGED NAME FILEPKGTYPE (QUOTE DELETED))
+		   (/SETTOPVAL (QUOTE PERIODIC.PROMPT.REMINDERS)
+			       (REMOVE OLDDEF PERIODIC.PROMPT.REMINDERS))
+		   (RETURN T)))))
+)
+
+(RPAQ? DEFAULT.REMINDER.DURATION 60)
+
+(RPAQ? DEFAULT.REMINDER.WINKINGDURATION 10)
+
+(RPAQ? PERIODIC.PROMPT.REMINDERS NIL)
+
+(RPAQ? \PERIOD.SAVEDCARET NIL)
+(DECLARE: DOEVAL@COMPILE DONTCOPY
+
+(ADDTOVAR GLOBALVARS DEFAULT.REMINDER.DURATION DEFAULT.REMINDER.WINKINGDURATION 
+	  PERIODIC.PROMPT.REMINDERS \PERIOD.SAVEDCARET DEFAULT.REMINDER.PERIOD)
+)
+(PUTDEF (QUOTE REMINDERS) (QUOTE FILEPKGCOMS) (QUOTE ((TYPE DESCRIPTION "Periodic PROMTP Reminders" 
+							    GETDEF \GETREMINDER PUTDEF \PUTREMINDER 
+							    DELDEF \DELREMINDER))))
+
+(ADDTOVAR PROMPTCHARFORMS (PERIODICALLYCHECKREMINDERS))
+(DECLARE: DONTEVAL@LOAD DOEVAL@COMPILE DONTCOPY COMPILERVARS 
+
+(ADDTOVAR NLAMA )
+
+(ADDTOVAR NLAML )
+
+(ADDTOVAR LAMA REMINDER.PERIOD REMINDER.EXPIRATIONDATE REMINDER.NEXTREMINDDATE)
+)
+(PUTPROPS PROMPTREMINDERS COPYRIGHT ("Xerox Corporation" 1982 1983))
+(DECLARE: DONTCOPY
+  (FILEMAP (NIL (5833 11315 (SETREMINDER 5843 . 8361) (ACTIVEREMINDERNAMES 8363 . 8535) (INSPECTREMINDER
+ 8537 . 9352) (REMINDER.NEXTREMINDDATE 9354 . 10001) (REMINDER.EXPIRATIONDATE 10003 . 10650) (
+REMINDER.PERIOD 10652 . 11313)) (11316 18758 (PERIODICALLYCHECKREMINDERS 11326 . 16556) (\PUTREMINDER 
+16558 . 17993) (\GETREMINDER 17995 . 18156) (\DELREMINDER 18158 . 18756)))))
+STOP
+ 

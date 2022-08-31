@@ -1,0 +1,1375 @@
+(FILECREATED "18-SEP-79 09:21:49" <LISPUSERS>HASH.;26 57643  
+
+     changes to:  COPYHASHFILE
+
+     previous date: "18-SEP-79 08:26:13" <LISPUSERS>HASH.;25)
+
+
+(PRETTYCOMPRINT HASHCOMS)
+
+(RPAQQ HASHCOMS ((FNS CLOSEHASHFILE COLLECTPAGES COPYCHARSI COPYCHARSV COPYHASHFILE COPYHASHPAGES 
+		      CREATEHASHFILE DELPAGE GET#SLOTS GETFILEPAGE GETHASHFILE GETPAGE GETPNAME 
+		      GETVALUE HASHAFTERCLOSE HASHFILENAME HASHFILEP HASHFILEPROP HASHFILESPLST 
+		      HASHFILESPLST1 HASHSTATUS HFP INITHASHPAGE LOOKUPHASHFILE LOOKUPHASHFILE1 
+		      MAPHASHFILE NEWDIRSLOTS OPENHASHFILE POW2 PREPVALUE PRINTREGION PUTHASHFILE 
+		      PUTVALUE REHASHFILE REHASHPAGE REHASHPAGES SCANHASHFILE VALUEBOX VALUETYPENUM)
+	(DECLARE: EVAL@COMPILE DONTCOPY (PROP MACRO * HASHMACROS)
+		  (TEMPLATES * HASHMACROS)
+		  (RECORDS HashFile Slot Page DirSlot DirPage HASHFILESPLST SYMBOL FILEHANDLE)
+		  (VARS * VALUETYPES)
+		  (VARS * CALLTYPES)
+		  (VARS (WRITETYPES (LOGOR INSERT REPLACE DELETE))
+			(WordsPerPage 512)
+			(WordBits 9)
+			(WordMask (WordsPerPage-1))
+			(BitsPerWord 36)
+			(BitsPerChar 7)
+			(CharMask (2^BitsPerChar-1))
+			(CharsPerWord BitsPerWord/BitsPerChar)
+			(CharsPerPage CharsPerWord*WordsPerPage)
+			(MaxCharLocation CharsPerPage-1)
+			(MaxStringLength 127)
+			(#InitialWordsOnPage 1)
+			(DefaultKeySize 5)
+			(DefaultInitial#Pages 2)
+			(PrintMargin 128))
+		  (FILES (SYSLOAD FROM VALUEOF LISPUSERSDIRECTORIES)
+			 NOBOX)
+		  (P (RESETSAVE DWIMIFYCOMPFLG T)
+		     (CLISPDEC (QUOTE FAST))
+		     (SETQ FONTFNS HASHMACROS))
+		  (I.S.OPRS inpage)
+		  (ALISTS (PRETTYEQUIVLST SELVALTYPEQ)
+			  (DWIMEQUIVLST SELVALTYPEQ)))
+	(BLOCKS * HASHBLOCKS)
+	[VARS (SYSHASHFILE)
+	      (HASHFILESPLST)
+	      (SYSHASHFILEARRAY (CONS (HARRAY 10]
+	(ADDVARS (HASHFILECHCONLST))))
+(DEFINEQ
+
+(CLOSEHASHFILE
+  [LAMBDA (HASHFILE)                                   (* rmk: "27-JAN-78 18:01" posted: "13-DEC-77 09:21")
+    (CLOSEF (HASHFILENAME HASHFILE])
+
+(COLLECTPAGES
+  [LAMBDA (HFILE)                                      (* rmk: "23-SEP-78 22:25")
+                                                       (* Makes a list of all page#'s from the HFILE directory)
+    (bind P (DIRPAGE _(GETDIRPAGE HFILE)) for I from 0 to 511 by (LLSH 1 P:Depth)
+       collect (fetch Page# of (P_(WORDOFFSET DIRPAGE I])
+
+(COPYCHARSI
+  [LAMBDA (PGE CHARPOS)                                (* rmk: "12-JUN-77 16:13")
+
+          (* Called by PUTINDEX in LOOKUPHASHFILE1. Copies characters from INDEXPTR to a "string" beginning at CHARPOS on PGE.
+	  INDEXPTR and STRINGLENGTH are set up by PREPKEY. CHARPOS is a PGE-relative byte position. STRINGLENGTH will be 
+	  stored in the first byte of CHARPOS, so the string is actually STRINGLENGTH+1 bytes long.)
+
+
+    (ASSEMBLE NIL
+	      (CQ STRINGLENGTH)
+	      (SUBI 1 , ASZ)
+	      (MOVE 5 , 1)                             (* Actually, should load this directly in 5)
+	      (CQ (VAG (BYTEPOINT PGE CHARPOS BitsPerChar)))
+                                                       (* The destination byte pointer)
+	      (IDPB 5 , 1)                             (* Place the stringlength in the string)
+	      (CQ2 INDEXPTR)
+	      (MOVE 2 , 0 (2))
+	  LP  (ILDB 3 , 2)
+	      (IDPB 3 , 1)
+	      (SOJG 5 , LP])
+
+(COPYCHARSV
+  [LAMBDA (PGE CHARPOS)                                (* rmk: "26-MAY-77 20:30")
+
+          (* Called by PUTVALUE in LOOKUPHASHFILE1. Copies characters from INDEXPTR to a "string" beginning at CHARPOS on PGE.
+	  INDEXPTR and STRINGLENGTH are set up by PREPKEY. Unlike ICOPYCHAR, it assumes that the string length is being saved 
+	  somewhere esle.)
+
+
+    (ASSEMBLE NIL
+	      (CQ (VAG (BYTEPOINT PGE CHARPOS BitsPerChar)))
+	      (CQ2 INDEXPTR)
+	      (MOVE 4 , 0 (2))
+	      (CQ2 STRINGLENGTH)
+	      (SUBI 2 , ASZ)
+	  LP  (ILDB 3 , 4)
+	      (IDPB 3 , 1)
+	      (SOJG 2 , LP])
+
+(COPYHASHFILE
+  [LAMBDA (HASHFILE NEWNAME FN VTYPE LEAVEOPEN)        (* rmk: "18-SEP-79 09:21")
+
+          (* Copy (by rehashing) HASHFILE into NEWNAME. If FN is given, is applied to the value of each key, the old hashfile, and the new 
+	  hashfile, and the value returned is used as the value of the key in the new hashfile. THis permits, e.g. copying strings or other 
+	  structures. If VTYPE is given as well as FN, then the function will be applied to a value extracted according to the VTYPE, and the new 
+	  value will be put in in that mode. This means that the user can coerce EXPR to NUMBER, e.g. However, the valuetype of the resulting file
+	  will always be the same as the original file)
+
+
+    (RESETLST (PROG (CVT NEWHASHFILE PAGES OLDVT)
+		    (if CVT_(HFP HASHFILE)
+			then HASHFILE_CVT
+		      elseif HASHFILE_(OPENHASHFILE HASHFILE 'INPUT)
+			then (RESETSAVE NIL <'CLOSEF? HASHFILE:File>)
+		      else (RETURN))
+		    (CVT_(SCANHASHFILE PAGES_(COLLECTPAGES HASHFILE)))
+                                                       (* Find what's in use -
+						       (#slots . avg.used))
+		    [RESETSAVE (fetch File of (NEWHASHFILE_(CREATEHASHFILE (OR NEWNAME
+									       (NAMEFIELD 
+										    HASHFILE:File T))
+									   (HASHFILEPROP HASHFILE 
+										       'VALUETYPE)
+									   CVT::1 1.2*CVT:1)))
+			       (if LEAVEOPEN
+				   then '(AND RESETSTATE (DELFILE (CLOSEF? OLDVALUE)))
+				 else '(PROGN (CLOSEF? OLDVALUE)
+					      (AND RESETSTATE (DELFILE OLDVALUE]
+		    (OLDVT_ HASHFILE:HValueType)
+		    (CVT_(if VTYPE
+			     then (VALUETYPENUM VTYPE)
+			   else OLDVT))
+		    (if (if FN
+			    then OLDVT~=CVT
+			  elseif OLDVT=(CONSTANT SMALLEXPR)
+			    then CVT_(CONSTANT STRING)
+			  elseif OLDVT=(CONSTANT EXPR)
+			    then CVT_(CONSTANT NUMBER)
+			  elseif OLDVT=(CONSTANT SYMBOLTABLE)
+			    then (ERROR "A copying function is required for SYMBOLTABLE files"))
+			then (HASHFILE_(create HashFile using HASHFILE HValueType _ CVT ValueBox _(
+								VALUEBOX CVT)))
+			     (HASHFILE:Tag_HASHFILE) 
+                                                       (* NEWHASHFILE needs the correct valubox for rehashing)
+			     (NEWHASHFILE_(create HashFile
+					     using NEWHASHFILE HValueType _ CVT ValueBox _(VALUEBOX
+						     CVT)))
+			     (NEWHASHFILE:Tag_NEWHASHFILE))
+		    (COPYHASHPAGES PAGES HASHFILE NEWHASHFILE FN OLDVT=(CONSTANT EXPR))
+		    (RETURN NEWHASHFILE:File])
+
+(COPYHASHPAGES
+  [LAMBDA (PAGES HASHFILE NEWHASHFILE FN EXPRFLAG)     (* rmk: "25-APR-79 12:09")
+                                                       (* Rehashes PAGES of HASHFILE into NEWHASHFILE)
+    (RESETLST (RPTQ 4 (ADDMAPBUFFER T))                (* We need to lock one page, and it helps to keep the directory and the
+						       2 new pages in core.)
+	      (for P# PPTR VALUE (OLDFILE _ HASHFILE:File)
+		   (NEWFILE _ NEWHASHFILE:File) inside PAGES
+		 do (RESETLST (RESETSAVE (LOCKMAP PPTR_(MAPPAGE P# OLDFILE))
+					 '(PROGN (UNLOCKMAP OLDVALUE)))
+			      (inpage PPTR do (VALUE_(GETVALUE))
+					      (if FN
+						  then VALUE_(APPLY* FN VALUE HASHFILE NEWHASHFILE)
+						elseif EXPRFLAG
+						  then VALUE_(PROG1
+							 (IBOX (GETFILEPTR NEWFILE))
+                                                       (* Copy value by hand and return the fileptr)
+							 (SETFILEPTR OLDFILE VALUE)
+							 (SKREAD OLDFILE)
+							 (COPYBYTES OLDFILE NEWFILE VALUE
+								    (IBOX (GETFILEPTR OLDFILE)))
+							 (TERPRI NEWFILE)))
+					      (LOOKUPHASHFILE1 (GETINDEX SLOT PAGE)
+							       VALUE NEWHASHFILE (CONSTANT INSERT])
+
+(CREATEHASHFILE
+  [LAMBDA (FILE VALUETYPE ITEMLENGTH #ENTRIES)         (* rmk: "18-SEP-79 08:25" posted: "13-DEC-77 09:21")
+    (if (AND (LISTP ITEMLENGTH)
+	     #ENTRIES=NIL)
+	then (#ENTRIES_ITEMLENGTH:2)
+	     (ITEMLENGTH_ITEMLENGTH:1))
+    (RESETLST (PROG (HASHFILE TEMP DIRPAGE)
+		    (if ~FILE
+			then (RETURN))
+		    (VALUETYPE_(VALUETYPENUM VALUETYPE))
+		    [RESETSAVE FILE_(IOFILE (CLOSEF (OPENFILE FILE 'OUTPUT 'NEW)))
+			       '(AND RESETSTATE (PROGN (CLOSEF? OLDVALUE)
+						       (DELFILE OLDVALUE]
+                                                       (* Defer file opening until after the value checking, so we don't have 
+						       to close on error.)
+		    (HASHFILE_(create HashFile
+				      Access _('BOTH)
+				      HValueType _ VALUETYPE
+				      File _ FILE
+				      FileJfn _(OPNJFN FILE)
+				      ValueBox _(VALUEBOX VALUETYPE)
+				      HWordsPerSlot _(if VALUETYPE=(CONSTANT 2NUMBERS)
+							 then 2
+						       else 1)))
+                                                       (* Each slot has 1 word in the basic slot region, 2NUMBERS files have 
+						       another word in the adjacent extension region)
+		    (DIRPAGE_(GETDIRPAGE HASHFILE))
+		    (DIRPAGE:ValueType_VALUETYPE)
+		    (NEWDIRSLOTS DIRPAGE 0 9 TEMP_(GET#SLOTS (if (AND (NUMBERP ITEMLENGTH)
+								      (ITEMLENGTH gt 0))
+								 then ITEMLENGTH
+							       elseif (TESTBITS VALUETYPE 
+										STRING/SMALLEXPR)
+								 then (CONSTANT DefaultKeySize*2)
+							       else (CONSTANT DefaultKeySize)))
+				 (PROG1 TEMP_(if (AND (NUMBERP #ENTRIES)
+						      (#ENTRIES gt 0))
+						 then #ENTRIES/TEMP+1
+					       else (CONSTANT DefaultInitial#Pages))
+					(PRINTREGION TEMP+1)))
+		    (PUTDIRPAGE DIRPAGE HASHFILE)
+		    (HASHFILE:Tag_HASHFILE)
+		    (if (AND VALUETYPE=(CONSTANT SMALLEXPR)
+			     (NLISTP HASHFILECHCONLST))
+			then HASHFILECHCONLST_(to 128 collect NIL))
+                                                       (* Generate the scratchlist only to write on SMALLEXPR files)
+		    (if (AND (TESTBITS VALUETYPE SMALLEXPR EXPR)
+			     ~(READTABLEP (EVALV 'HASHFILERDTBL)))
+			then HASHFILERDTBL_(COPYREADTABLE 'ORIG))
+		    (PUTHASH FILE HASHFILE SYSHASHFILEARRAY)
+		    (WHENCLOSE FILE 'AFTER 'HASHAFTERCLOSE)
+		    (RETURN HASHFILE])
+
+(DELPAGE
+  [LAMBDA (PAGE# HASHFILE)                             (* rmk: " 5-SEP-78 23:01")
+                                                       (* An entry for the user who wants to give back one of his pages in 
+						       HASHFILE)
+    HASHFILE_(HFP HASHFILE T NIL T)
+    (CLEARMAP HASHFILE:File PAGE#)                     (* Make sure the page is unmapped)
+    (DELFILEPAGE HASHFILE PAGE#])
+
+(GET#SLOTS
+  [LAMBDA (ITEMLENGTH)                                 (* rmk: "22-MAY-79 15:31")
+
+          (* #Slots per page is chosen to be prime, and such that the character table and slot-table will fill at the same time, if ITEMLENGTH is 
+	  the average number of characters occupied per slot. A prime #Slots simplifies computing the reprobing interval when hashing.
+	  -
+	  Note that if the number of addressable characters per page falls below the number of actual characters per page, the that 
+	  non-addressable space should be included in the slot region. Currently, with 2560 chars and 12 bit addresses, we don't have to worry 
+	  about this.)
+
+                                                       (* Add1 to ITEMLENGTH cause the index-length byte isn't included)
+    (FIND1STPRIME (FIX (FQUOTIENT (CONSTANT WordsPerPage-#InitialWordsOnPage)
+				  (FPLUS HASHFILE:HWordsPerSlot (FQUOTIENT ITEMLENGTH+1
+									   (CONSTANT CharsPerWord])
+
+(GETFILEPAGE
+  [LAMBDA (N)                                          (* rmk: " 1-JAN-79 22:44")
+    (PROG [UP (FP (LOGAND 262143 (JSYS 25 HASHFILE:FileJfn]
+                                                       (* The FFFP JSYS. Returns page# in rh of 1)
+      RETRY
+          (if FP gt HASHFILE:PrintPage#
+	      then (FP_(LOWESTFREEPAGE FP HASHFILE:FileJfn))
+		   (PRINTREGION (if N
+				    then N+FP
+				  else FP))
+	    elseif N=NIL
+	    elseif ~(UP_(USEDPAGE FP HASHFILE:FileJfn))
+	    elseif UP-FP lt N
+	      then                                     (* The next usedpage above FP, UP, is not at least N away.
+						       Find a higher candidate FP.)
+		   (FP_(NEXTFREEPAGE UP HASHFILE:FileJfn))
+		   (GO RETRY))
+          (RETURN FP])
+
+(GETHASHFILE
+  [LAMBDA (KEY HASHFILE)                               (* rmk: " 5-SEP-78 22:45" posted: "13-DEC-77 09:23")
+    (LOOKUPHASHFILE1 KEY NIL (HFP HASHFILE NIL NIL T)
+		     (CONSTANT RETRIEVE])
+
+(GETPAGE
+  [LAMBDA (HASHFILE N)                                 (* rmk: "10-SEP-78 01:52")
+                                                       (* Returns the page number of a virgin page in HASHFILE.
+						       Available to a user who wants non-hash pages in the file)
+    HASHFILE_(HFP HASHFILE T NIL T)
+    (GETFILEPAGE N])
+
+(GETPNAME
+  [LAMBDA (FILEADR HASHFILE)                           (* rmk: "23-SEP-78 22:25")
+
+          (* Returns a temporary string pointer to the PNAME of FILEADR. Returns NIL if the PNAME pointer is 0, causes an error if it is not zero 
+	  but points somewhere on the directory page.)
+
+
+    HASHFILE_(HFP HASHFILE NIL (CONSTANT SYMBOLTABLE)
+		  T)
+    (PROG (PGE IP# (SLT (HLOCATE (OR (SMALLP FILEADR)
+				     (IBOX FILEADR:FileAddress))
+				 HASHFILE)))
+          (if (IEQP 0 SLT:IndexPointer)
+	      then (RETURN NIL)
+	    elseif (IEQP 0 IP#_SLT:IndexPage#)
+	      then (ERROR "Invalid name pointer for symbol" FILEADR)
+	    else (SLT_(WORDOFFSET PGE_(HMAPIN IP# HASHFILE)
+				  SLT:IndexWord#))
+		 (RETURN (GETINDEX SLT PGE])
+
+(GETVALUE
+  [LAMBDA NIL                                          (* rmk: "25-APR-79 16:36")
+    (DECLARE (USEDFREE HASHFILERDTBL SLOT HASHFILE PAGE))
+    (SELVALTYPEQ HASHFILE:HValueType
+		 ((NUMBER SYMBOLTABLE)
+		                                       (* This is a replace-I that returns the pointer to the smashed box.)
+		   (FREPLACEFIELDVAL 608174080 HASHFILE:ValueBox SLOT:Value))
+		 (STRING (SMASHSTRINGPOINTERV SLOT:VLength SLOT:VCharPos PAGE HASHFILE:ValueBox))
+		 (SMALLEXPR (READ (SMASHSTRINGPOINTERV SLOT:VLength SLOT:VCharPos PAGE
+						       (CONSTANT (CONCAT)))
+				  HASHFILERDTBL))
+		 (EXPR (SETFILEPTR HASHFILE:File (IBOX SLOT:Value))
+		       (READ HASHFILE:File HASHFILERDTBL))
+		 (2NUMBERS HASHFILE:ValueBox:1:I_SLOT:Value HASHFILE:ValueBox::1:I_
+			   (fetch I of (WORDOFFSET SLOT PAGE:#Slots))
+			   HASHFILE:ValueBox)
+		 (HELP 'GETVALUE])
+
+(HASHAFTERCLOSE
+  [LAMBDA (FILE)                                       (* rmk: " 5-SEP-78 23:00" posted: "13-DEC-77 09:21")
+    (PROG (HASHFILE)
+          (if HASHFILE_(HFP FILE)
+	      then (if HASHFILE=SYSHASHFILE
+		       then SYSHASHFILE_NIL)
+		   (if (AND (ARRAYP HASHFILESPLST)
+			    HASHFILE=HASHFILESPLST:HASHFILE)
+		       then HASHFILESPLST_NIL)
+		   (PUTHASH FILE NIL SYSHASHFILEARRAY) 
+                                                       (* Remove from table of open hash files, and mark this datum defunct)
+		   (HASHFILE:Tag_NIL)
+		   (HASHFILE:FileJfn_-1])
+
+(HASHFILENAME
+  [LAMBDA (HASHFILE)                                   (* rmk: " 5-SEP-78 22:45")
+    (fetch File of (HFP HASHFILE NIL NIL T])
+
+(HASHFILEP
+  [LAMBDA (X)                                          (* rmk: " 7-SEP-78 19:08")
+                                                       (* The user predicate for hashfile-hood)
+    (HFP X])
+
+(HASHFILEPROP
+  [LAMBDA (HASHFILE PROP)                              (* rmk: "18-SEP-79 08:23")
+                                                       (* Returns the value of property PROP of HASHFILE.
+						       A user entry)
+    HASHFILE_(HFP HASHFILE NIL NIL T)
+    (SELECTQ PROP
+	     (NAME HASHFILE:File)
+	     (VALUETYPE (SELVALTYPEQ HASHFILE:HValueType
+				     (NUMBER 'NUMBER)
+				     (STRING 'STRING)
+				     (SMALLEXPR 'SMALLEXPR)
+				     (EXPR 'EXPR)
+				     (SYMBOLTABLE 'SYMBOLTABLE)
+				     (2NUMBERS '2NUMBERS)
+				     (SHOULDNT)))
+	     (ACCESS HASHFILE:Access)
+	     [#ENTRIES (IPLUS (CAR (SCANHASHFILE (COLLECTPAGES HASHFILE]
+	     [ITEMLENGTH (FPLUS (CDR (SCANHASHFILE (COLLECTPAGES HASHFILE]
+	     (SPACE (PROG [(X (SCANHASHFILE (COLLECTPAGES HASHFILE]
+                                                       (* This is the order that can be given directly to CREATEHASHFILE)
+		          (RETURN <(FPLUS X::1)
+				    (IPLUS X:1)
+				    >)))
+	     (ERRORX <27 PROP>])
+
+(HASHFILESPLST
+  [LAMBDA (HASHFILE)                                   (* rmk: " 5-SEP-78 23:01")
+    HASHFILE_(HFP HASHFILE NIL NIL T)
+    (if (ARRAYP HASHFILESPLST)
+	then (HASHFILESPLST:INIT_NIL)
+      else HASHFILESPLST_(create HASHFILESPLST))
+    HASHFILESPLST:FN_'HASHFILESPLST1
+    HASHFILESPLST:HASHFILE_HASHFILE
+    HASHFILESPLST])
+
+(HASHFILESPLST1
+  [LAMBDA (ARRAY)                                      (* rmk: "25-APR-79 16:02")
+                                                       (* ARRAY is used to keep state info -
+						       PAGE and SLOT. LASTSLOT is the last slot on current page)
+
+          (* * * NOTE: Assumes that PGE remains in core between calls. That's true, provided the spelling corrector predicate doesn't cause 
+	  MAPPAGE's.)
+
+
+    (PROG (PGE SLT)
+          (if ARRAY:INIT
+	      then                                     (* already initialized)
+		   (PGE_ARRAY:PAGE)
+		   (SLT_ARRAY:SLOT)
+		   (GO NEXTSLOT))
+          (if ~(ARRAY:PAGELST_(COLLECTPAGES ARRAY:HASHFILE))
+	      then                                     (* Flatten the tree so we can map over it)
+		   (RETURN))
+          (ARRAY:INIT_T)
+      PAGE(ARRAY:PAGE_PGE_(HMAPIN ARRAY:PAGELST:1 ARRAY:HASHFILE))
+          (ARRAY:LASTSLOT_(GETSLOT PGE PGE:#Slots-1))
+          (SLT_(GETSLOT PGE 0))
+      SLOT(if (INUSE? SLT)
+	      then (ARRAY:SLOT_SLT)                    (* Return string pointer to next key)
+		   (RETURN (GETINDEX SLT PGE)))
+      NEXTSLOT
+          (if SLT~=ARRAY:LASTSLOT
+	      then                                     (* Bump SLOT pointer and go to next slot)
+		   (SLT_(WORDOFFSET SLT 1))            (* This is the increment for just the basic slot)
+		   (GO SLOT)
+	    elseif (ARRAY:PAGELST_ARRAY:PAGELST::1)
+	      then                                     (* got next page of file)
+		   (GO PAGE)
+	    else                                       (* no more pages, return NIL to show we're done)
+		 (ARRAY:INIT_NIL)
+		 (RETURN])
+
+(HASHSTATUS
+  [LAMBDA (FILE HASHFILE PERMARGS)                     (* rmk: " 5-SEP-78 22:59")
+
+          (* A WHENCLOSE-RESTORE function for hashfiles. Called with HASHFILE=NIL before sysouts, HASHFILE a hashfile datum afterwards.
+	  Makes sure the file is reopened and that appropriate pages are mapped in)
+
+
+    (if HASHFILE
+	then (if (APPLY (FUNCTION PERMSTATUS)
+			PERMARGS)
+		 then (HASHFILE:FileJfn_(OPNJFN FILE)))
+      else <'HASHSTATUS FILE (HFP FILE)
+	     (PERMSTATUS FILE)::1>])
+
+(HFP
+  [LAMBDA (HFILE WRITE VALUETYPE ERRORIFNOT)           (* rmk: " 7-SEP-78 23:30")
+                                                       (* The internal predicate for hashfile-hood)
+    (PROG ((MSG "Not a hashfile"))
+      LP  (if HFILE
+	      then (SELECTQ (NTYP HFILE)
+			    (1)
+			    (12 HFILE_(OR (GETHASH HFILE SYSHASHFILEARRAY)
+					  (GETHASH (OPENP HFILE)
+						   SYSHASHFILEARRAY)
+					  (GO ERROR)))
+			    (GO ERROR))
+	    elseif HFILE_SYSHASHFILE
+	    else (GO ERROR))
+          (if [AND HFILE=HFILE:Tag (OR ~VALUETYPE VALUETYPE=HFILE:HValueType
+				       (PROGN MSG_'"Wrong value type" (GO ERROR)))
+		   (OR ~WRITE HFILE:Access='BOTH (PROGN MSG_'"Not open for write" (GO ERROR]
+	      then (RETURN HFILE))
+      ERROR
+          (if ERRORIFNOT
+	      then (HFILE_(ERROR MSG HFILE))
+		   (GO LP)
+	    else (RETURN NIL])
+
+(INITHASHPAGE
+  [LAMBDA (#SLOTS)                                     (* rmk: "25-APR-79 16:04")
+                                                       (* Allocates a hash page in HASHFILE.
+						       Maps the page in, initializes it, and returns its page number.)
+    (PROG (NEWPAGE (PAGE# (GETFILEPAGE)))
+          (NEWPAGE_(HMAPIN PAGE# HASHFILE))
+          (NEWPAGE:#Slots_#SLOTS)
+          (NEWPAGE:FirstFree_(CONSTANT CharsPerWord)*((CONSTANT #InitialWordsOnPage)
+	     +#SLOTS*HASHFILE:HWordsPerSlot))
+          (RETURN PAGE#])
+
+(LOOKUPHASHFILE
+  [LAMBDA (INDEX VALUE HASHFILE CALLTYPE)              (* rmk: "26-APR-79 09:59")
+    CALLTYPE_(for C $$VAL_0 inside CALLTYPE do $$VAL_(LOGOR $$VAL
+							    (SELECTQ C
+								     (INSERT (CONSTANT INSERT))
+								     (REPLACE (CONSTANT REPLACE))
+								     (DELETE (CONSTANT DELETE))
+								     (RETRIEVE (CONSTANT RETRIEVE))
+								     0)))
+    (LOOKUPHASHFILE1 INDEX VALUE (HFP HASHFILE (TESTBITS CALLTYPE WRITETYPES)
+				      NIL T)
+		     CALLTYPE])
+
+(LOOKUPHASHFILE1
+  [LAMBDA (INDEX VAL HASHFILE CALLTYPE)                (* rmk: "26-APR-79 09:55")
+    (PROG (STRINGLENGTH PAGE REALPAGE# SLOT# SLOTSTART DELETEDSLOT SLOT SLOTINC OLDVAL HASHKEY
+			(INDEXPTR (IBOX)))             (* INDEXPTR is bound to a large number, as it is SETN'd by PREPEKY in 
+						       COMPUTEHASHKEY)
+      RESTART
+          (HASHKEY_(COMPUTEHASHKEY INDEX))             (* sets INDEXPTR, STRINGLENGTH and sets HASHKEY to hash of INDEX)
+
+          (* Now map in the page selected by HASHKEY (as determined by PICKPAGE), select SLOTSTART, and put the rest of the bits back in HASHKEY 
+	  to use for selecting the reprobe interval)
+
+
+          [SLOT#_SLOTSTART_(KEYDIV (fetch #Slots of (PAGE_(HMAPIN REALPAGE#_(PICKPAGE)
+								  HASHFILE]
+          (if SLOTINC_(KEYDIV PAGE:#Slots)=0
+	      then SLOTINC_1)                          (* SLOTINC is the reprobe interval. Since #Slots per page is always 
+						       prime, this number is easily selected)
+      SLOT(if (EMPTY? SLOT_(GETSLOT PAGE SLOT#))
+	      then (if (TESTBITS CALLTYPE INSERT)
+		       then (if DELETEDSLOT
+				then                   (* We found this deleted slot earlier in the search, so reuse it)
+				     (SLOT_DELETEDSLOT))
+			    (if (PUTINDEX)=NIL
+				then (GO REHASH)
+			      elseif (PUTVALUE)=NIL
+				then (MAKEDELETED SLOT)
+				     (GO REHASH)))
+		   (RETURN)
+	    elseif (DELETED? SLOT)
+	      then (if ~DELETEDSLOT
+		       then                            (* Save this slot in case we want to insert new INDEX)
+			    (DELETEDSLOT_SLOT))
+	    elseif (MATCHINDEX)
+	      then                                     (* found INDEX)
+		   (OLDVAL_(OR ~(TESTBITS CALLTYPE RETRIEVE)
+			       (GETVALUE)))
+		   (if (TESTBITS CALLTYPE DELETE)
+		       then (MAKEDELETED SLOT)
+			    (if HASHFILE:HValueType=(CONSTANT SYMBOLTABLE)
+				then (replace IndexPointer of (HLOCATE SLOT:Value HASHFILE)
+					with 0))       (* Smash the name pointer in the symbol.
+						       Note that we can map pages, cause we're done with everything for this 
+						       call.)
+			    
+		     elseif (TESTBITS CALLTYPE REPLACE)
+		       then (if ~(PUTVALUE T)
+				then (GO REHASH)))
+		   (RETURN OLDVAL))
+      RESLOT
+          (SLOT#_(IREMAINDER SLOT#+SLOTINC PAGE:#Slots))
+          (if SLOT#~=SLOTSTART
+	      then (GO SLOT)
+	    elseif ~(TESTBITS CALLTYPE INSERT)
+	      then 
+
+          (* if this page is full, and the item is not found on it, then it isn't in the table. Unless inserting, we can return NIL)
+
+
+		   (RETURN))
+      REHASH
+          (if (TESTBITS CALLTYPE REHASH)
+	      then (HELP "Attempt to Rehash during Rehashing!!"))
+          (REHASHPAGE (LOGAND (COMPUTEHASHKEY INDEX)
+			      (CONSTANT WordMask)))    (* Note: Can't keep the hashkey across rehashing, since some of the 
+						       number boxes will be smashed, must be restored.)
+          (GO RESTART])
+
+(MAPHASHFILE
+  [LAMBDA (HASHFILE FN)                                (* rmk: " 2-NOV-78 22:30")
+    HASHFILE_(HFP HASHFILE NIL NIL T)
+    (RESETLST (ADDMAPBUFFER T)
+	      (ADDMAPBUFFER T)                         (* Prepare to lock a page in in case FN calls another hashfile 
+						       function)
+	      (for P# PPTR (FULL_(1 lt (NARGS FN))) in (COLLECTPAGES HASHFILE)
+		 do (RESETLST (RESETSAVE (LOCKMAP PPTR_(HMAPIN P# HASHFILE))
+					 '(PROGN (UNLOCKMAP OLDVALUE)))
+			      (inpage PPTR do          (* If FULL is NIL, caller only wants key, so don't bother computing 
+						       value)
+					      (APPLY* FN (GETINDEX SLOT PAGE)
+						      (AND FULL (GETVALUE])
+
+(NEWDIRSLOTS
+  [LAMBDA (DIRPAGE DSLOT# DEPTH #SLOTS #PAGES)         (* rmk: "29-SEP-78 23:48")
+
+          (* Fills in new directory slots for the part of the tree around DSLOT#, which is currently at level DEPTH. Divides the interval into 
+	  portions according to #PAGES.)
+
+
+    (if DEPTH=0
+	then (ERROR "Hashfile full -- can't expand!" HASHFILE:File))
+    (RESETSAVE (LOCKMAP DIRPAGE)
+	       <'UNLOCKMAP DIRPAGE>)                   (* Directory must be locked during INITHASHPAGE)
+    (bind LEN LIM (INFO _(IBOX))
+	  (NEWDEPTH_DEPTH-(POW2 #PAGES))
+	  (BASE _(WORDOFFSET DIRPAGE (LLSH (LRSH DSLOT# DEPTH)
+					   DEPTH)))
+	  (J_(LLSH 1 DEPTH)+ -1) until J lt 0 first (if (MINUSP NEWDEPTH)
+							then NEWDEPTH_0)
+						    (LEN_(LLSH 1 NEWDEPTH))
+						    (replace Depth of INFO with NEWDEPTH)
+       do (LIM_J-LEN)
+	  (replace Page# of INFO with (INITHASHPAGE #SLOTS))
+	  (until J=LIM do (replace ReHashInfo of (WORDOFFSET BASE J) with INFO:I)
+			  (J_J-1])
+
+(OPENHASHFILE
+  [LAMBDA (FILE ACCESS)                                (* rmk: "22-MAY-79 17:08" posted: "13-DEC-77 09:21")
+    (PROG (HASHFILE VALUETYPE DIRPAGE)
+          (if ~FILE
+	      then (RETURN))
+          (SELECTQ ACCESS
+		   ((BOTH T)
+		     (if HASHFILE_(HFP FILE)
+			 then (if HASHFILE:Access='BOTH
+				  then (RETURN HASHFILE)
+				else                   (* File is not open for write, but we can clear out and reopen it that 
+						       way)
+				     (RETURN (OPENHASHFILE (CLOSEF HASHFILE:File)
+							   'BOTH)))
+		       else (FILE_(IOFILE FILE))
+			    (ACCESS_'BOTH)))
+		   ((INPUT NIL)
+		     (if HASHFILE_(HFP FILE)
+			 then (RETURN HASHFILE)
+		       else (FILE_(OPENFILE FILE 'INPUT 'OLD))
+			    (ACCESS_'INPUT)))
+		   (ERRORX <27 ACCESS>))
+          (HASHFILE_(create HashFile
+			    File _ FILE
+			    Access _ ACCESS
+			    FileJfn _(OPNJFN FILE)))
+          (DIRPAGE_(GETDIRPAGE HASHFILE))
+          (SELVALTYPEQ VALUETYPE_DIRPAGE:ValueType
+		       ((NUMBER EXPR SMALLEXPR SYMBOLTABLE 2NUMBERS STRING))
+		       (PROGN (CLOSEF FILE)
+			      (ERROR FILE "not a hashfile!")))
+          (HASHFILE:HValueType_VALUETYPE)
+          (HASHFILE:ValueBox_(VALUEBOX VALUETYPE))
+          (HASHFILE:HWordsPerSlot_(if VALUETYPE=(CONSTANT 2NUMBERS)
+				      then 2
+				    else 1))
+          (replace PrintPage# of HASHFILE with (GETEOFPTR FILE)/(CONSTANT CharsPerPage))
+          (HASHFILE:Tag_HASHFILE)
+          (if (AND HASHFILE:Access='BOTH VALUETYPE=(CONSTANT SMALLEXPR)
+		   (NLISTP HASHFILECHCONLST))
+	      then HASHFILECHCONLST_(to 128 collect NIL))
+                                                       (* Generate the scratchlist only to write on SMALLEXPR files)
+          (if (AND (TESTBITS VALUETYPE SMALLEXPR EXPR)
+		   ~(READTABLEP (EVALV 'HASHFILERDTBL)))
+	      then HASHFILERDTBL_(COPYREADTABLE 'ORIG))
+          (PUTHASH FILE HASHFILE SYSHASHFILEARRAY)
+          (WHENCLOSE FILE 'AFTER 'HASHAFTERCLOSE)
+          (RETURN HASHFILE])
+
+(POW2
+  [LAMBDA (N)                                          (* rmk: " 4-SEP-78 21:18")
+    (bind I_0 until N_(LRSH N 1)=0 do I_I+1 finally (RETURN I])
+
+(PREPVALUE
+  [LAMBDA NIL                                          (* rmk: "11-JAN-78 12:57")
+                                                       (* Set CHARPOS to place on PAGE to put VALUE and fix up SLOT 
+						       and free pointers)
+    (DECLARE (USEDFREE PAGE SLOT REPLACE STRINGLENGTH))
+    (PROG (END CHARPOS)
+          (RETURN (if (AND REPLACE (STRINGLENGTH LEQ SLOT:VLength))
+		      then                             (* We are replacing the value, and the new value is not 
+						       longer than the old, so reuse the space)
+			   (SLOT:VLength_STRINGLENGTH)
+			   (IBOX SLOT:VCharPos)
+		    elseif END_(IBOX STRINGLENGTH+PAGE:FirstFree) LEQ (CONSTANT MaxCharLocation)
+		      then                             (* Normal case: putting VALUE into empty or deleted SLOT, or 
+						       replacing with larger value)
+			   (SLOT:VLength_STRINGLENGTH)
+			   (SLOT:VCharPos_CHARPOS_(IBOX PAGE:FirstFree))
+			   (PAGE:FirstFree_END)
+			   CHARPOS])
+
+(PRINTREGION
+  [LAMBDA (P)                                          (* rmk: " 7-SEP-78 21:40")
+                                                       (* Makes the start of the printing region PrintMargin pages above P)
+    [SETFILEPTR HASHFILE:File (IBOX (CONSTANT CharsPerPage)*(HASHFILE:PrintPage#_P+(CONSTANT 
+										      PrintMargin]
+                                                       (* The PRIN1 makes the page dirty)
+    (PRIN1 T HASHFILE:File])
+
+(PUTHASHFILE
+  [LAMBDA (KEY VALUE HASHFILE)                         (* rmk: "26-APR-79 09:52" posted: "13-DEC-77 09:24")
+    (LOOKUPHASHFILE1 KEY VALUE (HFP HASHFILE T NIL T)
+		     (if VALUE
+			 then (CONSTANT (LOGOR INSERT REPLACE))
+		       else (CONSTANT DELETE)))
+    VALUE])
+
+(PUTVALUE
+  [LAMBDA (REPLACE)                                    (* rmk: "25-APR-79 16:47")
+                                                       (* Returns NIL if unsuccessful; REPLACE means SLOT is being reused)
+    (DECLARE (USEDFREE VAL HASHFILERDTBL SLOT REALPAGE# PAGE))
+    (SELVALTYPEQ HASHFILE:HValueType
+		 (NUMBER SLOT:Value_VAL T)
+		 (STRING (PROG (STRINGLENGTH CHARPOS (INDEXPTR (IBOX)))
+			       (PREPKEY VAL)           (* Computes STRINGLENGTH and the byte pointer INDEXPTR)
+			       (if ~(CHARPOS_(PREPVALUE))
+				   then (RETURN))      (* Fixes up pointers on PAGE and sets CHARPOS)
+			       (COPYCHARSV PAGE CHARPOS)
+                                                       (* Copy chars from INDEXPTR to CHARPOS for STRINGLENGTH)
+			       (RETURN T)))
+		 (SMALLEXPR (PROG (STRINGLENGTH CHARPOS)
+			          (if (OR (STRINGLENGTH_(NCHARS VAL T HASHFILERDTBL)+ 1 gt
+					    (CONSTANT MaxStringLength))
+					  STRINGLENGTH=1)
+				      then (ERROR 
+					     "{in PUTHASHFILE/LOOKUPHASHFILE} bad value length: "
+						  VAL T))
+			          (if ~(CHARPOS_(PREPVALUE))
+				      then (RETURN))
+			          (PRINTCHARS PAGE CHARPOS VAL)
+			          (RETURN T)))
+		 (EXPR (SETFILEPTR HASHFILE:File -1)
+		                                       (* Print VAL, storing the byte pointer as Value)
+		       SLOT:Value_
+		       (GETFILEPTR HASHFILE:File)
+		                                       (* 2^24 is a VERY safe maximum)
+		       (PRIN4 VAL HASHFILE:File HASHFILERDTBL)
+		                                       (* Don't need linelength processing, nor closing separator if LISTP.)
+		       (if (NLISTP VAL)
+			   then (SPACES 1 HASHFILE:File))
+		       T)
+		 (2NUMBERS SLOT:Value_ (OR (FIXP (LISTP VAL):1)
+					   (ERROR "Bad value for 2NUMBERS hashfile" VAL))
+			   (replace I of (WORDOFFSET SLOT PAGE:#Slots)
+			      with (OR (FIXP VAL::1)
+				       (ERROR "Bad value for 2NUMBERS hashfile" VAL)))
+			   T)
+		 (SYMBOLTABLE (PROG (SYMBOL (OLD (IBOX SLOT:Value)))
+
+          (* After we set up the new value, we might have to go out and smash the index pointer of the symbol formerly named by this slot)
+
+
+				    (if VAL
+					then (SYMBOL_(HLOCATE SLOT:Value_(OR (SMALLP VAL)
+									     (IBOX VAL:FileAddress))
+							      HASHFILE))
+                                                       (* Assume VAL is a FILEHANDLE. Its important to store it in SLOT before
+						       locating the symbol, lest the page disappear)
+					     (SYMBOL:IndexPage#_REALPAGE#)
+					     (SYMBOL:IndexWord#_(LOC SLOT))
+					     (if ~(IEQP OLD 0)
+						 then (replace IndexPointer
+							 of (HLOCATE OLD HASHFILE) with 0))
+				      else (ERROR "Nothing to be named")))
+			      T)
+		 (HELP 'PUTVALUE])
+
+(REHASHFILE
+  [LAMBDA (HASHFILE)                                   (* rmk: "29-OCT-78 08:22")
+                                                       (* Rehash all the hash pages of HASHFILE.
+						       Leaves all non-hash pages alone. Cleans up the world if there have been
+						       alot of deletions.)
+    (RESETLST (PROG (X)
+		    (if X_(HFP HASHFILE T)
+			then HASHFILE_X
+		      elseif HASHFILE_(OPENHASHFILE HASHFILE 'BOTH)
+			then (RESETSAVE NIL <'CLOSEF? HASHFILE:File>)
+		      else (RETURN))
+		    (REHASHPAGES (COLLECTPAGES HASHFILE)
+				 HASHFILE)
+		    (RETURN HASHFILE])
+
+(REHASHPAGE
+  [LAMBDA (DSLOT#)                                     (* rmk: "22-MAY-79 10:56")
+                                                       (* Come here when the page referenced by DSLOT# is full and needs to be
+						       rehashed)
+    (DECLARE (USEDFREE REALPAGE#))
+    (PROG (#SLOTS DIRPAGE)
+          [#SLOTS_(if (FGREATERP #SLOTS_(SCANHASHFILE REALPAGE#)::1 0.0)
+		      then (GET#SLOTS #SLOTS)
+		    else (fetch #Slots of (HMAPIN REALPAGE# HASHFILE]
+          (DIRPAGE_(GETDIRPAGE HASHFILE))
+          (NEWDIRSLOTS DIRPAGE DSLOT# (fetch Depth of (WORDOFFSET DIRPAGE DSLOT#))
+		       #SLOTS 2)                       (* Replace full page with 2 new ones)
+          (REHASHPAGES REALPAGE# HASHFILE)             (* Rehash the full page)
+          (PUTDIRPAGE DIRPAGE HASHFILE)                (* Now map the copied directory back to the file)
+          (CLEARMAP HASHFILE:File REALPAGE#)
+          (DELFILEPAGE HASHFILE REALPAGE#])
+
+(REHASHPAGES
+  [LAMBDA (PAGES HASHFILE)                             (* rmk: " 2-NOV-78 22:26")
+                                                       (* Rehashes PAGES of HASHFILE)
+    (RESETLST (RPTQ 4 (ADDMAPBUFFER T))                (* We need to lock one page, and it helps to keep the directory and the
+						       2 new pages in core.)
+                                                       (* Reduce valuetype to one that rehashes cheaper)
+	      (if HASHFILE:HValueType=(CONSTANT SMALLEXPR)
+		  then HASHFILE_(create HashFile reusing HASHFILE HValueType _(CONSTANT STRING))
+		elseif HASHFILE:HValueType=(CONSTANT EXPR)
+		  then HASHFILE_(create HashFile reusing HASHFILE HValueType _(CONSTANT NUMBER)))
+	      (for P# PPTR (FILE _(fetch File of HASHFILE)) inside PAGES
+		 do (RESETLST (RESETSAVE (LOCKMAP PPTR_(MAPPAGE P# FILE))
+					 '(PROGN (UNLOCKMAP OLDVALUE)))
+			      (inpage PPTR do (LOOKUPHASHFILE1 (GETINDEX SLOT PAGE)
+							       (GETVALUE)
+							       HASHFILE
+							       (CONSTANT (LOGOR REHASH INSERT])
+
+(SCANHASHFILE
+  [LAMBDA (PAGES)                                      (* rmk: "22-MAY-79 18:06")
+                                                       (* Scan PAGES of HASHFILE, looking at the number of slots occupied and 
+						       how many characters they use. Return 
+						       (#Slots . avg.chars.per.slot))
+    (for PAGE# inside PAGES bind (#SLOTS _(IBOX 0))
+				 (TOTAL _(IBOX 0))
+				 (FILE _(fetch File of HASHFILE))
+				 (STRINGTYPE _(TESTBITS HASHFILE:HValueType STRING/SMALLEXPR))
+       do (inpage (MAPPAGE PAGE# FILE) do              (* look at filled slots, compute length of strings in use)
+					  (add #SLOTS:I 1)
+					  (add TOTAL:I (INDEXLENGTH PAGE SLOT)
+					       (if STRINGTYPE
+						   then SLOT:VLength
+						 else 0)))
+       finally (RETURN (CBOX #SLOTS (if #SLOTS:I gt 0
+					then (FBOX (FQUOTIENT TOTAL:I #SLOTS:I))
+				      else 0])
+
+(VALUEBOX
+  [LAMBDA (VTYPE)                                      (* rmk: "25-APR-79 12:07")
+                                                       (* Creates the static boxes in which the hash values are returned.
+						       Boxes for EXPR and SMALLEXPR files are used only for rehashing.)
+    (SELVALTYPEQ VTYPE
+		 ((NUMBER SYMBOLTABLE EXPR)
+		   (IPLUS 10000))
+		 ((STRING SMALLEXPR)
+		   (CONCAT))
+		 (2NUMBERS < (IPLUS 10000)
+			   !
+			   (IPLUS 10000)
+			   >)
+		 NIL])
+
+(VALUETYPENUM
+  [LAMBDA (VALTYPE)                                    (* rmk: "25-APR-79 11:42")
+                                                       (* Coerces symbolic valuetype names to their codes)
+    (SELECTQ VALTYPE
+	     (NUMBER (CONSTANT NUMBER))
+	     (STRING (CONSTANT STRING))
+	     (SMALLEXPR (CONSTANT SMALLEXPR))
+	     (EXPR (CONSTANT EXPR))
+	     (SYMBOLTABLE (CONSTANT SYMBOLTABLE))
+	     (2NUMBERS (CONSTANT 2NUMBERS))
+	     (ERROR "Unrecognized hashfile value type" VALTYPE])
+)
+(DECLARE: EVAL@COMPILE DONTCOPY 
+
+(RPAQQ HASHMACROS (BYTEPOINT COMPUTEHASHKEY DELETED? DELFILEPAGE EMPTY? FIND1STPRIME GETDIRPAGE 
+			     GETINDEX GETSLOT HMAPIN INDEXLENGTH INUSE? KEYDIV HLOCATE LOWESTFREEPAGE 
+			     USEDPAGE NEXTFREEPAGE MAKEDELETED MATCHINDEX PICKPAGE PREPKEY PRINTCHARS 
+			     PUTDIRPAGE PUTINDEX SELVALTYPEQ SMASHSTRINGPOINTERV TESTBITS))
+
+(PUTPROPS BYTEPOINT MACRO [(WORD CHAR BYTESIZE)
+			   (LOC (ASSEMBLE NIL
+				          (CQ WORD)
+				          (CQ2 (VAG CHAR))
+				          [E (STORIN (LIST 'IDIVI 2 ', (IQUOTIENT 44Q BYTESIZE]
+				          (ADDI 1 , 0 (2))
+				          [E (STORIN (LIST 'IMULI 3 ', (IMINUS (LLSH BYTESIZE 14Q]
+				          (E (STORIN (LIST 'HRLI 1 ', (IPLUS 440000Q
+									     (LLSH BYTESIZE 6))
+							   (QUOTE (3])
+
+(PUTPROPS COMPUTEHASHKEY MACRO [(INDEX)
+	   (IBOX (LOC (ASSEMBLE NIL                    (* Computes hash of INDEX)
+			        (CQ (PREPKEY INDEX))   (* PREPKEY macro gets bytepointer in 3, length in 4, and sets INDEXPTR 
+						       and STRINGLENGTH; also checks for overflows)
+			        (MOVEI 1 , 0)
+			    LP  (ILDB 2 , 3)
+			        [E (AND (NEQ CharMask 177Q)
+					(STORIN (LIST 'ANDI 2 ', CharMask]
+			        (ADDI 1 , 0 (2))
+			        (IMUL 1 , = 240501202405Q)
+			        (SOJG 4 , LP)
+			        (MOVM 1 , 1)           (* Take abs value to avoid sign bit problems)
+			    ])
+
+(PUTPROPS DELETED? MACRO ((SLOT)
+			  (EQ (OPENR (LOC SLOT))
+			      -1)))
+
+(PUTPROPS DELFILEPAGE MACRO ((HFILE PAGE#)
+			     (JSYS 46 -1 (LOGOR (LLSH (fetch FileJfn of HFILE)
+						      18)
+						PAGE#))))
+
+(PUTPROPS EMPTY? MACRO [(SLOT)
+			(ZEROP (OPENR (LOC SLOT])
+
+(PUTPROPS FIND1STPRIME MACRO [(N)
+			      (LOC (ASSEMBLE NIL
+					     (CQ (VAG N))
+					     (IORI 1 , 1)
+                                                       (* make 1 odd)
+					     (SKIPA)
+					 LP  (ADDI 1 , 2)
+					     (SKIPA 2 , = 3)
+					 LP2 (ADDI 2 , 2)
+					     (MOVE 3 , 1)
+					     (IDIVI 3 , 0 (2))
+					     (JUMPE 4 , LP)
+                                                       (* JUMP if 2 divides 1)
+					     (CAIL 3 , 0 (2))
+					     (JRST LP2)
+                                                       (* 2 < SQRT (1))
+					 ])
+
+(PUTPROPS GETDIRPAGE MACRO [HFILE (LIST (QUOTE HMAPIN)
+					0
+					(OR (CAR HFILE)
+					    (QUOTE HASHFILE])
+
+(PUTPROPS GETINDEX MACRO [(SLOT PAGE)
+			  (ASSEMBLE NIL
+
+          (* For index strings. Returns a constant stringpointer pointing at string at POS on PAGE. Assumes that length of string is stored in the
+	  first byte at POS)
+
+
+				    [CQ (VAG (IPLUS (fetch CharPointer of SLOT)
+						    (ITIMES 5 (LOC PAGE]
+                                                       (* The absolute core byte address of the first byte of the string)
+				    (MOVE 2 , 1)
+				    (IDIVI 2 , 5)
+				    (IMULI 3 , -70000Q)
+				    (HRLI 2 , 440700Q (3))
+				    (ILDB 2 , 2)
+				    (ADDI 1 , 1)       (* Skip the length byte)
+				    (LSH 2 , 25Q)
+				    (IOR 2 , 1)        (* We now have the bits of a LISP string pointer in 2)
+				    (CQ (CONSTANT (CONCAT)))
+				    (MOVEM 2 , 0 (1])
+
+(PUTPROPS GETSLOT MACRO [(PAGE SLOT#)
+			 (ASSEMBLE NIL
+			           (CQ PAGE)
+			           (CQ2 (VAG SLOT#))
+			           (E (STORIN (LIST (QUOTE ADDI)
+						    1
+						    (QUOTE ,)
+						    #InitialWordsOnPage
+						    (QUOTE (2])
+
+(PUTPROPS HMAPIN MACRO ((PAGE# HFILE)
+			(MAPPAGE PAGE# (fetch File of HFILE))))
+
+(PUTPROPS INDEXLENGTH MACRO [(PAGE SLOT)
+			     (LOC (ASSEMBLE NIL
+					    (CQ (VAG (BYTEPOINT PAGE (fetch CharPointer of SLOT)
+								BitsPerChar)))
+					    (ILDB 1 , 1])
+
+(PUTPROPS INUSE? MACRO ((SLOT)
+			(ASSEMBLE NIL
+			          (CQ SLOT)
+			          (SKIPN 1 , 0 (1))
+			          (JRST FALSE)
+			          (AOSE 1)
+			          (SKIPA 1 , KT)       (* True if SLOT not 0 or -1)
+			      FALSE
+			          (CQ NIL))))
+
+(PUTPROPS KEYDIV MACRO [(N)
+			(LOC (ASSEMBLE NIL
+				       (CQ HASHKEY)
+				       (CQ2 (VAG N))
+				       (MOVE 3 , 0 (1))
+				       (IDIVI 3 , 0 (2))
+				       (MOVEM 3 , 0 (1))
+				       (MOVE 1 , 4])
+
+(PUTPROPS HLOCATE MACRO ((FILEADR HFILE)
+			 (MAPWORD FILEADR (fetch File of HFILE))))
+
+(PUTPROPS LOWESTFREEPAGE MACRO [(STARTPAGE JFN)
+				(LOC (ASSEMBLE NIL
+					       (CQ (VAG STARTPAGE))
+                                                       (* Gets the free page above which all other pages are free.
+						       Uses STARTPAGE as a known free page to start looking at)
+					       (CQ2 (VAG JFN))
+					       (HRLI 1 , 0 (2))
+					   LP  (HRRZI 3 , 0 (1))
+                                                       (* save page number in case it's the answer)
+					       (JSYS 211Q)
+                                                       (* The FFUFP JSYS)
+					       (SKIPA)
+                                                       (* Error, implies there are no higher used pages, so this page is the 
+						       one to return)
+					       (AOJA 1 , LP)
+                                                       (* Success, implies the page now in 1 is in use, so add 1 and try 
+						       again)
+					   OUT (HRRZI 1 , 0 (3))
+                                                       (* recover the answer)
+					   ])
+
+(PUTPROPS USEDPAGE MACRO ((PAGE JFN)
+			  (ASSEMBLE NIL                (* Returns first used page above PAGE, NIL if PAGE is highest.)
+				    (CQ (VAG PAGE))
+				    (CQ2 (VAG JFN))
+				    (HRLI 1 , 0 (2))   (* Move the JFN into the left-half)
+				    (JSYS 211Q)        (* FFUFP JSYS)
+				    (JUMPA NOTFOUND)   (* Skips if there exists a higher jused page)
+				    (HRRZI 1 , 0 (1))
+                                                       (* Clear the left half)
+				    (FASTCALL MKN)
+				    (SKIPA)
+				NOTFOUND
+				    (MOVE 1 , KNIL)
+				OUT)))
+
+(PUTPROPS NEXTFREEPAGE MACRO [(PAGE JFN)
+			      (LOC (ASSEMBLE NIL       (* Returns the next free page above PAGE)
+					     (CQ (VAG PAGE))
+					     (ADDI 1 , 1)
+                                                       (* Add one to start at the next page)
+					     (CQ2 (VAG JFN))
+					     (HRLI 1 , 0 (2))
+					 LP  (JSYS 57Q)
+                                                       (* RPACS JSYS. Page is free if B5=0)
+					     (TLNE 2 , 10000Q)
+                                                       (* Skip if free)
+					     (AOJA 1 , LP)
+					     (HRRZI 1 , 0 (1])
+
+(PUTPROPS MAKEDELETED MACRO ((SLOT)
+			     (SETWORDCONTENTS SLOT -1)))
+
+(PUTPROPS MATCHINDEX MACRO (NIL (ASSEMBLE NIL          (* True if the index string associated with SLOT is same as INDEX)
+				          [CQ (VAG (clisp (BYTEPOINT PAGE SLOT:CharPointer 
+								     BitsPerChar]
+				          (CQ2 INDEXPTR)
+				          (MOVE 4 , 0 (2))
+                                                       (* 4 contains bytepointer to index)
+				          (CQ2 STRINGLENGTH)
+				          (SUBI 2 , ASZ)
+				          (ILDB 3 , 1)
+				          (CAME 3 , 2)
+				          (JRST FAIL)
+				      LP  (ILDB 5 , 4)
+				          (ILDB 3 , 1)
+				          [E (AND (NEQ CharMask 177Q)
+						  (STORIN (LIST 'ANDI 3 ', CharMask]
+				          (CAME 3 , 5)
+				          (JRST FAIL)
+				          (SOJG 2 , LP)
+				          (SKIPA 1 , KT)
+				      FAIL(MOVE 1 , KNIL))))
+
+(PUTPROPS PICKPAGE MACRO [NIL (fetch Page# of (WORDOFFSET (GETDIRPAGE)
+							  (LOGAND HASHKEY (CONSTANT WordMask])
+
+(PUTPROPS PREPKEY MACRO ((INDEX)
+			 (ASSEMBLE NIL
+			           (CQ (SELECTQ (NTYP INDEX)
+						(30Q INDEX)
+						[14Q (CDR (VAG (IPLUS 2 (LOC INDEX]
+						(ERROR INDEX "not atom or string")))
+			           (PUSHJ CP , UPATM)
+			           (E (STORIN (LIST (QUOTE CAIG)
+						    4
+						    (QUOTE ,)
+						    MaxStringLength)))
+			           (CAIG 4 , 0)
+			           (JRST ERROR)
+			           (MOVEI 1 , ASZ (4))
+			           (SETQ STRINGLENGTH)
+			           (CQ INDEXPTR)
+			           (MOVEM 3 , 0 (1))   (* Store bytepointer in number box INDEXPTR)
+			           (JRST DONE)
+			       ERROR
+			           (CQ (ERROR INDEX "too long"))
+			       DONE)))
+
+(PUTPROPS PRINTCHARS MACRO ((PGE CHARPOS VAL)
+			    (ASSEMBLE NIL              (* Prints VAL on PGE starting at CHARPOS.
+						       I'd do this with RPLSTRING if it took a FLG and RDTBL arg as CHCON 
+						       does)
+				      (CQ (DCHCON VAL HASHFILECHCONLST T HASHFILERDTBL))
+				      (CQ2 (VAG (BYTEPOINT PGE CHARPOS BitsPerChar)))
+                                                       (* AC1 has non-null list of character codes for the PRIN2 pname of 
+						       VALUE; AC2 is byte pointer to right place on page)
+				  LP  (HRRZ 3 , 0 (1))
+				      (SUBI 3 , ASZ)
+				      (IDPB 3 , 2)
+				      (CDR1)
+				      (CAME 1 , KNIL)
+				      (JRST LP)        (* finish up by printing a space)
+				      (MOVEI 3 , 40Q)
+				      (IDPB 3 , 2)
+				      (MOVE 1 , KT))))
+
+(PUTPROPS PUTDIRPAGE MACRO ((DIRPAGE HASHFILE)
+			    (PROGN NIL)))
+
+(PUTPROPS PUTINDEX MACRO [NIL (PROG [END (CHARPOS (IBOX (fetch FirstFree of PAGE]
+                                                       (* Writes INDEX on PAGE and points SLOT at it;
+						       returns NIL if unsuccessful. Smashes END and CHARPOS to avoid boxing)
+				    (COND
+				      ((NOT (IGREATERP (SETQ END (IBOX (IPLUS STRINGLENGTH CHARPOS 1))
+							 )
+						       (CONSTANT MaxCharLocation)))
+					               (* The extra 1 is for the length count)
+					(COPYCHARSI PAGE CHARPOS)
+					               (* Copy chars from INDEXPTR to CHARPOS for STRINGLENGTH)
+					(replace FirstFree of PAGE with END)
+					(replace CharPointer of SLOT with CHARPOS)
+					(RETURN T])
+
+(PUTPROPS SELVALTYPEQ MACRO [ARGS
+	    (CONS (QUOTE SELECTQ)
+		  (CONS (CAR ARGS)
+			(MAPLIST (CDR ARGS)
+				 (FUNCTION (LAMBDA (TAIL)
+				     (COND
+				       ((CDR TAIL)
+					 (CONS (COND
+						 ([LITATOM (CAR (SETQ TAIL (CAR TAIL]
+						   (EVAL (CAR TAIL)))
+						 ((LISTP (CAR TAIL))
+						   (MAPCAR (CAR TAIL)
+							   (FUNCTION EVAL)))
+						 (T (SHOULDNT)))
+					       (CDR TAIL)))
+				       (T (CAR TAIL])
+
+(PUTPROPS SMASHSTRINGPOINTERV MACRO [(LEN POS PAGE SCRATCHPOINTER)
+	   (ASSEMBLE NIL                               (* Smash STRINGPOINTER to point at string at POS on PAGE of length LEN)
+		     (CQ SCRATCHPOINTER)
+		     [CQ2 (VAG (LOGOR (LLSH LEN 25Q)
+				      (IPLUS POS (ITIMES (CONSTANT CharsPerWord)
+							 (LOC PAGE]
+		     (MOVEM 2 , 0 (1])
+
+(PUTPROPS TESTBITS MACRO [(N . BITS)
+			  (NOT (ZEROP (LOGAND N (CONSTANT (LOGOR . BITS])
+
+
+(RPAQQ HASHMACROS (BYTEPOINT COMPUTEHASHKEY DELETED? DELFILEPAGE EMPTY? FIND1STPRIME GETDIRPAGE 
+			     GETINDEX GETSLOT HMAPIN INDEXLENGTH INUSE? KEYDIV HLOCATE LOWESTFREEPAGE 
+			     USEDPAGE NEXTFREEPAGE MAKEDELETED MATCHINDEX PICKPAGE PREPKEY PRINTCHARS 
+			     PUTDIRPAGE PUTINDEX SELVALTYPEQ SMASHSTRINGPOINTERV TESTBITS))
+(SETTEMPLATE (QUOTE BYTEPOINT)
+	     (QUOTE MACRO))
+(SETTEMPLATE (QUOTE COMPUTEHASHKEY)
+	     (QUOTE MACRO))
+(SETTEMPLATE (QUOTE DELETED?)
+	     (QUOTE MACRO))
+(SETTEMPLATE (QUOTE DELFILEPAGE)
+	     (QUOTE MACRO))
+(SETTEMPLATE (QUOTE EMPTY?)
+	     (QUOTE MACRO))
+(SETTEMPLATE (QUOTE FIND1STPRIME)
+	     (QUOTE MACRO))
+(SETTEMPLATE (QUOTE GETDIRPAGE)
+	     (QUOTE MACRO))
+(SETTEMPLATE (QUOTE GETINDEX)
+	     (QUOTE MACRO))
+(SETTEMPLATE (QUOTE GETSLOT)
+	     (QUOTE MACRO))
+(SETTEMPLATE (QUOTE HMAPIN)
+	     (QUOTE MACRO))
+(SETTEMPLATE (QUOTE INDEXLENGTH)
+	     (QUOTE MACRO))
+(SETTEMPLATE (QUOTE INUSE?)
+	     (QUOTE MACRO))
+(SETTEMPLATE (QUOTE KEYDIV)
+	     (QUOTE MACRO))
+(SETTEMPLATE (QUOTE HLOCATE)
+	     (QUOTE MACRO))
+(SETTEMPLATE (QUOTE LOWESTFREEPAGE)
+	     (QUOTE MACRO))
+(SETTEMPLATE (QUOTE USEDPAGE)
+	     (QUOTE MACRO))
+(SETTEMPLATE (QUOTE NEXTFREEPAGE)
+	     (QUOTE MACRO))
+(SETTEMPLATE (QUOTE MAKEDELETED)
+	     (QUOTE MACRO))
+(SETTEMPLATE (QUOTE MATCHINDEX)
+	     (QUOTE MACRO))
+(SETTEMPLATE (QUOTE PICKPAGE)
+	     (QUOTE MACRO))
+(SETTEMPLATE (QUOTE PREPKEY)
+	     (QUOTE MACRO))
+(SETTEMPLATE (QUOTE PRINTCHARS)
+	     (QUOTE MACRO))
+(SETTEMPLATE (QUOTE PUTDIRPAGE)
+	     (QUOTE MACRO))
+(SETTEMPLATE (QUOTE PUTINDEX)
+	     (QUOTE MACRO))
+(SETTEMPLATE (QUOTE SELVALTYPEQ)
+	     (QUOTE MACRO))
+(SETTEMPLATE (QUOTE SMASHSTRINGPOINTERV)
+	     (QUOTE MACRO))
+(SETTEMPLATE (QUOTE TESTBITS)
+	     (QUOTE MACRO))
+
+[DECLARE: EVAL@COMPILE 
+
+(ARRAYBLOCK HashFile ((HValueType BITS 18)
+		      (FileJfn BITS 18)
+		      (PrintPage# BITS 18)
+		      (HWordsPerSlot BITS 18)
+		      File Tag Access ValueBox)        (* PrintPage# keeps a page# in the current block of expr printing)
+		     )
+
+(BLOCKRECORD Slot ((CharPointer BITS 12)
+		   (Value BITS 24))
+		  (BLOCKRECORD Slot ((NIL BITS 12)
+				(NIL BITS 5)
+				(VLength BITS 7)
+				(VCharPos BITS 12)))   (* An encoding for character values)
+		  )
+
+(BLOCKRECORD Page ((#Slots BITS 18)
+		   (FirstFree BITS 18))                (* Actually, Page is a record of WordsPerPage words, the first 2 of 
+						       which are given, then #Slots slots, then characters)
+                                                       (* FirstFree is a relative (to the beginning of the page) pointer to 
+						       the first unused character in the extension table)
+		  )
+
+(BLOCKRECORD DirSlot ((NIL BITS 14)
+		      (Depth BITS 4)
+		      (Page# BITS 18))
+		     (BLOCKRECORD DirSlot ((NIL BITS 14)
+				   (ReHashInfo BITS 22))))
+
+(BLOCKRECORD DirPage ((ValueType BITS 9)
+		      (NIL BITS 27)))
+
+(ARRAYBLOCK HASHFILESPLST (INIT FN HASHFILE SLOT LASTSLOT PAGE PAGELST)
+                                                       (* For hashfile spelling correction.
+						       FN = HASHFILESPLST1, the others save state info of where we are in 
+						       mapping over the file)
+			  )
+
+(BLOCKRECORD SYMBOL ((NIL BITS 12)
+		     (IndexPage# BITS 15)
+		     (IndexWord# BITS 9))
+		    (BLOCKRECORD SYMBOL ((NIL BITS 12)
+				  (IndexPointer BITS 24))))
+
+(BLOCKRECORD FILEHANDLE ((NIL BITS 12)
+			 (FileAddress BITS 24)))
+]
+
+
+(RPAQQ VALUETYPES ((NUMBER 1)
+		   (STRING 2)
+		   (SMALLEXPR 3)
+		   (EXPR 4)
+		   (SYMBOLTABLE 5)
+		   (2NUMBERS 8 (* So that bit 2 is off and the LOGAND is accurate))
+		   (STRING/SMALLEXPR (LOGAND STRING SMALLEXPR))))
+
+(RPAQ NUMBER 1)
+
+(RPAQ STRING 2)
+
+(RPAQ SMALLEXPR 3)
+
+(RPAQ EXPR 4)
+
+(RPAQ SYMBOLTABLE 5)
+
+(RPAQ 2NUMBERS 8 (* So that bit 2 is off and the LOGAND is accurate))
+
+(RPAQ STRING/SMALLEXPR (LOGAND STRING SMALLEXPR))
+
+
+(RPAQQ CALLTYPES ((INSERT 1)
+		  (RETRIEVE 4)
+		  (DELETE 8)
+		  (REPLACE 16)
+		  (REHASH 32)))
+
+(RPAQ INSERT 1)
+
+(RPAQ RETRIEVE 4)
+
+(RPAQ DELETE 8)
+
+(RPAQ REPLACE 16)
+
+(RPAQ REHASH 32)
+
+
+(RPAQ WRITETYPES (LOGOR INSERT REPLACE DELETE))
+
+(RPAQ WordsPerPage 512)
+
+(RPAQ WordBits 9)
+
+(RPAQ WordMask (WordsPerPage-1))
+
+(RPAQ BitsPerWord 36)
+
+(RPAQ BitsPerChar 7)
+
+(RPAQ CharMask (2^BitsPerChar-1))
+
+(RPAQ CharsPerWord BitsPerWord/BitsPerChar)
+
+(RPAQ CharsPerPage CharsPerWord*WordsPerPage)
+
+(RPAQ MaxCharLocation CharsPerPage-1)
+
+(RPAQ MaxStringLength 127)
+
+(RPAQ #InitialWordsOnPage 1)
+
+(RPAQ DefaultKeySize 5)
+
+(RPAQ DefaultInitial#Pages 2)
+
+(RPAQ PrintMargin 128)
+
+(LOAD? (OR (FINDFILE (QUOTE NOBOX.COM)
+		     T LISPUSERSDIRECTORIES)
+	   (QUOTE NOBOX.COM))
+       (QUOTE SYSLOAD))
+
+(RESETSAVE DWIMIFYCOMPFLG T)
+(CLISPDEC (QUOTE FAST))
+(SETQ FONTFNS HASHMACROS)
+
+[I.S.OPR (QUOTE inpage)
+	 NIL
+	 (QUOTE (BIND (PAGE_ BODY)
+		      SLOT LASTSLOT FIRST (SETQ SLOT (GETSLOT PAGE 0))
+		      (SETQ LASTSLOT (GETSLOT PAGE (fetch #Slots of PAGE)))
+		      WHEN
+		      (INUSE? SLOT)
+		      REPEATWHILE
+		      (NEQ (SETQ SLOT (WORDOFFSET SLOT 1))
+			   LASTSLOT]
+
+
+(ADDTOVAR PRETTYEQUIVLST (SELVALTYPEQ . SELECTQ))
+
+(ADDTOVAR DWIMEQUIVLST (SELVALTYPEQ . SELECTQ))
+)
+
+(RPAQQ HASHBLOCKS ((HASHFILEBLOCK (ENTRIES COPYHASHFILE CREATEHASHFILE DELPAGE GETHASHFILE GETPAGE 
+					   GETPNAME HASHAFTERCLOSE HASHFILENAME HASHFILEP 
+					   HASHFILEPROP HASHFILESPLST HASHFILESPLST1 HASHSTATUS 
+					   LOOKUPHASHFILE MAPHASHFILE OPENHASHFILE PUTHASHFILE 
+					   REHASHFILE)
+				  (LOCALFREEVARS HASHFILE INDEXPTR PAGE REALPAGE# REPLACE SLOT 
+						 STRINGLENGTH VAL)
+				  (GLOBALVARS HASHFILECHCONLST HASHFILERDTBL HASHFILESPLST 
+					      SYSHASHFILE SYSHASHFILEARRAY)
+				  COLLECTPAGES COPYCHARSI COPYCHARSV COPYHASHFILE COPYHASHPAGES 
+				  CREATEHASHFILE DELPAGE GET#SLOTS GETFILEPAGE GETHASHFILE GETPAGE 
+				  GETPNAME GETVALUE HASHAFTERCLOSE HASHFILENAME HASHFILEP 
+				  HASHFILEPROP HASHFILESPLST HASHFILESPLST1 HASHSTATUS HFP 
+				  INITHASHPAGE LOOKUPHASHFILE LOOKUPHASHFILE1 MAPHASHFILE NEWDIRSLOTS 
+				  OPENHASHFILE POW2 PREPVALUE PRINTREGION PUTHASHFILE PUTVALUE 
+				  REHASHFILE REHASHPAGE REHASHPAGES SCANHASHFILE VALUEBOX 
+				  VALUETYPENUM)))
+[DECLARE: DONTEVAL@LOAD DOEVAL@COMPILE DONTCOPY
+(BLOCK: HASHFILEBLOCK
+	(ENTRIES COPYHASHFILE CREATEHASHFILE DELPAGE GETHASHFILE GETPAGE GETPNAME HASHAFTERCLOSE 
+		 HASHFILENAME HASHFILEP HASHFILEPROP HASHFILESPLST HASHFILESPLST1 HASHSTATUS 
+		 LOOKUPHASHFILE MAPHASHFILE OPENHASHFILE PUTHASHFILE REHASHFILE)
+	(LOCALFREEVARS HASHFILE INDEXPTR PAGE REALPAGE# REPLACE SLOT STRINGLENGTH VAL)
+	(GLOBALVARS HASHFILECHCONLST HASHFILERDTBL HASHFILESPLST SYSHASHFILE SYSHASHFILEARRAY)
+	COLLECTPAGES COPYCHARSI COPYCHARSV COPYHASHFILE COPYHASHPAGES CREATEHASHFILE DELPAGE 
+	GET#SLOTS GETFILEPAGE GETHASHFILE GETPAGE GETPNAME GETVALUE HASHAFTERCLOSE HASHFILENAME 
+	HASHFILEP HASHFILEPROP HASHFILESPLST HASHFILESPLST1 HASHSTATUS HFP INITHASHPAGE 
+	LOOKUPHASHFILE LOOKUPHASHFILE1 MAPHASHFILE NEWDIRSLOTS OPENHASHFILE POW2 PREPVALUE 
+	PRINTREGION PUTHASHFILE PUTVALUE REHASHFILE REHASHPAGE REHASHPAGES SCANHASHFILE VALUEBOX 
+	VALUETYPENUM)
+]
+
+(RPAQ SYSHASHFILE NIL)
+
+(RPAQ HASHFILESPLST NIL)
+
+(RPAQ SYSHASHFILEARRAY (CONS (HARRAY 10)))
+
+(ADDTOVAR HASHFILECHCONLST )
+(DECLARE: DONTCOPY
+  (FILEMAP (NIL (1823 38936 (CLOSEHASHFILE 1835 . 2008) (COLLECTPAGES 2012 . 2411) (COPYCHARSI 2415 . 
+3403) (COPYCHARSV 3407 . 4042) (COPYHASHFILE 4046 . 6703) (COPYHASHPAGES 6707 . 7935) (CREATEHASHFILE 
+7939 . 10413) (DELPAGE 10417 . 10848) (GET#SLOTS 10852 . 11854) (GETFILEPAGE 11858 . 12696) (
+GETHASHFILE 12700 . 12921) (GETPAGE 12925 . 13284) (GETPNAME 13288 . 14090) (GETVALUE 14094 . 15008) (
+HASHAFTERCLOSE 15012 . 15639) (HASHFILENAME 15643 . 15805) (HASHFILEP 15809 . 16029) (HASHFILEPROP 
+16033 . 17104) (HASHFILESPLST 17108 . 17482) (HASHFILESPLST1 17486 . 19243) (HASHSTATUS 19247 . 19789)
+ (HFP 19793 . 20702) (INITHASHPAGE 20706 . 21274) (LOOKUPHASHFILE 21278 . 21803) (LOOKUPHASHFILE1 
+21807 . 25053) (MAPHASHFILE 25057 . 25807) (NEWDIRSLOTS 25811 . 26902) (OPENHASHFILE 26906 . 29067) (
+POW2 29071 . 29248) (PREPVALUE 29252 . 30288) (PRINTREGION 30292 . 30774) (PUTHASHFILE 30778 . 31092) 
+(PUTVALUE 31096 . 34039) (REHASHFILE 34043 . 34701) (REHASHPAGE 34705 . 35756) (REHASHPAGES 35760 . 
+36904) (SCANHASHFILE 36908 . 37898) (VALUEBOX 37902 . 38412) (VALUETYPENUM 38416 . 38933)))))
+STOP

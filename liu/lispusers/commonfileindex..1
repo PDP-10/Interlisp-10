@@ -1,0 +1,290 @@
+(FILECREATED " 2-Oct-79 10:33:27" <LISPUSERS>COMMONFILEINDEX..18 8055   
+
+
+     changes to:  BOLDPRIN1 COMMONFILEINDEXCOMS ODDP NEWPAGE
+
+     previous date: "30-Sep-79 17:03:24" <LISPUSERS>COMMONFILEINDEX..15
+)
+
+
+(PRETTYCOMPRINT COMMONFILEINDEXCOMS)
+
+(RPAQQ COMMONFILEINDEXCOMS [(FNS BOLDPRIN1 BYTECOPY MAKESPACES 
+				 MAKEINDEXNUMBER NEWLINE NEWPAGE 
+				 TESTPAGE FCONCAT ODDP)
+	(VARS (100SPACES 
+
+"                                                                                                    "
+			 ))
+	(DECLARE: DONTEVAL@LOAD DOEVAL@COMPILE DONTCOPY COMPILERVARS
+		  (ADDVARS (NLAMA)
+			   (NLAML)
+			   (LAMA FCONCAT])
+(DEFINEQ
+
+(BOLDPRIN1
+  [LAMBDA (X FILE)
+    (DECLARE (USEDFREE FONTCHANGEFLG BOLDFONT FONTPROFILE PRETTYCOMFONT 
+		       DEFAULTFONT))            (* mdy " 2-Oct-79 10:08"
+)
+
+          (* * Print for bold effect x.
+	  Currently overprints several times or switches to a 
+	  bold font.)
+
+
+    (COND
+      (FONTCHANGEFLG (CHANGEFONT (COND
+				   ((ASSOC (QUOTE BOLDFONT)
+					   FONTPROFILE)
+				     BOLDFONT)
+				   (T PRETTYCOMFONT)))
+		     (PRIN3 X FILE)
+		     (CHANGEFONT DEFAULTFONT))
+      (T (for i to 2 bind (spaces _(MAKESPACES (POSITION FILE)))
+	    first (PRIN1 X FILE) do (PRIN3 (CONSTANT (FCHARACTER 13))
+					   FILE)
+				    (PRIN3 spaces FILE)
+				    (PRIN3 X FILE])
+
+(BYTECOPY
+  [LAMBDA (IFILE OFILE START END ^LFN LFFN)     (* J.Vittal: 
+						"18-Jan-79 10:18")
+
+          (* This is similar to copybytes except that, 
+	  whenever a line feed is read 
+	  (octal 12), LFFN is called after the byte is output,
+	  and, ^LFN is called similarly whenever a form feed 
+	  (^L) is read)
+
+
+    (SETFILEPTR IFILE START)
+    (PROG (IJFN OJFN TL)
+          (SETQ IJFN (OPNJFN IFILE (QUOTE INPUT)))
+          (SETQ OJFN (OPNJFN (OR OFILE (OUTPUT))
+			     (QUOTE OUTPUT)))
+          (SETQ TL (IDIFFERENCE END START))
+          (ASSEMBLE NIL
+		    (CQ (VAG TL))
+		    (PUSHN 1)
+		    (CQ (VAG OJFN))
+		    (PUSHN 1)
+		    (CQ (VAG IJFN))
+		    (PUSHN 1)
+
+          (* current number of bytes to be copied left = -2, 
+	  output jfn = -1, input jfn = 0)
+
+
+		LOOP(NREF (MOVE 1 , 0))         (* BIN)
+		    (JSYS 50Q)
+		    (NREF (MOVE 1 , -1))        (* BOUT)
+		    (JSYS 51Q)                  (* check for LF or FF)
+		    (CAIN 2 , 12Q)
+		    (JRST LF)
+		    (CAIE 2 , 14Q)              (* Nope, check 
+						terminating conditions)
+		    (JRST NEXT)
+		FF  [CQ (COND
+			  (^LFN (BLKAPPLY ^LFN]
+		    (JRST NEXT)
+		LF  [CQ (COND
+			  (LFFN (BLKAPPLY LFFN]
+		NEXT(NREF (MOVE 1 , -2))
+		    (SUBI 1 , 1)
+		    (NREF (MOVEM 1 , -2))
+		    (JUMPN 1 , LOOP)
+		    (POPNN 3)))
+    T])
+
+(MAKESPACES
+  [LAMBDA (N)                                   (* J.Vittal: 
+						"18-Jan-79 15:03")
+    (COND
+      ((ZEROP N)
+	"")
+      ((ILEQ N 100)
+	(SUBSTRING (CONSTANT 100SPACES)
+		   1 N))
+      (T (CONCAT (CONSTANT 100SPACES)
+		 (MAKESPACES (IDIFFERENCE N 100])
+
+(MAKEINDEXNUMBER
+  [LAMBDA (NO)
+    (CONCAT "[" NO "]"])
+
+(NEWLINE
+  [LAMBDA (DONT.PRINT.CR.LF)                    (* J.Vittal: 
+						"17-Jan-79 18:41")
+    (COND
+      ((IGEQ LINENUMBER LINESPERPAGE)
+	(NEWPAGE))
+      (T (SETQ LINENUMBER (ADD1 LINENUMBER))
+	 (COND
+	   ((NOT DONT.PRINT.CR.LF)
+	     (TERPRI])
+
+(NEWPAGE
+  [LAMBDA (DONT.PRINT.FF)
+    (DECLARE (USEDFREE LINENUMBER PAGENUMBER INDEXNUMBER INDEXFILE 
+		       CURRENTFNNAME))          (* mdy " 2-Oct-79 10:33"
+)
+
+          (* * The main responsibility of this function is to 
+	  print the header line for that new page.
+	  Some hair is going on but because of FCONCAT is not 
+	  that expensive.)
+
+
+    (PROG (PAGESTR INDEXSTR SPACESTR STR PAGE# INDEX# FNNAME# SPACES# 
+		   FILENAME# TEMP)
+          (SETQ LINENUMBER 0)
+          [COND
+	    ((NOT DONT.PRINT.FF)
+	                                        (* A FORM feed -- 
+						control-l)
+	      (PRIN3 (CONSTANT (FCHARACTER 12]
+          (PRIN3 (CONSTANT (FCHARACTER 13)))
+          (POSITION NIL 0)                      (* tell system we're 
+						back at the left margin)
+          (SETQ PAGENUMBER (ADD1 PAGENUMBER))
+          (SETQ PAGESTR (CONCAT "Page " PAGENUMBER))
+          [COND
+	    [(ZEROP INDEXNUMBER)
+	                                        (* easy case)
+	      (SETQ STR
+		(FCONCAT
+		  PAGESTR
+		  (COND
+		    (INDEXFILE
+		      (CONCAT [MAKESPACES
+				(IDIFFERENCE
+				  (IQUOTIENT FILELINELENGTH 2)
+				  (IPLUS (NCHARS PAGESTR)
+					 (IQUOTIENT (NCHARS INDEXFILE)
+						    2]
+			      INDEXFILE))
+		    (T ""]
+	    (T                                  (* looks like we have to
+						do some computing)
+	       (SETQ INDEXSTR (MAKEINDEXNUMBER INDEXNUMBER))
+	       (SETQ INDEX# (NCHARS INDEXSTR))
+	       (SETQ FNNAME# (ADD1 (NCHARS CURRENTFNNAME)))
+	       (SETQ FILENAME# (NCHARS INDEXFILE))
+	       (SETQ PAGE# (NCHARS PAGESTR))
+	                                        (* now see if everything
+						will fit)
+	       (COND
+		 ((ILESSP (SETQ TEMP (IPLUS FILENAME# PAGE# FNNAME# 
+					    INDEX#))
+			  FILELINELENGTH)
+		                                (* everything will fit.)
+		   (SETQ SPACES# (IMAX 1 (IQUOTIENT (IDIFFERENCE 
+						     FILELINELENGTH 
+							       TEMP)
+						    2)))
+		   (SETQ SPACESTR (MAKESPACES SPACES#))
+		   (SETQ STR (FCONCAT PAGESTR
+				      (COND
+					((ODDP (IDIFFERENCE 
+						     FILELINELENGTH 
+							    TEMP))
+					  " ")
+					(T ""))
+				      SPACESTR INDEXFILE SPACESTR 
+				      CURRENTFNNAME " " INDEXSTR)))
+		 ((ILESSP (SETQ TEMP (IPLUS FILENAME# PAGE# INDEX#))
+			  FILELINELENGTH)
+		                                (* everything but 
+						current function name)
+		   (SETQ SPACES# (IMAX 1 (IQUOTIENT (IDIFFERENCE 
+						     FILELINELENGTH 
+							       TEMP)
+						    2)))
+		   (SETQ SPACESTR (MAKESPACES SPACES#))
+		   (SETQ STR (FCONCAT PAGESTR
+				      (COND
+					((ODDP (IDIFFERENCE 
+						     FILELINELENGTH 
+							    TEMP))
+					  " ")
+					(T ""))
+				      SPACESTR INDEXFILE SPACESTR 
+				      INDEXSTR)))
+		 ((ILESSP (SETQ TEMP (IPLUS FILENAME# PAGE#))
+			  FILELINELENGTH)
+		                                (* leave out function 
+						name and file name)
+		                                (* this shouldnt happen 
+						often)
+		   (SETQ SPACES# (IDIFFERENCE FILELINELENGTH TEMP))
+		   (SETQ SPACESTR (MAKESPACES SPACES#))
+		   (SETQ STR (FCONCAT PAGESTR SPACESTR INDEXFILE)))
+		 (T                             (* punt for just page 
+						number -- this should 
+						never happen)
+		    (SETQ STR PAGESTR]
+
+          (* * STR was set in one of the clauses above.)
+
+
+          (BOLDPRIN1 STR)
+          (NEWLINE)
+          (NEWLINE])
+
+(TESTPAGE
+  [LAMBDA (N)                                   (* J.Vittal: 
+						"18-Jan-79 14:15")
+
+          (* Tests if N lines are left on the page;
+	  returns T if there are, NIL otherwise.)
+
+
+    (ILEQ (IPLUS LINENUMBER N)
+	  LINESPERPAGE])
+
+(FCONCAT
+  [LAMBDA STRS                                  (* mdy "30-Sep-79 11:48"
+)
+
+          (* * This function is a fast "concat" by dumping the
+	  strings into a scratch string and returns a pointer 
+	  to it. Note: if the string is actually be kept 
+	  around, the user is responsible to do a real CONCAT 
+	  on the returned value.)
+
+
+    (for X from 1 to STRS bind STR PTR_1
+			       (SCRATCHSTR _(CONSTANT (CONCAT 
+						   MACSCRATCHSTRING)))
+       do (SETQ STR (ARG STRS X))
+	  (RPLSTRING SCRATCHSTR PTR STR)
+	  (add PTR (NCHARS STR))
+       finally (RETURN (SUBSTRING SCRATCHSTR 1 (SUB1 PTR])
+
+(ODDP
+  [LAMBDA (NUM)                                 (* mdy " 2-Oct-79 09:58"
+)
+    (IEQP (IREMAINDER NUM 2)
+	  1])
+)
+
+(RPAQ 100SPACES 
+
+"                                                                                                    "
+)
+(DECLARE: DONTEVAL@LOAD DOEVAL@COMPILE DONTCOPY COMPILERVARS 
+
+(ADDTOVAR NLAMA )
+
+(ADDTOVAR NLAML )
+
+(ADDTOVAR LAMA FCONCAT)
+)
+(DECLARE: DONTCOPY
+  (FILEMAP (NIL (652 7767 (BOLDPRIN1 664 . 1361) (BYTECOPY 1365 . 2709) (
+MAKESPACES 2713 . 2991) (MAKEINDEXNUMBER 2995 . 3053) (NEWLINE 3057 . 
+3318) (NEWPAGE 3322 . 6759) (TESTPAGE 6763 . 7015) (FCONCAT 7019 . 7640)
+ (ODDP 7644 . 7764)))))
+STOP
+ 

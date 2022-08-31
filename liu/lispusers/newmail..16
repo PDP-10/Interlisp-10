@@ -1,0 +1,475 @@
+(FILECREATED " 9-Mar-80 19:10:38" <LISPUSERS>NEWMAIL..18 14070  
+
+     changes to:  NEWMAILAUTHORS
+
+     previous date: " 9-Mar-80 19:03:49" <LISPUSERS>NEWMAIL..17)
+
+
+(PRETTYCOMPRINT NEWMAILCOMS)
+
+(RPAQQ NEWMAILCOMS ((* NEWMAILAUTHORS returns a list of new message authors 
+		       since the mail was last read. It assumes the 
+		       standard ARPANet TENEX message file format.)
+		    (FNS INITNEWMAIL NEWMAILAUTHORS READAUTHOR NEWMAILP 
+			 MAILFILENAME MAILFILEJFN DELETEDMAILFILEP 
+			 NOMAILFILERROR)
+		    (MACROS IREADDATE IWRITEDATE FILELENGTH)
+		    (* Should set $NEWMAILAUTHORS$ and $NEWMAILEOFPTR$ to 
+		       NIL in AFTERSYSOUTFORMS and during loadup)
+		    (VARS ($NEWMAILAUTHORS$)
+			  ($NEWMAILEOFPTR$)
+			  (NEWMAILINCLUDESITES))
+		    (P (SETQ MAILFILENAME (MAILFILENAME)))
+		    (ADDVARS (AFTERSYSOUTFORMS (SETQ $NEWMAILAUTHORS$ NIL)
+					       (SETQ $NEWMAILEOFPTR$ NIL)
+					       (SETQ MAILFILENAME
+						     (MAILFILENAME)))
+			     (MAILFIRSTNAMELST))
+		    (* setup readtables for finding the new mail authors)
+		    (P (SETQ NEWMAILAUTHORSRDTBL (COPYREADTABLE
+			       (QUOTE ORIG)))
+		       (SETSEPR (QUOTE (, ;))
+				1 NEWMAILAUTHORSRDTBL)
+		       (SETSYNTAX (CHARACTER 32)
+				  (QUOTE OTHER)
+				  NEWMAILAUTHORSRDTBL)
+		       (SETQ NEWMAILFROMRDTBL (COPYREADTABLE (QUOTE ORIG)))
+		       (SETSEPR (LIST (CHARACTER 31)
+				      (CHARACTER 32))
+				NIL NEWMAILFROMRDTBL)
+		       (INITNEWMAIL))
+		    (* NEWMAILBLINKP is a useful function in conjunction 
+		       with NEWMAILAUTHORS. It tells you wether to still 
+		       "blink"
+		       the new mail message. It says blink until the user 
+		       does something (the event number changes)
+		       and blink for at least BLINKMAILTIME minutes.)
+		    (FNS NEWMAILBLINKP GETEVENT# INTERNALIZEMINUTES)
+		    (* set the following variables during loadup and after 
+		       sysouts.)
+		    (VARS ($LASTMAILWRITE$)
+			  ($LASTEVENT#$)
+			  ($LASTMAILALERTTIME$)
+			  (BLINKMAILTIME 1))
+		    (ADDVARS (AFTERSYSOUTFORMS (SETQ $LASTMAILWRITE$ NIL)
+					       (SETQ $LASTEVENT#$ NIL)
+					       (SETQ $LASTMAILALERTTIME$ 
+						     NIL)))
+		    (* Lisp information)
+		    (DECLARE: EVAL@COMPILE DONTCOPY
+			      (P (RESETSAVE DWIMIFYCOMPFLG T))
+			      (FILES (SYSLOAD FROM LISPUSERS)
+				     NOBOX))
+		    (BLOCKS (NEWMAILAUTHORSBLOCK (ENTRIES NEWMAILAUTHORS)
+						 (SPECVARS MAILFILENAME 
+						    NEWMAILAUTHORSRDTBL 
+						       NEWMAILFROMRDTBL 
+						    NEWMAILINCLUDESITES 
+						       MAILFIRSTNAMELST)
+						 (GLOBALVARS 
+						       $NEWMAILAUTHORS$ 
+							$NEWMAILEOFPTR$ 
+							   RETRIEDPARSE 
+						       NEWMAILCASEARRAY)
+						 NEWMAILAUTHORS READAUTHOR 
+						 NOMAILFILERROR MAILFILEJFN 
+						 DELETEDMAILFILEP)
+			    (NEWMAILPBLOCK (ENTRIES NEWMAILP)
+					   (SPECVARS MAILFILENAME)
+					   NEWMAILP DELETEDMAILFILEP 
+					   NOMAILFILERROR MAILFILEJFN)
+			    (NEWMAILBLINKPBLOCK (ENTRIES NEWMAILBLINKP)
+						(SPECVARS BLINKMAILTIME 
+							  MAILFILENAME 
+							  LISPXHISTORY)
+						(GLOBALVARS 
+						    $LASTMAILALERTTIME$ 
+							   $LASTEVENT#$ 
+							$LASTMAILWRITE$)
+						NEWMAILBLINKP GETEVENT# 
+						INTERNALIZEMINUTES))))
+[DECLARE: DONTEVAL@LOAD DONTCOPY
+
+
+
+(* NEWMAILAUTHORS returns a list of new message authors since the 
+mail was last read. It assumes the standard ARPANet TENEX message 
+file format.)
+
+]
+
+
+(DEFINEQ
+
+(INITNEWMAIL
+  [LAMBDA NIL
+    (DECLARE (USEDFREE NEWMAILCASEARRAY))    (* Edited by M.Yonke on 
+					     9-Mar-80.)
+
+    (* * Set up a casearray for a case-independent search in 
+    FILEPOS -- used by NEWMAILAUTHORS.)
+
+
+    NEWMAILCASEARRAY_(SEPRCASE)
+    (for I from 98 to 123 do ((ELT NEWMAILCASEARRAY I)_I-33])
+
+(NEWMAILAUTHORS
+  [LAMBDA NIL                                (* Edited by M.Yonke on 
+					     9-Mar-80.)
+
+    (* * This function is intended to quickly "parse" your mail 
+    FILE and return a list of AUTHORS of all your new messages 
+    (without hostname). It does keep track of how far it has 
+    parsed a FILE and only parses the new messages.)
+
+
+    (PROG (AUTHORS FILE MAILJFN SKIPCOUNT MESSAGEDATE EOFPOINTER READDATE 
+		   WRITEDATE RETRIEDPARSE (FILEPTR (IBOX)))
+          (OR MAILJFN_(MAILFILEJFN)
+	      (DELETEDMAILFILEP)
+	      (NOMAILFILERROR))
+          (if ~MAILJFN
+	      then                           (* didn't get JFN therefore 
+					     leave)
+		   (RETURN))
+          (READDATE_(IREADDATE MAILJFN))
+          (WRITEDATE_(IWRITEDATE MAILJFN))
+          (EOFPOINTER_(FILELENGTH MAILJFN))
+
+    (* * First check to see if there is new mail.)
+
+
+          (if ~(READDATE lt WRITEDATE)
+	      then                           (* no new mail)
+		   $NEWMAILEOFPTR$_EOFPOINTER
+                                             (* save EOF pointer)
+		   $NEWMAILAUTHORS$_NIL
+		   (RLJFN MAILJFN)
+		   (RETURN)
+	    else                             (* got new mail so open file)
+		 FILE_(JFNS MAILJFN)
+		 (OPENFILE MAILJFN 'INPUT 'OLD NIL '(DON'T.CHANGE.READ.DATE)
+			   ))
+          (if $NEWMAILEOFPTR$
+	      then (if (IEQP $NEWMAILEOFPTR$ EOFPOINTER)
+		       then                  (* really no new mail -- should
+					     never happen)
+			    (CLOSEF? FILE)
+			    (RETURN $NEWMAILAUTHORS$))
+		   (if EOFPOINTER lt $NEWMAILEOFPTR$
+		       then                  (* something is screwed up -- 
+					     reparse)
+			    FILEPTR:I_0
+		     else (FILEPTR:I_$NEWMAILEOFPTR$))
+	    else (FILEPTR:I_0))
+      LP  (SETFILEPTR FILE FILEPTR)
+          (MESSAGEDATE_(IDATE (RATOM FILE NEWMAILAUTHORSRDTBL)))
+          (if ~MESSAGEDATE
+	      then (if RETRIEDPARSE
+		       then (ERROR "Bad mail file format in " FILE)
+		     else FILEPTR:I_0
+			  RETRIEDPARSE_T
+			  (GO LP)))
+          (SKIPCOUNT_(RATOM FILE NEWMAILAUTHORSRDTBL))
+          (if ~(NUMBERP SKIPCOUNT)
+	      then (if RETRIEDPARSE
+		       then (ERROR "Bad mail file format in " FILE)
+		     else FILEPTR:I_0
+			  RETRIEDPARSE_T
+			  (GO LP)))
+          (RATOM FILE NEWMAILAUTHORSRDTBL)   (* read past the markers)
+          (FILEPTR:I_(GETFILEPTR FILE)+SKIPCOUNT)
+          (if MESSAGEDATE gt READDATE
+	      then 
+
+    (* This is a new message -- now go look for the from field)
+
+
+		   (if (FILEPOS (CONSTANT (CONCAT (CHARACTER 10)
+						  "From: "))
+				FILE NIL FILEPTR NIL T NEWMAILCASEARRAY)
+		       then AUTHORS_ <(READAUTHOR FILE) ! AUTHORS>
+		     else AUTHORS_ <(if NEWMAILINCLUDESITES
+					then '(Unknown)
+				      else 'Unknown)
+				     ! AUTHORS>))
+          (if (IEQP FILEPTR+2 EOFPOINTER)
+	      then                           (* have run thru the FILE)
+		   (if $NEWMAILAUTHORS$
+		       then                  (* have "old" new AUTHORS)
+			    AUTHORS_ < ! AUTHORS ! $NEWMAILAUTHORS$>)
+		   $NEWMAILEOFPTR$_EOFPOINTER
+		   (CLOSEF? FILE)
+		   (RETURN $NEWMAILAUTHORS$_(if AUTHORS::1
+						then (INTERSECTION AUTHORS 
+								AUTHORS)
+					      else AUTHORS)))
+          (GO LP])
+
+(READAUTHOR
+  [LAMBDA (FILE)
+    (DECLARE (USEDFREE MAILFIRSTNAMELST))    (* mdy "27-May-79 18:46")
+    (PROG (AUTHOR TEMP)
+          (AUTHOR_(RATOM FILE NEWMAILFROMRDTBL))
+          (if TEMP_(CDR (ASSOC (if (U-CASEP AUTHOR)
+				   then AUTHOR
+				 else (U-CASE AUTHOR))
+			       MAILFIRSTNAMELST))
+	      then                           (* AUTHOR known by first name)
+		   AUTHOR_TEMP
+	    elseif (U-CASEP AUTHOR)
+	      then AUTHOR_(L-CASE AUTHOR T))
+          (RETURN (if NEWMAILINCLUDESITES
+		      then <AUTHOR !(until (PEEKC FILE)=(CONSTANT
+					     (CHARACTER 31))
+				       collect (RATOM FILE NEWMAILFROMRDTBL)
+					   )
+			     >
+		    else AUTHOR])
+
+(NEWMAILP
+  [LAMBDA NIL                                (* Edited by M.Yonke on 
+					     30-Sep-79.)
+
+    (* * This function is a simplier function than NEWMAILAUTHORS.
+    If you have no new mail it functions exactly like 
+    NEWMAILAUTHORS but if you have new mail it just returns T 
+    rather than searching your mailbox for the new authors 
+    (useful if you have alot (greater than 100) messages). Since 
+    it only checks the read and write dates it doesn't have to 
+    open the file.)
+
+
+    (PROG (MAILJFN)
+          (if (MAILJFN_(MAILFILEJFN) or (DELETEDMAILFILEP)
+		  or (NOMAILFILERROR))
+		and MAILJFN
+	      then (RETURN (PROG1 ((IREADDATE MAILJFN)
+				   lt
+				   (IWRITEDATE MAILJFN))
+				  (RLJFN MAILJFN])
+
+(MAILFILENAME
+  [LAMBDA NIL                                (* Edited by M.Yonke on 
+					     30-Sep-79.)
+
+    (* * Creates a mail box file name based on SYSTEMTYPE and if 
+    DIRNAME was supplied it also checks to see if it is a valid 
+    directory name -- if it wasn't then NIL is returned.)
+
+
+    (PACKFILENAME 'DIRECTORY (DIRECTORYNAME NIL T)
+		  'NAME
+		  (SELECTQ (SYSTEMTYPE)
+			   (TENEX 'MESSAGE)
+			   (TOPS20 'MAIL)
+			   (SHOULDNT))
+		  'EXTENSION 'TXT 'VERSION 1])
+
+(MAILFILEJFN
+  [LAMBDA NIL                                (* Edited by M.Yonke on 
+					     23-Sep-79.)
+
+    (* * Returns a JFN for file MAILFILENAME if it exists.)
+
+
+    (GTJFN MAILFILENAME NIL NIL 32768])
+
+(DELETEDMAILFILEP
+  [LAMBDA NIL                                (* Edited by M.Yonke on 
+					     23-Sep-79.)
+    (GETFILEINFO MAILFILENAME 'DELETED])
+
+(NOMAILFILERROR
+  [LAMBDA NIL                                (* Edited by M.Yonke on 
+					     23-Sep-79.)
+    (ERROR "Can't find mailbox in " MAILFILENAME])
+)
+(DECLARE: EVAL@COMPILE 
+
+(PUTPROPS IREADDATE MACRO ((JFN)
+			   (AND (SMALLP JFN)
+				(JSYS 51 JFN 262157 1 1))))
+
+(PUTPROPS IWRITEDATE MACRO ((JFN)
+			    (AND (SMALLP JFN)
+				 (JSYS 51 JFN 262156 1 1))))
+
+(PUTPROPS FILELENGTH MACRO ((JFN)
+			    (AND (SMALLP JFN)
+				 (JSYS 51 JFN 262154 1 1))))
+)
+[DECLARE: DONTEVAL@LOAD DONTCOPY
+
+
+
+(* Should set $NEWMAILAUTHORS$ and $NEWMAILEOFPTR$ to NIL in 
+AFTERSYSOUTFORMS and during loadup)
+
+]
+
+
+
+(RPAQ $NEWMAILAUTHORS$ NIL)
+
+(RPAQ $NEWMAILEOFPTR$ NIL)
+
+(RPAQ NEWMAILINCLUDESITES NIL)
+(SETQ MAILFILENAME (MAILFILENAME))
+
+(ADDTOVAR AFTERSYSOUTFORMS (SETQ $NEWMAILAUTHORS$ NIL)
+			   (SETQ $NEWMAILEOFPTR$ NIL)
+			   (SETQ MAILFILENAME (MAILFILENAME)))
+
+(ADDTOVAR MAILFIRSTNAMELST )
+[DECLARE: DONTEVAL@LOAD DONTCOPY
+
+
+
+(* setup readtables for finding the new mail authors)
+
+]
+
+
+(SETQ NEWMAILAUTHORSRDTBL (COPYREADTABLE (QUOTE ORIG)))
+(SETSEPR (QUOTE (, ;))
+	 1 NEWMAILAUTHORSRDTBL)
+(SETSYNTAX (CHARACTER 32)
+	   (QUOTE OTHER)
+	   NEWMAILAUTHORSRDTBL)
+(SETQ NEWMAILFROMRDTBL (COPYREADTABLE (QUOTE ORIG)))
+(SETSEPR (LIST (CHARACTER 31)
+	       (CHARACTER 32))
+	 NIL NEWMAILFROMRDTBL)
+(INITNEWMAIL)
+[DECLARE: DONTEVAL@LOAD DONTCOPY
+
+
+
+(* NEWMAILBLINKP is a useful function in conjunction with 
+NEWMAILAUTHORS. It tells you wether to still "blink" the new mail 
+message. It says blink until the user does something 
+(the event number changes) and blink for at least BLINKMAILTIME 
+minutes.)
+
+]
+
+
+(DEFINEQ
+
+(NEWMAILBLINKP
+  [LAMBDA NIL
+    (DECLARE (USEDFREE MAILFILENAME))           (* mdy "28-May-79 19:08"
+)
+
+          (* * This function decides whether to continue 
+	  blinking the new mail message.
+	  It assumes that new mail has arrived, i.e. it 
+	  doesn't check itself -
+	  NOTE: This function only works in sysouts because 
+	  $LASTMAILWRITE$ is set to NIL in AFTERSYSOUTFORMS)
+
+
+    (PROG ((MAILWRITEDATE (GETFILEINFO MAILFILENAME 'IWRITEDATE)))
+          (if ~$LASTMAILWRITE$ or $LASTMAILWRITE$ lt MAILWRITEDATE
+	      then                              (* new mail -- either 
+						first time or got new 
+						mail)
+		   $LASTMAILWRITE$_MAILWRITEDATE
+		   $LASTMAILALERTTIME$_(IDATE)
+		   $LASTEVENT#$_(GETEVENT#)
+		   (RETURN T)
+	    elseif $LASTMAILALERTTIME$
+	      then (if $LASTMAILALERTTIME$+(INTERNALIZEMINUTES 
+						      BLINKMAILTIME)
+		       lt
+		       (IDATE) and $LASTEVENT#$~=(GETEVENT#)
+		       then                     (* stop blinking)
+			    $LASTMAILALERTTIME$_$LASTEVENT#$_NIL
+			    (RETURN NIL)
+		     else                       (* continue blinking)
+			  (RETURN T))
+	    else                                (* can't want to blink)
+		 (RETURN NIL])
+
+(GETEVENT#
+  [LAMBDA NIL                                   (* mdy "28-May-79 19:09"
+)
+    LISPXHISTORY:2])
+
+(INTERNALIZEMINUTES
+  [LAMBDA (MINUTES)                             (* mdy "27-May-79 19:32"
+)
+
+          (* * TENEX and TOPS20 keep different internal times 
+	  -
+	  TENEX runs in seconds -
+	  TOPS20 run is "roughly" a third of a second)
+
+
+    MINUTES_((FIXP MINUTES) or 1)
+    (SELECTQ (SYSTEMTYPE)
+	     (TENEX MINUTES*60)
+	     (TOPS20 MINUTES*182)
+	     (SHOULDNT])
+)
+[DECLARE: DONTEVAL@LOAD DONTCOPY
+
+
+
+(* set the following variables during loadup and after sysouts.)
+
+]
+
+
+
+(RPAQ $LASTMAILWRITE$ NIL)
+
+(RPAQ $LASTEVENT#$ NIL)
+
+(RPAQ $LASTMAILALERTTIME$ NIL)
+
+(RPAQ BLINKMAILTIME 1)
+
+(ADDTOVAR AFTERSYSOUTFORMS (SETQ $LASTMAILWRITE$ NIL)
+			   (SETQ $LASTEVENT#$ NIL)
+			   (SETQ $LASTMAILALERTTIME$ NIL))
+[DECLARE: DONTEVAL@LOAD DONTCOPY
+
+
+
+(* Lisp information)
+
+]
+
+
+(DECLARE: EVAL@COMPILE DONTCOPY 
+(RESETSAVE DWIMIFYCOMPFLG T)
+
+(LOAD? (QUOTE <LISPUSERS>NOBOX.COM)
+       (QUOTE SYSLOAD))
+)
+[DECLARE: DONTEVAL@LOAD DOEVAL@COMPILE DONTCOPY
+(BLOCK: NEWMAILAUTHORSBLOCK (ENTRIES NEWMAILAUTHORS)
+	(SPECVARS MAILFILENAME NEWMAILAUTHORSRDTBL NEWMAILFROMRDTBL 
+		  NEWMAILINCLUDESITES MAILFIRSTNAMELST)
+	(GLOBALVARS $NEWMAILAUTHORS$ $NEWMAILEOFPTR$ RETRIEDPARSE 
+		    NEWMAILCASEARRAY)
+	NEWMAILAUTHORS READAUTHOR NOMAILFILERROR MAILFILEJFN 
+	DELETEDMAILFILEP)
+(BLOCK: NEWMAILPBLOCK (ENTRIES NEWMAILP)
+	(SPECVARS MAILFILENAME)
+	NEWMAILP DELETEDMAILFILEP NOMAILFILERROR MAILFILEJFN)
+(BLOCK: NEWMAILBLINKPBLOCK (ENTRIES NEWMAILBLINKP)
+	(SPECVARS BLINKMAILTIME MAILFILENAME LISPXHISTORY)
+	(GLOBALVARS $LASTMAILALERTTIME$ $LASTEVENT#$ $LASTMAILWRITE$)
+	NEWMAILBLINKP GETEVENT# INTERNALIZEMINUTES)
+]
+(DECLARE: DONTCOPY
+  (FILEMAP (NIL (3456 9530 (INITNEWMAIL 3468 . 3794) (NEWMAILAUTHORS 3798 . 
+7054) (READAUTHOR 7058 . 7738) (NEWMAILP 7742 . 8489) (MAILFILENAME 8493 . 
+8987) (MAILFILEJFN 8991 . 9205) (DELETEDMAILFILEP 9209 . 9362) (
+NOMAILFILERROR 9366 . 9527)) (11040 12770 (NEWMAILBLINKP 11052 . 12266) (
+GETEVENT# 12270 . 12379) (INTERNALIZEMINUTES 12383 . 12767)))))
+STOP
+ 

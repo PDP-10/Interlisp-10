@@ -1,0 +1,57 @@
+(FILECREATED "16-NOV-82 12:35:13" <LISPUSERS>SYSALL.LSP;4 3224Q  
+
+      changes to:  (FNS SYSALL CHECKSYSOUT PRINTSYSOUT PRINTSYSOUTS)
+		   (VARS SYSALLCOMS)
+
+      previous date: " 9-Nov-82 14:51:21" <CSCHMIDT>SYSALL.LSP.9)
+
+
+(PRETTYCOMPRINT SYSALLCOMS)
+
+(RPAQQ SYSALLCOMS ((FNS CHECKSYSOUT PRINTSYSOUTS SYSALL)))
+(DEFINEQ
+
+(CHECKSYSOUT
+  [LAMBDA (JFN)                    (* lmm "16-NOV-82 12:14")
+    (PROG (INFO)
+          (COND
+	    [[NOT (NLSETQ (SETQ INFO (SYSOUTP JFN]
+                                   (* error)
+	      (push SYSOUTS (LIST 0 (JFNS JFN]
+	    (INFO                  (* sysout)
+		  (push SYSOUTS (LIST (CADR INFO)
+				      (JFNS JFN)
+				      (CAR INFO])
+
+(PRINTSYSOUTS
+  [LAMBDA (SYSOUTS LOGFILE)        (* lmm "16-NOV-82 12:23")
+    (bind (LASTDATE _ -1) for INFO in (SORT SYSOUTS T) do (printout LOGFILE
+								    [COND
+								      ((EQUAL (CAR INFO)
+									      LASTDATE)
+									"")
+								      (T (SETQ LASTDATE (CAR INFO))
+									 (COND
+									   ((NEQ LASTDATE 0)
+									     (GDATE LASTDATE]
+								    24Q
+								    (CADR INFO)
+								    70Q
+								    (OR (CADDR INFO)
+									"makesys")
+								    T])
+
+(SYSALL
+  [LAMBDA (SUBTREE LOGFILE)        (* lmm "16-NOV-82 12:35")
+    (PROG (SYSOUTS)
+          (DIRECTORY SUBTREE (QUOTE (@ CHECKSYSOUT)))
+          (SETQ LOGFILE (OPENFILE (OR LOGFILE (QUOTE SYSOUT.OWNERS))
+				  (QUOTE OUTPUT)))
+          (PRINTSYSOUTS SYSOUTS LOGFILE)
+          (RETURN (CLOSEF LOGFILE])
+)
+(DECLARE: DONTCOPY (PUTPROPS SYSALL.LSP COPYRIGHT (NONE)))
+(DECLARE: DONTCOPY
+  (FILEMAP (NIL (517Q 3100Q (CHECKSYSOUT 533Q . 1336Q) (PRINTSYSOUTS 1342Q . 2357Q) (SYSALL 2363Q . 3075Q
+)))))
+STOP

@@ -1,0 +1,163 @@
+(FILECREATED " 8-FEB-81 21:33:51" <LISPUSERS>CHARCODE.;19 5327   
+
+     changes to:  CHARCODECOMS
+
+     previous date: " 5-AUG-80 10:21:37" <LISPUSERS>CHARCODE.;18)
+
+
+(PRETTYCOMPRINT CHARCODECOMS)
+
+(RPAQQ CHARCODECOMS [(E (RESETSAVE CLISPIFYPRETTYFLG NIL))
+		     (COMS (FNS CHARCLASSP)
+			   (DECLARE: EVAL@COMPILE DONTCOPY (FNS CHARCLASSPMAC))
+			   (BLOCKS (NIL CHARCLASSPMAC))
+			   (MACROS CHARCLASSP))
+		     (FNS * CHARCONVERTFNS)
+		     (DECLARE: EVAL@COMPILE (PROP MACRO * CHARCONVERTFNS))
+		     (DECLARE: DONTEVAL@LOAD DOEVAL@COMPILE DONTCOPY COMPILERVARS
+			       (ADDVARS (NLAMA SELCHARQ)
+					(NLAML CHARCODE)
+					(LAMA])
+(DEFINEQ
+
+(CHARCLASSP
+  [LAMBDA (CODE CLASS)                                 (* rmk: "21-JUL-80 22:25")
+                                                       (* T if CODE represents a character of class CLASS.)
+    (SELECTQ CLASS
+	     [(ALPHA LETTER)
+	       (OR (CHARCLASSP CODE (QUOTE LCASE))
+		   (CHARCLASSP CODE (QUOTE UCASE]
+	     [DIGIT (AND (IGEQ CODE (CHARCODE 0))
+			 (ILEQ CODE (CHARCODE 9]
+	     [UCASE (AND (IGEQ CODE (CHARCODE A))
+			 (ILEQ CODE (CHARCODE Z]
+	     [LCASE (AND (IGEQ CODE (CHARCODE a))
+			 (ILEQ CODE (CHARCODE z]
+	     (CONTROL (ILEQ CODE 31))
+	     (ERROR "Unrecognized character code class" CLASS])
+)
+(DECLARE: EVAL@COMPILE DONTCOPY 
+(DEFINEQ
+
+(CHARCLASSPMAC
+  [LAMBDA (CODE CLASS)                                 (* rmk: "21-JUL-80 22:25")
+                                                       (* Macro for CHARCLASSP with quote class)
+    (COND
+      [(EQ (CAR (LISTP CLASS))
+	   (QUOTE QUOTE))
+	(PROG (FORM)
+	      (SETQ FORM (SELECTQ (CADR CLASS)
+				  [(ALPHA LETTER)
+				    (QUOTE (OR (CHARCLASSP CODE (QUOTE LCASE))
+					       (CHARCLASSP CODE (QUOTE UCASE]
+				  [DIGIT (QUOTE (AND (IGEQ CODE (CHARCODE 0))
+						     (ILEQ CODE (CHARCODE 9]
+				  [UCASE (QUOTE (AND (IGEQ CODE (CHARCODE A))
+						     (ILEQ CODE (CHARCODE Z]
+				  [LCASE (QUOTE (AND (IGEQ CODE (CHARCODE a))
+						     (ILEQ CODE (CHARCODE z]
+				  [CONTROL (RETURN (SUBST CODE (QUOTE CODE)
+							  (QUOTE (ILEQ CODE 31]
+				  (ERROR "Unrecognized character code class" CLASS)))
+	      (RETURN (COND
+			((ATOM CODE)
+			  (SUBST CODE (QUOTE CODE)
+				 FORM))
+			(T (LIST (LIST (QUOTE LAMBDA)
+				       (QUOTE (CODE))
+				       (QUOTE (DECLARE (LOCALVARS . T)))
+				       FORM)
+				 CODE]
+      (T (QUOTE IGNOREMACRO])
+)
+)
+[DECLARE: DONTEVAL@LOAD DOEVAL@COMPILE DONTCOPY
+(BLOCK: NIL CHARCLASSPMAC)
+]
+(DECLARE: EVAL@COMPILE 
+
+(PUTPROPS CHARCLASSP MACRO (ARGS (CHARCLASSPMAC (CAR ARGS)
+						(CADR ARGS))))
+)
+
+(RPAQQ CHARCONVERTFNS (CONTROLCODE DIGITCHAR DIGITCODE LCASECODE UCASECODE))
+(DEFINEQ
+
+(CONTROLCODE
+  [LAMBDA (CODE)                                       (* rmk: "30-APR-80 11:30")
+                                                       (* Converts from upper or lower to control-equivalent)
+    (LOGAND CODE 31])
+
+(DIGITCHAR
+  [LAMBDA (CODE)                                       (* rmk: " 4-AUG-80 21:55")
+                                                       (* Returns the digit corresponding to CODE)
+    (IDIFFERENCE CODE (CHARCODE 0])
+
+(DIGITCODE
+  [LAMBDA (N)                                          (* rmk: " 4-AUG-80 21:56")
+    (IPLUS N (CHARCODE 0])
+
+(LCASECODE
+  [LAMBDA (CODE)                                       (* rmk: " 4-AUG-80 21:57")
+                                                       (* Converts CODE from upper to lower)
+    (IPLUS CODE (CONSTANT (IDIFFERENCE (CHARCODE a)
+				       (CHARCODE A])
+
+(UCASECODE
+  [LAMBDA (CODE)                                       (* rmk: " 5-AUG-80 10:21")
+                                                       (* Converts CODE from lower to upper)
+    (IDIFFERENCE CODE (CONSTANT (IDIFFERENCE (CHARCODE a)
+					     (CHARCODE A])
+)
+(DECLARE: EVAL@COMPILE 
+
+(RPAQQ CHARCONVERTFNS (CONTROLCODE DIGITCHAR DIGITCODE LCASECODE UCASECODE))
+
+(PUTPROPS CONTROLCODE MACRO ((CODE)
+			     (LOGAND CODE 31)))
+
+(PUTPROPS DIGITCHAR MACRO ((CODE)
+			   (IDIFFERENCE CODE (CHARCODE 0))))
+
+(PUTPROPS DIGITCODE MACRO ((N)
+			   (IPLUS N (CHARCODE 0))))
+
+(PUTPROPS LCASECODE MACRO ((CODE)
+			   (IPLUS CODE 32)))
+
+(PUTPROPS UCASECODE MACRO ((CODE)
+			   (IDIFFERENCE CODE 32)))
+)
+(DECLARE: DONTEVAL@LOAD DOEVAL@COMPILE DONTCOPY COMPILERVARS 
+
+(ADDTOVAR NLAMA SELCHARQ)
+
+(ADDTOVAR NLAML CHARCODE)
+
+(ADDTOVAR LAMA )
+)
+(PRETTYCOMPRINT CHARCODECOMS)
+
+(RPAQQ CHARCODECOMS [(E (RESETSAVE CLISPIFYPRETTYFLG NIL))
+		     (COMS (FNS CHARCLASSP)
+			   (DECLARE: EVAL@COMPILE DONTCOPY (FNS CHARCLASSPMAC))
+			   (BLOCKS (NIL CHARCLASSPMAC))
+			   (MACROS CHARCLASSP))
+		     (FNS * CHARCONVERTFNS)
+		     (DECLARE: EVAL@COMPILE (PROP MACRO * CHARCONVERTFNS))
+		     (DECLARE: DONTEVAL@LOAD DOEVAL@COMPILE DONTCOPY COMPILERVARS (ADDVARS (NLAMA)
+											   (NLAML)
+											   (LAMA])
+(DECLARE: DONTEVAL@LOAD DOEVAL@COMPILE DONTCOPY COMPILERVARS 
+
+(ADDTOVAR NLAMA )
+
+(ADDTOVAR NLAML )
+
+(ADDTOVAR LAMA )
+)
+(DECLARE: DONTCOPY
+  (FILEMAP (NIL (668 1364 (CHARCLASSP 680 . 1361)) (1400 2544 (CHARCLASSPMAC 1412 . 2541)) (2829 4057 (
+CONTROLCODE 2841 . 3082) (DIGITCHAR 3086 . 3332) (DIGITCODE 3336 . 3469) (LCASECODE 3473 . 3759) (
+UCASECODE 3763 . 4054)))))
+STOP

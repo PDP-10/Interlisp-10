@@ -1,0 +1,226 @@
+(FILECREATED "27-NOV-82 12:21:42" <LISPUSERS>WHEREIS.;45 8218   
+
+      changes to:  (FNS WHEREISNOTICE WHEREISNOTICE1 WHEREISNOTICEFN)
+
+      previous date: "18-AUG-81 13:52:56" <LISPUSERS>WHEREIS.;44)
+
+
+(* Copyright (c) 1982 by Xerox Corporation)
+
+(PRETTYCOMPRINT WHEREISCOMS)
+
+(RPAQQ WHEREISCOMS [(* WHEREIS from a hashfile)
+		    (E (RESETSAVE CLISPIFYPRETTYFLG NIL))
+		    (FNS WHEREIS)
+		    (FNS WHEREISNOTICE WHEREISNOTICE1 WHEREISNOTICEFN)
+		    (VARS (WHEREISHASHFILE))
+		    (P (OR (BOUNDP (QUOTE WHEREIS.HASH))
+			   (RPAQQ WHEREIS.HASH <LISPUSERS>WHEREIS.HASH)))
+		    (FILES (SYSLOAD FROM VALUEOF LISPUSERSDIRECTORIES)
+			   HASH)
+		    (BLOCKS (WHEREISNOTICEBLOCK WHEREISNOTICE1 WHEREISNOTICEFN WHEREISNOTICE
+						(ENTRIES WHEREISNOTICE1 WHEREISNOTICE WHEREISNOTICEFN)
+						(NOLINKFNS . T)
+						(GLOBALVARS WHEREIS.HASH))
+			    (NIL WHEREIS (LOCALVARS . T)
+				 (GLOBALVARS WHEREISHASHFILE WHEREIS.HASH])
+
+
+
+(* WHEREIS from a hashfile)
+
+(DEFINEQ
+
+(WHEREIS
+  [LAMBDA (NAME TYPE FILES FN)                         (* rmk: "18-AUG-81 13:52")
+    (DECLARE (GLOBALVARS MSHASHFILENAME))
+    (PROG (VAL)                                        (* if FN given, APPLY* to each element and 
+						       return NIL)
+          (SETQ TYPE (GETFILEPKGTYPE TYPE))
+      LP  [for FILE in (OR (LISTP FILES)
+			   FILELST)
+	     do (COND
+		  ((INFILECOMS? NAME TYPE (FILECOMS FILE))
+		    (COND
+		      (FN (APPLY* FN NAME FILE)))
+		    (SETQ VAL (CONS FILE VAL]
+          [AND (EQ FILES T)
+	       (EQ TYPE (QUOTE FNS))
+	       (LITATOM NAME)
+	       (for FILE inside [UNION (AND MSHASHFILENAME (GETRELATION NAME (QUOTE CONTAINS)
+									T))
+				       (GETHASHFILE NAME
+						    (OR WHEREISHASHFILE
+							(PROG1 (SETQ WHEREISHASHFILE
+								 (OPENHASHFILE WHEREIS.HASH))
+							       (WHENCLOSE (HASHFILENAME 
+										  WHEREISHASHFILE)
+									  (QUOTE AFTER)
+									  (FUNCTION [LAMBDA NIL
+									      (SETQ WHEREISHASHFILE 
+										NIL])
+									  (QUOTE CLOSEALL)
+									  (QUOTE NO]
+		  unless (FMEMB FILE VAL) do           (* Order of args to UNION means no extra 
+						       consing when MSHASH not present.)
+					     (AND FN (APPLY* FN NAME FILE))
+					     (SETQ VAL (CONS FILE VAL]
+          (RETURN (AND (NULL FN)
+		       (DREVERSE VAL])
+)
+(DEFINEQ
+
+(WHEREISNOTICE
+  [LAMBDA (DIRECTORIES NEWFLG)     (* lmm "27-NOV-82 12:21")
+
+          (* Copies the current whereis hash-file into a scratch file, then notices the files in FILEGROUP.
+	  The copy is so that this function will execute even though someone else is reading the current database.
+	  The database is copied to a scratch file, then renamed to be a newer version of the previous database, which is 
+	  deleted. This allows others to use the old database while the copying is going on. If an earlier version of the 
+	  scratch file exists, it means that someone else is currently updating (their version disappears when they complete 
+	  successfully or logout), so we wait for them to finish.)
+
+
+    (RESETLST                      (* ASSERT: ((REMOTE CALL) WHEREISNOTICEFN))
+	      (PROG (SCRATCH HF (SCRATCHVAL (LIST NIL))
+			     (OLDWH (INFILEP WHEREIS.HASH)))
+		    (DECLARE (SPECVARS HF))
+                                   (* HF is the hashfile used freely by WHEREISNOTICE1)
+		    [RESETSAVE (PROGN SCRATCHVAL)
+			       (QUOTE (PROGN (CLOSEF? (CAR OLDVALUE))
+					     (AND RESETSTATE (DELFILE (CAR OLDVALUE]
+		    [SETQ HF (CAR (RPLACA SCRATCHVAL (CLOSEF (OPENFILE (SETQ SCRATCH
+									 (PACKFILENAME
+									   (QUOTE DIRECTORY)
+									   (FILENAMEFIELD
+									     WHEREIS.HASH
+									     (QUOTE DIRECTORY))
+									   (QUOTE NAME)
+									   (QUOTE NEWWHEREISDATABASE)
+									   (QUOTE EXTENSION)
+									   (QUOTE SCRATCH)
+									   (QUOTE TEMPORARY)
+									   (QUOTE S)))
+								       (QUOTE OUTPUT)
+								       (QUOTE NEW]
+                                   (* Compensate for the fact that PACKFILENAME produces version -1 for temporary 
+				   ;S)
+		    (AND (EQ (SYSTEMTYPE)
+			     (QUOTE TOPS20))
+			 (SETQ SCRATCH (PACKFILENAME (QUOTE VERSION)
+						     NIL
+						     (QUOTE BODY)
+						     SCRATCH)))
+
+          (* If there is a version earlier than the one we got, someone else must have it, and we must wait until he gets rid 
+	  of it (by deleting it))
+
+
+		    (bind OLDV RPT_1 until [EQ HF (SETQ OLDV (FULLNAME SCRATCH (QUOTE OLDEST]
+		       do (DISMISS 2000)
+			  (if (NULL RPT)
+			    elseif (EQ RPT 5)
+			      then (printout T T (GETFILEINFO OLDV (QUOTE AUTHOR))
+					     " seems to be updating the database right now." T 
+					     "I'm waiting for him to finish."
+					     T T)
+				   (SETQ RPT NIL)
+			    else (add RPT 1)))
+		    (if (OR NEWFLG (NULL OLDWH))
+			then (CREATEHASHFILE HF (QUOTE SMALLEXPR))
+		      else (COPYHASHFILE OLDWH HF NIL NIL T)
+			   (CLOSEF? OLDWH))
+                                   (* Must leave the new file open--otherwise, the user might lose access to it 
+				   before he starts to do the noticing.)
+		    (FOR X INSIDE DIRECTORIES DO (DIRECTORY (PACKFILENAME (QUOTE DIRECTORY)
+									  X
+									  (QUOTE NAME)
+									  (QUOTE *)
+									  (QUOTE VERSION)
+									  0
+									  (QUOTE EXTENSION)
+									  NIL)
+							    (QUOTE (P @ WHEREISNOTICEFN))
+							    (QUOTE "")
+							    0))
+		    (CLOSEF HF)
+
+          (* This closes the file, but other updaters are still locked out cause they go for a new version and then trip over 
+	  our old one.)
+
+
+		    (if (SETQ HF (RENAMEFILE HF (PACKFILENAME (QUOTE VERSION)
+							      NIL
+							      (QUOTE BODY)
+							      WHEREIS.HASH)))
+			then (DELFILE OLDWH))
+                                   (* Now others can get in to read or update.)
+		    (RETURN HF])
+
+(WHEREISNOTICE1
+  [LAMBDA (FILE)                   (* rmk: " 9-SEP-78 15:40")
+    (DECLARE (USEDFREE HF))
+    (RESETLST (PROG (NAME MAPPOS DATE VAL)
+		    [RESETSAVE NIL (LIST (QUOTE CLOSEF?)
+					 (SETQ FILE (OPENFILE FILE (QUOTE INPUT)
+							      (QUOTE OLD)
+							      NIL
+							      (QUOTE (DON'T.CHANGE.READ.DATE 
+										DON'T.CHANGE.DATE]
+		    (SETFILEPTR FILE 0)
+		    [OR [AND (EQ (RATOM FILE FILERDTBL)
+				 (QUOTE %())
+			     (EQ (RATOM FILE FILERDTBL)
+				 (QUOTE FILECREATED))
+			     (STRINGP (SETQ DATE (READ FILE FILERDTBL)))
+			     (LITATOM (READ FILE FILERDTBL))
+			     (FIXP (SETQ MAPPOS (READ FILE FILERDTBL]
+			(RETURN (COND
+				  (MAPPOS "no filemap")
+				  (T (QUOTE "not Lisp source file"]
+		    (if (EQUAL (GETHASHFILE FILE HF)
+			       DATE)
+			then (RETURN DATE))
+		    (SETFILEPTR FILE MAPPOS)
+		    (SETQ NAME (NAMEFIELD FILE T))
+		    [for X in (CDADR (READ FILE FILERDTBL))
+		       do (for Y in (CDDR X) do (OR [NULL (SETQ VAL (LOOKUPHASHFILE
+							      (CAR Y)
+							      NAME HF (QUOTE (INSERT RETRIEVE]
+						    (EQ NAME VAL)
+						    (AND (LISTP VAL)
+							 (FMEMB NAME VAL))
+						    (PUTHASHFILE (CAR Y)
+								 (NCONC1 (OR (LISTP VAL)
+									     (LIST VAL))
+									 NAME)
+								 HF]
+		    (PUTHASHFILE FILE DATE HF)
+		    (RETURN FILE])
+
+(WHEREISNOTICEFN
+  [LAMBDA (JFN FILE)               (* rmk: " 5-SEP-78 21:21")
+    (TAB 30 NIL T)
+    (ERSETQ (PRIN2 (WHEREISNOTICE1 FILE)
+		   T T])
+)
+
+(RPAQQ WHEREISHASHFILE NIL)
+(OR (BOUNDP (QUOTE WHEREIS.HASH))
+    (RPAQQ WHEREIS.HASH <LISPUSERS>WHEREIS.HASH))
+(FILESLOAD (SYSLOAD FROM VALUEOF LISPUSERSDIRECTORIES)
+	   HASH)
+[DECLARE: DONTEVAL@LOAD DOEVAL@COMPILE DONTCOPY
+(BLOCK: WHEREISNOTICEBLOCK WHEREISNOTICE1 WHEREISNOTICEFN WHEREISNOTICE (ENTRIES WHEREISNOTICE1 
+										 WHEREISNOTICE 
+										 WHEREISNOTICEFN)
+	(NOLINKFNS . T)
+	(GLOBALVARS WHEREIS.HASH))
+(BLOCK: NIL WHEREIS (LOCALVARS . T)
+	(GLOBALVARS WHEREISHASHFILE WHEREIS.HASH))
+]
+(DECLARE: DONTCOPY (PUTPROPS WHEREIS COPYRIGHT ("Xerox Corporation" 1982)))
+(DECLARE: DONTCOPY
+  (FILEMAP (NIL (999 2355 (WHEREIS 1011 . 2352)) (2357 7594 (WHEREISNOTICE 2369 . 6031) (WHEREISNOTICE1 
+6035 . 7422) (WHEREISNOTICEFN 7426 . 7591)))))
+STOP

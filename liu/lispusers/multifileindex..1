@@ -1,0 +1,1168 @@
+(FILECREATED " 4-Jun-81 12:29:40" <VITTAL>MULTIFILEINDEX..28 37447  
+
+
+     changes to:  CreateHeading CheckMapCols FindFunction FixMapCols 
+GetFileIndices GetFnList GetIndirectValue GetPrimaryComsValue 
+GetPrimaryFileName GetSourceFiles MULTIFILEINDEX MapCLOSEF MapFNTYP 
+MapGetArgsForDLAMBDA MapGetDefinition PrintFiles PrintMap PrintMapHeader 
+PrintOneFile PrintVars SayFilesListed SortSourceFiles 
+TranslateFileCommands XRefFn XRefFnPrintPara XRefVar
+
+     previous date: "27-May-81 17:18:42" <VITTAL>MULTIFILEINDEX..27)
+
+
+(PRETTYCOMPRINT MULTIFILEINDEXCOMS)
+
+(RPAQQ MULTIFILEINDEXCOMS ((* To get function maps of file lists.)
+	(FNS * MULTIFILEINDEXFNS)
+	(VARS (MULTIFILEINDEXMAPFLG T)
+	      (MULTIFILEINDEXFILESFLG T)
+	      (MULTIFILEINDEXFNSMSFLG)
+	      (MULTIFILEINDEXVARSMSFLG)
+	      (MULTIFILEINDEXCOLS (QUOTE FLOATCOLS))
+	      (MULTIFILEINDEXNAMECOL 0)
+	      (MULTIFILEINDEXFILECOL 26)
+	      (MULTIFILEINDEXTYPECOL 41)
+	      (MULTIFILEINDEXGETDEFFLG))
+	[P (OR (BOUNDP (QUOTE LINESPERPAGE))
+	       (RPAQQ LINESPERPAGE 58))
+	   (OR (BOUNDP (QUOTE PRINTER))
+	       (RPAQQ PRINTER LPT:))
+	   (OR (BOUNDP (QUOTE MULTIFILEINDEXLOADVARSFLG))
+	       (RPAQ MULTIFILEINDEXLOADVARSFLG
+		     (STREQUAL (SUBSTRING HOSTNAME 1 4)
+			       "PARC"]
+	(DECLARE: DONTCOPY EVAL@COMPILE
+		  (RECORDS FunctionIndexElement FileMap FunctionPointer 
+			   FunctionBlock FileComElement FunctionData))
+	(BLOCKS (MULTIFILEINDEXBLOCK BOLDPRIN1 BYTECOPY CheckMapCols 
+				     CreateHeading FCONCAT FindFunction 
+				     FixMapCols GetFileIndices GetFnList 
+				     GetIndirectValue GetPrimaryComsValue 
+				     GetPrimaryFileName GetSourceFiles 
+				     MAKEINDEXNUMBER MAKESPACES MAP.LF.FN 
+				     MAP.^L.FN MAPENDLINEUSERFN 
+				     MULTIFILEINDEX MapCLOSEF MapFNTYP 
+				     MapGetArgsForDLAMBDA 
+				     MapGetDefinition NEWLINE NEWPAGE 
+				     ODDP PrintFiles PrintMap 
+				     PrintMapHeader PrintOneFile 
+				     PrintVars SayFilesListed 
+				     SortSourceFiles TESTPAGE 
+				     TranslateFileCommands XRefFn 
+				     XRefFnPrintPara XRefVar
+				     (ENTRIES MULTIFILEINDEX 
+					      MAPENDLINEUSERFN)
+				     (LOCALFREEVARS CURRENTFNNAME 
+						    CURRENTINDEX 
+						    DESTINATIONFILE 
+						    fileIndices INDEXFILE 
+						    INDEXNUMBER 
+						    LINENUMBER NEWPAGEFLG 
+						    PAGENUMBER 
+						    primaryFiles 
+					   MULTIFILEINDEXPRIMARYNAMES)
+				     (SPECVARS COMMENTFLG ENDLINEUSERFN 
+					       FILELINELENGTH FILERDTBL 
+					       LINESPERPAGE 
+					      MULTIFILEINDEXGETDEFFLG 
+					       MULTIFILEINDEXMAPFLG 
+					       MULTIFILEINDEXFILESFLG 
+					       MULTIFILEINDEXFNSMSFLG 
+					    MULTIFILEINDEXLOADVARSFLG 
+					      MULTIFILEINDEXVARSMSFLG 
+					       MULTIFILEINDEXCOLS 
+					       MULTIFILEINDEXFILECOL 
+					       MULTIFILEINDEXNAMECOL 
+					       MULTIFILEINDEXTYPECOL 
+					       PRINTER)
+				     (GLOBALVARS FILELST MACSCRATCHSTRING 
+						 NOTLISTEDFILES)
+				     (BLKAPPLYFNS MAP.LF.FN MAP.^L.FN)))
+	(DECLARE: EVAL@COMPILE DONTCOPY
+		  (P (RESETSAVE DWIMIFYCOMPFLG T)))
+	(DECLARE: EVAL@COMPILE DONTCOPY
+		  (FILES (SYSLOAD SOURCE FROM VALUEOF
+				  (SELECTQ (SYSTEMTYPE)
+					   (JERICHO (QUOTE >LISPUSERS))
+					   (QUOTE LISPUSERS)))
+			 COMMONFILEINDEX))
+	(FILES (SYSLOAD FROM VALUEOF (SELECTQ (SYSTEMTYPE)
+					      (JERICHO (QUOTE >LISPUSERS))
+					      (QUOTE LISPUSERS)))
+	       CIALPHORDER)))
+[DECLARE: DONTEVAL@LOAD DONTCOPY
+(* To get function maps of file lists.)  ]
+
+
+(RPAQQ MULTIFILEINDEXFNS (CreateHeading CheckMapCols FindFunction 
+					FixMapCols GetFileIndices 
+					GetFnList GetIndirectValue 
+					GetPrimaryComsValue 
+					GetPrimaryFileName GetSourceFiles 
+					MULTIFILEINDEX MAP.LF.FN 
+					MAP.^L.FN MapCLOSEF 
+					MAPENDLINEUSERFN MapFNTYP 
+					MapGetArgsForDLAMBDA 
+					MapGetDefinition PrintFiles 
+					PrintMap PrintMapHeader 
+					PrintOneFile PrintVars 
+					SayFilesListed SortSourceFiles 
+					TranslateFileCommands XRefFn 
+					XRefFnPrintPara XRefVar))
+(DEFINEQ
+
+(CreateHeading
+  [LAMBDA (fileList string)                     (* JimSchmolze: 
+						"26-May-80 10:08")
+    (PROG (subFileList firstLine)
+          (SETQ subFileList (bind lengthSoFar_0 for file in fileList
+			       while (ILESSP (SETQ lengthSoFar
+					       (IPLUS (NCHARS file)
+						      2 lengthSoFar))
+					     (IDIFFERENCE FILELINELENGTH 
+							  31))
+			       collect file))
+          (SETQ firstLine (LIST (if (IGREATERP (FLENGTH subFileList)
+					       1)
+				    then " for files: "
+				  else " for file: ")
+				string))
+          [for file on subFileList do (SETQ firstLine (CONS (CAR file)
+							    firstLine))
+				      (if (CDR file)
+					  then (SETQ firstLine
+						 (CONS ", " firstLine]
+          (if (NOT (EQUAL subFileList fileList))
+	      then (SETQ firstLine (CONS " ..." firstLine)))
+          (RETURN (SETQ INDEXFILE (APPLY (QUOTE CONCAT)
+					 (DREVERSE firstLine])
+
+(CheckMapCols
+  [LAMBDA NIL                                   (* J.Vittal: 
+						"28-Aug-78 17:54")
+    (if [NOT (MEMB MULTIFILEINDEXCOLS
+		   (QUOTE (T NIL FLOATCOLS FIXCOLS FIXFLOATCOLS]
+	then (ERROR MULTIFILEINDEXCOLS 
+		    "not a valid MULTIFILEINDEX specifier"))
+    (if (NOT (FIXP MULTIFILEINDEXNAMECOL))
+	then (ERROR (QUOTE MULTIFILEINDEXNAMECOL)
+		    "Not an integer"))
+    (if (NOT (FIXP MULTIFILEINDEXFILECOL))
+	then (ERROR (QUOTE MULTIFILEINDEXFILECOL)
+		    "Not an integer"))
+    (if (NOT (FIXP MULTIFILEINDEXTYPECOL))
+	then (ERROR (QUOTE MULTIFILEINDEXTYPECOL)
+		    "Not an integer"))
+    (if (NOT (AND (ILESSP MULTIFILEINDEXNAMECOL MULTIFILEINDEXFILECOL)
+		  (ILESSP MULTIFILEINDEXFILECOL MULTIFILEINDEXTYPECOL)))
+	then (ERROR 
+	    "The order for the columns MUST be NAME, FILE and COLUMN"])
+
+(FindFunction
+  [LAMBDA (primaryFile function)                (* J.Vittal: 
+						"19-Jan-79 10:00")
+    (for fileIndex in fileIndices
+       when [AND (EQ primaryFile (fetch FunctionIndexFile of fileIndex))
+		 (EQ function (fetch FunctionName
+				 of (fetch FunctionIndexFnPointer
+				       of fileIndex]
+       do (RETURN fileIndex])
+
+(FixMapCols
+  [LAMBDA (fileMap)                             (* JimSchmolze: 
+						"26-May-80 10:14")
+
+          (* If MULTIFILEINDEXCOLS is either T or FIXCOLS, then 
+	  take the values of the column vars as gospel.
+	  Otherwise, we have to munge a little.)
+
+
+    (if (FMEMB MULTIFILEINDEXCOLS (QUOTE (NIL FLOATCOLS FIXFLOATCOLS)))
+	then [PROG ((maxFileNameSize 0)
+		    (maxIndexSize 0)
+		    (maxNameSize 0))
+	           (for file in primaryFiles bind length
+		      when (IGREATERP (SETQ length (NCHARS file))
+				      maxFileNameSize)
+		      do (SETQ maxFileNameSize length))
+	           (SETQ maxIndexSize (NCHARS CURRENTINDEX))
+	           (for name in fileMap bind length
+		      when (IGREATERP [SETQ length
+					(if (NLISTP (fetch 
+						   FileComElementName
+						       of name))
+					    then (NCHARS (fetch 
+						   FileComElementName
+							    of name))
+					  else (CONSTANT (NCHARS 
+						 "** s-expression **"]
+				      maxNameSize)
+		      do (SETQ maxNameSize length))
+	           (if (ILEQ (IPLUS MULTIFILEINDEXNAMECOL maxNameSize 
+				    maxIndexSize maxFileNameSize 3)
+			     (FIX (FPLUS (FTIMES .45 FILELINELENGTH)
+					 .5)))
+		       then (SETQ MULTIFILEINDEXFILECOL
+			      (if (EQ MULTIFILEINDEXCOLS
+				      (QUOTE FLOATCOLS))
+				  then (IPLUS MULTIFILEINDEXNAMECOL 
+					      maxNameSize maxIndexSize 2)
+				else (IMAX (IPLUS MULTIFILEINDEXNAMECOL 
+						  maxNameSize 
+						  maxIndexSize 2)
+					   MULTIFILEINDEXFILECOL)))
+			    (SETQ MULTIFILEINDEXTYPECOL
+			      (if (EQ MULTIFILEINDEXCOLS
+				      (QUOTE FLOATCOLS))
+				  then (IPLUS MULTIFILEINDEXFILECOL 
+					      maxFileNameSize 1)
+				else (IMAX (IPLUS MULTIFILEINDEXFILECOL 
+						  maxFileNameSize 1)
+					   MULTIFILEINDEXTYPECOL)))
+		     else (SETQ MULTIFILEINDEXTYPECOL
+			    (if (EQ MULTIFILEINDEXCOLS (QUOTE FLOATCOLS))
+				then (FIX (FTIMES .45 FILELINELENGTH))
+			      else (IMAX (FIX (FTIMES .45 FILELINELENGTH))
+					 MULTIFILEINDEXTYPECOL)))
+			  (SETQ MULTIFILEINDEXFILECOL
+			    (if (EQ MULTIFILEINDEXCOLS (QUOTE FLOATCOLS))
+				then (SUB1 (IDIFFERENCE 
+						MULTIFILEINDEXTYPECOL 
+						      maxFileNameSize))
+			      else (IMAX (SUB1 (IDIFFERENCE 
+						MULTIFILEINDEXTYPECOL 
+						      maxFileNameSize))
+					 MULTIFILEINDEXFILECOL]
+      else                                      (* don't change)
+	   NIL])
+
+(GetFileIndices
+  [LAMBDA (FileList)                            (* J.Vittal: 
+						"30-Sep-79 12:36")
+    (bind primaryFile fileMap file for singleFile in FileList
+       join (SETQ primaryFile (GetPrimaryFileName singleFile))
+	    (RESETLST [RESETSAVE NIL (LIST (QUOTE CLOSEF)
+					   (SETQ file
+					     (OPENFILE singleFile
+						       (QUOTE INPUT)
+						       (QUOTE OLD]
+		      (SETQ fileMap (GETFILEMAP file)))
+	    (for BLK in (fetch (FileMap Maps) of fileMap)
+	       join (for FNELEMENT in (fetch BlockFunctions of BLK)
+		       collect (create FunctionIndexElement
+				       FunctionIndexFile _ primaryFile
+				       FunctionIndexFnPointer _ FNELEMENT]
+)
+
+(GetFnList
+  [LAMBDA (fileList)                            (* J.Vittal: 
+						"12-Apr-80 09:09")
+    (PROG1 (for file in fileList
+	      join (if MULTIFILEINDEXLOADVARSFLG
+		       then (RESETVARS (PRETTYHEADER)
+				       (LOADVARS (QUOTE VARS)
+						 file T)))
+		   (PROG1 (TranslateFileCommands
+			    (GetPrimaryFileName file)
+			    (GetPrimaryComsValue file)
+			    file)
+			  (CLOSEF? file)))
+	   (MapCLOSEF fileList])
+
+(GetIndirectValue
+  [LAMBDA (com file)                            (* J.Vittal: 
+						"26-Sep-79 09:46")
+    (PROG (comName comValue)
+          (SETQ comName (SELECTQ (CAR com)
+				 ((PROP IFPROP FILES)
+				   (CADDDR com))
+				 (CADDR com)))
+      Start
+          (if (NOT (LITATOM comName))
+	      then (if (AND (EQ (CAR comName)
+				(QUOTE PROGN))
+			    (LITATOM (CADR comName))
+			    (NULL (CDDR comName)))
+		       then (SETQ comName (CADR comName))
+			    (GO Start))
+		   (printout NIL "Can't tell if " comName 
+			     " should be evaluated -- in file "
+			     file T)
+		   (RETURN))
+
+          (* we have the name, if it has a value, peturn it.
+	  Otherwise gotta go get it from file.)
+
+
+          (if MULTIFILEINDEXGETDEFFLG
+	      then (printout NIL "Doing a GETDEF of " comName " from " 
+			     file " ... "))
+          (SETQ comValue (GETDEF comName (QUOTE VARS)
+				 file
+				 (QUOTE NOERROR)))
+          (if MULTIFILEINDEXGETDEFFLG
+	      then (printout NIL "done." T))
+          (RETURN comValue])
+
+(GetPrimaryComsValue
+  [LAMBDA (realFile)                            (* J.Vittal: 
+						"26-Sep-79 07:18")
+    (PROG (primaryFile coms comsName)
+          (SETQ primaryFile (GetPrimaryFileName realFile))
+          (SETQ comsName (PACK* primaryFile (QUOTE COMS)))
+          (if MULTIFILEINDEXGETDEFFLG
+	      then (printout NIL "Doing a GETDEF of " comsName " from " 
+			     realFile " ... "))
+          (SETQ coms (GETDEF comsName (QUOTE VARS)
+			     realFile
+			     (QUOTE NOERROR)))
+          (if MULTIFILEINDEXGETDEFFLG
+	      then (printout NIL "done." T))
+          (RETURN coms])
+
+(GetPrimaryFileName
+  [LAMBDA (file)                                (* J.Vittal: 
+						"30-Jan-79 14:01")
+    (OR (GETPROP file (QUOTE PrimaryName))
+	(PUTPROP file (QUOTE PrimaryName)
+		 (PROGN (SETQ MULTIFILEINDEXPRIMARYNAMES
+			  (CONS file MULTIFILEINDEXPRIMARYNAMES))
+			(FILENAMEFIELD file (QUOTE NAME])
+
+(GetSourceFiles
+  [LAMBDA (files)                               (* J.Vittal: 
+						"26-Sep-79 07:13")
+
+          (* Makes sure that the filedates property for each 
+	  file on files exists and corresponds to that name, 
+	  that the filecoms exist for that file 
+	  (indirections need not exist). The filemap need not be
+	  loaded. Returns a list of the real file names 
+	  (complete with directory, etc.).)
+
+
+    (for file in files
+       collect                                  (* Make sure file is 
+						loadable)
+	(OR (FINDFILE (PACKFILENAME (QUOTE BODY)
+				    file))
+	    [FINDFILE (PACKFILENAME
+			(QUOTE BODY)
+			(CDAR (GETP (GetPrimaryFileName file)
+				    (QUOTE FILEDATES]
+	    (ERROR "Can't find file " file])
+
+(MULTIFILEINDEX
+  [LAMBDA (SOURCEFILES DESTINATIONFILE NEWPAGEFLG)
+                                                (* J.Vittal: 
+						"27-May-81 17:06")
+
+          (* Assumes that -
+	  -
+	  1.0 The files in SOURCEFILES are noticed.
+	  -
+	  -
+	  2.0 The fileMap and ALL coms for each file are loaded.
+	  -
+	  -
+	  If not, then does a LOADFROM on that file.)
+
+
+    (SETQ SOURCEFILES (if (EQ SOURCEFILES T)
+			  then FILELST
+			elseif (AND SOURCEFILES (NLISTP SOURCEFILES))
+			  then (LIST SOURCEFILES)
+			else SOURCEFILES))
+    (if (NULL DESTINATIONFILE)
+	then (SETQ DESTINATIONFILE PRINTER))
+    (if SOURCEFILES
+	then
+	 (PROG (fileMap primaryFiles fileIndices
+			(MULTIFILEINDEXNAMECOL MULTIFILEINDEXNAMECOL)
+			(MULTIFILEINDEXFILECOL MULTIFILEINDEXFILECOL)
+			(MULTIFILEINDEXTYPECOL MULTIFILEINDEXTYPECOL)
+			(ENDLINEUSERFN (QUOTE MAPENDLINEUSERFN))
+			(INDEXFILE "")
+			(CURRENTINDEX 0)
+			(INDEXNUMBER 0)
+			CURRENTFNNAME
+			(LINENUMBER 0)
+			(PAGENUMBER 1)
+			MULTIFILEINDEXPRIMARYNAMES)
+
+          (* Make sure that SOURCEFILES is a LIST and is the 
+	  short file name, with the filedates property loaded, 
+	  the file noticed, and good things like that.)
+
+
+	       (if (OR MULTIFILEINDEXFNSMSFLG MULTIFILEINDEXVARSMSFLG)
+		   then (UPDATECHANGED))
+	       (CheckMapCols)
+	       [ERSETQ
+		 (PROGN                         (* Get the file maps for 
+						the files.)
+			(SETQ SOURCEFILES
+			  (SortSourceFiles (GetSourceFiles SOURCEFILES)))
+			(SETQ primaryFiles
+			  (for file in SOURCEFILES
+			     collect (GetPrimaryFileName file)))
+			(SETQ fileIndices (GetFileIndices SOURCEFILES))
+			[SETQ fileMap
+			  (SORT (GetFnList SOURCEFILES)
+				(FUNCTION (LAMBDA (X Y)
+				    (CIALPHORDER (fetch 
+						   FileComElementName
+						    of X)
+						 (fetch 
+						   FileComElementName
+						    of Y]
+			[SETQ DESTINATIONFILE
+			  (if (OR (EQ DESTINATIONFILE T)
+				  (EQ DESTINATIONFILE (QUOTE TTY:)))
+			      then T
+			    else (OPENFILE DESTINATIONFILE (QUOTE OUTPUT)
+					   (QUOTE NEW]
+			(ERSETQ (RESETLST
+				  (RESETSAVE (RADIX 10))
+				  (RESETSAVE (OUTFILE DESTINATIONFILE))
+				  (RESETSAVE (LINELENGTH FILELINELENGTH))
+				  (PROGN (PRIN1 (FCHARACTER 12))
+					 (PrintMapHeader SOURCEFILES)
+					 (PrintMap fileMap primaryFiles)
+					 (PrintFiles SOURCEFILES)
+					 (PrintVars primaryFiles)
+					 (SayFilesListed primaryFiles]
+	       (if (NEQ DESTINATIONFILE T)
+		   then (CLOSEF? DESTINATIONFILE))
+                                                (* finally, reset all the 
+						reload flags and the 
+						PrimaryName properties)
+
+          (* (for file in primaryFiles when 
+	  (GETP file (QUOTE ReloadCOMS)) do 
+	  (REMPROP file (QUOTE ReloadCOMS))))
+
+
+	       (for name in MULTIFILEINDEXPRIMARYNAMES
+		  do (REMPROP name (QUOTE PrimaryName))
+		  finally (SETQ MULTIFILEINDEXPRIMARYNAMES NIL])
+
+(MAP.LF.FN
+  [LAMBDA NIL
+    (NEWLINE T])
+
+(MAP.^L.FN
+  [LAMBDA NIL
+    (NEWPAGE T])
+
+(MapCLOSEF
+  [LAMBDA (fileList)                            (* J.Vittal: 
+						"18-Jan-79 11:34")
+    (for file in fileList when (OPENP file (QUOTE INPUT))
+       do (CLOSEF file])
+
+(MAPENDLINEUSERFN
+  [LAMBDA NIL
+    (NEWLINE T])
+
+(MapFNTYP
+  [LAMBDA (function sourceFile)                 (* JimSchmolze: 
+						"23-Apr-80 12:46")
+    (PROG (functionType functionArgs functionBody)
+          (if (SETQ functionBody
+		(if sourceFile
+		    then (MapGetDefinition function sourceFile)
+		  else (HELP "Can't find the definition for " function)
+		       (MSGETDEF function NIL T)))
+	      then (SETQ functionArgs
+		     (SELECTQ (CAR functionBody)
+			      (DLAMBDA (MapGetArgsForDLAMBDA functionBody)
+				       )
+			      (CADR functionBody)))
+		   (SETQ functionType
+		     (SELECTQ (CAR functionBody)
+			      [LAMBDA (if (OR (NULL functionArgs)
+					      (LISTP functionArgs))
+					  then (QUOTE expr)
+					else (QUOTE expr*]
+			      [NLAMBDA (if (OR (NULL functionArgs)
+					       (LISTP functionArgs))
+					   then (QUOTE fexpr)
+					 else (QUOTE fexpr*]
+			      (CAR functionBody)))
+		   (RETURN (CONS functionType functionArgs)))
+          (ERROR "Can't find the type or args for " function])
+
+(MapGetArgsForDLAMBDA
+  [LAMBDA (functionBody)                        (* JimSchmolze: 
+						"23-Apr-80 12:39")
+                                                (* Returns a printable 
+						version of the argument 
+						list for a DLAMBDA)
+    (for arg in (CADR functionBody)
+       join (if (LITATOM arg)
+		then (LIST arg)
+	      elseif (LISTP arg)
+		then (if (NEQ (CAR arg)
+			      (QUOTE RETURNS))
+			 then (if (LISTP (CADR arg))
+				  then (LIST (LIST (CAR arg)
+						   (QUOTE &)))
+				elseif (CDDR arg)
+				  then (LIST (LIST (CAR arg)
+						   (CADR arg)))
+				else (LIST arg])
+
+(MapGetDefinition
+  [LAMBDA (function fileName)                   (* J.Vittal: 
+						"19-Jan-79 10:00")
+
+          (* gets the definition of function from FILE.
+	  Finds the location of function in fileName thru 
+	  FindFunctionIndex)
+
+
+    (PROG (startPointer)
+          [SETQ startPointer
+	    (fetch FunctionBegin
+	       of (fetch FunctionIndexFnPointer
+		     of (FindFunction (GetPrimaryFileName fileName)
+				      function]
+          [if (NOT (OPENP fileName (QUOTE INPUT)))
+	      then (SETQ fileName (INPUT (INFILE fileName]
+          (FILEPOS "
+" fileName startPointer NIL NIL T)
+
+          (* The RATOM gets rid of character 
+	  (either left paren or left square bracket) that 
+	  preceeds the lambda type. Then read the LAMBDA 
+	  (or whatever) and the arg list, and return them as a 
+	  list.)
+
+
+          (RATOM fileName FILERDTBL)
+          (RETURN (LIST (READ fileName FILERDTBL)
+			(READ fileName FILERDTBL])
+
+(PrintFiles
+  [LAMBDA (sourceFileList)                      (* edited: 
+						" 2-OCT-79 17:41")
+    (if MULTIFILEINDEXFILESFLG
+	then (SETQ INDEXNUMBER 0)
+	     (for sourceFile in sourceFileList
+		do                              (* INDEXFILE is used free 
+						by CREATEFILEHEADING.)
+		   [SETQ INDEXFILE (PACKFILENAME
+		       (QUOTE NAME)
+		       (FILENAMEFIELD sourceFile (QUOTE NAME))
+		       (QUOTE EXTENSION)
+		       (FILENAMEFIELD sourceFile (QUOTE EXTENSION]
+		   (SETQ CURRENTFNNAME "")
+		   (NEWPAGE)
+		   (PrintOneFile sourceFile])
+
+(PrintMap
+  [LAMBDA (fileMap fileList)                    (* JimSchmolze: 
+						"23-Apr-80 15:26")
+
+          (* Prints the map for the data in filemap.
+	  It assumes that fileMap is already sorted 
+	  appropriately.)
+
+
+    (if MULTIFILEINDEXMAPFLG
+	then (RESETFORM
+	       (LINELENGTH FILELINELENGTH)
+	       (bind position FileNameIndentation maxIndexSize
+		  for ele in fileMap
+		  first (FixMapCols fileMap)
+			(CreateHeading fileList "Map")
+			(SETQ maxIndexSize (NCHARS CURRENTINDEX))
+			(SETQ FileNameIndentation
+			  (IDIFFERENCE (SUB1 MULTIFILEINDEXFILECOL)
+				       maxIndexSize))
+		  do (if (AND (IGREATERP (NCHARS (fetch 
+						   FileComElementName
+						    of ele))
+					 (SUB1 FileNameIndentation))
+			      (NOT (TESTPAGE 2)))
+			 then (NEWPAGE))
+		     (if (IGREATERP MULTIFILEINDEXNAMECOL 0)
+			 then (TAB MULTIFILEINDEXNAMECOL))
+		     (PRIN1 (if (NLISTP (fetch FileComElementName
+					   of ele))
+				then (fetch FileComElementName of ele)
+			      else "** s-expression **"))
+                                                (* Do we have to go to a 
+						new line?)
+		     (if (IGEQ (IPLUS (SETQ position (POSITION))
+				      (NCHARS (fetch FileComIndex
+						 of ele)))
+			       MULTIFILEINDEXFILECOL)
+			 then (NEWLINE)
+			      (SETQ position MULTIFILEINDEXFILECOL))
+		     [TAB (SUB1 (IDIFFERENCE MULTIFILEINDEXFILECOL
+					     (NCHARS (fetch FileComIndex
+							of ele]
+		     (PRIN1 (fetch FileComIndex of ele))
+		     (SPACES 1)
+		     (PRIN1 (fetch FileComFile of ele))
+		     (if (NULL (fetch FileComElementData of ele))
+			 then (NEWLINE)
+		       else (if (IGEQ (POSITION)
+				      MULTIFILEINDEXTYPECOL)
+				then (NEWLINE))
+			    (TAB MULTIFILEINDEXTYPECOL)
+			    (if (NLISTP (fetch FileComElementData
+					   of ele))
+				then (PRIN1 (fetch FileComElementData
+					       of ele))
+				     (NEWLINE)
+			      else (PRIN1 (fetch FunctionType
+					     of (fetch FileComElementData
+						   of ele)))
+				   (PRIN1 ": ")
+				   (PRINTDEF (fetch FunctionArgList
+						of (fetch 
+						   FileComElementData
+						      of ele))
+					     (POSITION))
+				   (NEWLINE])
+
+(PrintMapHeader
+  [LAMBDA (fileList)                            (* J.Vittal: 
+						"29-Sep-79 07:33")
+                                                (* Prints the header for 
+						the map on the primary 
+						output file.)
+    (PROG ((maxLength 0))
+          (CreateHeading primaryFiles "Map")
+          (RPTQ 3 (NEWLINE))
+          (PRIN1 "Summary for files: ")
+          (for file in fileList do (SETQ maxLength (IMAX (NCHARS file)
+							 maxLength)))
+          (bind (position _(IPLUS maxLength 38)) for file in fileList
+	     first (SETQ position (if (IGREATERP position FILELINELENGTH)
+				      then (IDIFFERENCE FILELINELENGTH 19)
+				    else (IDIFFERENCE position 18)))
+	     do (PRIN1 file)
+		(if (IGREATERP (POSITION)
+			       (SUB1 position))
+		    then (NEWLINE))
+		[printout NIL .TAB position (GETFILEINFO
+			    file
+			    (QUOTE WRITEDATE)
+			    (CONSTANT (CONCAT]
+		(NEWLINE)
+		(TAB 19))
+          (NEWLINE)
+          (printout NIL "Index made on " (GDATE -1 29276241920))
+          (NEWLINE)
+          (NEWLINE])
+
+(PrintOneFile
+  [LAMBDA (sourceFile)                          (* J.Vittal: 
+						" 2-Oct-79 10:10")
+    (RESETLST
+      [RESETSAVE NIL (LIST (QUOTE CLOSEF)
+			   (SETQ sourceFile (INPUT (INFILE sourceFile]
+      (PROG ((filePos 0))
+	    (SETFILEPTR sourceFile 0)
+	    [for BLK in (fetch (FileMap Maps) of (GETFILEMAP sourceFile))
+	       do (bind LAST.ELE NUMBERSTR for FNPTR
+		     in (fetch BlockFunctions of BLK)
+		     do (BYTECOPY sourceFile DESTINATIONFILE filePos
+				  (SETQ filePos
+				    (fetch FunctionBegin of FNPTR))
+				  (QUOTE MAP.^L.FN)
+				  (QUOTE MAP.LF.FN))
+			(SETQ INDEXNUMBER (ADD1 INDEXNUMBER))
+			(SETQ CURRENTFNNAME (fetch FunctionName
+					       of FNPTR))
+			(if [OR NEWPAGEFLG
+				(NOT (TESTPAGE (if MULTIFILEINDEXFNSMSFLG
+						   then 12
+						 else 4]
+			    then (NEWPAGE))
+			(SETQ NUMBERSTR (MAKEINDEXNUMBER INDEXNUMBER))
+			(SPACES (IDIFFERENCE FILELINELENGTH
+					     (NCHARS NUMBERSTR)))
+			(BOLDPRIN1 NUMBERSTR)
+			(NEWLINE)
+			(if MULTIFILEINDEXFNSMSFLG
+			    then (BOLDPRIN1 (fetch FunctionName
+					       of FNPTR))
+				 (NEWLINE)
+				 (NEWLINE)
+				 (XRefFn (fetch FunctionName of FNPTR))
+				 (NEWLINE))
+			(NEWLINE)
+			(SETQ LAST.ELE FNPTR)
+		     finally (BYTECOPY sourceFile DESTINATIONFILE filePos
+				       (SETQ filePos
+					 (OR (fetch FunctionEnd
+						of LAST.ELE)
+					     (fetch FnBlockEnd of BLK)))
+				       (QUOTE MAP.^L.FN)
+				       (QUOTE MAP.LF.FN))
+			     (if NEWPAGEFLG
+				 then (NEWPAGE)
+				      (NEWLINE)
+				      (NEWLINE]
+	    (BYTECOPY sourceFile DESTINATIONFILE filePos
+		      (GETEOFPTR sourceFile)
+		      (QUOTE MAP.^L.FN)
+		      (QUOTE MAP.LF.FN])
+
+(PrintVars
+  [LAMBDA (fileList)                            (* J.Vittal: 
+						"29-Sep-79 07:32")
+    (if MULTIFILEINDEXVARSMSFLG
+	then (PROG (vars)
+
+          (* Turn off the printing of index numbers in the page 
+	  heading, and create the new header.)
+
+
+	           (SETQ INDEXNUMBER 0)
+	           (SETQ CURRENTFNNAME NIL)
+	           (CreateHeading fileList "VARS")
+	           (NEWPAGE)                    (* first get the vars and 
+						sort them)
+	           [SETQ vars (UNION (MASTERSCOPE (QUOTE (WHO IS USED BY 
+							      ANY)))
+				     (MASTERSCOPE (QUOTE (WHO IS SET BY 
+							      ANY]
+	           [SETQ vars (SORT (INTERSECTION vars vars)
+				    (FUNCTION (LAMBDA (X Y)
+					(CIALPHORDER X Y]
+	           (NEWLINE)
+	           (NEWLINE)
+	           (BOLDPRIN1 "Variable Listing")
+	           (NEWLINE)
+	           (NEWLINE)
+	           (for var in vars do (if (NOT (TESTPAGE 5))
+					   then (NEWPAGE)
+					 else (NEWLINE)
+					      (NEWLINE))
+				       (BOLDPRIN1 var)
+				       (NEWLINE)
+				       (XRefVar var])
+
+(SayFilesListed
+  [LAMBDA (fileList)                            (* J.Vittal: 
+						" 9-Aug-78 08:37")
+    (for file in fileList do (/SET (QUOTE NOTLISTEDFILES)
+				   (DREMOVE file NOTLISTEDFILES])
+
+(SortSourceFiles
+  [LAMBDA (fileList)                            (* J.Vittal: 
+						"18-Jan-79 20:00")
+    (for file in fileList collect (CONS (GetPrimaryFileName file)
+					file)
+       finally (RETURN (for y in (SORT $$VAL T) collect (CDR y])
+
+(TranslateFileCommands
+  [LAMBDA (file coms wholeFile)                 (* JimSchmolze: 
+						"26-May-80 10:01")
+                                                (* Returns a list of stuff
+						for a coms)
+    (bind comsValue for com in coms
+       join
+	[SETQ comsValue (if (EQ (CAR com)
+				COMMENTFLG)
+			    then NIL
+			  elseif (EQ (SELECTQ (CAR com)
+					      ((PROP IFPROP FILES)
+						(CADDR com))
+					      (CADR com))
+				     (QUOTE *))
+			    then                (* an indirection -- go 
+						get value)
+				 (GetIndirectValue com wholeFile)
+			  else (SELECTQ (CAR com)
+					((PROP IFPROP FILES)
+					  (CDDR com))
+					(CDR com]
+	(SELECTQ
+	  (CAR com)
+	  (COMS (TranslateFileCommands file comsValue wholeFile))
+	  (DECLARE:
+	    (bind temp for comsEle on comsValue
+	       when (AND (if (MEMB (CAR comsEle)
+				   (QUOTE (EVAL@LOADWHEN EVAL@COMPILEWHEN 
+							 COPYWHEN)))
+			     then (SETQ comsEle (CDR comsEle))
+				  NIL
+			   else T)
+			 (LISTP (CAR comsEle))
+			 (SETQ temp (TranslateFileCommands
+			     file
+			     (LIST (CAR comsEle))
+			     wholeFile)))
+	       join temp))
+	  [FNS (for comsEle in comsValue
+		  collect (create FileComElement
+				  FileComElementName _ comsEle
+				  FileComFile _ file
+				  FileComIndex _(SETQ CURRENTINDEX
+				    (ADD1 CURRENTINDEX))
+				  FileComElementData _(PROG (TEMP FT)
+							    (SETQ TEMP
+							      (create
+								
+							 FunctionData))
+							    (SETQ FT
+							      (MapFNTYP
+								comsEle 
+							    wholeFile))
+							    (replace
+							      
+							 FunctionType
+							       of TEMP
+							       with
+								(CAR
+								  FT))
+							    (replace
+							      
+						      FunctionArgList
+							       of TEMP
+							       with
+								(CDR
+								  FT))
+							    (RETURN
+							      TEMP]
+	  [(ALISTS ADDVARS)
+	    (for comsEle in comsValue
+	       when [NOT (FMEMB (CAR comsEle)
+				(QUOTE (NLAMA NLAML LAMA LAML]
+	       collect (create FileComElement
+			       FileComElementName _(CAR comsEle)
+			       FileComFile _ file
+			       FileComElementData _(CAR com]
+	  [BLOCKS (for comsEle in comsValue when (CAR comsEle)
+		     collect (create FileComElement
+				     FileComElementName _(CAR comsEle)
+				     FileComFile _ file
+				     FileComElementData _(CAR com]
+	  [CONSTANTS (for comsEle in comsValue
+			collect (if (NLISTP comsEle)
+				    then (create FileComElement
+						 FileComElementName _ 
+						 comsEle
+						 FileComFile _ file
+						 FileComElementData _(
+						   QUOTE Constant))
+				  else (create FileComElement
+					       FileComElementName _(CAR
+						 comsEle)
+					       FileComFile _ file
+					       FileComElementData _(QUOTE
+						 Constant]
+	  [VARS (for comsEle in comsValue
+		   collect (if (NLISTP comsEle)
+			       then (create FileComElement
+					    FileComElementName _ comsEle
+					    FileComFile _ file
+					    FileComElementData _(QUOTE
+					      Saved% Variable))
+			     else (create FileComElement
+					  FileComElementName _(CAR 
+							      comsEle)
+					  FileComFile _ file
+					  FileComElementData _(QUOTE
+					    Set% Variable]
+	  [RECORDS (for comsEle in comsValue
+		      join (if (AND (LISTP comsEle)
+				    (EQ (CAR comsEle)
+					(QUOTE ATOMRECORD)))
+			       then (for AtomEle in (CADR comsEle)
+				       collect (create FileComElement
+						       FileComElementName 
+						       _ AtomEle
+						       FileComFile _ file
+						       FileComElementData 
+						       _(QUOTE ATOMRECORD)
+						       ))
+			     else (LIST (create FileComElement
+						FileComElementName _ 
+						comsEle
+						FileComFile _ file
+						FileComElementData _(if
+						  (NLISTP comsEle)
+									
+then (CAR com)
+								      else
+								       (
+PACK* (QUOTE Unnamed-)
+      (CAR comsEle]
+	  [(PROP IFPROP)
+	    (bind PR for PX in (if (LITATOM (CADR com))
+				   then (LIST (CADR com))
+				 else (CADR com))
+	       join (SETQ PR
+		      (PACK* (if comsValue
+				 then (SELECTQ (CAR com)
+					       (PROP (QUOTE prop:% ))
+					       (IFPROP (QUOTE ifprop:% ))
+					       (SHOULDNT)))
+			     PX))
+		    (for comsEle in comsValue
+		       collect (create FileComElement
+				       FileComElementName _ comsEle
+				       FileComFile _ file
+				       FileComElementData _ PR]
+	  ((MACROS)                             (* Ones that require 
+						special handling)
+	    (SELECTQ (CAR com)
+		     [MACROS (for comsEle in comsValue
+				collect (if (LITATOM comsEle)
+					    then (create FileComElement
+							 
+						   FileComElementName _ 
+							 comsEle
+							 FileComFile _ 
+							 file
+							 
+						   FileComElementData _(
+							   QUOTE MACROS))
+					  else (create FileComElement
+						       FileComElementName 
+						       _(CDR comsEle)
+						       FileComFile _ file
+						       FileComElementData 
+						       _(CAR comsEle]
+		     NIL))
+	  (if (LITATOM com)
+	      then (LIST (create FileComElement
+				 FileComElementName _ com
+				 FileComFile _ file
+				 FileComElementData _(QUOTE 
+						      Saved% Variable)))
+	    elseif [MEMB (CAR com)
+			 (DEFERREDCONSTANT (CONS COMMENTFLG
+						 (QUOTE (E P]
+	      then NIL
+	    else (for comsEle in comsValue
+		    collect (create FileComElement
+				    FileComElementName _ comsEle
+				    FileComFile _ file
+				    FileComElementData _(CAR com])
+
+(XRefFn
+  [LAMBDA (fn)                                  (* J.Vittal: 
+						"26-Sep-79 06:40")
+
+          (* Prints cross reference information about fn onto 
+	  file. Note: (UPDATECHANGED) must have been called 
+	  previous to any call to this function to have the 
+	  Masterscope database set up. Also, this function would
+	  run much faster if the relations used in 
+	  (GETRELATION) were pre-parsed via 
+	  (PARSERELATION))
+
+
+    (PROG (L (n 3)
+	     (lm 20)
+	     (rm (LINELENGTH)))
+          (if (SETQ L (GETRELATION fn [CONSTANT
+				     (PARSERELATION (QUOTE (CALL]
+				   T))
+	      then (printout NIL .TAB0 n "called by")
+		   (XRefFnPrintPara L lm rm))
+          (if [SETQ L (GETRELATION fn (CONSTANT
+				     (PARSERELATION (QUOTE (CALL]
+	      then (printout NIL .TAB0 n "calls")
+		   (XRefFnPrintPara L lm rm))
+          (if [SETQ L (GETRELATION fn
+				   (CONSTANT
+				     (PARSERELATION
+				       (QUOTE (REFERENCE FREELY]
+	      then (printout NIL .TAB0 n "freely uses")
+		   (XRefFnPrintPara L lm rm))
+          (if [SETQ L (GETRELATION
+		  fn
+		  (CONSTANT (PARSERELATION (QUOTE (REFERENCES LOCALLY]
+	      then (printout NIL .TAB0 n "locally uses")
+		   (XRefFnPrintPara L lm rm))
+          (if [SETQ L (GETRELATION fn
+				   (CONSTANT
+				     (PARSERELATION (QUOTE (SETS FREELY]
+	      then (printout NIL .TAB0 n "freely sets")
+		   (XRefFnPrintPara L lm rm))
+          (if [SETQ L (GETRELATION fn
+				   (CONSTANT
+				     (PARSERELATION (QUOTE (SETS LOCALLY]
+	      then (printout NIL .TAB0 n "locally sets")
+		   (XRefFnPrintPara L lm rm])
+
+(XRefFnPrintPara
+  [LAMBDA (list lm rm)                          (* J.Vittal: 
+						"13-Jul-79 09:35")
+                                                (* Print the list in 
+						paragraph form.)
+    (bind length pos first (if (ILESSP (SETQ pos (POSITION))
+				       lm)
+			       then (TAB lm 0)
+				    (SETQ pos lm))
+       for x in list do (if (IGREATERP (add pos (SETQ length
+					      (NCHARS x)))
+				       rm)
+			    then (NEWLINE)
+				 (TAB lm 0)
+				 (SETQ pos (IPLUS length lm)))
+			(PRIN1 x)
+			(if (IGREATERP (add pos 1)
+				       rm)
+			    then (NEWLINE)
+				 (TAB lm 0)
+				 (SETQ pos lm)
+			  else (SPACES 1)))
+    (NEWLINE)
+    list])
+
+(XRefVar
+  [LAMBDA (var)                                 (* J.Vittal: 
+						"26-Sep-79 06:42")
+
+          (* Prints cross reference information about var onto 
+	  file. Note: (UPDATECHANGED) must have been called 
+	  previous to any call to this function to have the 
+	  Masterscope database set up. Also, this function would
+	  run much faster if the relations used in 
+	  (GETRELATION) were pre-parsed via 
+	  (PARSERELATION))
+
+
+    (PROG (L (n 3)
+	     (lm 23)
+	     (rm (LINELENGTH)))
+          (if (SETQ L (GETRELATION var
+				   [CONSTANT (PARSERELATION (QUOTE (BIND]
+				   T))
+	      then (printout NIL .TAB0 n "bound in")
+		   (XRefFnPrintPara L lm rm))
+          (if (SETQ L (GETRELATION var
+				   [CONSTANT
+				     (PARSERELATION (QUOTE (USE FREELY]
+				   T))
+	      then (printout NIL .TAB0 n "used freely in")
+		   (XRefFnPrintPara L lm rm))
+          (if (SETQ L (GETRELATION var
+				   [CONSTANT
+				     (PARSERELATION (QUOTE (USE LOCALLY]
+				   T))
+	      then (printout NIL .TAB0 n "used locally in")
+		   (XRefFnPrintPara L lm rm))
+          (if (SETQ L (GETRELATION var
+				   [CONSTANT
+				     (PARSERELATION (QUOTE (SMASH FREELY]
+				   T))
+	      then (printout NIL .TAB0 n "smashed freely in")
+		   (XRefFnPrintPara L lm rm))
+          (if (SETQ L (GETRELATION var
+				   [CONSTANT
+				     (PARSERELATION (QUOTE (SMASH LOCALLY]
+				   T))
+	      then (printout NIL .TAB0 n "smashed locally in")
+		   (XRefFnPrintPara L lm rm])
+)
+
+(RPAQ MULTIFILEINDEXMAPFLG T)
+
+(RPAQ MULTIFILEINDEXFILESFLG T)
+
+(RPAQ MULTIFILEINDEXFNSMSFLG NIL)
+
+(RPAQ MULTIFILEINDEXVARSMSFLG NIL)
+
+(RPAQQ MULTIFILEINDEXCOLS FLOATCOLS)
+
+(RPAQ MULTIFILEINDEXNAMECOL 0)
+
+(RPAQ MULTIFILEINDEXFILECOL 26)
+
+(RPAQ MULTIFILEINDEXTYPECOL 41)
+
+(RPAQ MULTIFILEINDEXGETDEFFLG NIL)
+(OR (BOUNDP (QUOTE LINESPERPAGE))
+    (RPAQQ LINESPERPAGE 58))
+(OR (BOUNDP (QUOTE PRINTER))
+    (RPAQQ PRINTER LPT:))
+(OR (BOUNDP (QUOTE MULTIFILEINDEXLOADVARSFLG))
+    (RPAQ MULTIFILEINDEXLOADVARSFLG (STREQUAL (SUBSTRING HOSTNAME 1 4)
+					      "PARC")))
+(DECLARE: DONTCOPY EVAL@COMPILE 
+[DECLARE: EVAL@COMPILE 
+
+(RECORD FunctionIndexElement (FunctionIndexIndex FunctionIndexFile 
+					       FunctionIndexFnPointer))
+
+(RECORD FileMap (NIL . Maps))
+
+(RECORD FunctionPointer (FunctionName FunctionBegin . FunctionEnd))
+
+(RECORD FunctionBlock (FnBlockBegin FnBlockEnd . BlockFunctions))
+
+(RECORD FileComElement (FileComElementName FileComFile FileComIndex 
+					   FileComElementData)
+		       FileComIndex _ CURRENTINDEX)
+
+(RECORD FunctionData (FunctionType FunctionArgList))
+]
+)
+[DECLARE: DONTEVAL@LOAD DOEVAL@COMPILE DONTCOPY
+(BLOCK: MULTIFILEINDEXBLOCK BOLDPRIN1 BYTECOPY CheckMapCols CreateHeading 
+	FCONCAT FindFunction FixMapCols GetFileIndices GetFnList 
+	GetIndirectValue GetPrimaryComsValue GetPrimaryFileName 
+	GetSourceFiles MAKEINDEXNUMBER MAKESPACES MAP.LF.FN MAP.^L.FN 
+	MAPENDLINEUSERFN MULTIFILEINDEX MapCLOSEF MapFNTYP 
+	MapGetArgsForDLAMBDA MapGetDefinition NEWLINE NEWPAGE ODDP 
+	PrintFiles PrintMap PrintMapHeader PrintOneFile PrintVars 
+	SayFilesListed SortSourceFiles TESTPAGE TranslateFileCommands 
+	XRefFn XRefFnPrintPara XRefVar
+	(ENTRIES MULTIFILEINDEX MAPENDLINEUSERFN)
+	(LOCALFREEVARS CURRENTFNNAME CURRENTINDEX DESTINATIONFILE 
+		       fileIndices INDEXFILE INDEXNUMBER LINENUMBER 
+		       NEWPAGEFLG PAGENUMBER primaryFiles 
+		       MULTIFILEINDEXPRIMARYNAMES)
+	(SPECVARS COMMENTFLG ENDLINEUSERFN FILELINELENGTH FILERDTBL 
+		  LINESPERPAGE MULTIFILEINDEXGETDEFFLG 
+		  MULTIFILEINDEXMAPFLG MULTIFILEINDEXFILESFLG 
+		  MULTIFILEINDEXFNSMSFLG MULTIFILEINDEXLOADVARSFLG 
+		  MULTIFILEINDEXVARSMSFLG MULTIFILEINDEXCOLS 
+		  MULTIFILEINDEXFILECOL MULTIFILEINDEXNAMECOL 
+		  MULTIFILEINDEXTYPECOL PRINTER)
+	(GLOBALVARS FILELST MACSCRATCHSTRING NOTLISTEDFILES)
+	(BLKAPPLYFNS MAP.LF.FN MAP.^L.FN))
+]
+(DECLARE: EVAL@COMPILE DONTCOPY 
+(RESETSAVE DWIMIFYCOMPFLG T)
+)
+(DECLARE: EVAL@COMPILE DONTCOPY 
+(FILESLOAD (SYSLOAD SOURCE FROM VALUEOF
+		    (SELECTQ (SYSTEMTYPE)
+			     (JERICHO (QUOTE >LISPUSERS))
+			     (QUOTE LISPUSERS)))
+	   COMMONFILEINDEX)
+)
+(FILESLOAD (SYSLOAD FROM VALUEOF (SELECTQ (SYSTEMTYPE)
+					  (JERICHO (QUOTE >LISPUSERS))
+					  (QUOTE LISPUSERS)))
+	   CIALPHORDER)
+(DECLARE: DONTCOPY
+  (FILEMAP (NIL (4085 34619 (CreateHeading 4097 . 5023) (CheckMapCols 5027 .
+ 5857) (FindFunction 5861 . 6205) (FixMapCols 6209 . 8617) (GetFileIndices
+ 8621 . 9309) (GetFnList 9313 . 9752) (GetIndirectValue 9756 . 10806) (
+GetPrimaryComsValue 10810 . 11413) (GetPrimaryFileName 11417 . 11733) (
+GetSourceFiles 11737 . 12483) (MULTIFILEINDEX 12487 . 15394) (MAP.LF.FN 
+15398 . 15441) (MAP.^L.FN 15445 . 15488) (MapCLOSEF 15492 . 15676) (
+MAPENDLINEUSERFN 15680 . 15730) (MapFNTYP 15734 . 16729) (
+MapGetArgsForDLAMBDA 16733 . 17337) (MapGetDefinition 17341 . 18297) (
+PrintFiles 18301 . 18862) (PrintMap 18866 . 21041) (PrintMapHeader 21045 .
+ 22112) (PrintOneFile 22116 . 23807) (PrintVars 23811 . 24884) (
+SayFilesListed 24888 . 25090) (SortSourceFiles 25094 . 25344) (
+TranslateFileCommands 25348 . 30812) (XRefFn 30816 . 32427) (
+XRefFnPrintPara 32431 . 33111) (XRefVar 33115 . 34616)))))
+STOP
