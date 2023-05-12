@@ -1,0 +1,11 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [eris]&lt;Lisp>CURRENT>NEWUSERDISK.ISL!2</title>
+  </head>
+  <body>
+    <pre>
+// NewUserDisk.CIS -- create a new user disk. Edit 10 Aug 84 Masinter// You should first install new operating system, and ERASE disk//   so that CREATEFILE can find contiguous blocks.// You should also delete unnecessary ucode files after this finishesdelete DMT.boot // garbage file// Install Swat (just in case) and make huge Lisp VMEM fileFTP/-EA Indigo Dir/c Alto Ret/&gt;A InstallSwat.run Sys.Errors CreateFile.runInstallSwatDelete installswat.runCREATEFILE.run LISP.VIRTUALMEM 12002DDelete CREATEFILE.run// find out what the current release name isFTP/-EA ERIS RETRIEVE &lt;LISP&gt;CURRENT&gt;RELEASE.NAME// Bring over Lisp filesFTP/-EA ERIS Dir/C &lt;Lisp&gt;@release.name@&gt;basics&gt; Ret/C LISP.run LISP.syms DolphinLispMC.EB AltoD0MC.EB DoradoLispMC.EB AltoD1MC.eb directory/c &lt;Lisp&gt;Current&gt; Ret/S INIT.CIS INIT.LISP Ret/S UpdateLisp.CIS UpdateLisp.cm//   On Dolphin, delete DoradoLispMC.EB AltoD1MC.EB//   On Dorado, delete DolphinLispMC.EB AltoD0MC.EB</pre>
+  </body>
+</html>

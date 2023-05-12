@@ -1,0 +1,11 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [phylum]&lt;LispARs>01079.AR!2</title>
+  </head>
+  <body>
+    <pre>
+Number: 1079Date: 10-May-84 12':18':01Submitter: Sannella.PASource: halvorsen.paSubject: Leaf Error': Bad Handle when file closed asynchronouslyAssigned To: Attn: vanMelleStatus: OpenIn/By: Problem Type: BugImpact: AnnoyingDifficulty: ModerateFrequency: IntermittentPriority: PerhapsSystem: CommunicationsSubsystem: PUP ProtocolsMachine: Disk: Lisp Version: Source Files: Microcode Version: Memory Size: File Server: Server Software Version: Disposition: Description: 'Date':  9 May 84 21':07 PDT'From': halvorsen.pa'Subject': Lisp': LEAF ERROR':BAD HANDLE when quitting out of TEDIT during a listfiles on the same file'To': LispSupport.pa'cc': halvorsen.pa''Lisp System Date':  9-May-84 00':11':59'Machine': Dandelion (204#13#)'Microcode version': 24,4'Memory size': 17777'Frequency': ?'Impact': Annoying''I can''t say much more than this.  I think I reported something similar not too long ago.''------'Date': 16 May 84 10':42 PDT'From': vanMelle.pa''This is yet another example of our need to have multiple streams on a single file.   My best guess as to what happened was that the Listfiles asked to read a page of the file and Tedit asked to close the file "simultaneously".  In the race, Tedit got the first packet off, closing the file, which caused the second packet with the read request to be in error.''I''ve reclassified this as a Leaf problem, but I don''t know whether it''s worth fixing.  The best I can do is fix it so that the Listfiles process would get an obvious FILE NOT OPEN error instead of the obscure Leaf bug.  The "proper" fix is multiple streams.Workaround: Test Case: Edit-By: vanMelleEdit-Date: 16-May-84 10':46':22</pre>
+  </body>
+</html>

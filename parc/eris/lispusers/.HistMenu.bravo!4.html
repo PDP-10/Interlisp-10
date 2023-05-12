@@ -1,0 +1,47 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>[eris]&lt;LispUsers>HistMenu.bravo!4</title>
+  </head>
+  <body>
+    <div style="width: 442pt; margin-left: 84pt; margin-top: 0pt; text-align: center">
+<span style="font: bold 10pt serif"><br>HISTMENU<br><br>A  LispUsers Package<br><br>Daniel G. Bobrow</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 0pt; text-align: left">
+<span style="font: 10pt serif"><br></span><span style="font: 8pt serif">revised: February 10, 1983  9:22 AM <br></span><span style="font: 10pt serif"><br></span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 0pt; text-align: justify">
+<span style="font: 10pt serif">The history menu package provides a simple way to access the history list using a menu.  Through this menu one can REDO, UNDO, FIX, and ?? selected items.  One can also delete selected items from the menu.</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 0pt; text-align: justify">
+<span style="font: 10pt serif"><br>(</span><span style="font: bold 10pt serif">HistoryMenu</span><span style="font: 10pt serif"> N) will create a Menu of the last N history events in a HistoryWindow.  HistItemsShown items of these N items will be seen on the menu.  The rest may be seen by scrolling the menu.  N defaults to HistDefaultSlice.</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 0pt; text-align: justify">
+<span style="font: 10pt serif"><br>Selecting an item with LEFT in the window does a REDO  on that item.  Selecting with the MIDDLE button and then releasing the button causes a popup menu to be shown which provides a set of other options: FIX, UNDO, ??, and Delete.  Selecting FIX, UNDO, and ?? cause that history operation to be done on the item selected.  Look in the prompt window while holding down a button on an option in the popup menu to see what will happen if you let the button up.  Clicking the RIGHT button in the window will bring up the usual window options, plus an UPDATE option which will update the menu to contain all current items.</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 0pt; text-align: justify">
+<span style="font: 10pt serif"><br></span><span style="font: bold 10pt serif">Delete</span><span style="font: 10pt serif"> causes an item to be deleted from the menu (not the real history list).  Deleting "unuseful" items allows more "good" items to appear in the same window space.  Also, atomic items on the list </span><span style="font: bold 10pt serif">BadHistoryItems</span><span style="font: 10pt serif"> will never appear on the History Menu.  </span><span style="font: bold 10pt serif">BadHistoryItems</span><span style="font: 10pt serif"> is initially </span><span style="font: bold 10pt serif">(EDIT ?= OK T NIL &uarr;)</span><span style="font: 10pt serif">.</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 0pt; text-align: justify">
+<span style="font: 10pt serif"><br></span><span style="font: bold 10pt serif">Update</span><span style="font: 10pt serif"> makes the menu contain all of the current slice of history.   The History Menu is NOT automatically updated as you type in.  However, after each deletion, the HistoryMenu is updated automatically if </span><span style="font: bold 10pt serif">UpdateOnDeleteFlg</span><span style="font: 10pt serif"> is not NIL.  </span><span style="font: bold 10pt serif">UpdateOnDeleteFlg</span><span style="font: 10pt serif"> starts as T.<br><br>(</span><span style="font: bold 10pt serif">HistIcon</span><span style="font: 10pt serif"> N histPosition iconPosition) will create a history menu at histPosition, and then shrink it to a special picture icon (which looks like a scroll) located at iconPosition.</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 0pt; text-align: justify">
+<span style="font: 10pt serif"><br>The HistoryWindow and HistoryMenu creation are controlled by the following parameters in addition to </span><span style="font: bold 10pt serif">BadHistoryItems</span><span style="font: 10pt serif"> and </span><span style="font: bold 10pt serif">UpdateOnDeleteFlg</span><span style="font: 10pt serif">. </span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 0pt; text-align: left">
+<span style="font: 10pt serif"> <br></span><span style="font: 10pt serif; text-decoration: underline">Name</span><span class="tab" val="24"></span><span style="font: 10pt serif; text-decoration: underline">Initial Value</span><span class="tab" val="24"></span><span style="font: 10pt serif">           </span><span style="font: 10pt serif; text-decoration: underline">Explanation</span><span style="font: 10pt serif"><br></span><span style="font: bold 10pt serif">HistDefaultSlice</span><span class="tab" val="24"></span><span style="font: 10pt serif"> </span><span class="tab" val="24"></span><span style="font: 10pt serif"> 30</span><span class="tab" val="24"></span><span style="font: 10pt serif">Number of items in HistoryMenu<br></span><span style="font: bold 10pt serif">HistItemsShown</span><span class="tab" val="24"></span><span style="font: 10pt serif"> </span><span class="tab" val="24"></span><span style="font: 10pt serif"> 51</span><span class="tab" val="24"></span><span style="font: 10pt serif">Number of items shown in window<br></span><span style="font: bold 10pt serif">HistMenuHeight</span><span class="tab" val="24"></span><span class="tab" val="24"></span><span style="font: 10pt serif"> 15</span><span class="tab" val="24"></span><span style="font: 10pt serif">Height of an item in the menu in screen bits<br></span><span style="font: bold 10pt serif">HistMenuWidth</span><span class="tab" val="24"></span><span class="tab" val="24"></span><span style="font: 10pt serif">164</span><span class="tab" val="24"></span><span style="font: 10pt serif">Width of item in Menu in bits<br></span><span style="font: bold 10pt serif">HistWindowWidth</span><span class="tab" val="24"></span><span class="tab" val="24"></span><span style="font: 10pt serif">164</span><span class="tab" val="24"></span><span style="font: 10pt serif">Width of HistoryWindow in bits.<br></span><span style="font: bold 10pt serif">HistEventWidth</span><span class="tab" val="24"></span><span style="font: 10pt serif"> </span><span class="tab" val="24"></span><span style="font: 10pt serif"> 60</span><span class="tab" val="24"></span><span style="font: 10pt serif">Maximum number of characters that will be<br></span><span class="tab" val="24"></span><span class="tab" val="24"></span><span class="tab" val="24"></span><span style="font: 10pt serif">shown of the event in the prompt window</span></div>
+<script>function do_tabs() { // unit = px
+  var tabs = document.getElementsByClassName("tab");
+  for (var i = 0; i < tabs.length; ++i) {
+    var span = tabs[i];
+    var val = span.getAttribute("val");
+    if (val == null) console.log("Couldn't get val");
+    var rect = span.getBoundingClientRect();
+    var tabstop;
+    if (val > 0) tabstop = Math.ceil(rect.left / val) * val;
+    else tabstop = -val;
+    console.log("do_tabs", val, tabstop)
+    if (tabstop > 0) {
+      var width = tabstop - rect.left;
+      span.style.display = "inline-block";
+      span.style.width = width + "px";
+    }
+  }
+}
+do_tabs();
+</script>
+  </body>
+</html>

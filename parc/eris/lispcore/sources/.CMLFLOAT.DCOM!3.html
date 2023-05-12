@@ -1,0 +1,2063 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [eris]&lt;LispCore>SOURCES>CMLFLOAT.DCOM!3</title>
+  </head>
+  <body>
+    <pre>
+$ od -c -N 50000 [eris]&lt;LispCore>SOURCES>CMLFLOAT.DCOM!3
+0000000    (   F   I   L   E   C   R   E   A   T   E   D       "   1   6
+0000020    -   S   e   p   -   8   6       1   3   :   1   2   :   3   2
+0000040    "       (   "   c   o   m   p   i   l   e   d       o   n    
+0000060    "       {   E   R   I   S   }   <   L   I   S   P   C   O   R
+0000100    E   >   L   I   B   R   A   R   Y   >   C   M   L   F   L   O
+0000120    A   T   .   ;   3   9   )      \r   "   1   1   -   S   e   p
+0000140    -   8   6       1   3   :   4   9   :   0   6   "       i   n
+0000160        "   X   e   r   o   x       L   i   s   p       1   1   -
+0000200    S   e   p   -   8   6       .   .   .   "       d   a   t   e
+0000220    d       "   1   1   -   S   e   p   -   8   6       1   4   :
+0000240    0   5   :   4   8   "   )  \r   (   F   I   L   E   C   R   E
+0000260    A   T   E   D       "   1   6   -   S   e   p   -   8   6    
+0000300    1   3   :   1   0   :   1   9   "       {   E   R   I   S   }
+0000320    <   L   I   S   P   C   O   R   E   >   L   I   B   R   A   R
+0000340    Y   >   C   M   L   F   L   O   A   T   .   ;   3   9       8
+0000360    1   7   7   1       c   h   a   n   g   e   s       t   o   :
+0000400        (   F   N   S      \r   %   %   E   X   P   T   -   I   N
+0000420    T   E   G   E   R   )       p   r   e   v   i   o   u   s    
+0000440    d   a   t   e   :       "   2   0   -   A   u   g   -   8   6
+0000460        2   0   :   2   7   :   4   3   "       {   E   R   I   S
+0000500    }   <   L   I   S   P   C   O   R   E   >   L   I   B   R   A
+0000520    R   Y   >   C   M   L   F   L   O   A   T   .   ;   3   8   )
+0000540   \r   (   R   P   A   Q   Q       C   M   L   F   L   O   A   T
+0000560    C   O   M   S       (   (   *       *       C   M   L   F   L
+0000600    O   A   T       -   -       C   o   v   e   r   i   n   g    
+0000620    s   e   c   t   i   o   n   s       %   1   2   .   5   -   1
+0000640    2   .   5   .   3       i   r   r   a   t   i   o   n   a   l
+0000660    ,       t   r   a   n   s   c   e   n   d   e   n   t   a   l
+0000700    ,      \r   e   x   p   o   n   e   n   t   i   a   l   ,    
+0000720    l   o   g   a   r   i   t   h   m   i   c   ,       t   r   i
+0000740    g   o   n   o   m   e   t   r   i   c   ,       a   n   d    
+0000760    h   y   p   e   r   b   o   l   i   c       f   u   n   c   t
+0001000    i   o   n   s   .       S   e   c   t   i   o   n       1   2
+0001020    .   1   0   ,       i   m   p   l   e   m   e   n   t   a   t
+0001040    i   o   n      \r   p   a   r   a   m   e   t   e   r   s   .
+0001060        -   -       B   y       K   e   l   l   y       R   o   a
+0001100    c   h   .       *   )       (   D   E   C   L   A   R   E   :
+0001120        E   V   A   L   @   C   O   M   P   I   L   E       D   O
+0001140    N   T   C   O   P   Y       (   F   I   L   E   S       (   L
+0001160    O   A   D   C   O   M   P   )       L   L   F   L   O   A   T
+0001200    )   )       (   C   O   M   S       (   *  \r       S   e   c
+0001220    t   i   o   n       1   2   .   1   0   ,       i   m   p   l
+0001240    e   m   e   n   t   a   t   i   o   n       p   a   r   a   m
+0001260    e   t   e   r   s   .       T   h   e       c   o   n   s   t
+0001300    a   n   t   s       i   n       t   h   i   s       C   O   M
+0001320    S       a   r   e       e   x   p   o   r   t   e   d       t
+0001340    o       t   h   e       u   s   e   r   .       *   )       (
+0001360    *      \r   %   %   F   L   O   A   T       a   l   l   o   w
+0001400    s       u   s       t   o       r   e   c   r   e   a   t   e
+0001420        F   L   O   A   T   P   s       i   n       a       w   a
+0001440    y       t   h   a   t       i   s       i   n   d   e   p   e
+0001460    n   d   e   n   t       o   f       t   h   e       o   r   d
+0001500    i   n   a   i   r   y       r   e   a   d   i   n   g       a
+0001520    n   d      \r   p   r   i   n   t   i   n   g       F   L   O
+0001540    A   T   P   s       t   o       f   i   l   e   s       w   h
+0001560    i   c   h       i   n   v   o   l   v   e   s       l   o   s
+0001600    s       o   f       t   h   e       l   a   s   t       c   o
+0001620    u   p   l   e       b   i   t   s       o   f       a   c   c
+0001640    u   r   a   c   y       d   u   e       t   o       r   o   u
+0001660    n   d   i   n   g      \r   e   f   f   e   c   t   s   .    
+0001700    *   )       (   *       U   s   i   n   g       I   N   I   T
+0001720    V   A   R   S       i   n   s   t   e   a   d       o   f    
+0001740    C   O   N   S   T   A   N   T   S       i   n       v   a   r
+0001760    i   o   u   s       p   l   a   c   e   s       h   e   r   e
+0002000        b   e   c   a   u   s   e       o   f       p   r   o   b
+0002020    l   e   m   s       w   i   t   h       t   h   e  \r       w
+0002040    a   y       B   Y   T   E   C   O   M   P   I   L   E   R    
+0002060    s   t   o   r   e   s       F   L   O   A   T   P   s       i
+0002100    n       D   C   O   M       f   i   l   e   s   .       *   )
+0002120        (   F   N   S       %   %   F   L   O   A   T   )       (
+0002140    C   O   N   S   T   A   N   T   S       (   M   O   S   T   -
+0002160    P   O   S   I   T   I   V   E   -   F   I   X   N   U   M    
+0002200   \r   6   5   5   3   5   )       (   M   O   S   T   -   N   E
+0002220    G   A   T   I   V   E   -   F   I   X   N   U   M       -   6
+0002240    5   5   3   6   )   )       (   I   N   I   T   V   A   R   S
+0002260        (   M   O   S   T   -   P   O   S   I   T   I   V   E   -
+0002300    S   I   N   G   L   E   -   F   L   O   A   T       (   %   %
+0002320    F   L   O   A   T       3   2   6   3   9       6   5   5   3
+0002340    5   )   )       (  \r   L   E   A   S   T   -   P   O   S   I
+0002360    T   I   V   E   -   S   I   N   G   L   E   -   F   L   O   A
+0002400    T       (   %   %   F   L   O   A   T       1   2   8       0
+0002420    )   )       (   L   E   A   S   T   -   N   E   G   A   T   I
+0002440    V   E   -   S   I   N   G   L   E   -   F   L   O   A   T    
+0002460    (   %   %   F   L   O   A   T       3   2   8   9   6       0
+0002500    )   )       (  \r   M   O   S   T   -   N   E   G   A   T   I
+0002520    V   E   -   S   I   N   G   L   E   -   F   L   O   A   T    
+0002540    (   %   %   F   L   O   A   T       6   5   4   0   7       6
+0002560    5   5   3   5   )   )       (   M   O   S   T   -   P   O   S
+0002600    I   T   I   V   E   -   S   H   O   R   T   -   F   L   O   A
+0002620    T      \r   M   O   S   T   -   P   O   S   I   T   I   V   E
+0002640    -   S   I   N   G   L   E   -   F   L   O   A   T   )       (
+0002660    L   E   A   S   T   -   P   O   S   I   T   I   V   E   -   S
+0002700    H   O   R   T   -   F   L   O   A   T       L   E   A   S   T
+0002720    -   P   O   S   I   T   I   V   E   -   S   I   N   G   L   E
+0002740    -   F   L   O   A   T   )       (  \r   L   E   A   S   T   -
+0002760    N   E   G   A   T   I   V   E   -   S   H   O   R   T   -   F
+0003000    L   O   A   T       L   E   A   S   T   -   N   E   G   A   T
+0003020    I   V   E   -   S   I   N   G   L   E   -   F   L   O   A   T
+0003040    )       (   M   O   S   T   -   N   E   G   A   T   I   V   E
+0003060    -   S   H   O   R   T   -   F   L   O   A   T      \r   M   O
+0003100    S   T   -   N   E   G   A   T   I   V   E   -   S   I   N   G
+0003120    L   E   -   F   L   O   A   T   )       (   M   O   S   T   -
+0003140    P   O   S   I   T   I   V   E   -   D   O   U   B   L   E   -
+0003160    F   L   O   A   T       M   O   S   T   -   P   O   S   I   T
+0003200    I   V   E   -   S   I   N   G   L   E   -   F   L   O   A   T
+0003220    )       (  \r   L   E   A   S   T   -   P   O   S   I   T   I
+0003240    V   E   -   D   O   U   B   L   E   -   F   L   O   A   T    
+0003260    L   E   A   S   T   -   P   O   S   I   T   I   V   E   -   S
+0003300    I   N   G   L   E   -   F   L   O   A   T   )       (   L   E
+0003320    A   S   T   -   N   E   G   A   T   I   V   E   -   D   O   U
+0003340    B   L   E   -   F   L   O   A   T      \r   L   E   A   S   T
+0003360    -   N   E   G   A   T   I   V   E   -   S   I   N   G   L   E
+0003400    -   F   L   O   A   T   )       (   M   O   S   T   -   N   E
+0003420    G   A   T   I   V   E   -   D   O   U   B   L   E   -   F   L
+0003440    O   A   T       M   O   S   T   -   N   E   G   A   T   I   V
+0003460    E   -   S   I   N   G   L   E   -   F   L   O   A   T   )    
+0003500    (  \r   M   O   S   T   -   P   O   S   I   T   I   V   E   -
+0003520    L   O   N   G   -   F   L   O   A   T       M   O   S   T   -
+0003540    P   O   S   I   T   I   V   E   -   S   I   N   G   L   E   -
+0003560    F   L   O   A   T   )       (   L   E   A   S   T   -   P   O
+0003600    S   I   T   I   V   E   -   L   O   N   G   -   F   L   O   A
+0003620    T      \r   L   E   A   S   T   -   P   O   S   I   T   I   V
+0003640    E   -   S   I   N   G   L   E   -   F   L   O   A   T   )    
+0003660    (   L   E   A   S   T   -   N   E   G   A   T   I   V   E   -
+0003700    L   O   N   G   -   F   L   O   A   T       L   E   A   S   T
+0003720    -   N   E   G   A   T   I   V   E   -   S   I   N   G   L   E
+0003740    -   F   L   O   A   T   )       (  \r   M   O   S   T   -   N
+0003760    E   G   A   T   I   V   E   -   L   O   N   G   -   F   L   O
+0004000    A   T       M   O   S   T   -   N   E   G   A   T   I   V   E
+0004020    -   S   I   N   G   L   E   -   F   L   O   A   T   )   )    
+0004040    (   *       E   P   S   I   L   O   N       i   s       t   h
+0004060    e       s   m   a   l   l   e   s   t       p   o   s   i   t
+0004100    i   v   e       f   l   o   a   t   i   n   g      \r   p   o
+0004120    i   n   t       n   u   m   b   e   r       s   u   c   h    
+0004140    t   h   a   t       (   N   O   T       (   =       (   F   L
+0004160    O   A   T       1       E   P   S   I   L   O   N   )       (
+0004200    +       (   F   L   O   A   T       1       E   P   S   I   L
+0004220    O   N   )       E   P   S   I   L   O   N   )   )   )       *
+0004240    )       (   I   N   I   T   V   A   R   S       (  \r   S   I
+0004260    N   G   L   E   -   F   L   O   A   T   -   E   P   S   I   L
+0004300    O   N       (   %   %   F   L   O   A   T       1   3   3   1
+0004320    2       0   )   )       (   S   H   O   R   T   -   F   L   O
+0004340    A   T   -   E   P   S   I   L   O   N       S   I   N   G   L
+0004360    E   -   F   L   O   A   T   -   E   P   S   I   L   O   N   )
+0004400        (  \r   D   O   U   B   L   E   -   F   L   O   A   T   -
+0004420    E   P   S   I   L   O   N       S   I   N   G   L   E   -   F
+0004440    L   O   A   T   -   E   P   S   I   L   O   N   )       (   L
+0004460    O   N   G   -   F   L   O   A   T   -   E   P   S   I   L   O
+0004500    N       S   I   N   G   L   E   -   F   L   O   A   T   -   E
+0004520    P   S   I   L   O   N   )   )       (   *      \r   N   E   G
+0004540    A   T   I   V   E   -   E   P   S   I   L   O   N       i   s
+0004560        t   h   e       s   m   a   l   l   e   s   t       n   e
+0004600    g   a   t   i   v   e       f   l   o   a   t   i   n   g    
+0004620    p   o   i   n   t       n   u   m   b   e   r       s   u   c
+0004640    h       t   h   a   t       (   N   O   T       (   =       (
+0004660    F   L   O   A   T       1      \r   N   E   G   A   T   I   V
+0004700    E   -   E   P   S   I   L   O   N   )       (   -       (   F
+0004720    L   O   A   T       1       N   E   G   A   T   I   V   E   -
+0004740    E   P   S   I   L   O   N   )       N   E   G   A   T   I   V
+0004760    E   -   E   P   S   I   L   O   N   )   )   )       *   )    
+0005000    (   I   N   I   T   V   A   R   S       (  \r   S   I   N   G
+0005020    L   E   -   F   L   O   A   T   -   N   E   G   A   T   I   V
+0005040    E   -   E   P   S   I   L   O   N       (   %   %   F   L   O
+0005060    A   T       1   3   1   8   4       0   )   )       (   S   H
+0005100    O   R   T   -   F   L   O   A   T   -   N   E   G   A   T   I
+0005120    V   E   -   E   P   S   I   L   O   N      \r   S   I   N   G
+0005140    L   E   -   F   L   O   A   T   -   N   E   G   A   T   I   V
+0005160    E   -   E   P   S   I   L   O   N   )       (   D   O   U   B
+0005200    L   E   -   F   L   O   A   T   -   N   E   G   A   T   I   V
+0005220    E   -   E   P   S   I   L   O   N       S   I   N   G   L   E
+0005240    -   F   L   O   A   T   -   N   E   G   A   T   I   V   E   -
+0005260    E   P   S   I   L   O   N   )       (  \r   L   O   N   G   -
+0005300    F   L   O   A   T   -   N   E   G   A   T   I   V   E   -   E
+0005320    P   S   I   L   O   N       S   I   N   G   L   E   -   F   L
+0005340    O   A   T   -   N   E   G   A   T   I   V   E   -   E   P   S
+0005360    I   L   O   N   )   )   )       (   C   O   M   S       (   *
+0005400        M   i   s   c   e   l   l   a   n   e   o   u   s   .    
+0005420    *   )       (   D   E   C   L   A   R   E   :      \r   E   V
+0005440    A   L   @   C   O   M   P   I   L   E       D   O   N   T   C
+0005460    O   P   Y       (   F   I   L   E   S       (   L   O   A   D
+0005500    C   O   M   P   )       L   L   F   L   O   A   T   )   )    
+0005520    (   I   N   I   T   V   A   R   S       (   P   I       (   %
+0005540    %   F   L   O   A   T       1   6   4   5   7       4   0   5
+0005560    9   )   )   )       (   *       S   h   o   u   l   d       b
+0005600    e       (  \r   D   E   C   L   A   R   E   :       E   V   A
+0005620    L   @   C   O   M   P   I   L   E       D   O   N   T   C   O
+0005640    P   Y       (   C   O   N   S   T   A   N   T   S       .   .
+0005660    .   )   )       e   x   c   e   p   t       t   h   a   t    
+0005700    c   o   m   p   i   l   e   r       d   o   e   s       a    
+0005720    p   o   o   r       j   o   b       o   f       c   o   m   p
+0005740    i   l   i   n   g      \r   F   L   O   A   T   P   s   .    
+0005760    U   s   e       a   n       I   N   I   T   V   A   R   S    
+0006000    t   o       p   a   t   c   h       a   r   o   u   n   d    
+0006020    t   h   i   s       s   i   t   u   a   t   i   o   n       f
+0006040    o   r       n   o   w   .       *   )       (   I   N   I   T
+0006060    V   A   R   S       (   %   %   E       (   %   %   F   L   O
+0006100    A   T       1   6   4   2   9      \r   6   3   5   7   2   )
+0006120    )       (   %   %   2   P   I       (   %   %   F   L   O   A
+0006140    T       1   6   5   8   5       4   0   5   9   )   )       (
+0006160    %   %   P   I       (   %   %   F   L   O   A   T       1   6
+0006200    4   5   7       4   0   5   9   )   )       (   %   %   2   P
+0006220    I   /   3       (   %   %   F   L   O   A   T       1   6   3
+0006240    9   0       2   7   0   6   )   )       (  \r   %   %   P   I
+0006260    /   2       (   %   %   F   L   O   A   T       1   6   3   2
+0006300    9       4   0   5   9   )   )       (   %   %   -   P   I   /
+0006320    2       (   %   %   F   L   O   A   T       4   9   0   9   7
+0006340        4   0   5   9   )   )       (   %   %   P   I   /   3    
+0006360    (   %   %   F   L   O   A   T       1   6   2   6   2       2
+0006400    7   0   6   )   )       (   %   %   P   I   /   4       (  \r
+0006420    %   %   F   L   O   A   T       1   6   2   0   1       4   0
+0006440    5   9   )   )       (   %   %   -   P   I   /   4       (   %
+0006460    %   F   L   O   A   T       4   8   9   6   9       4   0   5
+0006500    9   )   )       (   %   %   P   I   /   6       (   %   %   F
+0006520    L   O   A   T       1   6   1   3   4       2   7   0   6   )
+0006540    )       (   %   %   2   /   P   I       (   %   %   F   L   O
+0006560    A   T      \r   1   6   1   6   2       6   3   8   7   5   )
+0006600    )   )       (   F   N   S       %   %   M   A   K   E   -   A
+0006620    R   R   A   Y   )   )       (   C   O   M   S       (   *    
+0006640    E   X   P       *   )       (   C   O   M   S       (   I   N
+0006660    I   T   V   A   R   S       (   %   %   L   O   G   -   B   A
+0006700    S   E   2   -   E       (   %   %   F   L   O   A   T       1
+0006720    6   3   1   2       4   3   5   7   9  \r   )   )   )       (
+0006740    *       *       %   %   E   X   P   -   P   O   L   Y       c
+0006760    o   n   t   a   i   n   s       P       a   n   d       Q    
+0007000    c   o   e   f   f   i   c   i   e   n   t   s       o   f    
+0007020    H   a   r   r   i   s       e   t       a   l       E   X   P
+0007040    B       1   1   0   3       r   a   t   i   o   n   a   l    
+0007060    a   p   p   r   o   x   i   m   a   t   i   o   n       t   o
+0007100       \r   (   E   X   P   T       2       X   )       i   n    
+0007120    i   n   t   e   r   v   a   l       (   0       .   1   2   5
+0007140    )       %   .       %   %   E   X   P   -   T   A   B   L   E
+0007160        c   o   n   t   a   i   n   s       v   a   l   u   e   s
+0007200        o   f       p   o   w   e   r   s       (   E   X   P   T
+0007220        2       (   /       N       8   )   )       .       *   )
+0007240        (   V   A   R   S       (  \r   %   %   E   X   P   -   P
+0007260    O   L   Y       (   %   %   M   A   K   E   -   A   R   R   A
+0007300    Y       (   L   I   S   T       (   %   %   F   L   O   A   T
+0007320        1   5   5   4   9       1   7   6   5   9   )       (   %
+0007340    %   F   L   O   A   T       1   6   2   5   6       0   )    
+0007360    (   %   %   F   L   O   A   T       1   6   8   0   1       3
+0007400    8   2   7   3   )       (   %   %   F   L   O   A   T      \r
+0007420    1   7   2   5   7       7   7   1   7   )       (   %   %   F
+0007440    L   O   A   T       1   7   5   9   7       1   1   7   3   9
+0007460    )       (   %   %   F   L   O   A   T       1   7   8   0   0
+0007500        3   0   4   0   1   )   )   )   )       (   %   %   E   X
+0007520    P   -   T   A   B   L   E       (   %   %   M   A   K   E   -
+0007540    A   R   R   A   Y       (   L   I   S   T       (   %   %   F
+0007560    L   O   A   T      \r   1   6   2   5   6       0   )       (
+0007600    %   %   F   L   O   A   T       1   6   2   6   7       3   8
+0007620    3   3   8   )       (   %   %   F   L   O   A   T       1   6
+0007640    2   8   0       1   4   3   2   0   )       (   %   %   F   L
+0007660    O   A   T       1   6   2   9   3       6   5   2   3   9   )
+0007700        (   %   %   F   L   O   A   T       1   6   3   0   9    
+0007720    1   2   6   7   )       (  \r   %   %   F   L   O   A   T    
+0007740    1   6   3   2   5       2   6   4   1   0   )       (   %   %
+0007760    F   L   O   A   T       1   6   3   4   3       1   7   6   6
+0010000    1   )       (   %   %   F   L   O   A   T       1   6   3   6
+0010020    2       4   9   3   5   1   )   )   )   )   )   )       (   F
+0010040    N   S       E   X   P       %   %   E   X   P   -   F   L   O
+0010060    A   T      \r   %   %   E   X   P   -   C   O   M   P   L   E
+0010100    X   )   )       (   C   O   M   S       (   *       E   X   P
+0010120    T       *   )       (   F   N   S       C   L   :   E   X   P
+0010140    T       %   %   E   X   P   T   -   I   N   T   E   G   E   R
+0010160        %   %   E   X   P   T   -   F   L   O   A   T       %   %
+0010200    E   X   P   T   -   C   O   M   P   L   E   X      \r   %   %
+0010220    E   X   P   T   -   C   O   M   P   L   E   X   -   P   O   W
+0010240    E   R   )   )       (   C   O   M   S       (   *       L   O
+0010260    G       *   )       (   C   O   M   S       (   I   N   I   T
+0010300    V   A   R   S       (   %   %   L   O   G   2       (   %   %
+0010320    F   L   O   A   T       1   6   1   7   7       2   9   2   0
+0010340    8   )   )       (   %   %   S   Q   R   T   2       (  \r   %
+0010360    %   F   L   O   A   T       1   6   3   0   9       1   2   6
+0010400    7   )   )   )       (   *       *       %   %   L   O   G   -
+0010420    P   P   O   L   Y       a   n   d       %   %   L   O   G   -
+0010440    Q   P   O   L   Y       c   o   n   t   a   i   n       P    
+0010460    a   n   d       Q       c   o   e   f   f   i   c   i   e   n
+0010500    t   s       o   f       H   a   r   r   i   s       e   t    
+0010520    a   l      \r   L   O   G   E       2   7   0   7       r   a
+0010540    t   i   o   n   a   l       a   p   p   r   o   x   i   m   a
+0010560    t   i   o   n       t   o       (   L   O   G       X   )    
+0010600    i   n       i   n   t   e   r   v   a   l       (   (   S   Q
+0010620    R   T       .   5   )       (   S   Q   R   T       2   )   )
+0010640        .       *   )       (   V   A   R   S       (   %   %   L
+0010660    O   G   -   P   P   O   L   Y       (  \r   %   %   M   A   K
+0010700    E   -   A   R   R   A   Y       (   L   I   S   T       (   %
+0010720    %   F   L   O   A   T       1   6   0   4   2       2   2   8
+0010740    0   3   )       (   %   %   F   L   O   A   T       4   9   4
+0010760    8   4       2   3   5   9   0   )       (   %   %   F   L   O
+0011000    A   T       1   7   0   4   4       1   7   9   8   2   )    
+0011020    (   %   %   F   L   O   A   T       4   9   9   2   6      \r
+0011040    3   7   1   5   3   )       (   %   %   F   L   O   A   T    
+0011060    1   7   0   4   6       5   3   6   7   )   )   )   )       (
+0011100    %   %   L   O   G   -   Q   P   O   L   Y       (   %   %   M
+0011120    A   K   E   -   A   R   R   A   Y       (   L   I   S   T    
+0011140    (   %   %   F   L   O   A   T       1   6   2   5   6       0
+0011160    )       (   %   %   F   L   O   A   T       4   9   5   1   2
+0011200        9   1   0   3   )  \r       (   %   %   F   L   O   A   T
+0011220        1   6   9   9   2       4   2   2   7   4   )       (   %
+0011240    %   F   L   O   A   T       4   9   8   2   3       3   8   0
+0011260    4   8   )       (   %   %   F   L   O   A   T       1   6   9
+0011300    1   8       5   3   6   7   )   )   )   )   )   )       (   F
+0011320    N   S       C   L   :   L   O   G       %   %   L   O   G   -
+0011340    F   L   O   A   T      \r   %   %   L   O   G   -   C   O   M
+0011360    P   L   E   X   )   )       (   C   O   M   S       (   *    
+0011400    S   Q   R   T       *   )       (   F   N   S       C   L   :
+0011420    S   Q   R   T       %   %   S   Q   R   T   -   F   L   O   A
+0011440    T       %   %   S   Q   R   T   -   C   O   M   P   L   E   X
+0011460    )   )       (   C   O   M   S       (   *       S   I   N    
+0011500    *   )       (   C   O   M   S       (   *       *  \r       %
+0011520    %   S   I   N   -   E   P   S   I   L   O   N       i   s    
+0011540    s   u   f   f   i   c   i   e   n   t   l   y       s   m   a
+0011560    l   l       t   h   a   t       (   S   I   N       X   )    
+0011600    =       X       f   o   r       X       i   n       i   n   t
+0011620    e   r   v   a   l       (   0       %   %   S   I   N   -   E
+0011640    P   S   I   L   O   N   )       %   .       I   t      \r   s
+0011660    u   f   f   i   c   e   s       t   o       t   a   k   e    
+0011700    %   %   S   I   N   -   E   P   S   I   L   O   N       a    
+0011720    l   i   t   t   l   e       b   i   t       s   m   a   l   l
+0011740    e   r       t   h   a   n       (   S   Q   R   T       (   C
+0011760    L   :   *       6       S   I   N   G   L   E   -   F   L   O
+0012000    A   T   -   E   P   S   I   L   O   N   )   )       w   h   i
+0012020    c   h       w   e  \r       g   e   t       b   y       t   h
+0012040    e       T   a   y   l   o   r       s   e   r   i   e   s    
+0012060    e   x   p   a   n   s   i   o   n       (   S   I   N       X
+0012100    )       =       (   +       X       (   /       (   E   X   P
+0012120    T       X       3   )       6   )       .   .   .   )       (
+0012140    T   h   e       r   e   l   a   t   i   v   e       e   r   r
+0012160    o   r       c   a   u   s   e   d       b   y  \r       o   m
+0012200    m   i   t   t   i   n   g       (   /       (   E   X   P   T
+0012220        X       3   )       6   )       i   s   n   '   t       o
+0012240    b   s   e   r   v   a   b   l   e   .   )       C   o   m   p
+0012260    a   r   i   s   o   n       a   g   a   i   n   s   t       %
+0012300    %   S   I   N   -   E   P   S   I   L   O   N       i   s    
+0012320    u   s   e   d       t   o       a   v   o   i   d      \r   P
+0012340    O   L   Y   E   V   A   L       m   i   c   r   o   c   o   d
+0012360    e       u   n   d   e   r   f   l   o   w       w   h   e   n
+0012400        c   o   m   p   u   t   i   n   g       S   I   N   .    
+0012420    *   )       (   I   N   I   T   V   A   R   S       (   %   %
+0012440    S   I   N   -   E   P   S   I   L   O   N       (   %   %   F
+0012460    L   O   A   T       1   4   7   2   0       0   )   )   )    
+0012500    (   *       *      \r   %   %   S   I   N   -   P   P   O   L
+0012520    Y       a   n   d       %   %   S   I   N   -   Q   P   O   L
+0012540    Y       c   o   n   t   a   i   n       a   d   a   p   t   e
+0012560    d       P       a   n   d       Q       c   o   e   f   f   i
+0012600    c   i   e   n   t   s       o   f       H   a   r   r   i   s
+0012620        e   t       a   l       S   I   N       3   3   7   4    
+0012640    r   a   t   i   o   n   a   l      \r   a   p   p   r   o   x
+0012660    i   m   a   t   i   o   n       t   o       (   S   I   N    
+0012700    X   )       i   n       i   n   t   e   r   v   a   l       (
+0012720    0       (   /       P   I       2   )   )       %   .       T
+0012740    h   e       c   o   e   f   f   i   c   i   e   n   t   s    
+0012760    f   o   r       %   %   S   I   N   -   P   P   O   L   Y    
+0013000    a   n   d       %   %   S   I   N   -   Q   P   O   L   Y    
+0013020   \r   h   a   v   e       b   e   e   n       c   o   m   p   u
+0013040    t   e   d       f   r   o   m       H   a   r   r   i   s    
+0013060    u   s   i   n   g       e   x   t   e   n   d   e   d       p
+0013100    r   e   c   i   s   i   o   n       r   o   u   t   i   n   e
+0013120    s       a   n   d       t   h   e       r   e   l   a   t   i
+0013140    o   n   s       %   %   S   I   N   -   P   P   O   L   Y    
+0013160    =       (  \r   R   E   V   E   R   S   E       (   f   o   r
+0013200        I       f   r   o   m       0       a   s       E   N   T
+0013220    R   Y       i   n       P   S       c   o   l   l   e   c   t
+0013240        (   /       (   C   L   :   *       (   E   X   P   T    
+0013260    (   /       2       P   I   )       (   1   +       (   C   L
+0013300    :   *       2       I   )   )   )       E   N   T   R   Y   )
+0013320        Q   0   )   )   )       a   n   d  \r       %   %   S   I
+0013340    N   -   Q   P   O   L   Y       =       (   R   E   V   E   R
+0013360    S   E       (   f   o   r       I       f   r   o   m       0
+0013400        a   s       E   N   T   R   Y       i   n       Q   S    
+0013420    c   o   l   l   e   c   t       (   /       (   C   L   :   *
+0013440        (   E   X   P   T       (   /       2       P   I   )    
+0013460    (   C   L   :   *       2       I   )   )       E   N   T   R
+0013500    Y  \r   )       Q   0   )   )   )       *   )       (   V   A
+0013520    R   S       (   %   %   S   I   N   -   P   P   O   L   Y    
+0013540    (   %   %   M   A   K   E   -   A   R   R   A   Y       (   L
+0013560    I   S   T       (   %   %   F   L   O   A   T       4   5   2
+0013600    3   6       2   5   6   1   1   )       (   %   %   F   L   O
+0013620    A   T       1   3   5   8   9       2   6   1   4   8   )    
+0013640    (   %   %   F   L   O   A   T  \r       4   7   2   8   6    
+0013660    3   4   7   9   7   )       (   %   %   F   L   O   A   T    
+0013700    1   5   2   9   5       3   3   0   6   )       (   %   %   F
+0013720    L   O   A   T       4   8   6   6   6       3   4   8   0   5
+0013740    )       (   %   %   F   L   O   A   T       1   6   2   5   6
+0013760        0   )   )   )   )       (   %   %   S   I   N   -   Q   P
+0014000    O   L   Y       (  \r   %   %   M   A   K   E   -   A   R   R
+0014020    A   Y       (   L   I   S   T       (   %   %   F   L   O   A
+0014040    T       1   1   3   8   4       5   2   8   6   5   )       (
+0014060    %   %   F   L   O   A   T       1   2   5   5   3       9   5
+0014100    5   0   )       (   %   %   F   L   O   A   T       1   3   6
+0014120    0   4       3   8   3   8   5   )       (   %   %   F   L   O
+0014140    A   T       1   4   5   9   3      \r   1   8   8   4   1   )
+0014160        (   %   %   F   L   O   A   T       1   5   4   8   9    
+0014200    5   5   4   9   )       (   %   %   F   L   O   A   T       1
+0014220    6   2   5   6       0   )   )   )   )   )   )       (   F   N
+0014240    S       C   L   :   S   I   N       %   %   S   I   N   -   F
+0014260    L   O   A   T       %   %   S   I   N   -   C   O   M   P   L
+0014300    E   X   )   )       (   C   O   M   S       (   *      \r   C
+0014320    O   S       *   )       (   F   N   S       C   L   :   C   O
+0014340    S       %   %   C   O   S   -   C   O   M   P   L   E   X   )
+0014360    )       (   C   O   M   S       (   *       T   A   N       *
+0014400    )       (   C   O   M   S       (   *       *       %   %   T
+0014420    A   N   -   E   P   S   I   L   O   N       i   s       s   u
+0014440    f   f   i   c   i   e   n   t   l   y       s   m   a   l   l
+0014460        t   h   a   t  \r       (   T   A   N       X   )       =
+0014500        X       f   o   r       X       i   n       i   n   t   e
+0014520    r   v   a   l       (   0       %   %   T   A   N   -   E   P
+0014540    S   I   L   O   N   )       %   .       I   t       s   u   f
+0014560    f   i   c   e   s       t   o       t   a   k   e       %   %
+0014600    T   A   N   -   E   P   S   I   L   O   N       a       l   i
+0014620    t   t   l   e       b   i   t      \r   s   m   a   l   l   e
+0014640    r       t   h   a   n       (   S   Q   R   T       (   C   L
+0014660    :   *       3       S   I   N   G   L   E   -   F   L   O   A
+0014700    T   -   E   P   S   I   L   O   N   )   )       w   h   i   c
+0014720    h       w   e       g   e   t       b   y       t   h   e    
+0014740    T   a   y   l   o   r       s   e   r   i   e   s       e   x
+0014760    p   a   n   s   i   o   n       (   T   A   N       X   )    
+0015000   \r   =       (   +       X       (   /       (   E   X   P   T
+0015020        X       3   )       3   )       .   .   .   )       (   T
+0015040    h   e       r   e   l   a   t   i   v   e       e   r   r   o
+0015060    r       c   a   u   s   e   d       b   y       o   m   m   i
+0015100    t   t   i   n   g       (   /       (   E   X   P   T       X
+0015120        3   )       3   )       i   s   n   '   t      \r   o   b
+0015140    s   e   r   v   a   b   l   e   .   )       C   o   m   p   a
+0015160    r   i   s   o   n       a   g   a   i   n   s   t       %   %
+0015200    T   A   N   -   E   P   S   I   L   O   N       i   s       u
+0015220    s   e   d       t   o       a   v   o   i   d       P   O   L
+0015240    Y   E   V   A   L       m   i   c   r   o   c   o   d   e    
+0015260    u   n   d   e   r   f   l   o   w       w   h   e   n      \r
+0015300    c   o   m   p   u   t   i   n   g       T   A   N   .       *
+0015320    )       (   I   N   I   T   V   A   R   S       (   %   %   T
+0015340    A   N   -   E   P   S   I   L   O   N       (   %   %   F   L
+0015360    O   A   T       1   4   7   2   0       0   )   )   )       (
+0015400    *       *       %   %   T   A   N   -   P   P   O   L   Y    
+0015420    a   n   d       %   %   T   A   N   -   Q   P   O   L   Y    
+0015440   \r   c   o   n   t   a   i   n       a   d   a   p   t   e   d
+0015460        P       a   n   d       Q       c   o   e   f   f   i   c
+0015500    i   e   n   t   s       o   f       H   a   r   r   i   s    
+0015520    e   t       a   l       T   A   N       4   2   8   8       r
+0015540    a   t   i   o   n   a   l       a   p   p   r   o   x   i   m
+0015560    a   t   i   o   n       t   o       (   T   A   N       X   )
+0015600        i   n      \r   i   n   t   e   r   v   a   l       (   -
+0015620    P   I   /   4       P   I   /   4   )       %   .       T   h
+0015640    e       c   o   e   f   f   i   c   i   e   n   t   s       f
+0015660    o   r       %   %   T   A   N   -   P   P   O   L   Y       a
+0015700    n   d       %   %   T   A   N   -   Q   P   O   L   Y       h
+0015720    a   v   e       b   e   e   n       c   o   m   p   u   t   e
+0015740    d       f   r   o   m      \r   H   a   r   r   i   s       u
+0015760    s   i   n   g       e   x   t   e   n   d   e   d       p   r
+0016000    e   c   i   s   i   o   n       r   o   u   t   i   n   e   s
+0016020        a   n   d       t   h   e       r   e   l   a   t   i   o
+0016040    n   s       %   %   T   A   N   -   P   P   O   L   Y       =
+0016060        (   R   E   V   E   R   S   E       (   f   o   r       I
+0016100        f   r   o   m       0       a   s      \r   E   N   T   R
+0016120    Y       i   n       P   S       c   o   l   l   e   c   t    
+0016140    (   /       (   C   L   :   *       (   E   X   P   T       (
+0016160    /       4       P   I   )       (   1   +       (   C   L   :
+0016200    *       2       I   )   )   )       E   N   T   R   Y   )    
+0016220    Q   0   )   )   )       a   n   d       %   %   T   A   N   -
+0016240    Q   P   O   L   Y       =       (   R   E   V   E   R   S   E
+0016260        (  \r   f   o   r       I       f   r   o   m       0    
+0016300    a   s       E   N   T   R   Y       i   n       Q   S       c
+0016320    o   l   l   e   c   t       (   /       (   C   L   :   *    
+0016340    (   E   X   P   T       (   /       4       P   I   )       (
+0016360    C   L   :   *       2       I   )   )       E   N   T   R   Y
+0016400    )       Q   0   )   )   )       *   )       (   V   A   R   S
+0016420        (  \r   %   %   T   A   N   -   P   P   O   L   Y       (
+0016440    %   %   M   A   K   E   -   A   R   R   A   Y       (   L   I
+0016460    S   T       (   %   %   F   L   O   A   T       1   3   2   3
+0016500    7       2   1   0   9   0   )       (   %   %   F   L   O   A
+0016520    T       4   7   1   4   1       1   5   8   2   5   )       (
+0016540    %   %   F   L   O   A   T       1   5   2   4   6       8   7
+0016560    8   5   )       (  \r   %   %   F   L   O   A   T       4   8
+0016600    6   5   5       4   8   7   6   1   )       (   %   %   F   L
+0016620    O   A   T       1   6   2   5   6       0   )   )   )   )    
+0016640    (   %   %   T   A   N   -   Q   P   O   L   Y       (   %   %
+0016660    M   A   K   E   -   A   R   R   A   Y       (   L   I   S   T
+0016700        (   %   %   F   L   O   A   T       4   5   2   6   7    
+0016720    3   6   9   4   7   )       (  \r   %   %   F   L   O   A   T
+0016740        1   3   8   4   8       4   6   8   7   5   )       (   %
+0016760    %   F   L   O   A   T       4   7   6   1   2       5   3   7
+0017000    3   8   )       (   %   %   F   L   O   A   T       1   5   5
+0017020    9   6       5   2   8   5   4   )       (   %   %   F   L   O
+0017040    A   T       4   8   8   8   2       3   5   3   0   3   )    
+0017060    (   %   %   F   L   O   A   T       1   6   2   5   6      \r
+0017100    0   )   )   )   )   )   )       (   F   N   S       C   L   :
+0017120    T   A   N       %   %   T   A   N   -   F   L   O   A   T    
+0017140    %   %   T   A   N   -   C   O   M   P   L   E   X   )   )    
+0017160    (   C   O   M   S       (   *       A   S   I   N       *   )
+0017200        (   C   O   M   S       (   *       *       %   %   A   S
+0017220    I   N   -   E   P   S   I   L   O   N       i   s      \r   s
+0017240    u   f   f   i   c   i   e   n   t   l   y       s   m   a   l
+0017260    l       t   h   a   t       (   A   S   I   N       X   )    
+0017300    =       X       f   o   r       X       i   n       i   n   t
+0017320    e   r   v   a   l       (   0       %   %   A   S   I   N   -
+0017340    E   P   S   I   L   O   N   )       %   .       I   t       s
+0017360    u   f   f   i   c   e   s       t   o       t   a   k   e    
+0017400   \r   %   %   A   S   I   N   -   E   P   S   I   L   O   N    
+0017420    a       l   i   t   t   l   e       b   i   t       s   m   a
+0017440    l   l   e   r       t   h   a   n       (   C   L   :   *    
+0017460    2       S   I   N   G   L   E   -   F   L   O   A   T   -   E
+0017500    P   S   I   L   O   N   )       w   h   i   c   h       w   e
+0017520        g   e   t       b   y       t   h   e       T   a   y   l
+0017540    o   r      \r   s   e   r   i   e   s       e   x   p   a   n
+0017560    s   i   o   n       (   A   S   I   N       X   )       =    
+0017600    (   +       X       (   /       (   E   X   P   T       X    
+0017620    3   )       6   )       .   .   .   )       (   T   h   e    
+0017640    r   e   l   a   t   i   v   e       e   r   r   o   r       c
+0017660    a   u   s   e   d       b   y       o   m   m   i   t   t   i
+0017700    n   g       (   /       (  \r   E   X   P   T       X       3
+0017720    )       6   )       i   s   n   '   t       o   b   s   e   r
+0017740    v   a   b   l   e   .   )       C   o   m   p   a   r   i   s
+0017760    o   n       a   g   a   i   n   s   t       %   %   A   S   I
+0020000    N   -   E   P   S   I   L   O   N       i   s       u   s   e
+0020020    d       t   o       a   v   o   i   d       P   O   L   Y   E
+0020040    V   A   L       m   i   c   r   o   c   o   d   e      \r   u
+0020060    n   d   e   r   f   l   o   w       w   h   e   n       c   o
+0020100    m   p   u   t   i   n   g       S   I   N   .       *   )    
+0020120    (   I   N   I   T   V   A   R   S       (   %   %   A   S   I
+0020140    N   -   E   P   S   I   L   O   N       (   %   %   F   L   O
+0020160    A   T       1   4   7   2   0       0   )   )   )       (   *
+0020200        *       %   %   A   S   I   N   -   P   P   O   L   Y    
+0020220    a   n   d      \r   %   %   A   S   I   N   -   Q   P   O   L
+0020240    Y       c   o   n   t   a   i   n       P       a   n   d    
+0020260    Q       c   o   e   f   f   i   c   i   e   n   t   s       o
+0020300    f       H   a   r   r   i   s       e   t       a   l       A
+0020320    R   C   S   N       4   6   7   1       r   a   t   i   o   n
+0020340    a   l       a   p   p   r   o   x   i   m   a   t   i   o   n
+0020360        t   o       (   A   S   I   N       X  \r   )       i   n
+0020400        i   n   t   e   r   v   a   l       (   0       (   S   Q
+0020420    R   T       .   5   )   )       .       *   )       (   V   A
+0020440    R   S       (   %   %   A   S   I   N   -   P   P   O   L   Y
+0020460        (   %   %   M   A   K   E   -   A   R   R   A   Y       (
+0020500    L   I   S   T       (   %   %   F   L   O   A   T       1   6
+0020520    0   0   7       5   0   0   4   5   )       (  \r   %   %   F
+0020540    L   O   A   T       4   9   5   4   9       8   0   2   0   )
+0020560        (   %   %   F   L   O   A   T       1   7   2   3   6    
+0020600    1   5   8   4   8   )       (   %   %   F   L   O   A   T    
+0020620    5   0   2   8   5       6   3   4   6   4   )       (   %   %
+0020640    F   L   O   A   T       1   7   6   5   0       3   1   2   3
+0020660    5   )       (   %   %   F   L   O   A   T       5   0   4   0
+0020700    3      \r   6   2   8   5   2   )       (   %   %   F   L   O
+0020720    A   T       1   7   4   4   0       3   9   4   7   1   )   )
+0020740    )   )       (   %   %   A   S   I   N   -   Q   P   O   L   Y
+0020760        (   %   %   M   A   K   E   -   A   R   R   A   Y       (
+0021000    L   I   S   T       (   %   %   F   L   O   A   T       1   6
+0021020    2   5   6       0   )       (   %   %   F   L   O   A   T    
+0021040    4   9   6   7   2      \r   2   5   8   1   7   )       (   %
+0021060    %   F   L   O   A   T       1   7   3   0   8       5   5   2
+0021100    6   0   )       (   %   %   F   L   O   A   T       5   0   3
+0021120    2   6       3   8   0   9   8   )       (   %   %   F   L   O
+0021140    A   T       1   7   6   7   4       2   2   2   1   0   )    
+0021160    (   %   %   F   L   O   A   T       5   0   4   1   7       2
+0021200    2   4   5   1   )       (  \r   %   %   F   L   O   A   T    
+0021220    1   7   4   4   0       3   9   4   7   1   )   )   )   )   )
+0021240    )       (   F   N   S       A   S   I   N       %   %   A   S
+0021260    I   N   -   F   L   O   A   T       %   %   A   S   I   N   -
+0021300    C   O   M   P   L   E   X   )   )       (   C   O   M   S    
+0021320    (   *       A   C   O   S       *   )       (   F   N   S    
+0021340    A   C   O   S      \r   %   %   A   C   O   S   -   C   O   M
+0021360    P   L   E   X   )   )       (   C   O   M   S       (   *    
+0021400    A   T   A   N       *   )       (   I   N   I   T   V   A   R
+0021420    S       (   %   %   S   Q   R   T   3       (   %   %   F   L
+0021440    O   A   T       1   6   3   4   9       4   6   0   3   9   )
+0021460    )       (   %   %   2   -   S   Q   R   T   3       (   %   %
+0021500    F   L   O   A   T       1   6   0   0   9      \r   1   2   4
+0021520    5   1   )   )       (   %   %   I   N   V   -   2   -   S   Q
+0021540    R   T   3       (   %   %   F   L   O   A   T       1   6   4
+0021560    9   4       5   5   7   8   8   )   )   )       (   F   N   S
+0021600        C   L   :   A   T   A   N       %   %   A   T   A   N   -
+0021620    F   L   O   A   T   1       %   %   A   T   A   N   -   F   L
+0021640    O   A   T   2      \r   %   %   A   T   A   N   -   D   O   M
+0021660    A   I   N   -   C   H   E   C   K       %   %   A   T   A   N
+0021700    -   F   L   O   A   T       %   %   A   T   A   N   -   C   O
+0021720    M   P   L   E   X   )   )       (   C   O   M   S       (   *
+0021740        C   I   S       *   )       (   F   N   S       C   I   S
+0021760    )   )       (   C   O   M   S       (   *       S   I   N   H
+0022000        C   O   S   H       T   A   N   H       *  \r   )       (
+0022020    F   N   S       S   I   N   H       C   O   S   H       T   A
+0022040    N   H   )   )       (   C   O   M   S       (   *       A   S
+0022060    I   N   H       A   C   O   S   H       A   T   A   N   H    
+0022100    *   )       (   F   N   S       A   S   I   N   H       A   C
+0022120    O   S   H       A   T   A   N   H       %   %   A   T   A   N
+0022140    H   -   D   O   M   A   I   N   -   C   H   E   C   K   )   )
+0022160        (  \r   P   R   O   P       F   I   L   E   T   Y   P   E
+0022200        C   M   L   F   L   O   A   T   )       (   D   E   C   L
+0022220    A   R   E   :       D   O   N   T   E   V   A   L   @   L   O
+0022240    A   D       D   O   E   V   A   L   @   C   O   M   P   I   L
+0022260    E       D   O   N   T   C   O   P   Y       C   O   M   P   I
+0022300    L   E   R   V   A   R   S       (   A   D   D   V   A   R   S
+0022320        (   N   L   A   M   A   )      \r   (   N   L   A   M   L
+0022340    )       (   L   A   M   A       %   %   A   T   A   N   H   -
+0022360    D   O   M   A   I   N   -   C   H   E   C   K       A   T   A
+0022400    N   H       A   C   O   S   H       A   S   I   N   H       T
+0022420    A   N   H       C   O   S   H       S   I   N   H       C   I
+0022440    S       %   %   A   T   A   N   -   C   O   M   P   L   E   X
+0022460        %   %   A   T   A   N   -   F   L   O   A   T      \r   %
+0022500    %   A   T   A   N   -   D   O   M   A   I   N   -   C   H   E
+0022520    C   K       %   %   A   T   A   N   -   F   L   O   A   T   2
+0022540        %   %   A   T   A   N   -   F   L   O   A   T   1       C
+0022560    L   :   A   T   A   N       %   %   A   C   O   S   -   C   O
+0022600    M   P   L   E   X       A   C   O   S       %   %   A   S   I
+0022620    N   -   C   O   M   P   L   E   X       A   S   I   N      \r
+0022640    %   %   T   A   N   -   C   O   M   P   L   E   X       C   L
+0022660    :   T   A   N       %   %   C   O   S   -   C   O   M   P   L
+0022700    E   X       C   L   :   C   O   S       %   %   S   I   N   -
+0022720    C   O   M   P   L   E   X       C   L   :   S   I   N       C
+0022740    L   :   S   Q   R   T       %   %   L   O   G   -   C   O   M
+0022760    P   L   E   X       C   L   :   L   O   G      \r   %   %   E
+0023000    X   P   T   -   C   O   M   P   L   E   X   -   P   O   W   E
+0023020    R       %   %   E   X   P   T   -   C   O   M   P   L   E   X
+0023040        %   %   E   X   P   T   -   I   N   T   E   G   E   R    
+0023060    C   L   :   E   X   P   T       %   %   E   X   P   -   C   O
+0023100    M   P   L   E   X       %   %   E   X   P   -   F   L   O   A
+0023120    T       E   X   P   )   )   )   )   )  \r   %   %   F   L   O
+0023140    A   T       D   1  \r   (   I       1       L   O   W   O   R
+0023160    D       I       0       H   I   W   O   R   D   )      \0  \a
+0023200   \0  \0  \0 002   @   A 321 355  \0 020  \0   N   I   L  \r   N
+0023220    I   L  \r   (   )  \r   (   R   P   A   Q   Q       M   O   S
+0023240    T   -   P   O   S   I   T   I   V   E   -   F   I   X   N   U
+0023260    M       6   5   5   3   5   )  \r   (   R   P   A   Q   Q    
+0023300    M   O   S   T   -   N   E   G   A   T   I   V   E   -   F   I
+0023320    X   N   U   M       -   6   5   5   3   6   )  \r   (   C   O
+0023340    N   S   T   A   N   T   S       (   M   O   S   T   -   P   O
+0023360    S   I   T   I   V   E   -   F   I   X   N   U   M       6   5
+0023400    5   3   5   )       (   M   O   S   T   -   N   E   G   A   T
+0023420    I   V   E   -   F   I   X   N   U   M       -   6   5   5   3
+0023440    6   )   )  \r   (   R   P   A   Q   ?       M   O   S   T   -
+0023460    P   O   S   I   T   I   V   E   -   S   I   N   G   L   E   -
+0023500    F   L   O   A   T       (   %   %   F   L   O   A   T       3
+0023520    2   6   3   9       6   5   5   3   5   )   )  \r   (   R   P
+0023540    A   Q   ?       L   E   A   S   T   -   P   O   S   I   T   I
+0023560    V   E   -   S   I   N   G   L   E   -   F   L   O   A   T    
+0023600    (   %   %   F   L   O   A   T       1   2   8       0   )   )
+0023620   \r   (   R   P   A   Q   ?       L   E   A   S   T   -   N   E
+0023640    G   A   T   I   V   E   -   S   I   N   G   L   E   -   F   L
+0023660    O   A   T       (   %   %   F   L   O   A   T       3   2   8
+0023700    9   6       0   )   )  \r   (   R   P   A   Q   ?       M   O
+0023720    S   T   -   N   E   G   A   T   I   V   E   -   S   I   N   G
+0023740    L   E   -   F   L   O   A   T       (   %   %   F   L   O   A
+0023760    T       6   5   4   0   7       6   5   5   3   5   )   )  \r
+0024000    (   R   P   A   Q   ?       M   O   S   T   -   P   O   S   I
+0024020    T   I   V   E   -   S   H   O   R   T   -   F   L   O   A   T
+0024040        M   O   S   T   -   P   O   S   I   T   I   V   E   -   S
+0024060    I   N   G   L   E   -   F   L   O   A   T   )  \r   (   R   P
+0024100    A   Q   ?       L   E   A   S   T   -   P   O   S   I   T   I
+0024120    V   E   -   S   H   O   R   T   -   F   L   O   A   T       L
+0024140    E   A   S   T   -   P   O   S   I   T   I   V   E   -   S   I
+0024160    N   G   L   E   -   F   L   O   A   T   )  \r   (   R   P   A
+0024200    Q   ?       L   E   A   S   T   -   N   E   G   A   T   I   V
+0024220    E   -   S   H   O   R   T   -   F   L   O   A   T       L   E
+0024240    A   S   T   -   N   E   G   A   T   I   V   E   -   S   I   N
+0024260    G   L   E   -   F   L   O   A   T   )  \r   (   R   P   A   Q
+0024300    ?       M   O   S   T   -   N   E   G   A   T   I   V   E   -
+0024320    S   H   O   R   T   -   F   L   O   A   T       M   O   S   T
+0024340    -   N   E   G   A   T   I   V   E   -   S   I   N   G   L   E
+0024360    -   F   L   O   A   T   )  \r   (   R   P   A   Q   ?       M
+0024400    O   S   T   -   P   O   S   I   T   I   V   E   -   D   O   U
+0024420    B   L   E   -   F   L   O   A   T       M   O   S   T   -   P
+0024440    O   S   I   T   I   V   E   -   S   I   N   G   L   E   -   F
+0024460    L   O   A   T   )  \r   (   R   P   A   Q   ?       L   E   A
+0024500    S   T   -   P   O   S   I   T   I   V   E   -   D   O   U   B
+0024520    L   E   -   F   L   O   A   T       L   E   A   S   T   -   P
+0024540    O   S   I   T   I   V   E   -   S   I   N   G   L   E   -   F
+0024560    L   O   A   T   )  \r   (   R   P   A   Q   ?       L   E   A
+0024600    S   T   -   N   E   G   A   T   I   V   E   -   D   O   U   B
+0024620    L   E   -   F   L   O   A   T       L   E   A   S   T   -   N
+0024640    E   G   A   T   I   V   E   -   S   I   N   G   L   E   -   F
+0024660    L   O   A   T   )  \r   (   R   P   A   Q   ?       M   O   S
+0024700    T   -   N   E   G   A   T   I   V   E   -   D   O   U   B   L
+0024720    E   -   F   L   O   A   T       M   O   S   T   -   N   E   G
+0024740    A   T   I   V   E   -   S   I   N   G   L   E   -   F   L   O
+0024760    A   T   )  \r   (   R   P   A   Q   ?       M   O   S   T   -
+0025000    P   O   S   I   T   I   V   E   -   L   O   N   G   -   F   L
+0025020    O   A   T       M   O   S   T   -   P   O   S   I   T   I   V
+0025040    E   -   S   I   N   G   L   E   -   F   L   O   A   T   )  \r
+0025060    (   R   P   A   Q   ?       L   E   A   S   T   -   P   O   S
+0025100    I   T   I   V   E   -   L   O   N   G   -   F   L   O   A   T
+0025120        L   E   A   S   T   -   P   O   S   I   T   I   V   E   -
+0025140    S   I   N   G   L   E   -   F   L   O   A   T   )  \r   (   R
+0025160    P   A   Q   ?       L   E   A   S   T   -   N   E   G   A   T
+0025200    I   V   E   -   L   O   N   G   -   F   L   O   A   T       L
+0025220    E   A   S   T   -   N   E   G   A   T   I   V   E   -   S   I
+0025240    N   G   L   E   -   F   L   O   A   T   )  \r   (   R   P   A
+0025260    Q   ?       M   O   S   T   -   N   E   G   A   T   I   V   E
+0025300    -   L   O   N   G   -   F   L   O   A   T       M   O   S   T
+0025320    -   N   E   G   A   T   I   V   E   -   S   I   N   G   L   E
+0025340    -   F   L   O   A   T   )  \r   (   R   P   A   Q   ?       S
+0025360    I   N   G   L   E   -   F   L   O   A   T   -   E   P   S   I
+0025400    L   O   N       (   %   %   F   L   O   A   T       1   3   3
+0025420    1   2       0   )   )  \r   (   R   P   A   Q   ?       S   H
+0025440    O   R   T   -   F   L   O   A   T   -   E   P   S   I   L   O
+0025460    N       S   I   N   G   L   E   -   F   L   O   A   T   -   E
+0025500    P   S   I   L   O   N   )  \r   (   R   P   A   Q   ?       D
+0025520    O   U   B   L   E   -   F   L   O   A   T   -   E   P   S   I
+0025540    L   O   N       S   I   N   G   L   E   -   F   L   O   A   T
+0025560    -   E   P   S   I   L   O   N   )  \r   (   R   P   A   Q   ?
+0025600        L   O   N   G   -   F   L   O   A   T   -   E   P   S   I
+0025620    L   O   N       S   I   N   G   L   E   -   F   L   O   A   T
+0025640    -   E   P   S   I   L   O   N   )  \r   (   R   P   A   Q   ?
+0025660        S   I   N   G   L   E   -   F   L   O   A   T   -   N   E
+0025700    G   A   T   I   V   E   -   E   P   S   I   L   O   N       (
+0025720    %   %   F   L   O   A   T       1   3   1   8   4       0   )
+0025740    )  \r   (   R   P   A   Q   ?       S   H   O   R   T   -   F
+0025760    L   O   A   T   -   N   E   G   A   T   I   V   E   -   E   P
+0026000    S   I   L   O   N       S   I   N   G   L   E   -   F   L   O
+0026020    A   T   -   N   E   G   A   T   I   V   E   -   E   P   S   I
+0026040    L   O   N   )  \r   (   R   P   A   Q   ?       D   O   U   B
+0026060    L   E   -   F   L   O   A   T   -   N   E   G   A   T   I   V
+0026100    E   -   E   P   S   I   L   O   N       S   I   N   G   L   E
+0026120    -   F   L   O   A   T   -   N   E   G   A   T   I   V   E   -
+0026140    E   P   S   I   L   O   N   )  \r   (   R   P   A   Q   ?    
+0026160    L   O   N   G   -   F   L   O   A   T   -   N   E   G   A   T
+0026200    I   V   E   -   E   P   S   I   L   O   N       S   I   N   G
+0026220    L   E   -   F   L   O   A   T   -   N   E   G   A   T   I   V
+0026240    E   -   E   P   S   I   L   O   N   )  \r   (   R   P   A   Q
+0026260    ?       P   I       (   %   %   F   L   O   A   T       1   6
+0026300    4   5   7       4   0   5   9   )   )  \r   (   R   P   A   Q
+0026320    ?       %   %   E       (   %   %   F   L   O   A   T       1
+0026340    6   4   2   9       6   3   5   7   2   )   )  \r   (   R   P
+0026360    A   Q   ?       %   %   2   P   I       (   %   %   F   L   O
+0026400    A   T       1   6   5   8   5       4   0   5   9   )   )  \r
+0026420    (   R   P   A   Q   ?       %   %   P   I       (   %   %   F
+0026440    L   O   A   T       1   6   4   5   7       4   0   5   9   )
+0026460    )  \r   (   R   P   A   Q   ?       %   %   2   P   I   /   3
+0026500        (   %   %   F   L   O   A   T       1   6   3   9   0    
+0026520    2   7   0   6   )   )  \r   (   R   P   A   Q   ?       %   %
+0026540    P   I   /   2       (   %   %   F   L   O   A   T       1   6
+0026560    3   2   9       4   0   5   9   )   )  \r   (   R   P   A   Q
+0026600    ?       %   %   -   P   I   /   2       (   %   %   F   L   O
+0026620    A   T       4   9   0   9   7       4   0   5   9   )   )  \r
+0026640    (   R   P   A   Q   ?       %   %   P   I   /   3       (   %
+0026660    %   F   L   O   A   T       1   6   2   6   2       2   7   0
+0026700    6   )   )  \r   (   R   P   A   Q   ?       %   %   P   I   /
+0026720    4       (   %   %   F   L   O   A   T       1   6   2   0   1
+0026740        4   0   5   9   )   )  \r   (   R   P   A   Q   ?       %
+0026760    %   -   P   I   /   4       (   %   %   F   L   O   A   T    
+0027000    4   8   9   6   9       4   0   5   9   )   )  \r   (   R   P
+0027020    A   Q   ?       %   %   P   I   /   6       (   %   %   F   L
+0027040    O   A   T       1   6   1   3   4       2   7   0   6   )   )
+0027060   \r   (   R   P   A   Q   ?       %   %   2   /   P   I       (
+0027100    %   %   F   L   O   A   T       1   6   1   6   2       6   3
+0027120    8   7   5   )   )  \r   %   %   M   A   K   E   -   A   R   R
+0027140    A   Y       D   1  \r   (   P       0       A   R   R   A   Y
+0027160        I       0       L   I   S   T   )      \0   1 004  \0  \0
+0027200  001 021 020  \0   @  \t  \0  \0   g  \0  \0   o  \0  \0  \0   j
+0027220   \f  \0  \0   X   @   j 021 022 003   I 003 265 004   H 020 001
+0027240  273   H   J   K  \v  \0  \0 277   I 002 271   J   k 324 272 260
+0027260  352  \0   (   4   5   Q       S   E   T   A       2   1   Q    
+0027300    A   R   R   A   Y       6       L   E   N   G   T   H   )  \r
+0027320    (   1   1   Q       F   L   O   A   T   P   )  \r   (       1
+0027340    5   Q       0   .   0   )  \r   (   R   P   A   Q   ?       %
+0027360    %   L   O   G   -   B   A   S   E   2   -   E       (   %   %
+0027400    F   L   O   A   T       1   6   3   1   2       4   3   5   7
+0027420    9   )   )  \r   (   R   P   A   Q       %   %   E   X   P   -
+0027440    P   O   L   Y       (   %   %   M   A   K   E   -   A   R   R
+0027460    A   Y       (   L   I   S   T       (   %   %   F   L   O   A
+0027500    T       1   5   5   4   9       1   7   6   5   9   )       (
+0027520    %   %   F   L   O   A   T       1   6   2   5   6       0   )
+0027540        (   %   %   F   L   O   A   T       1   6   8   0   1    
+0027560    3   8   2   7   3   )       (  \r   %   %   F   L   O   A   T
+0027600        1   7   2   5   7       7   7   1   7   )       (   %   %
+0027620    F   L   O   A   T       1   7   5   9   7       1   1   7   3
+0027640    9   )       (   %   %   F   L   O   A   T       1   7   8   0
+0027660    0       3   0   4   0   1   )   )   )   )  \r   (   R   P   A
+0027700    Q       %   %   E   X   P   -   T   A   B   L   E       (   %
+0027720    %   M   A   K   E   -   A   R   R   A   Y       (   L   I   S
+0027740    T       (   %   %   F   L   O   A   T       1   6   2   5   6
+0027760        0   )       (   %   %   F   L   O   A   T       1   6   2
+0030000    6   7       3   8   3   3   8   )       (   %   %   F   L   O
+0030020    A   T       1   6   2   8   0       1   4   3   2   0   )    
+0030040    (  \r   %   %   F   L   O   A   T       1   6   2   9   3    
+0030060    6   5   2   3   9   )       (   %   %   F   L   O   A   T    
+0030100    1   6   3   0   9       1   2   6   7   )       (   %   %   F
+0030120    L   O   A   T       1   6   3   2   5       2   6   4   1   0
+0030140    )       (   %   %   F   L   O   A   T       1   6   3   4   3
+0030160        1   7   6   6   1   )       (   %   %   F   L   O   A   T
+0030200        1   6   3   6   2      \r   4   9   3   5   1   )   )   )
+0030220    )  \r   E   X   P       D   1  \r   (   L       (   0       N
+0030240    U   M   B   E   R   )   )      \0   / 001  \0  \0 001   @ 021
+0030260  001  \0   H   d 004   `  \0  \0 360 225 277   @  \t  \0  \0 020
+0030300    3 020 227   @ 006  \0  \0  \t  \0  \0 020   i   g  \0  \0   H
+0030320    o  \0  \0  \0  \f  \0  \0   b  \0 023 260 324  \0   (   5   0
+0030340    Q       C   H   E   C   K   -   T   Y   P   E   -   F   A   I
+0030360    L       3   3   Q       %   %   E   X   P   -   F   L   O   A
+0030400    T       2   0   Q       %   %   E   X   P   -   C   O   M   P
+0030420    L   E   X   )  \r   (   4   0   Q       N   U   M   B   E   R
+0030440        3   0   Q       F   L   O   A   T   P       1   1   Q    
+0030460  004 003   C   O   M   P   L   E   X   T   Y   P   E   #   )  \r
+0030500    (       4   5   Q       (   O   R       C   O   M   P   L   E
+0030520    X       N   U   M   B   E   R   )   )  \r   %   %   E   X   P
+0030540    -   F   L   O   A   T       D   1  \r   (   L       (   0    
+0030560    X   )       F       7       %   %   L   O   G   -   B   A   S
+0030600    E   2   -   E   )      \0 210  \a 001  \0 001 021   p 006   @
+0030620    [   j   K 363 225   j   K 325 273   i 270   W 016   K 326  \t
+0030640   \0  \0  \t  \0  \0 277   W 016   K 326  \t  \0  \0  \t  \0  \0
+0030660    ] 001 271   M 002 001   [   o  \0  \0  \0  \n  \0  \0  \t  \0
+0030700   \0 277   K   o  \0  \0  \0  \n  \0  \0  \t  \0  \0   ^ 001 272
+0030720    N 002 001 273   `  \0  \0   J  \n  \0  \0   K 355 001   `  \0
+0030740   \0 006  \0  \0 311  \0   l 005   2  \0 355  \0   h   K 355 001
+0030760  354 001   `  \0  \0 006  \0  \0 311  \0   l 005   2  \0 355  \0
+0031000   \n  \0  \0 326   I  \n  \0  \0   \   H 225   k   L  \n  \0  \0
+0031020  020   L 020  \0   (   2   0   3   Q       %   %   /       1   7
+0031040    3   Q       S   C   A   L   E   -   F   L   O   A   T       1
+0031060    6   6   Q       %   %   /       1   1   6   Q       E   L   T
+0031100        1   0   0   Q       \   M   V   L   I   S   T       7   5
+0031120    Q       T   R   U   N   C   A   T   E       6   4   Q       \
+0031140    M   V   L   I   S   T       6   1   Q       T   R   U   N   C
+0031160    A   T   E       4   3   Q       \   M   V   L   I   S   T    
+0031200    4   0   Q       T   R   U   N   C   A   T   E       3   0   Q
+0031220        \   M   V   L   I   S   T       2   5   Q       T   R   U
+0031240    N   C   A   T   E   )  \r   (   1   5   3   Q       A   R   R
+0031260    A   Y   P       1   5   0   Q       %   %   E   X   P   -   P
+0031300    O   L   Y       1   2   7   Q       A   R   R   A   Y   P    
+0031320    1   2   4   Q       %   %   E   X   P   -   P   O   L   Y    
+0031340    1   1   2   Q       %   %   E   X   P   -   T   A   B   L   E
+0031360    )  \r   (       7   2   Q       .   1   2   5       5   6   Q
+0031400        .   1   2   5   )  \r   %   %   E   X   P   -   C   O   M
+0031420    P   L   E   X       D   1  \r   (   L       (   0       Z   )
+0031440    )      \0 027 002  \0  \0 001   @  \t  \0  \0 021 021 001   @
+0031460   \t  \0  \0 271   H  \t  \0  \0   I  \t  \0  \0 326 020  \0   (
+0031500    2   3   Q       C   I   S       1   7   Q       E   X   P    
+0031520    1   2   Q       I   M   A   G   P   A   R   T       3       R
+0031540    E   A   L   P   A   R   T   )  \r   N   I   L  \r   (   )  \r
+0031560    C   L   :   E   X   P   T       D   1  \r   (   L       (   1
+0031600        P   O   W   E   R   -   N   U   M   B   E   R       0    
+0031620    B   A   S   E   -   N   U   M   B   E   R   )   )      \0 201
+0031640   \0  \0  \0 002   @   d  \t  \0  \0 226 277   A   3     263   %
+0031660    @   j  \n  \0  \0 262 023   A  \t  \0  \0 221   @ 020   o  \0
+0031700   \0  \0   @   A  \v  \0  \0 020   @  \t  \0  \0 233   A   d   3
+0031720      227 277   @   A  \n  \0  \0 020   A  \t  \0  \0 262 036   @
+0031740    d  \t  \0  \0 246 277   @  \t  \0  \0 225   @   A  \n  \0  \0
+0031760  020   o  \0  \0  \0   @   A  \v  \0  \0 020   @  \t  \0  \0 225
+0032000    @   A  \n  \0  \0 020   A   3     255   j   @ 363 231   o  \0
+0032020   \0  \0   @   A  \v  \0  \0 020   @ 006  \0  \0   A 006  \0  \0
+0032040   \n  \0  \0 020  \0   (   1   7   6   Q       %   %   E   X   P
+0032060    T   -   F   L   O   A   T       1   6   2   Q       C   L   :
+0032100    E   R   R   O   R       1   4   0   Q       %   %   E   X   P
+0032120    T   -   C   O   M   P   L   E   X       1   3   2   Q       C
+0032140    O   M   P   L   E   X   P       1   2   5   Q       C   L   :
+0032160    E   R   R   O   R       1   1   3   Q       %   %   E   X   P
+0032200    T   -   C   O   M   P   L   E   X   -   P   O   W   E   R    
+0032220    1   0   5   Q       P   L   U   S   P       7   7   Q       C
+0032240    O   M   P   L   E   X   P       7   0   Q       C   O   M   P
+0032260    L   E   X   P       6   3   Q       %   %   E   X   P   T   -
+0032300    I   N   T   E   G   E   R       4   7   Q       C   O   M   P
+0032320    L   E   X   P       4   2   Q       C   L   :   E   R   R   O
+0032340    R       2   6   Q       P   L   U   S   P       2   0   Q    
+0032360    %   %   =       4       R   A   T   I   O   N   A   L   P   )
+0032400   \r   (   1   7   3   Q       F   L   O   A   T   P       1   6
+0032420    7   Q       F   L   O   A   T   P   )  \r   (       1   5   5
+0032440    Q       "   N   e   g   a   t   i   v   e       n   u   m   b
+0032460    e   r       ~   A       t   o       n   o   n   -   i   n   t
+0032500    e   g   r   a   l       p   o   w   e   r       ~   A   .   "
+0032520        1   2   0   Q       "   ~   A       n   e   g   a   t   i
+0032540    v   e       n   u   m   b   e   r       t   o       a       c
+0032560    o   m   p   l   e   x       p   o   w   e   r       ~   A   .
+0032600    "  \r       3   5   Q       "   ~   A       t   o       a    
+0032620    n   o   n   -   p   o   s   i   t   i   v   e       p   o   w
+0032640    e   r       ~   A   .   "   )  \r   %   %   E   X   P   T   -
+0032660    I   N   T   E   G   E   R       D   1  \r   (   L       (   1
+0032700        P   O   W   E   R       0       B   A   S   E   )   )    
+0032720   \0 372 002  \0  \0 002   @   d   `  \0  \0 360 262   8 277   A
+0032740    3     262   *   j   A 363 221   j 020   A   d   j 360 263   0
+0032760    d   `  \0  \0 360 230 277   o  \0  \0  \0  \t  \0  \0 020   k
+0033000  345   j 360 223   `  \0  \0 020   `  \0  \0 020   o  \0  \0  \0
+0033020   \t  \0  \0 020   `  \0  \0 360 226   A   j 360 262 350   k 020
+0033040    A   d   `  \0  \0 360 235 277   @   j 360 262 275   o  \0  \0
+0033060   \0  \t  \0  \0 020   `  \0  \0 360 262 024   @   d   j 360 263
+0033100  251   j 363 263 301   o  \0  \0  \0  \t  \0  \0 020   j   A 363
+0033120  233   k   @   j   A 325  \n  \0  \0  \n  \0  \0 020   @   d  \t
+0033140   \0  \0 226 277   @   d   3     262 024   3     262   #   @   l
+0033160  002  \n  \0  \0 262 033   k   A  \n  \0  \0 020  \t  \0  \0   A
+0033200   \n  \0  \0   @  \t  \0  \0   A  \n  \0  \0  \n  \0  \0 020   A
+0033220    m 377  \n  \0  \0   A   k 345   j 360 241   @ 200   k 021 002
+0033240  001   H   j 360 263   $   H 005 003 265 032   @   d 326   b  \0
+0033260  277   H   b 002   m 377  \n  \0  \0   A   k 345   j 360 252   @
+0033300    I 326 207  \t  \0  \0 262 345   I 020   I 271   X 260 325  \0
+0033320    (   3   5   7   Q       \   F   Z   E   R   O   P       3   4
+0033340    2   Q       A   S   H       2   7   6   Q       A   S   H    
+0033360    2   6   7   Q       %   %   M   A   K   E   -   R   A   T   I
+0033400    O       2   6   4   Q       %   %   E   X   P   T   -   I   N
+0033420    T   E   G   E   R       2   6   0   Q       D   E   N   O   M
+0033440    I   N   A   T   O   R       2   5   4   Q       %   %   E   X
+0033460    P   T   -   I   N   T   E   G   E   R       2   5   0   Q    
+0033500    N   U   M   E   R   A   T   O   R       2   4   4   Q       A
+0033520    S   H       2   3   5   Q       %   %   =       2   1   3   Q
+0033540        R   A   T   I   O   N   A   L   P       2   0   5   Q    
+0033560    %   %   /       2   0   2   Q       %   %   E   X   P   T   -
+0033600    I   N   T   E   G   E   R       1   6   5   Q       E   R   R
+0033620    O   R       1   3   5   Q       E   R   R   O   R       7   4
+0033640    Q       E   R   R   O   R       4   7   Q       E   R   R   O
+0033660    R   )  \r   (   1   4   1   Q       M   A   X   .   I   N   T
+0033700    E   G   E   R       1   1   6   Q       M   I   N   .   I   N
+0033720    T   E   G   E   R       1   0   0   Q       M   A   X   .   I
+0033740    N   T   E   G   E   R       6   4   Q       M   I   N   .   I
+0033760    N   T   E   G   E   R       6   0   Q       M   A   X   .   I
+0034000    N   T   E   G   E   R       3   5   Q       M   A   X   .   I
+0034020    N   T   E   G   E   R       4       M   I   N   .   I   N   T
+0034040    E   G   E   R   )  \r   (       1   6   2   Q       "   C   a
+0034060    n   '   t       e   x   p   t       n   e   g   a   t   i   v
+0034100    e       n   u   m   b   e   r       t   o       i   n   f   i
+0034120    n   i   t   e       p   o   w   e   r   .   "       1   3   2
+0034140    Q       "   C   a   n   '   t       e   x   p   t       0    
+0034160    t   o       a       n   e   g   a   t   i   v   e       p   o
+0034200    w   e   r   .   "       7   1   Q       "   C   a   n   '   t
+0034220        r   a   i   s   e       n   e   g   a   t   i   v   e    
+0034240    i   n   f   i   n   i   t   y       t   o       n   o   n   i
+0034260    n   t   e   g   e   r       p   o   w   e   r   .   "  \r    
+0034300    4   4   Q       "   C   a   n   '   t       r   a   i   s   e
+0034320        n   e   g   a   t   i   v   e       i   n   f   i   n   i
+0034340    t   y       t   o       i   n   f   i   n   i   t   e       p
+0034360    o   w   e   r   .   "   )  \r   %   %   E   X   P   T   -   F
+0034400    L   O   A   T       D   1  \r   (   I       1       Y       I
+0034420        0       X   )      \0 031  \0  \0  \0 002   @   o  \0  \0
+0034440   \0  \n  \0  \0 224   o  \0  \0  \0 020   A   @  \t  \0  \0 326
+0034460   \t  \0  \0 020  \0   (   2   6   Q       E   X   P       2   2
+0034500    Q       C   L   :   L   O   G       7       %   %   =   )  \r
+0034520    N   I   L  \r   (       1   4   Q       0   .   0       4    
+0034540    0   .   0   )  \r   %   %   E   X   P   T   -   C   O   M   P
+0034560    L   E   X       D   1  \r   (   L       (   1       N       0
+0034600        Z   )   )      \0 024  \0  \0  \0 002   @  \t  \0  \0   A
+0034620   \n  \0  \0   A   @  \t  \0  \0 326  \t  \0  \0 326 020  \0   (
+0034640    2   0   Q       C   I   S       1   4   Q       P   H   A   S
+0034660    E       7       C   L   :   E   X   P   T       3       %   %
+0034700    C   O   M   P   L   E   X   -   A   B   S   )  \r   N   I   L
+0034720   \r   (   )  \r   %   %   E   X   P   T   -   C   O   M   P   L
+0034740    E   X   -   P   O   W   E   R       D   1  \r   (   L       (
+0034760    1       W       0       Z   )   )      \0  \v  \0  \0  \0 002
+0035000    A   @  \t  \0  \0 326  \t  \0  \0 020  \0   (   1   0   Q    
+0035020    E   X   P       4       C   L   :   L   O   G   )  \r   N   I
+0035040    L  \r   (   )  \r   (   R   P   A   Q   ?       %   %   L   O
+0035060    G   2       (   %   %   F   L   O   A   T       1   6   1   7
+0035100    7       2   9   2   0   8   )   )  \r   (   R   P   A   Q   ?
+0035120        %   %   S   Q   R   T   2       (   %   %   F   L   O   A
+0035140    T       1   6   3   0   9       1   2   6   7   )   )  \r   (
+0035160    R   P   A   Q       %   %   L   O   G   -   P   P   O   L   Y
+0035200        (   %   %   M   A   K   E   -   A   R   R   A   Y       (
+0035220    L   I   S   T       (   %   %   F   L   O   A   T       1   6
+0035240    0   4   2       2   2   8   0   3   )       (   %   %   F   L
+0035260    O   A   T       4   9   4   8   4       2   3   5   9   0   )
+0035300        (   %   %   F   L   O   A   T       1   7   0   4   4    
+0035320    1   7   9   8   2  \r   )       (   %   %   F   L   O   A   T
+0035340        4   9   9   2   6       3   7   1   5   3   )       (   %
+0035360    %   F   L   O   A   T       1   7   0   4   6       5   3   6
+0035400    7   )   )   )   )  \r   (   R   P   A   Q       %   %   L   O
+0035420    G   -   Q   P   O   L   Y       (   %   %   M   A   K   E   -
+0035440    A   R   R   A   Y       (   L   I   S   T       (   %   %   F
+0035460    L   O   A   T       1   6   2   5   6       0   )       (   %
+0035500    %   F   L   O   A   T       4   9   5   1   2       9   1   0
+0035520    3   )       (   %   %   F   L   O   A   T       1   6   9   9
+0035540    2       4   2   2   7   4   )       (  \r   %   %   F   L   O
+0035560    A   T       4   9   8   2   3       3   8   0   4   8   )    
+0035600    (   %   %   F   L   O   A   T       1   6   9   1   8       5
+0035620    3   6   7   )   )   )   )  \r   C   L   :   L   O   G       D
+0035640    1  \r   (   L       (   0       -   a   r   g   s   -   )    
+0035660    F       5       %   %   P   I   )      \0   _ 005 001 002  \0
+0035700    e 021 001  \0   k   a 021   1 004   l 002   H 361 221   h 204
+0035720    i 272   l 002   a 273   J 262   9   I  \t  \0  \0   K  \t  \0
+0035740   \0  \n  \0  \0 020   3 020 262 034   j   I 363 235   j   I 325
+0035760  006  \0  \0  \t  \0  \0   U  \n  \0  \0 020   I 006  \0  \0  \t
+0036000   \0  \0 020   i   g  \0  \0   L   o  \0  \0  \0  \f  \0  \0 271
+0036020    I   \   d 004   `  \0  \0 360 262 315  \t  \0  \0 020  \0   (
+0036040    1   3   4   Q       %   %   L   O   G   -   C   O   M   P   L
+0036060    E   X       1   1   6   Q       C   H   E   C   K   -   T   Y
+0036100    P   E   -   F   A   I   L       1   0   1   Q       %   %   L
+0036120    O   G   -   F   L   O   A   T       7   1   Q       C   O   M
+0036140    P   L   E   X       6   5   Q       %   %   L   O   G   -   F
+0036160    L   O   A   T       4   3   Q       %   %   /       4   0   Q
+0036200        C   L   :   L   O   G       3   4   Q       C   L   :   L
+0036220    O   G   )  \r   (   1   2   6   Q     004 003   C   O   M   P
+0036240    L   E   X   T   Y   P   E   #       1   0   6   Q       N   U
+0036260    M   B   E   R       7   6   Q       F   L   O   A   T   P    
+0036300    6   2   Q       F   L   O   A   T   P   )  \r   (       1   1
+0036320    3   Q       (   O   R       C   O   M   P   L   E   X       N
+0036340    U   M   B   E   R   )   )  \r   %   %   L   O   G   -   F   L
+0036360    O   A   T       D   1  \r   (   P       4       A   N   S   W
+0036400    E   R       P       3       Z   2       P       2       Z    
+0036420    P       1       E   X   P       P       0       R       I    
+0036440    0       X       F       5       %   %   S   Q   R   T   2    
+0036460    F       6       %   %   L   O   G   2   )      \0   u 005 002
+0036500   \0 001 021   P 004   @   o  \0  \0  \0 362 250   o  \0  \0  \0
+0036520    @  \n  \0  \0 277   @   o  \0  \0  \0 350   X   d 312  \0 027
+0036540    l 177 325   Y   H   l 177 317  \0 027   H   d   U 363 235 277
+0036560    I   k 324 271   H   o  \0  \0  \0  \n  \0  \0   X   k 325   H
+0036600    k 324  \n  \0  \0   Z   d   d 326   [   J   K 355 001   `  \0
+0036620   \0 006  \0  \0 311  \0   l 004   2  \0 355  \0   K 355 001   `
+0036640   \0  \0 006  \0  \0 311  \0   l 004   2  \0 355  \0  \n  \0  \0
+0036660  326   V   I 326 324 020  \0   (   1   5   5   Q       %   %   /
+0036700        1   0   2   Q       %   %   /       7   1   Q       %   %
+0036720    /       2   1   Q       E   R   R   O   R   )  \r   (   1   4
+0036740    2   Q       A   R   R   A   Y   P       1   3   7   Q       %
+0036760    %   L   O   G   -   Q   P   O   L   Y       1   2   1   Q    
+0037000    A   R   R   A   Y   P       1   1   6   Q       %   %   L   O
+0037020    G   -   P   P   O   L   Y   )  \r   (       6   6   Q       2
+0037040    .   0       2   7   Q       0   .   0       1   5   Q       "
+0037060    L   O   G       O   F       Z   E   R   O   :   "       7    
+0037100    0   .   0   )  \r   %   %   L   O   G   -   C   O   M   P   L
+0037120    E   X       D   1  \r   (   L       (   0       Z   )   )    
+0037140   \0 020  \0  \0  \0 001   @  \t  \0  \0  \t  \0  \0   @  \t  \0
+0037160   \0  \n  \0  \0 020  \0   (   1   5   Q       C   O   M   P   L
+0037200    E   X       1   2   Q       P   H   A   S   E       6       C
+0037220    L   :   L   O   G       3       %   %   C   O   M   P   L   E
+0037240    X   -   A   B   S   )  \r   N   I   L  \r   (   )  \r   C   L
+0037260    :   S   Q   R   T       D   1  \r   (   L       (   0       X
+0037300    )   )      \0   "  \0  \0  \0 001   @  \t  \0  \0 224   @  \t
+0037320   \0  \0 020   j   @ 363 232   j   d   @ 325  \t  \0  \0  \n  \0
+0037340   \0 020   @ 006  \0  \0  \t  \0  \0 020  \0   (   3   7   Q    
+0037360    %   %   S   Q   R   T   -   F   L   O   A   T       2   7   Q
+0037400        C   O   M   P   L   E   X       2   4   Q       C   L   :
+0037420    S   Q   R   T       1   0   Q       %   %   S   Q   R   T   -
+0037440    C   O   M   P   L   E   X       3       C   O   M   P   L   E
+0037460    X   P   )  \r   (   3   4   Q       F   L   O   A   T   P   )
+0037500   \r   (   )  \r   %   %   S   Q   R   T   -   F   L   O   A   T
+0037520        D   1  \r   (   I       0       X   )      \0   b 001  \0
+0037540   \0 001   h 021 001  \0   @   o  \0  \0  \0 362 244   o  \0  \0
+0037560   \0 020   @ 355 001 322 342 342 342 342 342 342 342   l 377 345
+0037600    l 177 331   n 377 377 345 342   l 177 330   l 377 345 340 340
+0037620  340 340 340 340 340   @ 355 001 322   l 177 345 344   j 321   X
+0037640    l 004   d   j 361 262 032   n   ?  \0   j 321   H   @   H 355
+0037660   \0  \n  \0  \0 355 001 354  \0 354 003 270   k 331 260 345   H
+0037700  355  \0 020  \0   (   1   2   1   Q       %   %   /   )  \r   N
+0037720    I   L  \r   (       1   6   Q       0   .   0       1   0   Q
+0037740        0   .   0   )  \r   %   %   S   Q   R   T   -   C   O   M
+0037760    P   L   E   X       D   1  \r   (   P       1   1   Q       I
+0040000        P       7       A   N   S   W   E   R       I       0    
+0040020    X   )      \0 270  \n  \0  \0 001   h   d   d   d   d   d   d
+0040040  021 027  \a   @  \t  \0  \0 355 001   Z   @  \t  \0  \0 355 001
+0040060    [   @  \t  \0  \0  \t  \0  \0 355 001   X   @  \t  \0  \0   o
+0040100   \0  \0  \0  \n  \0  \0 355 001   Y   H   I 355  \0  \t  \0  \0
+0040120  355 001 354 003   \   H   I 355  \0  \t  \0  \0 355 001 354 003
+0040140    ]   l 004   k 021 002  \t   O 022   O 020 363 263   Y   L   d
+0040160  354 003   M   d 354 003 354  \0 276   n   ?  \0   j 321   L   J
+0040200  355  \0   L 355  \0 326   K 355  \0   M 355  \0 326 324   N 355
+0040220   \0  \n  \0  \0 355 001 354  \0 354 003 274   n   ?  \0   j 321
+0040240    M   K 355  \0   L 355  \0 326   J 355  \0   M 355  \0 326 325
+0040260    N 355  \0  \n  \0  \0 355 001 354  \0 354 003 275   O 022   k
+0040300  324   _ 022 260 246 023   L 355  \0   M 355  \0  \n  \0  \0 020
+0040320   \0   (   2   6   5   Q       C   O   M   P   L   E   X       2
+0040340    3   4   Q       %   %   /       1   7   2   Q       %   %   /
+0040360        1   0   2   Q       C   L   :   S   I   N       6   6   Q
+0040400        C   L   :   C   O   S       5   4   Q       %   %   /    
+0040420    4   5   Q       P   H   A   S   E       3   6   Q       C   L
+0040440    :   S   Q   R   T       3   3   Q       A   B   S       2   4
+0040460    Q       I   M   A   G   P   A   R   T       1   5   Q       R
+0040500    E   A   L   P   A   R   T   )  \r   N   I   L  \r   (       5
+0040520    1   Q       2   .   0   )  \r   (   R   P   A   Q   ?       %
+0040540    %   S   I   N   -   E   P   S   I   L   O   N       (   %   %
+0040560    F   L   O   A   T       1   4   7   2   0       0   )   )  \r
+0040600    (   R   P   A   Q       %   %   S   I   N   -   P   P   O   L
+0040620    Y       (   %   %   M   A   K   E   -   A   R   R   A   Y    
+0040640    (   L   I   S   T       (   %   %   F   L   O   A   T       4
+0040660    5   2   3   6       2   5   6   1   1   )       (   %   %   F
+0040700    L   O   A   T       1   3   5   8   9       2   6   1   4   8
+0040720    )       (   %   %   F   L   O   A   T       4   7   2   8   6
+0040740        3   4   7   9   7  \r   )       (   %   %   F   L   O   A
+0040760    T       1   5   2   9   5       3   3   0   6   )       (   %
+0041000    %   F   L   O   A   T       4   8   6   6   6       3   4   8
+0041020    0   5   )       (   %   %   F   L   O   A   T       1   6   2
+0041040    5   6       0   )   )   )   )  \r   (   R   P   A   Q       %
+0041060    %   S   I   N   -   Q   P   O   L   Y       (   %   %   M   A
+0041100    K   E   -   A   R   R   A   Y       (   L   I   S   T       (
+0041120    %   %   F   L   O   A   T       1   1   3   8   4       5   2
+0041140    8   6   5   )       (   %   %   F   L   O   A   T       1   2
+0041160    5   5   3       9   5   5   0   )       (   %   %   F   L   O
+0041200    A   T       1   3   6   0   4       3   8   3   8   5   )  \r
+0041220        (   %   %   F   L   O   A   T       1   4   5   9   3    
+0041240    1   8   8   4   1   )       (   %   %   F   L   O   A   T    
+0041260    1   5   4   8   9       5   5   4   9   )       (   %   %   F
+0041300    L   O   A   T       1   6   2   5   6       0   )   )   )   )
+0041320   \r   C   L   :   S   I   N       D   1  \r   (   L       (   0
+0041340        R   A   D   I   A   N   S   )   )      \0   ; 002  \0  \0
+0041360  001   @ 021 021 001   H   Y   d 004   `  \0  \0 360 225 277   @
+0041400   \t  \0  \0 020 004   l 003 360 224   @  \t  \0  \0 020   I   3
+0041420  020 227   @ 006  \0  \0  \t  \0  \0 020   i   g  \0  \0   H   o
+0041440   \0  \0  \0  \f  \0  \0   b  \0 023 260 310  \0   (   6   4   Q
+0041460        C   H   E   C   K   -   T   Y   P   E   -   F   A   I   L
+0041500        4   7   Q       %   %   S   I   N   -   F   L   O   A   T
+0041520        3   3   Q       %   %   S   I   N   -   F   L   O   A   T
+0041540        2   1   Q       %   %   S   I   N   -   C   O   M   P   L
+0041560    E   X   )  \r   (   5   4   Q       R   A   D   I   A   N   S
+0041600        4   4   Q       F   L   O   A   T   P       1   2   Q    
+0041620  004 003   C   O   M   P   L   E   X   T   Y   P   E   #   )  \r
+0041640    (       6   1   Q       (   O   R       C   O   M   P   L   E
+0041660    X       F   L   O   A   T       N   U   M   B   E   R   )   )
+0041700   \r   %   %   S   I   N   -   F   L   O   A   T       D   1  \r
+0041720    (   I       1       C   O   S   -   F   L   A   G       I    
+0041740    0       X       F       3       %   %   P   I   /   2       F
+0041760        4       %   %   P   I       F       5       %   %   2   P
+0042000    I       F       6       %   %   S   I   N   -   E   P   S   I
+0042020    L   O   N   )      \0 247 003 004  \0 002   h   d   d 021 003
+0042040  002   A 244   @ 355 001 260 027   @   j 363 230   S 355 001   @
+0042060  355 001 354 001 207   S 355 001   @ 355 001 354  \0   X   j   H
+0042100  355  \0 363 232   n 277 200   j 321 271   h   H 354 001 206   n
+0042120    ? 200   j 321 271   H 355  \0   U  \n  \0  \0 355 001   X   d
+0042140    d 355  \0   T 363 234 277   h   I 354 001 271   H   T 355 001
+0042160  354 001   X 355  \0   S 363 227   T 355 001   H 354 001   X 200
+0042200    H 355  \0   V 375 363 227   I 355  \0   H 355  \0 326 020   H
+0042220    d 354 003   Z   I   H   J   `  \0  \0 006  \0  \0 311  \0   l
+0042240  005   2  \0 355  \0   J   `  \0  \0 006  \0  \0 311  \0   l 005
+0042260    2  \0 355  \0  \n  \0  \0 355 001 354 003 354 003   d 355  \0
+0042300  020  \0   (   2   3   3   Q       %   %   /       1   0   0   Q
+0042320        R   E   M   )  \r   (   2   2   0   Q       A   R   R   A
+0042340    Y   P       2   1   5   Q       %   %   S   I   N   -   Q   P
+0042360    O   L   Y       2   0   1   Q       A   R   R   A   Y   P    
+0042400    1   7   6   Q       %   %   S   I   N   -   P   P   O   L   Y
+0042420    )  \r   (   )  \r   %   %   S   I   N   -   C   O   M   P   L
+0042440    E   X       D   1  \r   (   L       (   0       Z   )   )    
+0042460   \0   # 002  \0  \0 001   @  \t  \0  \0 021 021 001   @  \t  \0
+0042500   \0 271   H  \t  \0  \0   I  \t  \0  \0 326   H  \t  \0  \0   I
+0042520   \t  \0  \0 326  \n  \0  \0 020  \0   (   4   0   Q       C   O
+0042540    M   P   L   E   X       3   4   Q       S   I   N   H       3
+0042560    0   Q       C   L   :   C   O   S       2   3   Q       C   O
+0042600    S   H       1   7   Q       C   L   :   S   I   N       1   2
+0042620    Q       I   M   A   G   P   A   R   T       3       R   E   A
+0042640    L   P   A   R   T   )  \r   N   I   L  \r   (   )  \r   C   L
+0042660    :   C   O   S       D   1  \r   (   L       (   0       R   A
+0042700    D   I   A   N   S   )   )      \0   = 002  \0  \0 001   @ 021
+0042720  021 001   H   Y   d 004   l 003 360 226 277   @   i  \n  \0  \0
+0042740  020 004   `  \0  \0 360 224   @  \t  \0  \0 020   I   3 020 230
+0042760    @ 006  \0  \0   i  \n  \0  \0 020   i   g  \0  \0   H   o  \0
+0043000   \0  \0  \f  \0  \0   b  \0 023 260 306  \0   (   6   6   Q    
+0043020    C   H   E   C   K   -   T   Y   P   E   -   F   A   I   L    
+0043040    5   1   Q       %   %   S   I   N   -   F   L   O   A   T    
+0043060    3   4   Q       %   %   C   O   S   -   C   O   M   P   L   E
+0043100    X       2   1   Q       %   %   S   I   N   -   F   L   O   A
+0043120    T   )  \r   (   5   6   Q       R   A   D   I   A   N   S    
+0043140    4   5   Q       F   L   O   A   T   P       2   6   Q     004
+0043160  003   C   O   M   P   L   E   X   T   Y   P   E   #   )  \r   (
+0043200        6   3   Q       (   O   R       F   L   O   A   T       C
+0043220    O   M   P   L   E   X       N   U   M   B   E   R   )   )  \r
+0043240    %   %   C   O   S   -   C   O   M   P   L   E   X       D   1
+0043260   \r   (   L       (   0       Z   )   )      \0   % 002  \0  \0
+0043300  001   @  \t  \0  \0 021 021 001   @  \t  \0  \0 271   H  \t  \0
+0043320   \0   I  \t  \0  \0 326   j   H  \t  \0  \0   I  \t  \0  \0 326
+0043340  325  \n  \0  \0 020  \0   (   4   2   Q       C   O   M   P   L
+0043360    E   X       3   5   Q       S   I   N   H       3   1   Q    
+0043400    C   L   :   S   I   N       2   3   Q       C   O   S   H    
+0043420    1   7   Q       C   L   :   C   O   S       1   2   Q       I
+0043440    M   A   G   P   A   R   T       3       R   E   A   L   P   A
+0043460    R   T   )  \r   N   I   L  \r   (   )  \r   (   R   P   A   Q
+0043500    ?       %   %   T   A   N   -   E   P   S   I   L   O   N    
+0043520    (   %   %   F   L   O   A   T       1   4   7   2   0       0
+0043540    )   )  \r   (   R   P   A   Q       %   %   T   A   N   -   P
+0043560    P   O   L   Y       (   %   %   M   A   K   E   -   A   R   R
+0043600    A   Y       (   L   I   S   T       (   %   %   F   L   O   A
+0043620    T       1   3   2   3   7       2   1   0   9   0   )       (
+0043640    %   %   F   L   O   A   T       4   7   1   4   1       1   5
+0043660    8   2   5   )       (   %   %   F   L   O   A   T       1   5
+0043700    2   4   6       8   7   8   5   )  \r       (   %   %   F   L
+0043720    O   A   T       4   8   6   5   5       4   8   7   6   1   )
+0043740        (   %   %   F   L   O   A   T       1   6   2   5   6    
+0043760    0   )   )   )   )  \r   (   R   P   A   Q       %   %   T   A
+0044000    N   -   Q   P   O   L   Y       (   %   %   M   A   K   E   -
+0044020    A   R   R   A   Y       (   L   I   S   T       (   %   %   F
+0044040    L   O   A   T       4   5   2   6   7       3   6   9   4   7
+0044060    )       (   %   %   F   L   O   A   T       1   3   8   4   8
+0044100        4   6   8   7   5   )       (   %   %   F   L   O   A   T
+0044120        4   7   6   1   2       5   3   7   3   8  \r   )       (
+0044140    %   %   F   L   O   A   T       1   5   5   9   6       5   2
+0044160    8   5   4   )       (   %   %   F   L   O   A   T       4   8
+0044200    8   8   2       3   5   3   0   3   )       (   %   %   F   L
+0044220    O   A   T       1   6   2   5   6       0   )   )   )   )  \r
+0044240    C   L   :   T   A   N       D   1  \r   (   L       (   0    
+0044260    R   A   D   I   A   N   S   )   )      \0   / 001  \0  \0 001
+0044300    @ 021 001  \0   H   d 004   `  \0  \0 360 225 277   @  \t  \0
+0044320   \0 020   3 020 227   @ 006  \0  \0  \t  \0  \0 020   i   g  \0
+0044340   \0   H   o  \0  \0  \0  \f  \0  \0   b  \0 023 260 324  \0   (
+0044360    5   0   Q       C   H   E   C   K   -   T   Y   P   E   -   F
+0044400    A   I   L       3   3   Q       %   %   T   A   N   -   F   L
+0044420    O   A   T       2   0   Q       %   %   T   A   N   -   C   O
+0044440    M   P   L   E   X   )  \r   (   4   0   Q       R   A   D   I
+0044460    A   N   S       3   0   Q       F   L   O   A   T   P       1
+0044500    1   Q     004 003   C   O   M   P   L   E   X   T   Y   P   E
+0044520    #   )  \r   (       4   5   Q       (   O   R       C   O   M
+0044540    P   L   E   X       N   U   M   B   E   R   )   )  \r   %   %
+0044560    T   A   N   -   F   L   O   A   T       D   1  \r   (   P    
+0044600    4       R   E   C   I   P   F   L   G       P       3       S
+0044620    I   G   N       I       0       X       F       5       %   %
+0044640    P   I       F       6       %   %   P   I   /   2       F    
+0044660    7       %   %   -   P   I   /   4       F       1   0   Q    
+0044700    %   %   T   A   N   -   E   P   S   I   L   O   N       F    
+0044720    1   1   Q       %   %   -   P   I   /   2       F       1   2
+0044740    Q       %   %   P   I   /   4   )      \0 304 005 006  \0 001
+0044760    h   d   d 021   # 004   @ 355 001   X   j   H 355  \0 363 231
+0045000    o  \0  \0  \0 273   h   H 354 001 205   o  \0  \0  \0 273   H
+0045020  355  \0   U  \n  \0  \0 355 001   X   d   d 355  \0   V 363 262
+0045040      277   H   U 355 001 354 001   X   d 355  \0   W 016 375 363
+0045060  262     277   i 274   W 022 355 001   H 354 001   X 260 023 355
+0045100   \0   W 024 363 231   i 274   V 355 001   H 354 001   X 200   H
+0045120  355  \0  \t  \0  \0   W 020 375 363 262 031   K 355 001   H 354
+0045140  003 272   L 231   k   J 355  \0  \n  \0  \0 355 001 200   J 355
+0045160   \0 020   H   d 354 003   Y   K 355 001   H   I   `  \0  \0 006
+0045200   \0  \0 311  \0   l 004   2  \0 355  \0   I   `  \0  \0 006  \0
+0045220   \0 311  \0   l 005   2  \0 355  \0  \n  \0  \0 355 001 354 003
+0045240  354 003   Z   L 231   k   J 355  \0  \n  \0  \0 355 001 200   J
+0045260  355  \0 020  \0   (   2   7   3   Q       %   %   /       2   5
+0045300    3   Q       %   %   /       1   7   2   Q       %   %   /    
+0045320    1   4   4   Q       A   B   S       4   5   Q       R   E   M
+0045340    )  \r   (   2   4   0   Q       A   R   R   A   Y   P       2
+0045360    3   5   Q       %   %   T   A   N   -   Q   P   O   L   Y    
+0045400    2   2   1   Q       A   R   R   A   Y   P       2   1   6   Q
+0045420        %   %   T   A   N   -   P   P   O   L   Y   )  \r   (    
+0045440    3   5   Q       1   .   0       2   3   Q       -   1   .   0
+0045460    )  \r   %   %   T   A   N   -   C   O   M   P   L   E   X    
+0045500    D   1  \r   (   L       (   0       Z   )   )      \0   ) 002
+0045520   \0  \0 001   @  \t  \0  \0 021 021 001   @  \t  \0  \0   Y   j
+0045540  360 257   I 005 003 265  \b   H   I  \n  \0  \0 020  \t  \0  \0
+0045560  262 367   o  \0  \0  \0   @  \n  \0  \0 020  \0   (   4   6   Q
+0045600        C   L   :   E   R   R   O   R       3   4   Q       \   F
+0045620    Z   E   R   O   P       3   0   Q       %   %   /       1   2
+0045640    Q       C   L   :   C   O   S       3       C   L   :   S   I
+0045660    N   )  \r   N   I   L  \r   (       4   2   Q       "   ~   S
+0045700        u   n   d   e   f   i   n   e   d       t   a   n   g   e
+0045720    n   t   .   "   )  \r   (   R   P   A   Q   ?       %   %   A
+0045740    S   I   N   -   E   P   S   I   L   O   N       (   %   %   F
+0045760    L   O   A   T       1   4   7   2   0       0   )   )  \r   (
+0046000    R   P   A   Q       %   %   A   S   I   N   -   P   P   O   L
+0046020    Y       (   %   %   M   A   K   E   -   A   R   R   A   Y    
+0046040    (   L   I   S   T       (   %   %   F   L   O   A   T       1
+0046060    6   0   0   7       5   0   0   4   5   )       (   %   %   F
+0046100    L   O   A   T       4   9   5   4   9       8   0   2   0   )
+0046120        (   %   %   F   L   O   A   T       1   7   2   3   6    
+0046140    1   5   8   4   8  \r   )       (   %   %   F   L   O   A   T
+0046160        5   0   2   8   5       6   3   4   6   4   )       (   %
+0046200    %   F   L   O   A   T       1   7   6   5   0       3   1   2
+0046220    3   5   )       (   %   %   F   L   O   A   T       5   0   4
+0046240    0   3       6   2   8   5   2   )       (   %   %   F   L   O
+0046260    A   T       1   7   4   4   0       3   9   4   7   1   )   )
+0046300    )   )  \r   (   R   P   A   Q       %   %   A   S   I   N   -
+0046320    Q   P   O   L   Y       (   %   %   M   A   K   E   -   A   R
+0046340    R   A   Y       (   L   I   S   T       (   %   %   F   L   O
+0046360    A   T       1   6   2   5   6       0   )       (   %   %   F
+0046400    L   O   A   T       4   9   6   7   2       2   5   8   1   7
+0046420    )       (   %   %   F   L   O   A   T       1   7   3   0   8
+0046440        5   5   2   6   0   )       (  \r   %   %   F   L   O   A
+0046460    T       5   0   3   2   6       3   8   0   9   8   )       (
+0046500    %   %   F   L   O   A   T       1   7   6   7   4       2   2
+0046520    2   1   0   )       (   %   %   F   L   O   A   T       5   0
+0046540    4   1   7       2   2   4   5   1   )       (   %   %   F   L
+0046560    O   A   T       1   7   4   4   0       3   9   4   7   1   )
+0046600    )   )   )  \r   A   S   I   N       D   1  \r   (   L       (
+0046620    0       N   U   M   B   E   R   )   )      \0   ; 002  \0  \0
+0046640  001   @ 021 021 001   H   Y   d 004   l 003 360 225 277   @  \t
+0046660   \0  \0 020 004   `  \0  \0 360 224   @  \t  \0  \0 020   I   3
+0046700  020 227   @ 006  \0  \0  \t  \0  \0 020   i   g  \0  \0   H   o
+0046720   \0  \0  \0  \f  \0  \0   b  \0 023 260 310  \0   (   6   4   Q
+0046740        C   H   E   C   K   -   T   Y   P   E   -   F   A   I   L
+0046760        4   7   Q       %   %   A   S   I   N   -   F   L   O   A
+0047000    T       3   3   Q       %   %   A   S   I   N   -   C   O   M
+0047020    P   L   E   X       2   0   Q       %   %   A   S   I   N   -
+0047040    F   L   O   A   T   )  \r   (   5   4   Q       N   U   M   B
+0047060    E   R       4   4   Q       F   L   O   A   T   P       2   5
+0047100    Q     004 003   C   O   M   P   L   E   X   T   Y   P   E   #
+0047120    )  \r   (       6   1   Q       (   O   R       F   L   O   A
+0047140    T       C   O   M   P   L   E   X       N   U   M   B   E   R
+0047160    )   )  \r   %   %   A   S   I   N   -   F   L   O   A   T    
+0047200    D   1  \r   (   P       4       A   N   S   W   E   R       P
+0047220        3       R   2       P       2       R       P       1    
+0047240    R   E   D   U   C   E   D       P       0       N   E   G   A
+0047260    T   I   V   E       I       1       A   C   O   S   -   F   L
+0047300    A   G       I       0       X       F       5       %   %   P
+0047320    I   /   2       F       6       %   %   A   S   I   N   -   E
+0047340    P   S   I   L   O   N   )      \0 220 005 002  \0 002 021   P
+0047360  004   @   Z   o  \0  \0  \0   J 363 246   d   o  \0  \0  \0 363
+0047400  230   o  \0  \0  \0   J  \n  \0  \0 277   o  \0  \0  \0   J 363
+0047420  226   i 270   j   J 325   Z 200   J   o  \0  \0  \0 363 262 023
+0047440    i 271   o  \0  \0  \0   J 325   o  \0  \0  \0 326  \t  \0  \0
+0047460  272   V   J 363 222   J 260   -   J   d 326 273   J   K 355 001
+0047500    `  \0  \0 006  \0  \0 311  \0   l 006   2  \0 355  \0   K 355
+0047520  001   `  \0  \0 006  \0  \0 311  \0   l 006   2  \0 355  \0  \n
+0047540   \0  \0 326   \   I 230   U   L   o  \0  \0  \0 326 325 274   H
+0047560  223   j   L 325 274   A 223   U   L 325 020   L 020  \0   (   1
+0047600    6   3   Q       %   %   /       1   0   1   Q       C   L   :
+0047620    S   Q   R   T       3   2   Q       E   R   R   O   R   )  \r
+0047640    (   1   5   0   Q       A   R   R   A   Y   P       1   4   5
+0047660    Q       %   %   A   S   I   N   -   Q   P   O   L   Y       1
+0047700    2   7   Q       A   R   R   A   Y   P       1   2   4   Q    
+0047720    %   %   A   S   I   N   -   P   P   O   L   Y   )  \r   (    
+0047740    1   7   5   Q       2   .   0       7   5   Q       .   5    
+0047760    6   7   Q       1   .   0       5   6   Q       .   5       3
+0050000    7   Q       0   .   0       2   6   Q       "   A   R   C   S
+0050020    I   N   :       a   r   g       n   o   t       i   n       r
+0050040    a   n   g   e   "       2   0   Q       1   .   0       1   0
+0050060    Q       -   1   .   0   )  \r   %   %   A   S   I   N   -   C
+0050100    O   M   P   L   E   X       D   1  \r   (   L       (   0    
+0050120    Z   )   )      \0 030  \0  \0  \0 001   @  \t  \0  \0   k   @
+0050140    d 326 325  \t  \0  \0 324  \t  \0  \0  \t  \0  \0  \t  \0  \0
+0050160  020  \0   (   2   5   Q       %   %   C   O   M   P   L   E   X
+0050200    -   M   I   N   U   S       2   2   Q       %   %   C   O   M
+0050220    P   L   E   X   -   T   I   M   E   S   I       1   7   Q    
+0050240    C   L   :   L   O   G       1   3   Q       C   L   :   S   Q
+0050260    R   T       3       %   %   C   O   M   P   L   E   X   -   T
+0050300    I   M   E   S   I   )  \r   N   I   L  \r   (   )  \r   A   C
+0050320    O   S       D   1  \r   (   L       (   0       N   U   M   B
+0050340    E   R   )   )      \0   = 002  \0  \0 001   @ 021 021 001   H
+0050360    Y   d 004   l 003 360 226 277   @   i  \n  \0  \0 020 004   `
+0050400   \0  \0 360 224   @  \t  \0  \0 020   I   3 020 230   @ 006  \0
+0050420   \0   i  \n  \0  \0 020   i   g  \0  \0   H   o  \0  \0  \0  \f
+0050440   \0  \0   b  \0 023 260 306  \0   (   6   6   Q       C   H   E
+0050460    C   K   -   T   Y   P   E   -   F   A   I   L       5   1   Q
+0050500        %   %   A   S   I   N   -   F   L   O   A   T       3   4
+0050520    Q       %   %   A   C   O   S   -   C   O   M   P   L   E   X
+0050540        2   1   Q       %   %   A   S   I   N   -   F   L   O   A
+0050560    T   )  \r   (   5   6   Q       N   U   M   B   E   R       4
+0050600    5   Q       F   L   O   A   T   P       2   6   Q     004 003
+0050620    C   O   M   P   L   E   X   T   Y   P   E   #   )  \r   (    
+0050640    6   3   Q       (   O   R       F   L   O   A   T       C   O
+0050660    M   P   L   E   X       N   U   M   B   E   R   )   )  \r   %
+0050700    %   A   C   O   S   -   C   O   M   P   L   E   X       D   1
+0050720   \r   (   L       (   0       Z   )   )      \0 030  \0  \0  \0
+0050740  001   @   k   @   d 326 325  \t  \0  \0  \t  \0  \0 324  \t  \0
+0050760   \0  \t  \0  \0  \t  \0  \0 020  \0   (   2   5   Q       %   %
+0051000    C   O   M   P   L   E   X   -   M   I   N   U   S       2   2
+0051020    Q       %   %   C   O   M   P   L   E   X   -   T   I   M   E
+0051040    S   I       1   7   Q       C   L   :   L   O   G       1   3
+0051060    Q       %   %   C   O   M   P   L   E   X   -   T   I   M   E
+0051100    S   I       1   0   Q       C   L   :   S   Q   R   T   )  \r
+0051120    N   I   L  \r   (   )  \r   (   R   P   A   Q   ?       %   %
+0051140    S   Q   R   T   3       (   %   %   F   L   O   A   T       1
+0051160    6   3   4   9       4   6   0   3   9   )   )  \r   (   R   P
+0051200    A   Q   ?       %   %   2   -   S   Q   R   T   3       (   %
+0051220    %   F   L   O   A   T       1   6   0   0   9       1   2   4
+0051240    5   1   )   )  \r   (   R   P   A   Q   ?       %   %   I   N
+0051260    V   -   2   -   S   Q   R   T   3       (   %   %   F   L   O
+0051300    A   T       1   6   4   9   4       5   5   7   8   8   )   )
+0051320   \r   C   L   :   A   T   A   N       D   1  \r   (   L       (
+0051340    1       Y       0       X   )   )      \0   "  \0  \0  \0 002
+0051360    A 233   @ 006  \0  \0   A 006  \0  \0  \n  \0  \0 020   @   d
+0051400   \t  \0  \0 225 277   @  \t  \0  \0 020 006  \0  \0  \t  \0  \0
+0051420  020  \0   (   3   7   Q       %   %   A   T   A   N   -   F   L
+0051440    O   A   T       3   0   Q       %   %   A   T   A   N   -   C
+0051460    O   M   P   L   E   X       2   2   Q       C   O   M   P   L
+0051500    E   X   P       1   4   Q       %   %   A   T   A   N   -   F
+0051520    L   O   A   T   )  \r   (   3   4   Q       F   L   O   A   T
+0051540    P       1   1   Q       F   L   O   A   T   P       5       F
+0051560    L   O   A   T   P   )  \r   (   )  \r   %   %   A   T   A   N
+0051600    -   F   L   O   A   T   1       D   1  \r   (   L       (   0
+0051620        X   )       F       0       %   %   S   Q   R   T   3    
+0051640    F       1       %   %   2   -   S   Q   R   T   3       F    
+0051660    2       %   %   P   I   /   6       F       3       %   %   P
+0051700    I   /   2       F       4       %   %   I   N   V   -   2   -
+0051720    S   Q   R   T   3       F       5       %   %   P   I   /   3
+0051740    )      \0   N  \0 006  \0 001   j   @ 363 230   j   d   @ 325
+0051760   \t  \0  \0 325 020   Q   @ 363 224   @  \t  \0  \0 020   k   @
+0052000  363 262 023   R   @   P 326   k 325   P   @ 324  \n  \0  \0  \t
+0052020   \0  \0 324 020   T   @ 363 262 023   U   P   @ 325   @   P 326
+0052040    k 324  \n  \0  \0  \t  \0  \0 325 020   S   k   @  \n  \0  \0
+0052060   \t  \0  \0 325 020  \0   (   1   1   2   Q       %   %   A   T
+0052100    A   N   -   F   L   O   A   T   2       1   0   7   Q       %
+0052120    %   /       7   7   Q       %   %   A   T   A   N   -   F   L
+0052140    O   A   T   2       7   4   Q       %   %   /       5   1   Q
+0052160        %   %   A   T   A   N   -   F   L   O   A   T   2       4
+0052200    6   Q       %   %   /       2   4   Q       %   %   A   T   A
+0052220    N   -   F   L   O   A   T   2       1   2   Q       %   %   A
+0052240    T   A   N   -   F   L   O   A   T   1   )  \r   N   I   L  \r
+0052260    (   )  \r   %   %   A   T   A   N   -   F   L   O   A   T   2
+0052300        D   1  \r   (   L       (   0       X   )   )      \0   ,
+0052320  005  \0  \0 001   j   @   d 326 325 021   A 004   k 271   j 272
+0052340    @   [ 274   J   L  \n  \0  \0 221   L 020   I   l 002 324 271
+0052360    L 272   K   H 326 273   L   K   I  \n  \0  \0 324 260 345  \0
+0052400    (   4   7   Q       %   %   /       2   3   Q       %   %   =
+0052420    )  \r   N   I   L  \r   (   )  \r   %   %   A   T   A   N   -
+0052440    D   O   M   A   I   N   -   C   H   E   C   K       D   1  \r
+0052460    (   L       (   0       Z   )   )      \0   ' 001  \0  \0 001
+0052500    @  \t  \0  \0 021 001  \0   H   j 360 265  \v   H 005 003 264
+0052520  006   H  \t  \0  \0 022 264  \r   @  \t  \0  \0  \t  \0  \0   k
+0052540   \n  \0  \0   h 360 020  \0   (   4   2   Q       %   %   =    
+0052560    3   6   Q       A   B   S       3   3   Q       I   M   A   G
+0052600    P   A   R   T       2   4   Q       \   F   Z   E   R   O   P
+0052620        3       R   E   A   L   P   A   R   T   )  \r   N   I   L
+0052640   \r   (   )  \r   %   %   A   T   A   N   -   F   L   O   A   T
+0052660        D   1  \r   (   L       (   1       X       0       Y   )
+0052700        F       1       %   %   P   I       F       2       %   %
+0052720    P   I   /   2   )      \0 223 001 002  \0 002   A 263 027   @
+0052740    j 360 253   @   d 005 003 262   T   d  \t  \0  \0 262   N   o
+0052760   \0  \0  \0 020   @ 021 001  \0   H   A  \n  \0  \0 264  \a   H
+0053000    j  \n  \0  \0 022 227   o  \0  \0  \0  \t  \0  \0 020   A   j
+0053020   \n  \0  \0 226   @  \t  \0  \0   R 326 020   @   j  \n  \0  \0
+0053040  230   A  \t  \0  \0 221   j 020   Q 020   A  \t  \0  \0 237   @
+0053060    d  \t  \0  \0 232 277   @   A  \n  \0  \0  \t  \0  \0 020   @
+0053100   \t  \0  \0 234   Q   j   @ 325   A  \n  \0  \0  \t  \0  \0 325
+0053120  020   A  \t  \0  \0 234   j   @   j   A 325  \n  \0  \0  \t  \0
+0053140   \0 325 020   @   A  \n  \0  \0  \t  \0  \0   Q 325 020  \0   (
+0053160    2   1   6   Q       %   %   A   T   A   N   -   F   L   O   A
+0053200    T   1       2   1   3   Q       %   %   /       2   0   4   Q
+0053220        %   %   A   T   A   N   -   F   L   O   A   T   1       2
+0053240    0   1   Q       %   %   /       1   7   0   Q       P   L   U
+0053260    S   P       1   6   2   Q       %   %   A   T   A   N   -   F
+0053300    L   O   A   T   1       1   5   7   Q       %   %   /       1
+0053320    4   6   Q       P   L   U   S   P       1   4   1   Q       %
+0053340    %   A   T   A   N   -   F   L   O   A   T   1       1   3   6
+0053360    Q       %   %   /       1   2   7   Q       P   L   U   S   P
+0053400        1   2   1   Q       P   L   U   S   P       1   1   0   Q
+0053420        P   L   U   S   P       1   0   3   Q       %   %   =    
+0053440    7   3   Q       %   %   S   I   G   N   U   M       6   6   Q
+0053460        %   %   =       6   0   Q       C   L   :   E   R   R   O
+0053500    R       4   7   Q       %   %   =       4   0   Q       %   %
+0053520    =       2   0   Q       \   F   Z   E   R   O   P   )  \r   N
+0053540    I   L  \r   (       5   5   Q       "   E   r   r   o   r    
+0053560    i   n       d   o   u   b   l   e       e   n   t   r   y    
+0053600    a   t   a   n       b   o   t   h       0   .   "       2   6
+0053620    Q       0   .   0   )  \r   %   %   A   T   A   N   -   C   O
+0053640    M   P   L   E   X       D   1  \r   (   L       (   0       Z
+0053660    )   )      \0   / 001  \0  \0 001   @  \t  \0  \0 262   !   @
+0053700   \t  \0  \0 021 001  \0   H   k 324   k   H 325  \n  \0  \0  \t
+0053720   \0  \0   o  \0  \0  \0 326  \t  \0  \0  \t  \0  \0 020   o  \0
+0053740   \0  \0   @  \n  \0  \0 020  \0   (   5   4   Q       C   L   :
+0053760    E   R   R   O   R       4   3   Q       %   %   C   O   M   P
+0054000    L   E   X   -   M   I   N   U   S       4   0   Q       %   %
+0054020    C   O   M   P   L   E   X   -   T   I   M   E   S   I       3
+0054040    0   Q       C   L   :   L   O   G       2   5   Q       %   %
+0054060    /       1   1   Q       %   %   C   O   M   P   L   E   X   -
+0054100    T   I   M   E   S   I       3       %   %   A   T   A   N   -
+0054120    D   O   M   A   I   N   -   C   H   E   C   K   )  \r   N   I
+0054140    L  \r   (       5   0   Q       "   A   r   g   u   m   e   n
+0054160    t       n   o   t       i   n       d   o   m   a   i   n    
+0054200    f   o   r       a   t   a   n   .       ~   S   "       3   4
+0054220    Q       .   5   )  \r   C   I   S       D   1  \r   (   L    
+0054240    (   0       R   A   D   I   A   N   S   )   )      \0 034  \0
+0054260   \0  \0 001   @   d  \t  \0  \0 231 277   o  \0  \0  \0   @  \n
+0054300   \0  \0 020  \t  \0  \0   @  \t  \0  \0  \n  \0  \0 020  \0   (
+0054320    3   1   Q       C   O   M   P   L   E   X       2   6   Q    
+0054340    C   L   :   S   I   N       2   2   Q       C   L   :   C   O
+0054360    S       1   6   Q       C   L   :   E   R   R   O   R       4
+0054400        C   O   M   P   L   E   X   P   )  \r   N   I   L  \r   (
+0054420        1   2   Q       "   A   r   g   u   m   e   n   t       t
+0054440    o       C   I   S       i   s       c   o   m   p   l   e   x
+0054460    :       ~   S   "   )  \r   S   I   N   H       D   1  \r   (
+0054500    L       (   0       N   U   M   B   E   R   )   )      \0 025
+0054520  001  \0  \0 001   @  \t  \0  \0 021 001  \0   H   k   H  \n  \0
+0054540   \0 325   l 002  \n  \0  \0 020  \0   (   2   2   Q       %   %
+0054560    /       1   4   Q       %   %   /       3       E   X   P   )
+0054600   \r   N   I   L  \r   (   )  \r   C   O   S   H       D   1  \r
+0054620    (   L       (   0       N   U   M   B   E   R   )   )      \0
+0054640  025 001  \0  \0 001   @  \t  \0  \0 021 001  \0   H   k   H  \n
+0054660   \0  \0 324   l 002  \n  \0  \0 020  \0   (   2   2   Q       %
+0054700    %   /       1   4   Q       %   %   /       3       E   X   P
+0054720    )  \r   N   I   L  \r   (   )  \r   T   A   N   H       D   1
+0054740   \r   (   L       (   0       N   U   M   B   E   R   )   )    
+0054760   \0   ! 002  \0  \0 001   @   l 002 326  \t  \0  \0 021 021 001
+0055000    k   H  \n  \0  \0 271   k   I   k 324  \n  \0  \0   k   H   k
+0055020  324  \n  \0  \0 325 020  \0   (   3   5   Q       %   %   /    
+0055040    2   6   Q       %   %   /       1   6   Q       %   %   /    
+0055060    6       E   X   P   )  \r   N   I   L  \r   (   )  \r   A   S
+0055100    I   N   H       D   1  \r   (   L       (   0       N   U   M
+0055120    B   E   R   )   )      \0 017  \0  \0  \0 001   @   d   d 326
+0055140    k 324  \t  \0  \0 324  \t  \0  \0 020  \0   (   1   4   Q    
+0055160    C   L   :   L   O   G       1   0   Q       C   L   :   S   Q
+0055200    R   T   )  \r   N   I   L  \r   (   )  \r   A   C   O   S   H
+0055220        D   1  \r   (   L       (   0       N   U   M   B   E   R
+0055240    )   )      \0 017  \0  \0  \0 001   @   d   d 326   k 325  \t
+0055260   \0  \0 324  \t  \0  \0 020  \0   (   1   4   Q       C   L   :
+0055300    L   O   G       1   0   Q       C   L   :   S   Q   R   T   )
+0055320   \r   N   I   L  \r   (   )  \r   A   T   A   N   H       D   1
+0055340   \r   (   L       (   0       N   U   M   B   E   R   )   )    
+0055360   \0   "  \0  \0  \0 001   @  \t  \0  \0 262 024   @   k 324   k
+0055400    @ 325  \n  \0  \0  \t  \0  \0   o  \0  \0  \0 326 020   o  \0
+0055420   \0  \0   @  \n  \0  \0 020  \0   (   3   7   Q       C   L   :
+0055440    E   R   R   O   R       2   1   Q       C   L   :   L   O   G
+0055460        1   6   Q       %   %   /       3       %   %   A   T   A
+0055500    N   H   -   D   O   M   A   I   N   -   C   H   E   C   K   )
+0055520   \r   N   I   L  \r   (       3   3   Q       "   ~   S       a
+0055540    r   g   u   m   e   n   t       o   u   t       o   f       r
+0055560    a   n   g   e   .   "       2   5   Q       .   5   )  \r   %
+0055600    %   A   T   A   N   H   -   D   O   M   A   I   N   -   C   H
+0055620    E   C   K       D   1  \r   (   L       (   0       Z   )   )
+0055640       \0   ' 001  \0  \0 001   @  \t  \0  \0 021 001  \0   H   j
+0055660  360 265  \v   H 005 003 264 006   H  \t  \0  \0 022 264  \r   @
+0055700   \t  \0  \0  \t  \0  \0   k  \n  \0  \0   h 360 020  \0   (   4
+0055720    2   Q       %   %   =       3   6   Q       A   B   S       3
+0055740    3   Q       R   E   A   L   P   A   R   T       2   4   Q    
+0055760    \   F   Z   E   R   O   P       3       I   M   A   G   P   A
+0056000    R   T   )  \r   N   I   L  \r   (   )  \r   (   P   U   T   P
+0056020    R   O   P   S       C   M   L   F   L   O   A   T       F   I
+0056040    L   E   T   Y   P   E       C   O   M   P   I   L   E   -   F
+0056060    I   L   E   )  \r   (   R   P   A   Q   Q       C   M   L   F
+0056100    L   O   A   T   C   O   M   S       (   (   *       *       C
+0056120    M   L   F   L   O   A   T       -   -       C   o   v   e   r
+0056140    i   n   g       s   e   c   t   i   o   n   s       %   1   2
+0056160    .   5   -   1   2   .   5   .   3       i   r   r   a   t   i
+0056200    o   n   a   l   ,       t   r   a   n   s   c   e   n   d   e
+0056220    n   t   a   l   ,      \r   e   x   p   o   n   e   n   t   i
+0056240    a   l   ,       l   o   g   a   r   i   t   h   m   i   c   ,
+0056260        t   r   i   g   o   n   o   m   e   t   r   i   c   ,    
+0056300    a   n   d       h   y   p   e   r   b   o   l   i   c       f
+0056320    u   n   c   t   i   o   n   s   .       S   e   c   t   i   o
+0056340    n       1   2   .   1   0   ,       i   m   p   l   e   m   e
+0056360    n   t   a   t   i   o   n      \r   p   a   r   a   m   e   t
+0056400    e   r   s   .       -   -       B   y       K   e   l   l   y
+0056420        R   o   a   c   h   .       *   )       (   D   E   C   L
+0056440    A   R   E   :       E   V   A   L   @   C   O   M   P   I   L
+0056460    E       D   O   N   T   C   O   P   Y       (   F   I   L   E
+0056500    S       (   L   O   A   D   C   O   M   P   )       L   L   F
+0056520    L   O   A   T   )   )       (   C   O   M   S       (   *  \r
+0056540        S   e   c   t   i   o   n       1   2   .   1   0   ,    
+0056560    i   m   p   l   e   m   e   n   t   a   t   i   o   n       p
+0056600    a   r   a   m   e   t   e   r   s   .       T   h   e       c
+0056620    o   n   s   t   a   n   t   s       i   n       t   h   i   s
+0056640        C   O   M   S       a   r   e       e   x   p   o   r   t
+0056660    e   d       t   o       t   h   e       u   s   e   r   .    
+0056700    *   )       (   *      \r   %   %   F   L   O   A   T       a
+0056720    l   l   o   w   s       u   s       t   o       r   e   c   r
+0056740    e   a   t   e       F   L   O   A   T   P   s       i   n    
+0056760    a       w   a   y       t   h   a   t       i   s       i   n
+0057000    d   e   p   e   n   d   e   n   t       o   f       t   h   e
+0057020        o   r   d   i   n   a   i   r   y       r   e   a   d   i
+0057040    n   g       a   n   d      \r   p   r   i   n   t   i   n   g
+0057060        F   L   O   A   T   P   s       t   o       f   i   l   e
+0057100    s       w   h   i   c   h       i   n   v   o   l   v   e   s
+0057120        l   o   s   s       o   f       t   h   e       l   a   s
+0057140    t       c   o   u   p   l   e       b   i   t   s       o   f
+0057160        a   c   c   u   r   a   c   y       d   u   e       t   o
+0057200        r   o   u   n   d   i   n   g      \r   e   f   f   e   c
+0057220    t   s   .       *   )       (   *       U   s   i   n   g    
+0057240    I   N   I   T   V   A   R   S       i   n   s   t   e   a   d
+0057260        o   f       C   O   N   S   T   A   N   T   S       i   n
+0057300        v   a   r   i   o   u   s       p   l   a   c   e   s    
+0057320    h   e   r   e       b   e   c   a   u   s   e       o   f    
+0057340    p   r   o   b   l   e   m   s       w   i   t   h       t   h
+0057360    e  \r       w   a   y       B   Y   T   E   C   O   M   P   I
+0057400    L   E   R       s   t   o   r   e   s       F   L   O   A   T
+0057420    P   s       i   n       D   C   O   M       f   i   l   e   s
+0057440    .       *   )       (   F   N   S       %   %   F   L   O   A
+0057460    T   )       (   C   O   N   S   T   A   N   T   S       (   M
+0057500    O   S   T   -   P   O   S   I   T   I   V   E   -   F   I   X
+0057520    N   U   M      \r   6   5   5   3   5   )       (   M   O   S
+0057540    T   -   N   E   G   A   T   I   V   E   -   F   I   X   N   U
+0057560    M       -   6   5   5   3   6   )   )       (   I   N   I   T
+0057600    V   A   R   S       (   M   O   S   T   -   P   O   S   I   T
+0057620    I   V   E   -   S   I   N   G   L   E   -   F   L   O   A   T
+0057640        (   %   %   F   L   O   A   T       3   2   6   3   9    
+0057660    6   5   5   3   5   )   )       (  \r   L   E   A   S   T   -
+0057700    P   O   S   I   T   I   V   E   -   S   I   N   G   L   E   -
+0057720    F   L   O   A   T       (   %   %   F   L   O   A   T       1
+0057740    2   8       0   )   )       (   L   E   A   S   T   -   N   E
+0057760    G   A   T   I   V   E   -   S   I   N   G   L   E   -   F   L
+0060000    O   A   T       (   %   %   F   L   O   A   T       3   2   8
+0060020    9   6       0   )   )       (  \r   M   O   S   T   -   N   E
+0060040    G   A   T   I   V   E   -   S   I   N   G   L   E   -   F   L
+0060060    O   A   T       (   %   %   F   L   O   A   T       6   5   4
+0060100    0   7       6   5   5   3   5   )   )       (   M   O   S   T
+0060120    -   P   O   S   I   T   I   V   E   -   S   H   O   R   T   -
+0060140    F   L   O   A   T      \r   M   O   S   T   -   P   O   S   I
+0060160    T   I   V   E   -   S   I   N   G   L   E   -   F   L   O   A
+0060200    T   )       (   L   E   A   S   T   -   P   O   S   I   T   I
+0060220    V   E   -   S   H   O   R   T   -   F   L   O   A   T       L
+0060240    E   A   S   T   -   P   O   S   I   T   I   V   E   -   S   I
+0060260    N   G   L   E   -   F   L   O   A   T   )       (  \r   L   E
+0060300    A   S   T   -   N   E   G   A   T   I   V   E   -   S   H   O
+0060320    R   T   -   F   L   O   A   T       L   E   A   S   T   -   N
+0060340    E   G   A   T   I   V   E   -   S   I   N   G   L   E   -   F
+0060360    L   O   A   T   )       (   M   O   S   T   -   N   E   G   A
+0060400    T   I   V   E   -   S   H   O   R   T   -   F   L   O   A   T
+0060420       \r   M   O   S   T   -   N   E   G   A   T   I   V   E   -
+0060440    S   I   N   G   L   E   -   F   L   O   A   T   )       (   M
+0060460    O   S   T   -   P   O   S   I   T   I   V   E   -   D   O   U
+0060500    B   L   E   -   F   L   O   A   T       M   O   S   T   -   P
+0060520    O   S   I   T   I   V   E   -   S   I   N   G   L   E   -   F
+0060540    L   O   A   T   )       (  \r   L   E   A   S   T   -   P   O
+0060560    S   I   T   I   V   E   -   D   O   U   B   L   E   -   F   L
+0060600    O   A   T       L   E   A   S   T   -   P   O   S   I   T   I
+0060620    V   E   -   S   I   N   G   L   E   -   F   L   O   A   T   )
+0060640        (   L   E   A   S   T   -   N   E   G   A   T   I   V   E
+0060660    -   D   O   U   B   L   E   -   F   L   O   A   T      \r   L
+0060700    E   A   S   T   -   N   E   G   A   T   I   V   E   -   S   I
+0060720    N   G   L   E   -   F   L   O   A   T   )       (   M   O   S
+0060740    T   -   N   E   G   A   T   I   V   E   -   D   O   U   B   L
+0060760    E   -   F   L   O   A   T       M   O   S   T   -   N   E   G
+0061000    A   T   I   V   E   -   S   I   N   G   L   E   -   F   L   O
+0061020    A   T   )       (  \r   M   O   S   T   -   P   O   S   I   T
+0061040    I   V   E   -   L   O   N   G   -   F   L   O   A   T       M
+0061060    O   S   T   -   P   O   S   I   T   I   V   E   -   S   I   N
+0061100    G   L   E   -   F   L   O   A   T   )       (   L   E   A   S
+0061120    T   -   P   O   S   I   T   I   V   E   -   L   O   N   G   -
+0061140    F   L   O   A   T      \r   L   E   A   S   T   -   P   O   S
+0061160    I   T   I   V   E   -   S   I   N   G   L   E   -   F   L   O
+0061200    A   T   )       (   L   E   A   S   T   -   N   E   G   A   T
+0061220    I   V   E   -   L   O   N   G   -   F   L   O   A   T       L
+0061240    E   A   S   T   -   N   E   G   A   T   I   V   E   -   S   I
+0061260    N   G   L   E   -   F   L   O   A   T   )       (  \r   M   O
+0061300    S   T   -   N   E   G   A   T   I   V   E   -   L   O   N   G
+0061320    -   F   L   O   A   T       M   O   S   T   -   N   E   G   A
+0061340    T   I   V   E   -   S   I   N   G   L   E   -   F   L   O   A
+0061360    T   )   )       (   *       E   P   S   I   L   O   N       i
+0061400    s       t   h   e       s   m   a   l   l   e   s   t       p
+0061420    o   s   i   t   i   v   e       f   l   o   a   t   i   n   g
+0061440       \r   p   o   i   n   t       n   u   m   b   e   r       s
+0061460    u   c   h       t   h   a   t       (   N   O   T       (   =
+0061500        (   F   L   O   A   T       1       E   P   S   I   L   O
+0061520    N   )       (   +       (   F   L   O   A   T       1       E
+0061540    P   S   I   L   O   N   )       E   P   S   I   L   O   N   )
+0061560    )   )       *   )       (   I   N   I   T   V   A   R   S    
+0061600    (  \r   S   I   N   G   L   E   -   F   L   O   A   T   -   E
+0061620    P   S   I   L   O   N       (   %   %   F   L   O   A   T    
+0061640    1   3   3   1   2       0   )   )       (   S   H   O   R   T
+0061660    -   F   L   O   A   T   -   E   P   S   I   L   O   N       S
+0061700    I   N   G   L   E   -   F   L   O   A   T   -   E   P   S   I
+0061720    L   O   N   )       (  \r   D   O   U   B   L   E   -   F   L
+0061740    O   A   T   -   E   P   S   I   L   O   N       S   I   N   G
+0061760    L   E   -   F   L   O   A   T   -   E   P   S   I   L   O   N
+0062000    )       (   L   O   N   G   -   F   L   O   A   T   -   E   P
+0062020    S   I   L   O   N       S   I   N   G   L   E   -   F   L   O
+0062040    A   T   -   E   P   S   I   L   O   N   )   )       (   *    
+0062060   \r   N   E   G   A   T   I   V   E   -   E   P   S   I   L   O
+0062100    N       i   s       t   h   e       s   m   a   l   l   e   s
+0062120    t       n   e   g   a   t   i   v   e       f   l   o   a   t
+0062140    i   n   g       p   o   i   n   t       n   u   m   b   e   r
+0062160        s   u   c   h       t   h   a   t       (   N   O   T    
+0062200    (   =       (   F   L   O   A   T       1      \r   N   E   G
+0062220    A   T   I   V   E   -   E   P   S   I   L   O   N   )       (
+0062240    -       (   F   L   O   A   T       1       N   E   G   A   T
+0062260    I   V   E   -   E   P   S   I   L   O   N   )       N   E   G
+0062300    A   T   I   V   E   -   E   P   S   I   L   O   N   )   )   )
+0062320        *   )       (   I   N   I   T   V   A   R   S       (  \r
+0062340    S   I   N   G   L   E   -   F   L   O   A   T   -   N   E   G
+0062360    A   T   I   V   E   -   E   P   S   I   L   O   N       (   %
+0062400    %   F   L   O   A   T       1   3   1   8   4       0   )   )
+0062420        (   S   H   O   R   T   -   F   L   O   A   T   -   N   E
+0062440    G   A   T   I   V   E   -   E   P   S   I   L   O   N      \r
+0062460    S   I   N   G   L   E   -   F   L   O   A   T   -   N   E   G
+0062500    A   T   I   V   E   -   E   P   S   I   L   O   N   )       (
+0062520    D   O   U   B   L   E   -   F   L   O   A   T   -   N   E   G
+0062540    A   T   I   V   E   -   E   P   S   I   L   O   N       S   I
+0062560    N   G   L   E   -   F   L   O   A   T   -   N   E   G   A   T
+0062600    I   V   E   -   E   P   S   I   L   O   N   )       (  \r   L
+0062620    O   N   G   -   F   L   O   A   T   -   N   E   G   A   T   I
+0062640    V   E   -   E   P   S   I   L   O   N       S   I   N   G   L
+0062660    E   -   F   L   O   A   T   -   N   E   G   A   T   I   V   E
+0062700    -   E   P   S   I   L   O   N   )   )   )       (   C   O   M
+0062720    S       (   *       M   i   s   c   e   l   l   a   n   e   o
+0062740    u   s   .       *   )       (   D   E   C   L   A   R   E   :
+0062760       \r   E   V   A   L   @   C   O   M   P   I   L   E       D
+0063000    O   N   T   C   O   P   Y       (   F   I   L   E   S       (
+0063020    L   O   A   D   C   O   M   P   )       L   L   F   L   O   A
+0063040    T   )   )       (   I   N   I   T   V   A   R   S       (   P
+0063060    I       (   %   %   F   L   O   A   T       1   6   4   5   7
+0063100        4   0   5   9   )   )   )       (   *       S   h   o   u
+0063120    l   d       b   e       (  \r   D   E   C   L   A   R   E   :
+0063140        E   V   A   L   @   C   O   M   P   I   L   E       D   O
+0063160    N   T   C   O   P   Y       (   C   O   N   S   T   A   N   T
+0063200    S       .   .   .   )   )       e   x   c   e   p   t       t
+0063220    h   a   t       c   o   m   p   i   l   e   r       d   o   e
+0063240    s       a       p   o   o   r       j   o   b       o   f    
+0063260    c   o   m   p   i   l   i   n   g      \r   F   L   O   A   T
+0063300    P   s   .       U   s   e       a   n       I   N   I   T   V
+0063320    A   R   S       t   o       p   a   t   c   h       a   r   o
+0063340    u   n   d       t   h   i   s       s   i   t   u   a   t   i
+0063360    o   n       f   o   r       n   o   w   .       *   )       (
+0063400    I   N   I   T   V   A   R   S       (   %   %   E       (   %
+0063420    %   F   L   O   A   T       1   6   4   2   9      \r   6   3
+0063440    5   7   2   )   )       (   %   %   2   P   I       (   %   %
+0063460    F   L   O   A   T       1   6   5   8   5       4   0   5   9
+0063500    )   )       (   %   %   P   I       (   %   %   F   L   O   A
+0063520    T       1   6   4   5   7       4   0   5   9   )   )       (
+0063540    %   %   2   P   I   /   3       (   %   %   F   L   O   A   T
+0063560        1   6   3   9   0       2   7   0   6   )   )       (  \r
+0063600    %   %   P   I   /   2       (   %   %   F   L   O   A   T    
+0063620    1   6   3   2   9       4   0   5   9   )   )       (   %   %
+0063640    -   P   I   /   2       (   %   %   F   L   O   A   T       4
+0063660    9   0   9   7       4   0   5   9   )   )       (   %   %   P
+0063700    I   /   3       (   %   %   F   L   O   A   T       1   6   2
+0063720    6   2       2   7   0   6   )   )       (   %   %   P   I   /
+0063740    4       (  \r   %   %   F   L   O   A   T       1   6   2   0
+0063760    1       4   0   5   9   )   )       (   %   %   -   P   I   /
+0064000    4       (   %   %   F   L   O   A   T       4   8   9   6   9
+0064020        4   0   5   9   )   )       (   %   %   P   I   /   6    
+0064040    (   %   %   F   L   O   A   T       1   6   1   3   4       2
+0064060    7   0   6   )   )       (   %   %   2   /   P   I       (   %
+0064100    %   F   L   O   A   T      \r   1   6   1   6   2       6   3
+0064120    8   7   5   )   )   )       (   F   N   S       %   %   M   A
+0064140    K   E   -   A   R   R   A   Y   )   )       (   C   O   M   S
+0064160        (   *       E   X   P       *   )       (   C   O   M   S
+0064200        (   I   N   I   T   V   A   R   S       (   %   %   L   O
+0064220    G   -   B   A   S   E   2   -   E       (   %   %   F   L   O
+0064240    A   T       1   6   3   1   2       4   3   5   7   9  \r   )
+0064260    )   )       (   *       *       %   %   E   X   P   -   P   O
+0064300    L   Y       c   o   n   t   a   i   n   s       P       a   n
+0064320    d       Q       c   o   e   f   f   i   c   i   e   n   t   s
+0064340        o   f       H   a   r   r   i   s       e   t       a   l
+0064360        E   X   P   B       1   1   0   3       r   a   t   i   o
+0064400    n   a   l       a   p   p   r   o   x   i   m   a   t   i   o
+0064420    n       t   o      \r   (   E   X   P   T       2       X   )
+0064440        i   n       i   n   t   e   r   v   a   l       (   0    
+0064460    .   1   2   5   )       %   .       %   %   E   X   P   -   T
+0064500    A   B   L   E       c   o   n   t   a   i   n   s       v   a
+0064520    l   u   e   s       o   f       p   o   w   e   r   s       (
+0064540    E   X   P   T       2       (   /       N       8   )   )    
+0064560    .       *   )       (   V   A   R   S       (  \r   %   %   E
+0064600    X   P   -   P   O   L   Y       (   %   %   M   A   K   E   -
+0064620    A   R   R   A   Y       (   L   I   S   T       (   %   %   F
+0064640    L   O   A   T       1   5   5   4   9       1   7   6   5   9
+0064660    )       (   %   %   F   L   O   A   T       1   6   2   5   6
+0064700        0   )       (   %   %   F   L   O   A   T       1   6   8
+0064720    0   1       3   8   2   7   3   )       (   %   %   F   L   O
+0064740    A   T      \r   1   7   2   5   7       7   7   1   7   )    
+0064760    (   %   %   F   L   O   A   T       1   7   5   9   7       1
+0065000    1   7   3   9   )       (   %   %   F   L   O   A   T       1
+0065020    7   8   0   0       3   0   4   0   1   )   )   )   )       (
+0065040    %   %   E   X   P   -   T   A   B   L   E       (   %   %   M
+0065060    A   K   E   -   A   R   R   A   Y       (   L   I   S   T    
+0065100    (   %   %   F   L   O   A   T      \r   1   6   2   5   6    
+0065120    0   )       (   %   %   F   L   O   A   T       1   6   2   6
+0065140    7       3   8   3   3   8   )       (   %   %   F   L   O   A
+0065160    T       1   6   2   8   0       1   4   3   2   0   )       (
+0065200    %   %   F   L   O   A   T       1   6   2   9   3       6   5
+0065220    2   3   9   )       (   %   %   F   L   O   A   T       1   6
+0065240    3   0   9       1   2   6   7   )       (  \r   %   %   F   L
+0065260    O   A   T       1   6   3   2   5       2   6   4   1   0   )
+0065300        (   %   %   F   L   O   A   T       1   6   3   4   3    
+0065320    1   7   6   6   1   )       (   %   %   F   L   O   A   T    
+0065340    1   6   3   6   2       4   9   3   5   1   )   )   )   )   )
+0065360    )       (   F   N   S       E   X   P       %   %   E   X   P
+0065400    -   F   L   O   A   T      \r   %   %   E   X   P   -   C   O
+0065420    M   P   L   E   X   )   )       (   C   O   M   S       (   *
+0065440        E   X   P   T       *   )       (   F   N   S       C   L
+0065460    :   E   X   P   T       %   %   E   X   P   T   -   I   N   T
+0065500    E   G   E   R       %   %   E   X   P   T   -   F   L   O   A
+0065520    T       %   %   E   X   P   T   -   C   O   M   P   L   E   X
+0065540       \r   %   %   E   X   P   T   -   C   O   M   P   L   E   X
+0065560    -   P   O   W   E   R   )   )       (   C   O   M   S       (
+0065600    *       L   O   G       *   )       (   C   O   M   S       (
+0065620    I   N   I   T   V   A   R   S       (   %   %   L   O   G   2
+0065640        (   %   %   F   L   O   A   T       1   6   1   7   7    
+0065660    2   9   2   0   8   )   )       (   %   %   S   Q   R   T   2
+0065700        (  \r   %   %   F   L   O   A   T       1   6   3   0   9
+0065720        1   2   6   7   )   )   )       (   *       *       %   %
+0065740    L   O   G   -   P   P   O   L   Y       a   n   d       %   %
+0065760    L   O   G   -   Q   P   O   L   Y       c   o   n   t   a   i
+0066000    n       P       a   n   d       Q       c   o   e   f   f   i
+0066020    c   i   e   n   t   s       o   f       H   a   r   r   i   s
+0066040        e   t       a   l      \r   L   O   G   E       2   7   0
+0066060    7       r   a   t   i   o   n   a   l       a   p   p   r   o
+0066100    x   i   m   a   t   i   o   n       t   o       (   L   O   G
+0066120        X   )       i   n       i   n   t   e   r   v   a   l    
+0066140    (   (   S   Q   R   T       .   5   )       (   S   Q   R   T
+0066160        2   )   )       .       *   )       (   V   A   R   S    
+0066200    (   %   %   L   O   G   -   P   P   O   L   Y       (  \r   %
+0066220    %   M   A   K   E   -   A   R   R   A   Y       (   L   I   S
+0066240    T       (   %   %   F   L   O   A   T       1   6   0   4   2
+0066260        2   2   8   0   3   )       (   %   %   F   L   O   A   T
+0066300        4   9   4   8   4       2   3   5   9   0   )       (   %
+0066320    %   F   L   O   A   T       1   7   0   4   4       1   7   9
+0066340    8   2   )       (   %   %   F   L   O   A   T       4   9   9
+0066360    2   6      \r   3   7   1   5   3   )       (   %   %   F   L
+0066400    O   A   T       1   7   0   4   6       5   3   6   7   )   )
+0066420    )   )       (   %   %   L   O   G   -   Q   P   O   L   Y    
+0066440    (   %   %   M   A   K   E   -   A   R   R   A   Y       (   L
+0066460    I   S   T       (   %   %   F   L   O   A   T       1   6   2
+0066500    5   6       0   )       (   %   %   F   L   O   A   T       4
+0066520    9   5   1   2       9   1   0   3   )  \r       (   %   %   F
+0066540    L   O   A   T       1   6   9   9   2       4   2   2   7   4
+0066560    )       (   %   %   F   L   O   A   T       4   9   8   2   3
+0066600        3   8   0   4   8   )       (   %   %   F   L   O   A   T
+0066620        1   6   9   1   8       5   3   6   7   )   )   )   )   )
+0066640    )       (   F   N   S       C   L   :   L   O   G       %   %
+0066660    L   O   G   -   F   L   O   A   T      \r   %   %   L   O   G
+0066700    -   C   O   M   P   L   E   X   )   )       (   C   O   M   S
+0066720        (   *       S   Q   R   T       *   )       (   F   N   S
+0066740        C   L   :   S   Q   R   T       %   %   S   Q   R   T   -
+0066760    F   L   O   A   T       %   %   S   Q   R   T   -   C   O   M
+0067000    P   L   E   X   )   )       (   C   O   M   S       (   *    
+0067020    S   I   N       *   )       (   C   O   M   S       (   *    
+0067040    *  \r       %   %   S   I   N   -   E   P   S   I   L   O   N
+0067060        i   s       s   u   f   f   i   c   i   e   n   t   l   y
+0067100        s   m   a   l   l       t   h   a   t       (   S   I   N
+0067120        X   )       =       X       f   o   r       X       i   n
+0067140        i   n   t   e   r   v   a   l       (   0       %   %   S
+0067160    I   N   -   E   P   S   I   L   O   N   )       %   .       I
+0067200    t      \r   s   u   f   f   i   c   e   s       t   o       t
+0067220    a   k   e       %   %   S   I   N   -   E   P   S   I   L   O
+0067240    N       a       l   i   t   t   l   e       b   i   t       s
+0067260    m   a   l   l   e   r       t   h   a   n       (   S   Q   R
+0067300    T       (   C   L   :   *       6       S   I   N   G   L   E
+0067320    -   F   L   O   A   T   -   E   P   S   I   L   O   N   )   )
+0067340        w   h   i   c   h       w   e  \r       g   e   t       b
+0067360    y       t   h   e       T   a   y   l   o   r       s   e   r
+0067400    i   e   s       e   x   p   a   n   s   i   o   n       (   S
+0067420    I   N       X   )       =       (   +       X       (   /    
+0067440    (   E   X   P   T       X       3   )       6   )       .   .
+0067460    .   )       (   T   h   e       r   e   l   a   t   i   v   e
+0067500        e   r   r   o   r       c   a   u   s   e   d       b   y
+0067520   \r       o   m   m   i   t   t   i   n   g       (   /       (
+0067540    E   X   P   T       X       3   )       6   )       i   s   n
+0067560    '   t       o   b   s   e   r   v   a   b   l   e   .   )    
+0067600    C   o   m   p   a   r   i   s   o   n       a   g   a   i   n
+0067620    s   t       %   %   S   I   N   -   E   P   S   I   L   O   N
+0067640        i   s       u   s   e   d       t   o       a   v   o   i
+0067660    d      \r   P   O   L   Y   E   V   A   L       m   i   c   r
+0067700    o   c   o   d   e       u   n   d   e   r   f   l   o   w    
+0067720    w   h   e   n       c   o   m   p   u   t   i   n   g       S
+0067740    I   N   .       *   )       (   I   N   I   T   V   A   R   S
+0067760        (   %   %   S   I   N   -   E   P   S   I   L   O   N    
+0070000    (   %   %   F   L   O   A   T       1   4   7   2   0       0
+0070020    )   )   )       (   *       *      \r   %   %   S   I   N   -
+0070040    P   P   O   L   Y       a   n   d       %   %   S   I   N   -
+0070060    Q   P   O   L   Y       c   o   n   t   a   i   n       a   d
+0070100    a   p   t   e   d       P       a   n   d       Q       c   o
+0070120    e   f   f   i   c   i   e   n   t   s       o   f       H   a
+0070140    r   r   i   s       e   t       a   l       S   I   N       3
+0070160    3   7   4       r   a   t   i   o   n   a   l      \r   a   p
+0070200    p   r   o   x   i   m   a   t   i   o   n       t   o       (
+0070220    S   I   N       X   )       i   n       i   n   t   e   r   v
+0070240    a   l       (   0       (   /       P   I       2   )   )    
+0070260    %   .       T   h   e       c   o   e   f   f   i   c   i   e
+0070300    n   t   s       f   o   r       %   %   S   I   N   -   P   P
+0070320    O   L   Y       a   n   d       %   %   S   I   N   -   Q   P
+0070340    O   L   Y      \r   h   a   v   e       b   e   e   n       c
+0070360    o   m   p   u   t   e   d       f   r   o   m       H   a   r
+0070400    r   i   s       u   s   i   n   g       e   x   t   e   n   d
+0070420    e   d       p   r   e   c   i   s   i   o   n       r   o   u
+0070440    t   i   n   e   s       a   n   d       t   h   e       r   e
+0070460    l   a   t   i   o   n   s       %   %   S   I   N   -   P   P
+0070500    O   L   Y       =       (  \r   R   E   V   E   R   S   E    
+0070520    (   f   o   r       I       f   r   o   m       0       a   s
+0070540        E   N   T   R   Y       i   n       P   S       c   o   l
+0070560    l   e   c   t       (   /       (   C   L   :   *       (   E
+0070600    X   P   T       (   /       2       P   I   )       (   1   +
+0070620        (   C   L   :   *       2       I   )   )   )       E   N
+0070640    T   R   Y   )       Q   0   )   )   )       a   n   d  \r    
+0070660    %   %   S   I   N   -   Q   P   O   L   Y       =       (   R
+0070700    E   V   E   R   S   E       (   f   o   r       I       f   r
+0070720    o   m       0       a   s       E   N   T   R   Y       i   n
+0070740        Q   S       c   o   l   l   e   c   t       (   /       (
+0070760    C   L   :   *       (   E   X   P   T       (   /       2    
+0071000    P   I   )       (   C   L   :   *       2       I   )   )    
+0071020    E   N   T   R   Y  \r   )       Q   0   )   )   )       *   )
+0071040        (   V   A   R   S       (   %   %   S   I   N   -   P   P
+0071060    O   L   Y       (   %   %   M   A   K   E   -   A   R   R   A
+0071100    Y       (   L   I   S   T       (   %   %   F   L   O   A   T
+0071120        4   5   2   3   6       2   5   6   1   1   )       (   %
+0071140    %   F   L   O   A   T       1   3   5   8   9       2   6   1
+0071160    4   8   )       (   %   %   F   L   O   A   T  \r       4   7
+0071200    2   8   6       3   4   7   9   7   )       (   %   %   F   L
+0071220    O   A   T       1   5   2   9   5       3   3   0   6   )    
+0071240    (   %   %   F   L   O   A   T       4   8   6   6   6       3
+0071260    4   8   0   5   )       (   %   %   F   L   O   A   T       1
+0071300    6   2   5   6       0   )   )   )   )       (   %   %   S   I
+0071320    N   -   Q   P   O   L   Y       (  \r   %   %   M   A   K   E
+0071340    -   A   R   R   A   Y       (   L   I   S   T       (   %   %
+0071360    F   L   O   A   T       1   1   3   8   4       5   2   8   6
+0071400    5   )       (   %   %   F   L   O   A   T       1   2   5   5
+0071420    3       9   5   5   0   )       (   %   %   F   L   O   A   T
+0071440        1   3   6   0   4       3   8   3   8   5   )       (   %
+0071460    %   F   L   O   A   T       1   4   5   9   3      \r   1   8
+0071500    8   4   1   )       (   %   %   F   L   O   A   T       1   5
+0071520    4   8   9       5   5   4   9   )       (   %   %   F   L   O
+0071540    A   T       1   6   2   5   6       0   )   )   )   )   )   )
+0071560        (   F   N   S       C   L   :   S   I   N       %   %   S
+0071600    I   N   -   F   L   O   A   T       %   %   S   I   N   -   C
+0071620    O   M   P   L   E   X   )   )       (   C   O   M   S       (
+0071640    *      \r   C   O   S       *   )       (   F   N   S       C
+0071660    L   :   C   O   S       %   %   C   O   S   -   C   O   M   P
+0071700    L   E   X   )   )       (   C   O   M   S       (   *       T
+0071720    A   N       *   )       (   C   O   M   S       (   *       *
+0071740        %   %   T   A   N   -   E   P   S   I   L   O   N       i
+0071760    s       s   u   f   f   i   c   i   e   n   t   l   y       s
+0072000    m   a   l   l       t   h   a   t  \r       (   T   A   N    
+0072020    X   )       =       X       f   o   r       X       i   n    
+0072040    i   n   t   e   r   v   a   l       (   0       %   %   T   A
+0072060    N   -   E   P   S   I   L   O   N   )       %   .       I   t
+0072100        s   u   f   f   i   c   e   s       t   o       t   a   k
+0072120    e       %   %   T   A   N   -   E   P   S   I   L   O   N    
+0072140    a       l   i   t   t   l   e       b   i   t      \r   s   m
+0072160    a   l   l   e   r       t   h   a   n       (   S   Q   R   T
+0072200        (   C   L   :   *       3       S   I   N   G   L   E   -
+0072220    F   L   O   A   T   -   E   P   S   I   L   O   N   )   )    
+0072240    w   h   i   c   h       w   e       g   e   t       b   y    
+0072260    t   h   e       T   a   y   l   o   r       s   e   r   i   e
+0072300    s       e   x   p   a   n   s   i   o   n       (   T   A   N
+0072320        X   )      \r   =       (   +       X       (   /       (
+0072340    E   X   P   T       X       3   )       3   )       .   .   .
+0072360    )       (   T   h   e       r   e   l   a   t   i   v   e    
+0072400    e   r   r   o   r       c   a   u   s   e   d       b   y    
+0072420    o   m   m   i   t   t   i   n   g       (   /       (   E   X
+0072440    P   T       X       3   )       3   )       i   s   n   '   t
+0072460       \r   o   b   s   e   r   v   a   b   l   e   .   )       C
+0072500    o   m   p   a   r   i   s   o   n       a   g   a   i   n   s
+0072520    t       %   %   T   A   N   -   E   P   S   I   L   O   N    
+0072540    i   s       u   s   e   d       t   o       a   v   o   i   d
+0072560        P   O   L   Y   E   V   A   L       m   i   c   r   o   c
+0072600    o   d   e       u   n   d   e   r   f   l   o   w       w   h
+0072620    e   n      \r   c   o   m   p   u   t   i   n   g       T   A
+0072640    N   .       *   )       (   I   N   I   T   V   A   R   S    
+0072660    (   %   %   T   A   N   -   E   P   S   I   L   O   N       (
+0072700    %   %   F   L   O   A   T       1   4   7   2   0       0   )
+0072720    )   )       (   *       *       %   %   T   A   N   -   P   P
+0072740    O   L   Y       a   n   d       %   %   T   A   N   -   Q   P
+0072760    O   L   Y      \r   c   o   n   t   a   i   n       a   d   a
+0073000    p   t   e   d       P       a   n   d       Q       c   o   e
+0073020    f   f   i   c   i   e   n   t   s       o   f       H   a   r
+0073040    r   i   s       e   t       a   l       T   A   N       4   2
+0073060    8   8       r   a   t   i   o   n   a   l       a   p   p   r
+0073100    o   x   i   m   a   t   i   o   n       t   o       (   T   A
+0073120    N       X   )       i   n      \r   i   n   t   e   r   v   a
+0073140    l       (   -   P   I   /   4       P   I   /   4   )       %
+0073160    .       T   h   e       c   o   e   f   f   i   c   i   e   n
+0073200    t   s       f   o   r       %   %   T   A   N   -   P   P   O
+0073220    L   Y       a   n   d       %   %   T   A   N   -   Q   P   O
+0073240    L   Y       h   a   v   e       b   e   e   n       c   o   m
+0073260    p   u   t   e   d       f   r   o   m      \r   H   a   r   r
+0073300    i   s       u   s   i   n   g       e   x   t   e   n   d   e
+0073320    d       p   r   e   c   i   s   i   o   n       r   o   u   t
+0073340    i   n   e   s       a   n   d       t   h   e       r   e   l
+0073360    a   t   i   o   n   s       %   %   T   A   N   -   P   P   O
+0073400    L   Y       =       (   R   E   V   E   R   S   E       (   f
+0073420    o   r       I       f   r   o   m       0       a   s      \r
+0073440    E   N   T   R   Y       i   n       P   S       c   o   l   l
+0073460    e   c   t       (   /       (   C   L   :   *       (   E   X
+0073500    P   T       (   /       4       P   I   )       (   1   +    
+0073520    (   C   L   :   *       2       I   )   )   )       E   N   T
+0073540    R   Y   )       Q   0   )   )   )       a   n   d       %   %
+0073560    T   A   N   -   Q   P   O   L   Y       =       (   R   E   V
+0073600    E   R   S   E       (  \r   f   o   r       I       f   r   o
+0073620    m       0       a   s       E   N   T   R   Y       i   n    
+0073640    Q   S       c   o   l   l   e   c   t       (   /       (   C
+0073660    L   :   *       (   E   X   P   T       (   /       4       P
+0073700    I   )       (   C   L   :   *       2       I   )   )       E
+0073720    N   T   R   Y   )       Q   0   )   )   )       *   )       (
+0073740    V   A   R   S       (  \r   %   %   T   A   N   -   P   P   O
+0073760    L   Y       (   %   %   M   A   K   E   -   A   R   R   A   Y
+0074000        (   L   I   S   T       (   %   %   F   L   O   A   T    
+0074020    1   3   2   3   7       2   1   0   9   0   )       (   %   %
+0074040    F   L   O   A   T       4   7   1   4   1       1   5   8   2
+0074060    5   )       (   %   %   F   L   O   A   T       1   5   2   4
+0074100    6       8   7   8   5   )       (  \r   %   %   F   L   O   A
+0074120    T       4   8   6   5   5       4   8   7   6   1   )       (
+0074140    %   %   F   L   O   A   T       1   6   2   5   6       0   )
+0074160    )   )   )       (   %   %   T   A   N   -   Q   P   O   L   Y
+0074200        (   %   %   M   A   K   E   -   A   R   R   A   Y       (
+0074220    L   I   S   T       (   %   %   F   L   O   A   T       4   5
+0074240    2   6   7       3   6   9   4   7   )       (  \r   %   %   F
+0074260    L   O   A   T       1   3   8   4   8       4   6   8   7   5
+0074300    )       (   %   %   F   L   O   A   T       4   7   6   1   2
+0074320        5   3   7   3   8   )       (   %   %   F   L   O   A   T
+0074340        1   5   5   9   6       5   2   8   5   4   )       (   %
+0074360    %   F   L   O   A   T       4   8   8   8   2       3   5   3
+0074400    0   3   )       (   %   %   F   L   O   A   T       1   6   2
+0074420    5   6      \r   0   )   )   )   )   )   )       (   F   N   S
+0074440        C   L   :   T   A   N       %   %   T   A   N   -   F   L
+0074460    O   A   T       %   %   T   A   N   -   C   O   M   P   L   E
+0074500    X   )   )       (   C   O   M   S       (   *       A   S   I
+0074520    N       *   )       (   C   O   M   S       (   *       *    
+0074540    %   %   A   S   I   N   -   E   P   S   I   L   O   N       i
+0074560    s      \r   s   u   f   f   i   c   i   e   n   t   l   y    
+0074600    s   m   a   l   l       t   h   a   t       (   A   S   I   N
+0074620        X   )       =       X       f   o   r       X       i   n
+0074640        i   n   t   e   r   v   a   l       (   0       %   %   A
+0074660    S   I   N   -   E   P   S   I   L   O   N   )       %   .    
+0074700    I   t       s   u   f   f   i   c   e   s       t   o       t
+0074720    a   k   e      \r   %   %   A   S   I   N   -   E   P   S   I
+0074740    L   O   N       a       l   i   t   t   l   e       b   i   t
+0074760        s   m   a   l   l   e   r       t   h   a   n       (   C
+0075000    L   :   *       2       S   I   N   G   L   E   -   F   L   O
+0075020    A   T   -   E   P   S   I   L   O   N   )       w   h   i   c
+0075040    h       w   e       g   e   t       b   y       t   h   e    
+0075060    T   a   y   l   o   r      \r   s   e   r   i   e   s       e
+0075100    x   p   a   n   s   i   o   n       (   A   S   I   N       X
+0075120    )       =       (   +       X       (   /       (   E   X   P
+0075140    T       X       3   )       6   )       .   .   .   )       (
+0075160    T   h   e       r   e   l   a   t   i   v   e       e   r   r
+0075200    o   r       c   a   u   s   e   d       b   y       o   m   m
+0075220    i   t   t   i   n   g       (   /       (  \r   E   X   P   T
+0075240        X       3   )       6   )       i   s   n   '   t       o
+0075260    b   s   e   r   v   a   b   l   e   .   )       C   o   m   p
+0075300    a   r   i   s   o   n       a   g   a   i   n   s   t       %
+0075320    %   A   S   I   N   -   E   P   S   I   L   O   N       i   s
+0075340        u   s   e   d       t   o       a   v   o   i   d       P
+0075360    O   L   Y   E   V   A   L       m   i   c   r   o   c   o   d
+0075400    e      \r   u   n   d   e   r   f   l   o   w       w   h   e
+0075420    n       c   o   m   p   u   t   i   n   g       S   I   N   .
+0075440        *   )       (   I   N   I   T   V   A   R   S       (   %
+0075460    %   A   S   I   N   -   E   P   S   I   L   O   N       (   %
+0075500    %   F   L   O   A   T       1   4   7   2   0       0   )   )
+0075520    )       (   *       *       %   %   A   S   I   N   -   P   P
+0075540    O   L   Y       a   n   d      \r   %   %   A   S   I   N   -
+0075560    Q   P   O   L   Y       c   o   n   t   a   i   n       P    
+0075600    a   n   d       Q       c   o   e   f   f   i   c   i   e   n
+0075620    t   s       o   f       H   a   r   r   i   s       e   t    
+0075640    a   l       A   R   C   S   N       4   6   7   1       r   a
+0075660    t   i   o   n   a   l       a   p   p   r   o   x   i   m   a
+0075700    t   i   o   n       t   o       (   A   S   I   N       X  \r
+0075720    )       i   n       i   n   t   e   r   v   a   l       (   0
+0075740        (   S   Q   R   T       .   5   )   )       .       *   )
+0075760        (   V   A   R   S       (   %   %   A   S   I   N   -   P
+0076000    P   O   L   Y       (   %   %   M   A   K   E   -   A   R   R
+0076020    A   Y       (   L   I   S   T       (   %   %   F   L   O   A
+0076040    T       1   6   0   0   7       5   0   0   4   5   )       (
+0076060   \r   %   %   F   L   O   A   T       4   9   5   4   9       8
+0076100    0   2   0   )       (   %   %   F   L   O   A   T       1   7
+0076120    2   3   6       1   5   8   4   8   )       (   %   %   F   L
+0076140    O   A   T       5   0   2   8   5       6   3   4   6   4   )
+0076160        (   %   %   F   L   O   A   T       1   7   6   5   0    
+0076200    3   1   2   3   5   )       (   %   %   F   L   O   A   T    
+0076220    5   0   4   0   3      \r   6   2   8   5   2   )       (   %
+0076240    %   F   L   O   A   T       1   7   4   4   0       3   9   4
+0076260    7   1   )   )   )   )       (   %   %   A   S   I   N   -   Q
+0076300    P   O   L   Y       (   %   %   M   A   K   E   -   A   R   R
+0076320    A   Y       (   L   I   S   T       (   %   %   F   L   O   A
+0076340    T       1   6   2   5   6       0   )       (   %   %   F   L
+0076360    O   A   T       4   9   6   7   2      \r   2   5   8   1   7
+0076400    )       (   %   %   F   L   O   A   T       1   7   3   0   8
+0076420        5   5   2   6   0   )       (   %   %   F   L   O   A   T
+0076440        5   0   3   2   6       3   8   0   9   8   )       (   %
+0076460    %   F   L   O   A   T       1   7   6   7   4       2   2   2
+0076500    1   0   )       (   %   %   F   L   O   A   T       5   0   4
+0076520    1   7       2   2   4   5   1   )       (  \r   %   %   F   L
+0076540    O   A   T       1   7   4   4   0       3   9   4   7   1   )
+0076560    )   )   )   )   )       (   F   N   S       A   S   I   N    
+0076600    %   %   A   S   I   N   -   F   L   O   A   T       %   %   A
+0076620    S   I   N   -   C   O   M   P   L   E   X   )   )       (   C
+0076640    O   M   S       (   *       A   C   O   S       *   )       (
+0076660    F   N   S       A   C   O   S      \r   %   %   A   C   O   S
+0076700    -   C   O   M   P   L   E   X   )   )       (   C   O   M   S
+0076720        (   *       A   T   A   N       *   )       (   I   N   I
+0076740    T   V   A   R   S       (   %   %   S   Q   R   T   3       (
+0076760    %   %   F   L   O   A   T       1   6   3   4   9       4   6
+0077000    0   3   9   )   )       (   %   %   2   -   S   Q   R   T   3
+0077020        (   %   %   F   L   O   A   T       1   6   0   0   9    
+0077040   \r   1   2   4   5   1   )   )       (   %   %   I   N   V   -
+0077060    2   -   S   Q   R   T   3       (   %   %   F   L   O   A   T
+0077100        1   6   4   9   4       5   5   7   8   8   )   )   )    
+0077120    (   F   N   S       C   L   :   A   T   A   N       %   %   A
+0077140    T   A   N   -   F   L   O   A   T   1       %   %   A   T   A
+0077160    N   -   F   L   O   A   T   2      \r   %   %   A   T   A   N
+0077200    -   D   O   M   A   I   N   -   C   H   E   C   K       %   %
+0077220    A   T   A   N   -   F   L   O   A   T       %   %   A   T   A
+0077240    N   -   C   O   M   P   L   E   X   )   )       (   C   O   M
+0077260    S       (   *       C   I   S       *   )       (   F   N   S
+0077300        C   I   S   )   )       (   C   O   M   S       (   *    
+0077320    S   I   N   H       C   O   S   H       T   A   N   H       *
+0077340   \r   )       (   F   N   S       S   I   N   H       C   O   S
+0077360    H       T   A   N   H   )   )       (   C   O   M   S       (
+0077400    *       A   S   I   N   H       A   C   O   S   H       A   T
+0077420    A   N   H       *   )       (   F   N   S       A   S   I   N
+0077440    H       A   C   O   S   H       A   T   A   N   H       %   %
+0077460    A   T   A   N   H   -   D   O   M   A   I   N   -   C   H   E
+0077500    C   K   )   )       (  \r   P   R   O   P       F   I   L   E
+0077520    T   Y   P   E       C   M   L   F   L   O   A   T   )       (
+0077540    D   E   C   L   A   R   E   :       D   O   N   T   E   V   A
+0077560    L   @   L   O   A   D       D   O   E   V   A   L   @   C   O
+0077600    M   P   I   L   E       D   O   N   T   C   O   P   Y       C
+0077620    O   M   P   I   L   E   R   V   A   R   S       (   A   D   D
+0077640    V   A   R   S       (   N   L   A   M   A   )      \r   (   N
+0077660    L   A   M   L   )       (   L   A   M   A       C   L   :   L
+0077700    O   G       %   %   E   X   P   T   -   I   N   T   E   G   E
+0077720    R       C   L   :   E   X   P   T   )   )   )   )   )  \r   (
+0077740    P   U   T   P   R   O   P   S       C   M   L   F   L   O   A
+0077760    T       C   O   P   Y   R   I   G   H   T       (   "   X   e
+0100000    r   o   x       C   o   r   p   o   r   a   t   i   o   n   "
+0100020        1   9   8   6   )   )  \r   N   I   L  \r                
+0100034
+</pre>
+  </body>
+</html>

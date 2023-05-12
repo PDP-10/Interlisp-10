@@ -1,0 +1,312 @@
+Getting Started in Interlisp-D at Xerox(for Internal Xerox Use Only)[eris]<Lisp>Harmony>Doc>GettingStarted.tedit(*draft* 15 August 84: still needs work)This document is intended as a supplement to the Interlisp Reference Manual, the Harmony Release Notes, and the 1108 Users Guide..  It tells you how to configure local disks of Dorados, Dolphins, and Dandelions for Interlisp-D, and it says where to find various important files.   This is not a guide to programming Interlisp-D.  The first three sections apply to Dolphin/Dorado users; the remaining sections to Dandelion users.At Xerox, the Lisp files are generally kept on the directory [Eris]<Lisp>Releasename>, in various sub-directories.  For the "Harmony" release, packages that can be loaded into Lisp are located on <Lisp>Harmony>Library> and <LispUsers>.  The packages on <Lisp>Harmony>Library> are supported by the Interlisp-D support group; those on <Lispusers> are (sometimes) supported by their authors. Documentation for packages in the Library and LispUsers are generally found with the files they document.New users should add themselves to the distribution list LispUsers^.PA to get announcements about new releases, workarounds for common problems, etc.  Please send reports of bugs, anomalies or requests, questions about this document, installation procedures, or what have you to LispSupport.PA.Releases of Interlisp-D are named after musical terms, in the series Chorus, Fugue, Carol, Harmony, Intermezzo, Jazz, K--, L--, ..... This document is intended for the Harmony release, but will be appropriate for future releases by appropriate substitution of release names.Until Harmony is released, the files and command files in this document are on <LispCore> rather than <Lisp>Harmony>. In addition, the subdirectory "Basics" is called "Next", e.g., <Lisp>Harmony>Basics> = <LispCore>Next>. Everything else should work the same, e.g, substitute <LispCore>CM> for <Lisp>Harmony>CM>, etc.(Dorado/Dolphin)  The very first time -- Setting up the disk:If you are setting up on a Dolphin, you probably have to set up your disk for running Lisp. Interlisp-D currently runs with the Alto file system, at least on Dolphins and Dorados. If you have Pilot on your disk, you will need to reserve an Alto partition.  Decide which partition(s) you want to use for Lisp.  (The only asymmetry on Dolphins between the partitions is that when the machine is initially booted it will come up in partition 1. To boot Partition 2, hold down the 0 key while pressing the boot button.) The standard Dorado microcode obtained from the network starts you out in Partition 5 (on machines with T-80s) and Partition 19 on machines with 300 MB drives. You have to hold down the appropriate key to any other partition. On T-80 machines, keys 1,2,3,4,5 get you to partitions 1,2,3,4,5 respectively. On T-300s, keys 1,2,3,4,5 get you to partitions 1,2,3,4,5, while keys 6,7, 8, 9 get you to partitions 16,17,18 and 19.)   [IS THAT RIGHT???]You should now (re)initialize the disk partition.  (This procedure will erase the disk partition.  If there is something that you want to save on the partition, FTP it to your local file server and retrieve it after this procedure is finished.  It is possible, though not usually desirable, to install Lisp without erasing the disk;  see below.)  First, get to the NetExec, by saying:       > NetExecIf you want partition 2, say:       > Partition 2Then, get a new operating system and install it (this dialog is approximately correct. Newer versions of NewOS ask about changing partitions): > NewOS.boot        Do you want to install this OS? Yes Do you want the long installation dialogue? Yes Do you want to first erase a disk? YesType the name of a host from which Alto programs can be obtained: AltoIFS       If this is Maxc or an IFS, this should probably be 'Alto', ...: Alto       Include DP1 in the file system? Yes       Use all 14 sectors of the Disk? Yes       Type OK when ready: OK(There will be a pause for a minute or so while the partition getserased.)       Do you want to disable error logging?  No       Do you want to change the address for error logging?  No       Do you want to change memory error params? No       User name? your name, or Public       Disk name? Partition partition number       Do you want a password? no, if PublicThe "AltoIFS" above is the source for <Alto> programs. E.g., at PARC, use Indigo.All of this will give you a very clean partition with hardly any files at all.  In order to get the files necessary for running Lisp, execute the following commands (where fileserver is currently ERIS and site is one of ISL, KSA; site adminstrators at other locations may have set up other command files):> Ftp fileserver directory/c Lisp>Harmony>cm retrieve/c NewUserDisk.site> @NewUserDisk.site@This will bring all of the files that you need to run Lisp.  (Dorado/Dolphin)  The very first time -- Setting up the disk without erasing it:It is possible to install Lisp without erasing the disk, merely by performing the commands in NewUserDisk without first doing the erase.  Note that performance is degraded if  Lisp.VirtualMem is not contiguous, although the system should still work.(Dorado/Dolphin)  Each time you want to run Lisp:Assume you have just booted your machine.  You will be in partition 1.  If you want to boot Partition 2 directly, hold down "0" (zero) while you push the boot button.  Alternatively, when in Partition 1, type the command Partition 2.If your Lisp function files are on an IFS, you can load them from Lisp directly.  Lisp will also (soon) talk directly to files on other partitions on the same disk, or to NS file servers. Maxc also runs a file server so that you can just LOAD or MAKEFILE directly to Maxc. Note, however, that Lisp prefers file servers which speak the "Leaf" protocol, because that allows direct random access to files. If your file server doesn't run LEAF, you won't be able to do LOADFROM, or use the "remake" option of MAKEFILE (which saves a lot of time in program development.)  Interlisp-D will also work with NS servers (8030 series) and Unix and VMS using a variety of protocols, but details of installation, etc. will differ.You are now ready to run Lisp.        > Lisp [yourfileserver]<Lisp>releaseName>Basics>lispsysoutwill bring over a fresh, clean version of Lisp from yourfileserver and start it up.  lispsysout = LISP.SYSOUT will get you the standard lisp sysout; lispsysout = FULL.SYSOUT will get you the standard sysout enhanced by some Library and LispUsers packages such as the Interlisp text editor and mail system; and lispsysout = DEMO.SYSOUT will get you the full sysout enhanced by a lot of random packages used in the standard Interlisp demo.  LOAD your files (from your disk or from the IFS), and you're on your way.  You may want to make a command file to execute this, e.g., if you create {DSK}KEY1.CM;1 from inside Interlisp-D to contain the line starting with "Lisp", then pressing the right-blank key of the Dolphin/Dorado keyboard will execute that line.When you want to leave Lisp, if you type       _(LOGOUT)it will save your "virtual memory" so that the next time you type       > LISPit will resume from where you left off.  (Dandelion)  The Very First Time -- Setting up the Disk:On a new Dandelion, it is necessary to configure the disk and install the Interlisp-D software.  Othello is the Mesa development environment utility for managing Pilot Volumes as documented in "Mesa User's Guide" from the Office Systems Division.  Othello can be used to install Interlisp-D. You must first start by configuring your disk. There are a number of ways of doing this. The most straightforward is to use the standard release floppies, in which case you can follow the procedure outlined in the Harmony Users Guide. These notes are for folks who want to install over the ethernet.DLION STEP 1: GETTING INTO OTHELLOFirst you must run the Othello utility on your machine. Othello is the disk utility maintained by OSD. There is a slightly modified version of Othello called Hello, maintained by LispSupport, which has a few more commands.Unfortunately, there are many ways to get into Othello, many of which may not work for you. Here are many different procedures to try. In all cases, to boot (start) a Dandelion, locate the maintenance panel under the floppy drive.  Next to the red numbers you will find two buttons, labelled "B Reset" and "Alt B".  The phrase "Alt-Boot-N" means to hold down both buttons, and then release the left button (B Reset) while holding the right button (Alt B). When the panel reads 000N, let up on the right button. (There are 10 so-called boot options: the lights will cycle from 0001 to 0010 while holding Alt B after pressing both buttons and letting up on B reset.)Booting Othello from disk:Do an "Alt-Boot-1". If the Display reads "Othello 11.0", you win. If it reads Hello 11.0, you still win. Procede to DLION STEP 2: CONFIGURING THE DISK FROM OTHELLO.Booting Othello from Ethernet:Try an"Alt-Boot-3". After a few minutes, you should be in Othello. If the display reads "Othello 11.0" at the top, you win. In some circumstances, you won't get Othello 11.0, e.g., if you are on CSL's 10MB Ethernet, in which case you will be in Cedar Othello. In that case, press on:Try Alt-Boot-6. The lights should then show "7777". At that point, press Alt-B again. When the panel shows "0006", let up. Maybe *that* will get you into Othello 11.0.Booting Othello from Floppy:If you cannot boot from the Ethernet you will need an Othello 11.0 bootable floppy. You can sometimes get one of these from your local Dandelion hardware support crew. Otherwise, you might as well get the Official Harmony Customer Release and live like the real folks in the world. To boot Othello 11.0 from floppy, insert it into your floppy drive, label side up, close the drive panel, and follow the directions above for the two-fingered booting, except that you must now wait until "0002" is displayed before releasing the right button.DLION STEP 2: CONFIGURING THE DISK FROM OTHELLO/HELLOOthello will display a herald, e.g.:Othello 11.0 of  2-Aug-84 8:34:15Processor = 0AA001EE1H = 25200017347B = 2-852-134-631Memory size = 1536K bytes = 768K words > OnlineDrive name: RD0Make sure it says Othello 11.0 or Hello 11.0 at the top. Note that the memory size will not show greater than 1.5 MB even though your machine has more memory than that. Pilot/Mesa doesn't know about the extended memory (yet).)   Type a "carriage return" to the Online command after RD0. If you have never installed Lisp on this machine before, you will need to reconfigure the disk into logical volumes with a Lisp volume sufficient to hold Interlisp-D. Note: Othello/Hello network communications are currently based on PUP communcation over 10MB Ethernet.  Presently, the Mesa/Othello software will only talk PUPs if a gateway or other server explicitly tells it its net number (otherwise, it will hang with a 981 in the maintenance panel.) A network adminstrator must register Dandelions in the gateway tables.  Message NetSupport.wbst (or, at PARC, PTS.PA) for assistance if necessary. You can still run Interlisp-D if you aren't on a PUP-network, but you must follow different installation procedures than these. Use the "Login" command to log in with your name and password, e.g.:> LoginUser: Masinter.PAPassword: ******How you partition the hard disk of the 1108 depends on what size disk you have.  If you have a 10MB disk (unlucky you), the command:> @[eris]<Lisp>Harmony>cm>Partition10Lisp.othellowill configure the disk into three logical volumes, one of 1000 pages called Hello, one of 3000 pages called DSK (for the lisp local file system), and the rest of the disk in the volume, Lisp. This command file will also install Hello into the first volume, since partitioning erases the disk. This is usually the right command file for the 10MByte disk 8010 Dandelion configuration. Users with bigger disks (either the two-cabinet 29MByte SA4000 or the newer 40MByte or 80 MByte Quantums) will probably want to reconfigure the disk in other ways, depending on what other programs one wants to run along with Lisp.  Some other command files are:> @[eris]<Lisp>Harmony>cm>Partition29Lisp.othelloThe same as Partition10Lisp, except that 16200 pages are allocated for the Lisp volume (the max that Interlisp-D can use), and the rest for the DSK volume.Partition43Lisp.othello allocates four volumes, Hello (1000 pages), Lisp (16200), Lisp2 (16200), and DSK.  Partition29or43LispTajo.othello allocates four volumes, Hello (1000 pages), Tajo (16000 pages), Lisp (16200), and DSK. Installs Tajo on the Tajo volume; PartitionLispStarTajo.othello allocates six volumes, Hello (1000 pages), Tajo (10000 pages), System (7500), User (8000), Lisp (16200), and DSK.  The System and User volumes can be used with Star with standard Star installation procedures. This command file does not install Star, however.If you want some other configuration of logical volumes, you can edit any of these othello command files with any editor, or type it in directly.These command files install "Hello" on the local disk to be what you get when you Alt-Boot-1.(Dandelion)  Running Lisp:Once you have the basic system installed, you need to bring over a Lisp sysout into one of your virtual memory files. The command:> @[eris]<Lisp>Harmony>CM>InstallLisp.hellowill install [eris]<Lisp>Harmony>Basics>LISP.SYSOUT onto the Lisp volume and start it.  (Users at other sites may find similar command files on their local file server.)  The command file InstallFull.Hello is identical to InstallLisp.othello, except that it fetches FULL.SYSOUT instead of LISP.SYSOUT. Likewise, InstallDemo.othello brings over DEMO.SYSOUT. To fetch other SYSOUT files of your own making or from file servers other than Eris, you can edit the .hello command file using your favorite text editor as appropriate. (If you store the file as "Full" on your directory, you can get away with just:> @[server]FullIt is possible to install Lisp directly from the Mesa development environment (Tajo, 11.0) instead of Othello/Hello. Tajo-based tools InstallMu.bcd, LispTool.bcd are available which can install SYSOUTs over the Ethernet from Xerox NS 8000 series file servers. See {ERIS}<Lisp>Harmony>Mesa>InstallLisp.DOC for more details.(Dandelion)  Returning to Mesa/Star:To boot Mesa/Star, provided it had been previously installed, do an "Alt-Boot-1" as described above. From inside Lisp, the (LOGOUT) function will automatically cause an "Alt-Boot-1" after saving your state, so that it is possible to switch back and forth between Mesa and Interlisp-D without touching the boot button. (LOGOUT T) will switch without saving state; a convenience if you are returning to Mesa merely to retrieve a new version of Lisp.(Dandelion)  Each time you want to run Lisp:To return to a previously saved state (e.g., saved via a SAVEVM or LOGOUT), perform a simple machine boot (either by pressing B-reset, machine power on, or the "Quit" command inside Othello/Hello.).  This returns you to the saved computation, similar to typing simply "Lisp<return>" to the Alto Executive on Dolphins/Dorados.To save a sysout on the local disk, you can either (Dandelion)  To remove Lisp from your disk:(1)  Use the Othello/Hello "Initial" command to reinstall normal initial microcode from [iris|rain]<mesa>11.0>basics>SAx000Initial.db(2)  Use the Othello "Diagnostic Microcode Fetch" command to reinstall diagnostic microcode from [iris|rain]<mesa>11.0>basics>Moonboot.db  (Dandelion)  Starting Interlisp-D from Floppy Disks:Interlisp-D can be saved on floppy disks in a way that it can be installed directly from floppies, via the Services Installation Utility (Prometheus).  The DEMO system will fit easily on four double-density double-sided floppies. SYSOUT can write files on floppies, as can COPYFILE. See the 1108 Users Guide for more details.         ò            GACHA 
+           (   	HELVETICA                 ò            	HELVETICA                 ò            GACHA 
+           -   
+TIMESROMAN 
+                 ò         )   
+TIMESROMAN 
+                 ò            
+TIMESROMAN 
+                 ò        !   
+TIMESROMAN 
+              
+TIMESROMAN 
+          ‰   
+TIMESROMAN 
+                 ò         I   
+TIMESROMAN 
+              
+TIMESROMAN 
+         ›   
+TIMESROMAN 
+                 ò        '   
+TIMESROMAN 
+                 ò           
+TIMESROMAN 
+                 ò        >   
+TIMESROMAN 
+                 ò         >   	HELVETICA                 ò        ¯   
+TIMESROMAN 
+              
+TIMESROMAN 
+             
+TIMESROMAN 
+                 ò           
+TIMESROMAN 
+                 ò         	   GACHA 
+              GACHA 
+       €      
+TIMESROMAN 
+       €         ò            
+TIMESROMAN 
+                 ò         	   GACHA 
+              GACHA 
+       €      
+TIMESROMAN 
+       €         ò            
+TIMESROMAN 
+                 ò            GACHA 
+              GACHA 
+       €   )   GACHA 
+              GACHA 
+       €   0   GACHA 
+              GACHA 
+       €   '   GACHA 
+              GACHA 
+       €   E   GACHA 
+              	HELVETICA 
+      €      GACHA 
+       €   G   GACHA 
+              GACHA 
+       €   '   GACHA 
+              GACHA 
+       €   *   GACHA 
+              GACHA 
+       €      GACHA 
+              GACHA 
+       €      GACHA 
+           L   
+TIMESROMAN 
+           /   GACHA 
+              GACHA 
+       €   ?   GACHA 
+              GACHA 
+       €   4   GACHA 
+              GACHA 
+       €      GACHA 
+              	HELVETICA 
+      €      GACHA 
+       €      GACHA 
+           
+   GACHA 
+       €      	HELVETICA 
+      €      GACHA 
+       €      GACHA 
+              	HELVETICA 
+      €      GACHA 
+      €      GACHA 
+              
+TIMESROMAN 
+              	HELVETICA 
+      €   >   
+TIMESROMAN 
+              GACHA 
+              
+TIMESROMAN 
+                 ò            
+TIMESROMAN 
+                 ò         ¬   
+TIMESROMAN 
+           
+   	HELVETICA 
+             
+TIMESROMAN 
+              	HELVETICA 
+          a   
+TIMESROMAN 
+                 ò            GACHA 
+           
+   	HELVETICA 
+          4   GACHA 
+              	HELVETICA 
+             GACHA 
+              	HELVETICA 
+             GACHA 
+              
+TIMESROMAN 
+                 ò         >   
+TIMESROMAN 
+                 ò         P   	HELVETICA              
+TIMESROMAN 
+                 ò         ^   
+TIMESROMAN 
+              GACHA 
+           F   
+TIMESROMAN 
+              GACHA 
+           ;   
+TIMESROMAN 
+                 ò            GACHA 
+           1   	HELVETICA              
+TIMESROMAN 
+                 ò         ê   
+TIMESROMAN 
+                 ò        Î   
+TIMESROMAN 
+                 ò             
+TIMESROMAN 
+                 ò            GACHA 
+              GACHA 
+             GACHA 
+              GACHA 
+             GACHA 
+           
+   GACHA 
+             GACHA 
+                 ò         4   
+TIMESROMAN 
+              	HELVETICA 
+             
+TIMESROMAN 
+           
+   GACHA 
+             
+TIMESROMAN 
+              GACHA 
+              	HELVETICA 
+           '   
+TIMESROMAN 
+           
+   GACHA 
+             
+TIMESROMAN 
+              GACHA 
+           ‰   
+TIMESROMAN 
+           
+   GACHA 
+             
+TIMESROMAN 
+              GACHA 
+           i   
+TIMESROMAN 
+              GACHA 
+              
+TIMESROMAN 
+              GACHA 
+           œ   
+TIMESROMAN 
+                 ò         )   
+TIMESROMAN 
+           	   GACHA 
+              GACHA 
+       €      GACHA 
+           B   
+TIMESROMAN 
+           
+   GACHA 
+              GACHA 
+       €      GACHA 
+           *   
+TIMESROMAN 
+              GACHA 
+           :   	HELVETICA          %   
+TIMESROMAN 
+                 ò        ,   
+TIMESROMAN 
+                 ò         "   
+TIMESROMAN 
+             
+TIMESROMAN 
+                 ò         ß   
+TIMESROMAN 
+                 ò        ™   
+TIMESROMAN 
+                 ò            
+TIMESROMAN 
+             
+TIMESROMAN 
+                 ò         ¥   
+TIMESROMAN 
+                 ò            
+TIMESROMAN 
+             
+TIMESROMAN 
+                 ò        Æ   
+TIMESROMAN 
+              
+TIMESROMAN 
+            
+TIMESROMAN 
+           6   
+TIMESROMAN 
+                ò            
+TIMESROMAN 
+                 ò         &   
+TIMESROMAN 
+           ™   GACHA 
+          È   
+TIMESROMAN 
+                 ò        3   
+TIMESROMAN 
+                 ò         F   
+TIMESROMAN 
+                 ò         +   GACHA 
+                 ò         …   
+TIMESROMAN 
+                 ò            GACHA 
+           0   GACHA 
+       €         ò        †   
+TIMESROMAN 
+                 ò            GACHA 
+           0   GACHA 
+       €         ò            
+TIMESROMAN 
+              GACHA 
+              
+TIMESROMAN 
+                 ò            GACHA 
+           T   
+TIMESROMAN 
+              GACHA 
+           z   
+TIMESROMAN 
+              GACHA 
+             
+TIMESROMAN 
+                 ò         ’   
+TIMESROMAN 
+                 ò         ^   
+TIMESROMAN 
+                 ò            	HELVETICA                 ò         ƒ   
+TIMESROMAN 
+                 ò            GACHA 
+           *   GACHA 
+       €         ò         ¬   
+TIMESROMAN 
+                 ò            
+TIMESROMAN 
+              GACHA 
+              
+TIMESROMAN 
+              GACHA 
+              
+TIMESROMAN 
+              GACHA 
+              
+TIMESROMAN 
+              GACHA 
+              
+TIMESROMAN 
+              GACHA 
+              
+TIMESROMAN 
+              GACHA 
+              
+TIMESROMAN 
+              GACHA 
+           å   
+TIMESROMAN 
+                 ò            GACHA 
+              GACHA 
+       €         ò        C   
+TIMESROMAN 
+                 ò         %   	HELVETICA                 ò        À   
+TIMESROMAN 
+                 ò         -   	HELVETICA                 ò        F   
+TIMESROMAN 
+                 ò         4   
+TIMESROMAN 
+                 ò         ,   	HELVETICA                 ò         X   
+TIMESROMAN 
+           .   GACHA 
+                 ò         F   
+TIMESROMAN 
+              GACHA 
+              
+TIMESROMAN 
+           ,   GACHA 
+                 ò         5   	HELVETICA                 ò        F   
+TIMESROMAN 
+                 ò            
+TIMESROMAN 
+          >Ðz¸

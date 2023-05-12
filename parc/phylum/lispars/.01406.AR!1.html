@@ -1,0 +1,11 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [phylum]&lt;LispARs>01406.AR!1</title>
+  </head>
+  <body>
+    <pre>
+Number: 1406Date: 12-Jun-84 17':10':24Submitter: Sannella.PASource: Halasz.paSubject: Mouse state incorrectly sensed on return from SYSOUT on DLIONLisp Version: Description: 'Date': 12 Jun 84 15':17 PDT'From': Halasz.pa'Subject': Lisp': Mouse state incorrectly sensed on return from SYSOUT on DLION only'To': LispSupport.pa'cc': Halasz.pa''Lisp System Date':  8-Jun-84 14':02':40'Machine': Dandelion (Halasz)'Microcode version': 24,4'Memory size': 10000'Frequency': Always'Impact': Serious''When returning from a sysout on a DLION, the mouse state is incorrectly set.  Until a button some button is pressed and released, (MOUSESTATE UP) returns NIL when it should return T  (after all all of the buttons are up).  Ths is not a problem with (MOUSESTATE X) since (GETMOUSESTATE) followed by LASTMOUSEBUTTONS returns 7 indicating that all buttons are thought to be down.  This problem does not occur on Dorados and Dolphins and occurs on all 3 DLions I''ve tried it on.''This incorrect sensing can cause problems if you have a BACKGROUNDBUTTONEVENTFN in your sysout.  ''Frank''Workaround: Test Case: Edit-By: Edit-Date: 12-Jun-84 17':08':54Attn: Burton, vanMelleAssigned To: In/By: Disposition: System: Operating SystemSubsystem: KeyboardMachine: Disk: Microcode Version: Memory Size: File Server: Server Software Version: Difficulty: ModerateFrequency: EverytimeImpact: ModeratePriority: PerhapsStatus: OpenProblem Type: Design - ImplSource Files: </pre>
+  </body>
+</html>

@@ -1,0 +1,11 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [phylum]&lt;LISP>KOTO>Library>LISTEN!1</title>
+  </head>
+  <body>
+    <pre>
+(FILECREATED "14-Oct-85 18:21:13" {ERIS}&lt;FISCHER&gt;LISTEN.;1 1549         changes to:  (FNS AddNewLispListener)      previous date: "20-Sep-84 17:27:07" {ERIS}&lt;LISP&gt;INTERMEZZO&gt;LIBRARY&gt;LISTEN.;1)(* Copyright (c) 1984, 1985 by Tom Lipkis. All rights reserved.)(PRETTYCOMPRINT LISTENCOMS)(RPAQQ LISTENCOMS ((FNS AddNewLispListener) (APPENDVARS (BackgroundMenuCommands (Lisp% Listener (QUOTE (AddNewLispListener)) "Starts a lisp listener in a new window."))) (VARS (BackgroundMenu NIL))))(DEFINEQ(AddNewLispListener(LAMBDA (PromptORForm) (* raf "14-Oct-85 18:07") (PROG (handle window) (SETQ PromptORForm (OR PromptORForm (QUOTE &larr;))) (SETQ window (CREATEW NIL "Lisp Listener")) (SETQ handle (ADD.PROCESS (BQUOTE (PROGN (TTYDISPLAYSTREAM (QUOTE (\, window))) (\, (if (LISTP PromptORForm) then PromptORForm else (BQUOTE (EVALQT (QUOTE (\, PromptORForm)))))))) (QUOTE NAME) (QUOTE Lisp% Listener) (QUOTE RESTARTABLE) T)) (WINDOWPROP window (QUOTE TITLE) (PROCESSPROP handle (QUOTE NAME))) (WINDOWADDPROP window (QUOTE CLOSEFN) (FUNCTION (LAMBDA (window) (PROG ((proc (WINDOWPROP window (QUOTE PROCESS)))) (RETURN (COND ((EQ (THIS.PROCESS) proc) (ADD.PROCESS (LIST (QUOTE CLOSEW) (KWOTE window))) (QUOTE DON'T)) ((PROCESSP proc) (DEL.PROCESS proc) NIL))))))) (TTY.PROCESS handle)))))(APPENDTOVAR BackgroundMenuCommands (Lisp% Listener (QUOTE (AddNewLispListener)) "Starts a lisp listener in a new window."))(RPAQQ BackgroundMenu NIL)(PUTPROPS LISTEN COPYRIGHT ("Tom Lipkis" 1984 1985))(DECLARE: DONTCOPY  (FILEMAP (NIL (505 1311 (AddNewLispListener 515 . 1309)))))STOP</pre>
+  </body>
+</html>

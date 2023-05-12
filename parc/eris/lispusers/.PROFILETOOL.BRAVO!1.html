@@ -1,0 +1,71 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>[eris]&lt;LispUsers>PROFILETOOL.BRAVO!1</title>
+  </head>
+  <body>
+    <div style="width: 437pt; margin-left: 84pt; margin-top: 0pt; text-align: justify">
+<span style="font: 10pt sans-serif">Page Numbers: Yes  X: 522  Y: 10.5"<br>Columns: 1 Edge Margin: 1" Between Columns: .5"<br>Heading: Not-on-first-page</span></div>
+<div style="width: 437pt; margin-left: 84pt; margin-top: 0pt; text-align: center">
+<span style="font: bold 10pt sans-serif">ProfileTool</span></div>
+<div style="width: 437pt; margin-left: 84pt; margin-top: 20pt; text-align: center">
+<span style="font: bold 10pt serif">ProfileTool</span></div>
+<div style="width: 437pt; margin-left: 84pt; margin-top: 20pt; text-align: left">
+<span style="font: 8pt sans-serif">Documentation:</span><span class="tab" val="203"></span><span style="font: 8pt sans-serif">[Phylum]&lt;LispUsers&gt;ProfileTool.Press<br>Program:</span><span class="tab" val="24"></span><span style="font: 8pt sans-serif">{Phylum}&lt;LispUsers&gt;ProfileTool.Dcom<br>Revised:</span><span class="tab" val="203"></span><span style="font: 8pt sans-serif">July 18, 1983 by Martin Yonke</span></div>
+<div style="width: 437pt; margin-left: 84pt; margin-top: 12pt; text-align: justify">
+<span style="font: bold 10pt sans-serif"><br>General comments</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 12pt; text-align: justify">
+<span style="font: 10pt sans-serif">The </span><span style="font: italic 10pt sans-serif">ProfileTool</span><span style="font: 10pt sans-serif"> is used to create a graphical user interface to attributes of any "package" written in Interlisp.  It accomplishes this by creating a specialized </span><span style="font: italic 10pt sans-serif">InspectorWindow </span><span style="font: 10pt sans-serif">for enumerating and changing variables, etc. of a package as described to the ProfileTool.  </span><span style="font: 8pt sans-serif">[</span><span style="font: italic 8pt sans-serif">It assumes the user is familiar with the use of InspectorWindows.</span><span style="font: 8pt sans-serif">]</span></div>
+<div style="width: 437pt; margin-left: 84pt; margin-top: 24pt; text-align: justify">
+<span style="font: bold 10pt sans-serif">Use</span></div>
+<div style="width: 437pt; margin-left: 84pt; margin-top: 12pt; text-align: justify">
+<span style="font: 10pt sans-serif">A ProfileTool is created by calling the function </span><span style="font: 10pt monospace">PROFILETOOL</span><span style="font: 10pt sans-serif"> with </span><span style="font: italic 10pt sans-serif">ProfileKeys</span><span style="font: 10pt sans-serif"> and a </span><span style="font: italic 10pt sans-serif">title</span><span style="font: 10pt sans-serif"> for the InspectorWindow.  ProfileKeys is a list of instances of the record </span><span style="font: 10pt monospace">PROFILEKEY</span><span style="font: 10pt sans-serif">.  A </span><span style="font: 10pt monospace">PROFILEKEY </span><span style="font: 10pt sans-serif">record has the following fields:  </span><span style="font: 10pt monospace">DESCRIPTOR, FETCHFN, REPLACEFN, HELPSTRING, </span><span style="font: 10pt sans-serif">and </span><span style="font: 10pt monospace">EXTRADATA</span><span style="font: 10pt sans-serif">.</span></div>
+<div style="width: 342pt; margin-left: 180pt; margin-top: 12pt; text-align: justify">
+<span style="font: 10pt monospace">DESCRIPTOR</span><span style="font: 10pt sans-serif"> is usually an atom (although it can be a string) which gets printed as the "property name" in the InspectorWindow.</span></div>
+<div style="width: 342pt; margin-left: 180pt; margin-top: 12pt; text-align: justify">
+<span style="font: 10pt monospace">FETCHFN </span><span style="font: 10pt sans-serif">is a function to be envoked to determine the "value" of the </span><span style="font: 10pt monospace">DESCRIPTOR</span><span style="font: 10pt sans-serif">.  If </span><span style="font: 10pt monospace">FETCHFN </span><span style="font: 10pt sans-serif"> is a litatom, then it will be applied </span><span style="font: 10pt monospace">(APPLY*)</span><span style="font: 10pt sans-serif"> to the </span><span style="font: 10pt monospace">DESCRIPTOR </span><span style="font: 10pt sans-serif">and </span><span style="font: 10pt monospace">PROFILEKEYS</span><span style="font: 10pt sans-serif">.  If </span><span style="font: 10pt monospace">FETCHFN</span><span style="font: 10pt sans-serif"> is </span><span style="font: 10pt monospace">NIL</span><span style="font: 10pt sans-serif">, then </span><span style="font: 10pt monospace">(GETTOPVAL DESCRIPTOR)</span><span style="font: 10pt sans-serif"> will be used.</span></div>
+<div style="width: 342pt; margin-left: 180pt; margin-top: 12pt; text-align: justify">
+<span style="font: 10pt monospace">REPLACEFN</span><span style="font: 10pt sans-serif"> is a function to be envoked to "set" the value of the </span><span style="font: 10pt monospace">DESCRIPTOR.</span><span style="font: 10pt sans-serif">  If </span><span style="font: 10pt monospace">REPLACEFN</span><span style="font: 10pt sans-serif"> is a litatom, then it will be applied to </span><span style="font: 10pt monospace">DESCRIPTOR</span><span style="font: 10pt sans-serif"> and</span><span style="font: 10pt monospace"> PROFILEKEYS</span><span style="font: 10pt sans-serif"> (unless it is the atom </span><span style="font: 10pt monospace">DON&rsquo;T</span><span style="font: 10pt sans-serif">, in which case there is no </span><span style="font: 10pt monospace">REPLACEFN</span><span style="font: 10pt sans-serif">)</span><span style="font: 10pt monospace">.</span><span style="font: 10pt sans-serif">  It should determine a value, usually by asking the user, and return the new value.  If </span><span style="font: 10pt monospace">REPLACEFN</span><span style="font: 10pt sans-serif"> is a list of litatoms, then that list will be taken as the list of all possible values for the </span><span style="font: 10pt monospace">DESCRIPTOR, </span><span style="font: 10pt sans-serif">a pop-up menu will be created of those items, and a </span><span style="font: 10pt monospace">SETTOPVAL</span><span style="font: 10pt sans-serif"> will be envoked on the </span><span style="font: 10pt monospace">DESCRIPTOR</span><span style="font: 10pt sans-serif"> and the value returned from </span><span style="font: 10pt monospace">MENU</span><span style="font: 10pt sans-serif">.  If </span><span style="font: 10pt monospace">REPLACEFN </span><span style="font: 10pt sans-serif">is </span><span style="font: 10pt monospace">NIL</span><span style="font: 10pt sans-serif">, then the behavior will be as if </span><span style="font: 10pt monospace">REPLACEFN </span><span style="font: 10pt sans-serif">was </span><span style="font: 10pt monospace">(T NIL)</span><span style="font: 10pt sans-serif"> &ndash; i.e. the only possible values of </span><span style="font: 10pt monospace">DESCRIPTOR</span><span style="font: 10pt sans-serif"> are </span><span style="font: 10pt monospace">T </span><span style="font: 10pt sans-serif">or </span><span style="font: 10pt monospace">NIL</span><span style="font: 10pt sans-serif">.  Whenever </span><span style="font: 10pt monospace">REPLACEFN</span><span style="font: 10pt sans-serif"> is used, the new value will be redisplayed in the ProfileTool window, expanding it&rsquo;s width if necessary.</span></div>
+<div style="width: 342pt; margin-left: 180pt; margin-top: 12pt; text-align: justify">
+<span style="font: 10pt monospace">HELPSTRING</span><span style="font: 10pt sans-serif"> is a string to be printed out in the </span><span style="font: 10pt monospace">PROMPTWINDOW </span><span style="font: 10pt sans-serif">under certain conditions.  </span><span style="font: 8pt sans-serif">[</span><span style="font: italic 8pt sans-serif">Currently, HELPSTRING is not used since the conditions have not yet been determined, but is planned to be used in the future.</span><span style="font: 8pt sans-serif">]</span></div>
+<div style="width: 342pt; margin-left: 180pt; margin-top: 12pt; text-align: justify">
+<span style="font: 10pt monospace">EXTRADATA</span><span style="font: 10pt sans-serif"> is a place holder for any "package information" associated with the </span><span style="font: 10pt monospace">DESCRIPTOR.  Since PROFILEKEYS</span><span style="font: 10pt sans-serif"> are passed to </span><span style="font: 10pt monospace">FETCHFN</span><span style="font: 10pt sans-serif"> </span><span style="font: 10pt monospace">and REPLACEFN,</span><span style="font: 10pt sans-serif"> a user of ProlfileTool can use this as he pleases (e.g. to cache information).</span></div>
+<div style="width: 437pt; margin-left: 84pt; margin-top: 12pt; text-align: justify">
+<span style="font: 10pt sans-serif"> </span></div>
+<div style="width: 437pt; margin-left: 84pt; margin-top: 24pt; text-align: justify">
+<span style="font: bold 10pt sans-serif">Some Examples</span></div>
+<div style="width: 437pt; margin-left: 84pt; margin-top: 24pt; text-align: justify">
+<span style="font: 10pt sans-serif">If a package has a global variable that should only have the values </span><span style="font: 10pt monospace">T</span><span style="font: 10pt sans-serif"> or </span><span style="font: 10pt monospace">NIL</span><span style="font: 10pt sans-serif">, then the </span><span style="font: italic 10pt sans-serif">key</span><span style="font: 10pt sans-serif"> in </span><span style="font: 10pt monospace">PROFILEKEYS </span><span style="font: 10pt sans-serif">can be just the value of </span><span style="font: 10pt monospace">(</span><span style="font: bold 10pt monospace">create</span><span style="font: 10pt monospace"> PROFILEKEY DESCRIPTOR &larr; &rsquo;</span><span style="font: italic 10pt monospace">var</span><span style="font: 10pt monospace">)</span><span style="font: 10pt sans-serif">.</span></div>
+<div style="width: 437pt; margin-left: 84pt; margin-top: 24pt; text-align: justify">
+<span style="font: 10pt sans-serif">If a package has a global variable that should only have the values </span><span style="font: 10pt monospace">FOO, FUM,</span><span style="font: 10pt sans-serif"> or </span><span style="font: 10pt monospace">FIE, </span><span style="font: 10pt sans-serif">then the key should be the value of </span><span style="font: 10pt monospace"><br></span><span class="tab" val="24"></span><span style="font: 10pt monospace">(</span><span style="font: bold 10pt monospace">create </span><span style="font: 10pt monospace">PROFILEKEY</span><span class="tab" val="24"></span><span style="font: 10pt monospace">DESCRITOR &larr; &rsquo;</span><span style="font: italic 10pt monospace">var </span><span style="font: 10pt monospace"><br></span><span class="tab" val="24"></span><span class="tab" val="24"></span><span class="tab" val="24"></span><span class="tab" val="24"></span><span class="tab" val="24"></span><span class="tab" val="24"></span><span class="tab" val="24"></span><span class="tab" val="24"></span><span style="font: 10pt monospace">REPLACEFN &larr; &rsquo;(FOO FUM FIE))</span><span style="font: 10pt sans-serif">.</span></div>
+<div style="width: 437pt; margin-left: 84pt; margin-top: 24pt; text-align: justify">
+<span style="font: 10pt sans-serif">If a package wants to display a read-only item, e.g. the user&rsquo;s name, then the key should be the value of <br></span><span class="tab" val="24"></span><span style="font: 10pt monospace">(</span><span style="font: bold 10pt monospace">create </span><span style="font: 10pt monospace">PROFILEKEY</span><span class="tab" val="24"></span><span style="font: 10pt monospace">DESCRIPTOR &larr; &rsquo;UserName <br></span><span class="tab" val="24"></span><span class="tab" val="24"></span><span class="tab" val="24"></span><span class="tab" val="24"></span><span class="tab" val="24"></span><span class="tab" val="24"></span><span class="tab" val="24"></span><span class="tab" val="24"></span><span style="font: 10pt monospace">FETCHFN &larr; (FUNCTION GETUSERNAME) <br></span><span class="tab" val="24"></span><span class="tab" val="24"></span><span class="tab" val="24"></span><span class="tab" val="24"></span><span class="tab" val="24"></span><span class="tab" val="24"></span><span class="tab" val="24"></span><span class="tab" val="24"></span><span style="font: 10pt monospace">REPLACEFN &larr; &rsquo;DON&rsquo;T)</span><span style="font: 10pt sans-serif"> <br>where </span><span style="font: 10pt monospace">GETUSERNAME</span><span style="font: 10pt sans-serif"> is defined to be </span><span style="font: 10pt monospace">(LAMBDA (D K) (USERNAME NIL T))</span><span style="font: 10pt sans-serif">.</span></div>
+<div style="width: 437pt; margin-left: 84pt; margin-top: 24pt; text-align: justify">
+<span style="font: 10pt sans-serif">Of course, the </span><span style="font: 10pt monospace">FETCHFN </span><span style="font: 10pt sans-serif">and </span><span style="font: 10pt monospace">REPLACEFN</span><span style="font: 10pt sans-serif"> can be as complex as necessary.  ProfileTool has been designed to give maximum flexiblity, but simplifying the most typical cases &ndash; i.e. global variables with a fixed set of possible values.</span></div>
+<div style="width: 437pt; margin-left: 84pt; margin-top: 12pt; text-align: justify">
+</div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 0pt; text-align: left">
+<span style="font: 10pt sans-serif"> </span></div>
+<script>function do_tabs() { // unit = px
+  var tabs = document.getElementsByClassName("tab");
+  for (var i = 0; i < tabs.length; ++i) {
+    var span = tabs[i];
+    var val = span.getAttribute("val");
+    if (val == null) console.log("Couldn't get val");
+    var rect = span.getBoundingClientRect();
+    var tabstop;
+    if (val > 0) tabstop = Math.ceil(rect.left / val) * val;
+    else tabstop = -val;
+    console.log("do_tabs", val, tabstop)
+    if (tabstop > 0) {
+      var width = tabstop - rect.left;
+      span.style.display = "inline-block";
+      span.style.width = width + "px";
+    }
+  }
+}
+do_tabs();
+</script>
+  </body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>[eris]&lt;Lisp>Harmony>Library>EDITBITMAP.bravo!1</title>
+  </head>
+  <body>
+    <div style="width: 442pt; margin-left: 84pt; margin-top: 8pt; text-align: justify">
+<span style="font: bold 10pt serif">EDITBITMAP documentation</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 8pt; text-align: justify">
+<span style="font: 10pt serif">D. Austin Henderson, Jr.<br>Initially released: April 10, 1983 <br>Last revised: April 23, 1983</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 20pt; text-align: justify">
+<span style="font: bold 10pt serif">&lt;LISPUSERS&gt;EDITBITMAP</span><span style="font: 10pt serif"> (and </span><span style="font: bold 10pt serif">.DCOM</span><span style="font: 10pt serif">) provides na interface (EDIT.BITMAP) for manipulating bitmaps. It puts up a menu of bitmap manipulation commands, one of which is HAND.EDIT which accesses EDITBM, the Interlisp-D bitmap editor. Other commands include shifting (in four directions), rotation (left and right 90 degree), inverting (horizontally, vertically, about diagonals), interchanging black and white, adding a border. A sequence of commands terminated by QUIT produces a new bitmap; the original bitmap is not effected. UNDO permits backing up. Also works on cursors (produces new cursor) and ATOMS (works on their values and resets the value with the result). Comments on both interface and functionality are welcomed.</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 18pt; text-align: justify">
+<span style="font: bold 10pt serif">EDIT.BITMAP (BITMAP)</span><span style="font: 10pt serif"> BITMAP may be a bitmap, a cursor or an ATOM. Returns: if BITAMP is a bitmap, then a new bitmap; if a cursor, then a new cursor; if an ATOM, then the ATOM whose bvalue will have been reset with the result of calling EDIT.BITMAP on the value of that atom.</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 18pt; text-align: justify">
+<span style="font: 10pt serif">The internal functions used by this package are also available for use. They are:</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 18pt; text-align: justify">
+<span style="font: bold 10pt serif">ADD.BORDER.TO.BITMAP (BITMAP NBITS TEXTURE)</span><span style="font: 10pt serif"> Returns a new bitmap which is BITMAP extended by NBITS in all four directions, the border being filled in with TEXTURE.</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 18pt; text-align: justify">
+<span style="font: bold 10pt serif">BIT.IN.COLUMN (BITMAP COLUMN)</span><span style="font: 10pt serif"> Returns T if any bit in column numbered COLUMN (left = 0) is not 0, NIL otherwise.</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 18pt; text-align: justify">
+<span style="font: bold 10pt serif">BIT.IN.ROW (BITMAP ROW)</span><span style="font: 10pt serif"> Returns T if any bit in row numbered ROW (bottom = 0) is not 0, NIL otherwise.</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 18pt; text-align: justify">
+<span style="font: bold 10pt serif">INVERT.BITMAP.B/W (BITMAP)</span><span style="font: 10pt serif"> Returns a new bitmap which is BITMAP with all its bits inverted (black for white).</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 18pt; text-align: justify">
+<span style="font: bold 10pt serif">INVERT.BITMAP.DIAGONALLY (BITMAP)</span><span style="font: 10pt serif"> Returns a new bitmap which is BITMAP flipped about X=Y diagonal. (The resulting bitmap&rsquo;s width will be BITMAP&rsquo;s height.)</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 18pt; text-align: justify">
+<span style="font: bold 10pt serif">INVERT.BITMAP.HORIZONTALLY (BITMAP)</span><span style="font: 10pt serif"> Returns a new bitmap which is BITMAP flipped about its vertical centerline. </span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 18pt; text-align: justify">
+<span style="font: bold 10pt serif">INVERT.BITMAP.VERTICALLY (BITMAP)</span><span style="font: 10pt serif"> Returns a new bitmap which is BITMAP flipped about its horizontal centerline. </span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 18pt; text-align: justify">
+<span style="font: bold 10pt serif">ROTATE.BITMAP.LEFT (BITMAP)</span><span style="font: 10pt serif"> Returns a new bitmap which is BITMAP rotated 90 degrees counter-clockwise. (The resulting bitmap&rsquo;s width will be BITMAP&rsquo;s height.).</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 18pt; text-align: justify">
+<span style="font: bold 10pt serif">ROTATE.BITMAP.RIGHT (BITMAP)</span><span style="font: 10pt serif"> Returns a new bitmap which is BITMAP rotated 90 degrees clockwise. (The resulting bitmap&rsquo;s width will be BITMAP&rsquo;s height.).</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 18pt; text-align: justify">
+<span style="font: bold 10pt serif">SHIFT.BITMAP.DOWN (BITMAP NBITS)</span><span style="font: 10pt serif"> Returns a new bitmap which is BITMAP extended by NBITS in the upward direction, the new space being filled in with white.</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 18pt; text-align: justify">
+<span style="font: bold 10pt serif">SHIFT.BITMAP.UP (BITMAP NBITS)</span><span style="font: 10pt serif"> Returns a new bitmap which is BITMAP extended by NBITS in the downwards direction, the new space being filled in with white.</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 18pt; text-align: justify">
+<span style="font: bold 10pt serif">SHIFT.BITMAP.LEFT (BITMAP NBITS)</span><span style="font: 10pt serif"> Returns a new bitmap which is BITMAP extended by NBITS to the right, the new space being filled in with white.</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 18pt; text-align: justify">
+<span style="font: bold 10pt serif">SHIFT.BITMAP.RIGHT (BITMAP NBITS)</span><span style="font: 10pt serif"> Returns a new bitmap which is BITMAP extended by NBITS to the left, the new space being filled in with white.</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 18pt; text-align: justify">
+<span style="font: bold 10pt serif">TRIM.BITMAP (BITMAP)</span><span style="font: 10pt serif"> Returns a new bitmap which is BITMAP trimmed at all four edges of all completely white (0) columns and rows.</span></div>
+<script>function do_tabs() { // unit = px
+  var tabs = document.getElementsByClassName("tab");
+  for (var i = 0; i < tabs.length; ++i) {
+    var span = tabs[i];
+    var val = span.getAttribute("val");
+    if (val == null) console.log("Couldn't get val");
+    var rect = span.getBoundingClientRect();
+    var tabstop;
+    if (val > 0) tabstop = Math.ceil(rect.left / val) * val;
+    else tabstop = -val;
+    console.log("do_tabs", val, tabstop)
+    if (tabstop > 0) {
+      var width = tabstop - rect.left;
+      span.style.display = "inline-block";
+      span.style.width = width + "px";
+    }
+  }
+}
+do_tabs();
+</script>
+  </body>
+</html>

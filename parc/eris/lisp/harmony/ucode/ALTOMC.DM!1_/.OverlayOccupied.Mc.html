@@ -1,0 +1,11 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [eris]&lt;Lisp>Harmony>uCode>ALTOMC.DM!1>OverlayOccupied.Mc</title>
+  </head>
+  <body>
+    <pre>
+:TITLE[OverlayOccupied];*Ed Fiala 9 June 1982.*Reserve locations on pages shared between the AMesa and an overlay so that*AMesa will not unintentionally use locations subsequently overwritten.IMReserve[0,LRJStart,40];	*For LoadRAM.McIMReserve[0,Add[LRJStart,70],2];*Location 364b on page 15 is for DoInt in Initialize.McIMReserve[15,253,111];	*space for MesaFP.Mc in MicOverlay.MbIMReserve[15,365,13];	*space for MesaFP.Mc in MicOverlay.Mb*Space for the Midas Kernel and its timer task are unconditionally*reserved here; only in MicOverlayOccupied is the IMReserve made conditional*upon WithMidas--there appears to be no reason to make it conditional here.IMReserve[16,1,14];	*Midas Kernel timer taskIMReserve[17,1,2];IMReserve[17,4,74];IMReserve[17,120,1];IMReserve[17,100,20];	*space for Kernel overlays (7500-7517)IFE[DoIntLoc,Add[LShift[15,10],364],,ER[Fixup.needed.for.DoIntLoc]];:END[OverlayOccupied];</pre>
+  </body>
+</html>

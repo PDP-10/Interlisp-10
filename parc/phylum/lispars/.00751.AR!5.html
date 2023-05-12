@@ -1,0 +1,11 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [phylum]&lt;LispARs>00751.AR!5</title>
+  </head>
+  <body>
+    <pre>
+Number: 751Date: 19-Apr-84 10':18':40Submitter: le.pasaSource: Mark Rosenstein &lt;mbr@nprdc.ARPA&gt;, Wogulis.pasaSubject: GETRAISE should test validity of TTBL arg before going uninterruptableAssigned To: MasinterAttn: Status: ClosedIn/By: HarmonyProblem Type: BugImpact: AnnoyingDifficulty: EasyFrequency: EverytimePriority: HopefullySystem: Language SupportSubsystem: Read and PrintMachine: Disk: Lisp Version: Source Files: Microcode Version: Memory Size: File Server: Server Software Version: Disposition: '["Sannella" "20-Aug-84 18':49':20" Subject': Attn': Status':(Fixed-&gt;Closed) In/By':]Description: 'Return-Path': mbr@nprdc'Received': from nprdc (NPRDC.ARPA) by Xerox.ARPA ; 13 APR 84 15':24':38 PST'Date': 13 Apr 84 09':10':27 PST'From': Mark Rosenstein &lt;mbr@nprdc.ARPA&gt;'...'Goal that lead to the following bugs': Trying to find if there'was a way to make interlisp case insensitive.''Problem 1': (GETRAISE T)'Problem': enters Raid''Raid': Called from Lisp. Error with Interrupts off''Lisp Stack''1. Raid'2. \Lisperror'3. \Gttermtable'4. Raise'5. Getraise'etc.''Yes I know T is not a legal ttbl, but was suprised when lisp'broke. '...'-----''Date': 18 Apr 84 12':49 PST'From': vanMelle.pa'...' The problem is that GETRAISE does not test the validity of its TTBL arg before going uninterruptable.  Aside from that, the definition of this function is fairly gross--it does a (INTERRUPTABLE (PROG1 (INTERRUPTABLE) --)), the Interlisp-10 version of UNINTERRUPTABLY.  Larry or Ron': surely we can do better than this.  First and foremost, GETRAISE ought to be defined at the appropriate level, instead of this kludge from HPRINT.  Secondarily, how about giving UNINTERRUPTABLY a suitable 10MACRO so it can be used in shared code?Workaround: Test Case: Edit-By: SannellaEdit-Date: 20-Aug-84 18':49':21</pre>
+  </body>
+</html>

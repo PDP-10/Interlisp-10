@@ -1,0 +1,703 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [eris]&lt;LispCore>LIBRARY>matmult.tedit!10</title>
+  </head>
+  <body>
+    <pre>
+$ od -c -N 50000 [eris]&lt;LispCore>LIBRARY>matmult.tedit!10
+0000000    1  \r  \r   L   I   S   P       L   I   B   R   A   R   Y    
+0000020    P   A   C   K   A   G   E   S       M   A   N   U   A   L  \r
+0000040    1  \r  \r   L   I   S   P       L   I   B   R   A   R   Y    
+0000060    P   A   C   K   A   G   E   S       M   A   N   U   A   L  \r
+0000100    M   A   T   M   U   L   T  \r   1  \r  \r   E   X   T   E   N
+0000120    S   I   O   N   S       T   O       L   I   S   P  \r   1  \r
+0000140   \r  \r   M   A   T   M   U   L   T  \r   6  \r  \r   I   n   t
+0000160    e   r   l   i   s   p   -   D       c   o   n   t   a   i   n
+0000200    s       l   o   w   -   l   e   v   e   l       f   u   n   c
+0000220    t   i   o   n   s       f   o   r       h   i   g   h   -   s
+0000240    p   e   e   d       m   a   t   r   i   x       m   u   l   t
+0000260    i   p   l   i   c   a   t   i   o   n   .           T   h   e
+0000300        M   a   t   M   u   l   t       L   i   s   p       L   i
+0000320    b   r   a   r   y       p   a   c   k   a   g   e       p   r
+0000340    o   v   i   d   e   s       a       h   i   g   h   -   l   e
+0000360    v   e   l       i   n   t   e   r   f   a   c   e       t   o
+0000400        t   h   e   s   e       f   u   n   c   t   i   o   n   s
+0000420    .           M   a   t   r   i   c   e   s       i   n       M
+0000440    a   t   M   u   l   t       a   r   e       r   e   p   r   e
+0000460    s   e   n   t   e   d       u   s   i   n   g       A   R   R
+0000500    A   Y   s       (   d   e   f   i   n   e   d       b   y    
+0000520    t   h   e       C   M   L   A   r   r   a   y       p   a   c
+0000540    k   a   g   e   )   .  \r   2  \r  \r   M   a   t   r   i   x
+0000560        C   r   e   a   t   i   o   n       F   u   n   c   t   i
+0000600    o   n   s  \r   1  \r  \r   (   C   R   E   A   T   E   1   B
+0000620    Y   3   )  \t   [   F   u   n   c   t   i   o   n   ]  \r   R
+0000640    e   t   u   r   n   s       a       1   -   r   o   w   -   b
+0000660    y   -   3   -   c   o   l   u   m   n       C   M   L   A   r
+0000700    r   a   y       v   e   c   t   o   r   .  \r   (   C   R   E
+0000720    A   T   E   1   B   Y   4   )  \t   [   F   u   n   c   t   i
+0000740    o   n   ]  \r   R   e   t   u   r   n   s       a       1   -
+0000760    b   y   -   4       v   e   c   t   o   r   .  \r   (   C   R
+0001000    E   A   T   E   3   -   B   Y   -   1   )  \t   [   F   u   n
+0001020    c   t   i   o   n   ]  \r   R   e   t   u   r   n   s       a
+0001040        3   -   b   y   -   1       v   e   c   t   o   r   .  \r
+0001060    (   C   R   E   A   T   E   3   B   Y   3   )  \t   [   F   u
+0001100    n   c   t   i   o   n   ]  \r   R   e   t   u   r   n   s    
+0001120    a       3   -   b   y   -   3       m   a   t   r   i   x   .
+0001140   \r   (   C   R   E   A   T   E   4   B   Y   1   )  \t   [   F
+0001160    u   n   c   t   i   o   n   ]  \r   R   e   t   u   r   n   s
+0001200        a       4   -   b   y   -   1       v   e   c   t   o   r
+0001220    .  \r   (   C   R   E   A   T   E   4   B   Y   4   )  \t   [
+0001240    F   u   n   c   t   i   o   n   ]  \r   R   e   t   u   r   n
+0001260    s       a       4   -   b   y   -   4       m   a   t   r   i
+0001300    x   .  \r   (   I   D   E   N   T   I   T   Y   3   B   Y   3
+0001320        M   )  \t   [   F   u   n   c   t   i   o   n   ]  \r   R
+0001340    e   t   u   r   n   s       a       3   -   b   y   -   3    
+0001360    i   d   e   n   t   i   t   y       m   a   t   r   i   x    
+0001400    (   a       m   a   t   r   i   x       w   i   t   h       t
+0001420    h   e       e   l   e   m   e   n   t   s       o   f       i
+0001440    t   s       m   a   i   n       d   i   a   g   o   n   a   l
+0001460        a   l   l       s   e   t       t   o       u   n   i   t
+0001500    y   )   .           I   n       t   h   i   s       a   n   d
+0001520        a   l   l       f   o   l   l   o   w   i   n   g       M
+0001540    a   t   M   u   l   t       f   u   n   c   t   i   o   n   s
+0001560    ,       i   f       M       i   s       s   u   p   p   l   i
+0001600    e   d   ,       i   t       i   s       s   e   t       a   n
+0001620    d       r   e   t   u   r   n   e   d   .  \r   (   I   D   E
+0001640    N   T   I   T   Y   4   B   Y   4       M   )  \t   [   F   u
+0001660    n   c   t   i   o   n   ]  \r   R   e   t   u   r   n   s    
+0001700    a       4   -   b   y   -   4       i   d   e   n   t   i   t
+0001720    y       m   a   t   r   i   x   .  \r   (   R   O   T   A   T
+0001740    E   3   B   Y   3       T   H   E   T   A       R   A   D   I
+0001760    A   N   S   F   L   G       M   )  \t   [   F   u   n   c   t
+0002000    i   o   n   ]  \r   R   e   t   u   r   n   s       a       3
+0002020    -   b   y   -   3       m   a   t   r   i   x       t   h   a
+0002040    t   ,       w   h   e   n       m   u   l   t   i   p   l   i
+0002060    e   d       b   y       a       v   e   c   t   o   r   ,    
+0002100    w   i   l   l       r   o   t   a   t   e       t   h   a   t
+0002120        v   e   c   t   o   r       a   n       a   n   g   l   e
+0002140        o   f       T   H   E   T   A       a   r   o   u   n   d
+0002160        t   h   e       o   r   i   g   i   n   .       T   H   E
+0002200    T   A       i   s       m   e   a   s   u   r   e   d       i
+0002220    n       d   e   g   r   e   e   s       o   r       r   a   d
+0002240    i   a   n   s   ,       d   e   p   e   n   d   i   n   g    
+0002260    o   n       R   A   D   I   A   N   S   F   L   G   .  \r   (
+0002300    R   O   T   A   T   E   4   B   Y   4   .   A   B   O   U   T
+0002320    X       T   H   E   T   A       R   A   D   I   A   N   S   F
+0002340    L   G       M   )  \t   [   F   u   n   c   t   i   o   n   ]
+0002360   \r   R   e   t   u   r   n   s       a       4   -   b   y   -
+0002400    4       m   a   t   r   i   x       s   u   i   t   a   b   l
+0002420    e       f   o   r       r   o   t   a   t   i   n   g       a
+0002440        p   o   i   n   t       i   n       3   -   s   p   a   c
+0002460    e       a   r   o   u   n   d       t   h   e       X   -   a
+0002500    x   i   s       b   y       T   H   E   T   A   .  \r   (   R
+0002520    O   T   A   T   E   4   B   Y   4   .   A   B   O   U   T   Y
+0002540        T   H   E   T   A       R   A   D   I   A   N   S   F   L
+0002560    G       M   )  \t   [   F   u   n   c   t   i   o   n   ]  \r
+0002600    R   e   t   u   r   n   s       a       4   -   b   y   -   4
+0002620        m   a   t   r   i   x       s   u   i   t   a   b   l   e
+0002640        f   o   r       r   o   t   a   t   i   n   g       a    
+0002660    p   o   i   n   t       i   n       3   -   s   p   a   c   e
+0002700        a   r   o   u   n   d       t   h   e       Y   -   a   x
+0002720    i   s       b   y       T   H   E   T   A   .  \r   (   R   O
+0002740    T   A   T   E   4   B   Y   4   .   A   B   O   U   T   Z    
+0002760    T   H   E   T   A       R   A   D   I   A   N   S   F   L   G
+0003000        M   )  \t   [   F   u   n   c   t   i   o   n   ]  \r   R
+0003020    e   t   u   r   n   s       a       4   -   b   y   -   4    
+0003040    m   a   t   r   i   x       s   u   i   t   a   b   l   e    
+0003060    f   o   r       r   o   t   a   t   i   n   g       a       p
+0003100    o   i   n   t       i   n       3   -   s   p   a   c   e    
+0003120    a   r   o   u   n   d       t   h   e       Z   -   a   x   i
+0003140    s       b   y       T   H   E   T   A   .  \r   (   S   C   A
+0003160    L   E   3   B   Y   3       S   x       S   y       M   )  \t
+0003200    [   F   u   n   c   t   i   o   n   ]  \r   R   e   t   u   r
+0003220    n   s       a       3   -   b   y   -   3       m   a   t   r
+0003240    i   x       t   h   a   t       w   i   l   l       s   c   a
+0003260    l   e       b   y       a       f   a   c   t   o   r       o
+0003300    f       S   x       i   n       t   h   e       X   -   a   x
+0003320    i   s       a   n   d       S   y       i   n       t   h   e
+0003340        Y   -   a   x   i   s   .  \r   (   S   C   A   L   E   4
+0003360    B   Y   4       S   x       S   y       S   z       M   )  \t
+0003400    [   F   u   n   c   t   i   o   n   ]  \r   R   e   t   u   r
+0003420    n   s       a       4   -   b   y   -   4       m   a   t   r
+0003440    i   x       t   h   a   t       w   i   l   l       s   c   a
+0003460    l   e       b   y       a       f   a   c   t   o   r       o
+0003500    f       S   x       i   n       t   h   e       X   -   a   x
+0003520    i   s   ,       S   y       i   n       t   h   e       Y   -
+0003540    a   x   i   s   ,       a   n   d       S   z       i   n    
+0003560    t   h   e       Z   -   a   x   i   s   .  \r   (   T   R   A
+0003600    N   S   L   A   T   E   3   B   Y   3       T   x       T   y
+0003620        M   )  \t   [   F   u   n   c   t   i   o   n   ]  \r   R
+0003640    e   t   u   r   n   s       a       3   -   b   y   -   3    
+0003660    m   a   t   r   i   x       t   h   a   t       w   i   l   l
+0003700        t   r   a   n   s   l   a   t   e       b   y       a    
+0003720    d   i   s   t   a   n   c   e       o   f       T   x       i
+0003740    n       t   h   e       X   -   a   x   i   s       a   n   d
+0003760        T   y       i   n       t   h   e       Y   -   a   x   i
+0004000    s   .  \r   (   T   R   A   N   S   L   A   T   E   4   B   Y
+0004020    4       T   x       T   y       T   z       M   )  \t   [   F
+0004040    u   n   c   t   i   o   n   ]  \r   R   e   t   u   r   n   s
+0004060        a       4   -   b   y   -   4       m   a   t   r   i   x
+0004100        t   h   a   t       w   i   l   l       t   r   a   n   s
+0004120    l   a   t   e       b   y       a       d   i   s   t   a   n
+0004140    c   e       o   f       T   x       i   n       t   h   e    
+0004160    X   -   a   x   i   s   ,       T   y       i   n       t   h
+0004200    e       Y   -   a   x   i   s   ,       a   n   d       T   z
+0004220        i   n       t   h   e       Z   -   a   x   i   s   .  \r
+0004240    2  \r  \r   M   a   t   r   i   x       A   c   c   e   s   s
+0004260    o   r       F   u   n   c   t   i   o   n   s  \r   1  \r  \r
+0004300    (   S   E   T   .   X   C   O   O   R   D       V   E   C   T
+0004320    O   R       V   A   L   U   E   )  \t   [   F   u   n   c   t
+0004340    i   o   n   ]  \r   G   i   v   e   n       a       v   e   c
+0004360    t   o   r       V   E   C   T   O   R       o   f       l   e
+0004400    n   g   t   h       3       o   r       4   ,           s   e
+0004420    t   s       t   h   e       X       c   o   m   p   o   n   e
+0004440    n   t       t   o       b   e       V   A   L   U   E   .  \r
+0004460    (   S   E   T   .   Y   C   O   O   R   D       V   E   C   T
+0004500    O   R       V   A   L   U   E   )  \t   [   F   u   n   c   t
+0004520    i   o   n   ]  \r   S   e   t   s       t   h   e       Y    
+0004540    c   o   m   p   o   n   e   n   t       o   f       V   E   C
+0004560    T   O   R       t   o       b   e       V   A   L   U   E   .
+0004600   \r   (   S   E   T   .   Z   C   O   O   R   D       V   E   C
+0004620    T   O   R       V   A   L   U   E   )  \t   [   F   u   n   c
+0004640    t   i   o   n   ]  \r   S   e   t   s       t   h   e       Z
+0004660        c   o   m   p   o   n   e   n   t       o   f       V   E
+0004700    C   T   O   R       t   o       b   e       V   A   L   U   E
+0004720    .  \r   (   S   E   T   .   W   C   O   O   R   D       V   E
+0004740    C   T   O   R       V   A   L   U   E   )  \t   [   F   u   n
+0004760    c   t   i   o   n   ]  \r   S   e   t   s       t   h   e    
+0005000    W       (   f   o   u   r   t   h   )       c   o   m   p   o
+0005020    n   e   n   t       o   f       V   E   C   T   O   R       t
+0005040    o       b   e       V   A   L   U   E   .  \r   (   G   E   T
+0005060    .   X   C   O   O   R   D       V   E   C   T   O   R   )  \t
+0005100    [   F   u   n   c   t   i   o   n   ]  \r   R   e   t   u   r
+0005120    n   s       t   h   e       X       c   o   m   p   o   n   e
+0005140    n   t       o   f       V   E   C   T   O   R   .  \r   (   G
+0005160    E   T   .   Y   C   O   O   R   D       V   E   C   T   O   R
+0005200    )  \t   [   F   u   n   c   t   i   o   n   ]  \r   R   e   t
+0005220    u   r   n   s       t   h   e       Y       c   o   m   p   o
+0005240    n   e   n   t       o   f       V   E   C   T   O   R   .  \r
+0005260    (   G   E   T   .   Z   C   O   O   R   D       V   E   C   T
+0005300    O   R   )  \t   [   F   u   n   c   t   i   o   n   ]  \r   R
+0005320    e   t   u   r   n   s       t   h   e       Z       c   o   m
+0005340    p   o   n   e   n   t       o   f       V   E   C   T   O   R
+0005360    .  \r   (   G   E   T   .   W   C   O   O   R   D       V   E
+0005400    C   T   O   R   )  \t   [   F   u   n   c   t   i   o   n   ]
+0005420   \r   R   e   t   u   r   n   s       t   h   e       W       c
+0005440    o   m   p   o   n   e   n   t       o   f       V   E   C   T
+0005460    O   R   .  \r   2  \r  \r   M   a   t   r   i   x       M   u
+0005500    l   t   i   p   l   i   c   a   t   i   o   n       F   u   n
+0005520    c   t   i   o   n   s  \r   1  \r  \r   N   .   B   .       T
+0005540    h   e       r   e   s   u   l   t   s       o   f       t   h
+0005560    e       f   o   l   l   o   w   i   n   g       m   a   t   r
+0005600    i   x       m   u   l   t   i   p   l   i   c   a   t   i   o
+0005620    n       f   u   n   c   t   i   o   n   s       a   r   e    
+0005640    n   o   t       g   u   a   r   a   n   t   e   e   d       t
+0005660    o       b   e       c   o   r   r   e   c   t       u   n   l
+0005700    e   s   s       t   h   e       m   a   t   r   i   x       a
+0005720    r   g   u   m   e   n   t   s       a   r   e       a   l   l
+0005740        d   i   f   f   e   r   e   n   t       (   N   E   Q   )
+0005760    .  \r   (   M   A   T   M   U   L   T       M   A   T   R   I
+0006000    X   A       M   A   T   R   I   X   B       M   A   T   R   I
+0006020    X   C       K       M       N   )  \t   [   F   u   n   c   t
+0006040    i   o   n   ]  \r   M   u   l   t   i   p   l   i   e   s    
+0006060    M   A   T   R   I   X   A       b   y       M   A   T   R   I
+0006100    X   B       s   t   o   r   i   n   g       i   n   t   o    
+0006120    M   A   T   R   I   X   C   .           T   h   e       d   i
+0006140    m   e   n   s   i   o   n   s       o   f       M   A   T   R
+0006160    I   X   A       a   r   e       K       x       M   ,       M
+0006200    A   T   R   I   X   B       a   r   e       M       x       N
+0006220    ,       a   n   d       M   A   T   R   I   X   C       a   r
+0006240    e       K       x       N   .  \r   T   h   e       f   o   l
+0006260    l   o   w   i   n   g       f   u   n   c   t   i   o   n   s
+0006300        c   o   m   p   i   l   e       i   n   t   o       s   i
+0006320    n   g   l   e       i   n   s   t   r   u   c   t   i   o   n
+0006340    s   .           W   h   e   n       r   u   n       o   n    
+0006360    t   h   e       w   o   r   k   s   t   a   t   i   o   n   s
+0006400        e   q   u   i   p   p   e   d       w   i   t   h       t
+0006420    h   e       e   x   t   e   n   d   e   d       p   r   o   c
+0006440    e   s   s   o   r       o   p   t   i   o   n   ,       t   h
+0006460    e   s   e       i   n   s   t   r   u   c   t   i   o   n   s
+0006500        m   a   k   e       u   s   e       o   f       t   h   e
+0006520        h   a   r   d   w   a   r   e       f   l   o   a   t   i
+0006540    n   g   -   p   o   i   n   t       u   n   i   t   .       T
+0006560    h   e       t   h   r   e   e       d   i   g   i   t   s    
+0006600    a   t       t   h   e       e   n   d       o   f       e   a
+0006620    c   h       f   u   n   c   t   i   o   n   '   s       n   a
+0006640    m   e       d   e   s   c   r   i   b   e       t   h   e    
+0006660    d   i   m   e   n   s   i   o   n   s       o   f       t   h
+0006700    e   i   r       a   r   g   u   m   e   n   t   s       i   n
+0006720        t   h   e       o   r   d   e   r       K       M       N
+0006740    .  \r   (   M   A   T   M   U   L   T   1   3   3       M   A
+0006760    T   R   I   X   A       M   A   T   R   I   X   B       M   A
+0007000    T   R   I   X   C   )  \t   [   F   u   n   c   t   i   o   n
+0007020    ]  \r   M   u   l   t   i   p   l   i   e   s       M   A   T
+0007040    R   I   X   A       (   1       x       3   )       b   y    
+0007060    M   A   T   R   I   X   B       (   3       x       3   )    
+0007100    s   t   o   r   i   n   g       i   n   t   o       M   A   T
+0007120    R   I   X   C       (   1       x       3   )   .  \r   (   M
+0007140    A   T   M   U   L   T   3   3   1       M   A   T   R   I   X
+0007160    A       M   A   T   R   I   X   B       M   A   T   R   I   X
+0007200    C   )  \t   [   F   u   n   c   t   i   o   n   ]  \r   M   u
+0007220    l   t   i   p   l   i   e   s           M   A   T   R   I   X
+0007240    A       (   3       x       3   )       b   y       M   A   T
+0007260    R   I   X   B           (   3       x       1   )       i   n
+0007300    t   o       M   A   T   R   I   X   C       (   3       x    
+0007320    3   )   .  \r   (   M   A   T   M   U   L   T   3   3   3    
+0007340    M   A   T   R   I   X   A       M   A   T   R   I   X   B    
+0007360    M   A   T   R   I   X   C   )  \t   [   F   u   n   c   t   i
+0007400    o   n   ]  \r   M   u   l   t   i   p   l   i   e   s        
+0007420    M   A   T   R   I   X   A       (   3       x       3   )    
+0007440    b   y       M   A   T   R   I   X   B           (   3       x
+0007460        3   )       i   n   t   o       M   A   T   R   I   X   C
+0007500        (   3       x       3   )   .  \r   (   M   A   T   M   U
+0007520    L   T   1   4   4       M   A   T   R   I   X   A       M   A
+0007540    T   R   I   X   B       M   A   T   R   I   X   C   )  \t   [
+0007560    F   u   n   c   t   i   o   n   ]  \r   M   u   l   t   i   p
+0007600    l   i   e   s           M   A   T   R   I   X   A       (   1
+0007620        x       4   )       b   y       M   A   T   R   I   X   B
+0007640            (   4       x       4   )       i   n   t   o       M
+0007660    A   T   R   I   X   C       (   1       x       4   )   .  \r
+0007700    (   M   A   T   M   U   L   T   4   4   1       M   A   T   R
+0007720    I   X   A       M   A   T   R   I   X   B       M   A   T   R
+0007740    I   X   C   )  \t   [   F   u   n   c   t   i   o   n   ]  \r
+0007760    M   u   l   t   i   p   l   i   e   s           M   A   T   R
+0010000    I   X   A       (   4       x       4   )       b   y       M
+0010020    A   T   R   I   X   B           (   4       x       1   )    
+0010040    i   n   t   o       M   A   T   R   I   X   C       (   4    
+0010060    x       1   )   .  \r   (   M   A   T   M   U   L   T   4   4
+0010100    4       M   A   T   R   I   X   A       M   A   T   R   I   X
+0010120    B       M   A   T   R   I   X   C   )  \t   [   F   u   n   c
+0010140    t   i   o   n   ]  \r   M   u   l   t   i   p   l   i   e   s
+0010160            M   A   T   R   I   X   A       (   4       x       4
+0010200    )       b   y       M   A   T   R   I   X   B           (   4
+0010220        x       4   )       i   n   t   o       M   A   T   R   I
+0010240    X   C       (   4       x       4   )   .  \r   2  \r  \r   M
+0010260    i   s   c   e   l   l   a   n   e   o   u   s       M   a   t
+0010300    r   i   x       F   u   n   c   t   i   o   n   s  \r   1  \r
+0010320   \r   (   M   A   T   .   I   N   V   E   R   T       M   A   T
+0010340    R   I   X   )  \t   [   F   u   n   c   t   i   o   n   ]  \r
+0010360    R   e   t   u   r   n   s       t   h   e       i   n   v   e
+0010400    r   s   e       o   f       M   A   T   R   I   X   ,       a
+0010420    n       n       x       n       m   a   t   r   i   x       o
+0010440    f       a   n   y       s   i   z   e   .           C   a   u
+0010460    s   e   s       a   n       e   r   r   o   r       i   f    
+0010500    M   A   T   R   I   X       i   s       n   o   n   i   n   v
+0010520    e   r   t   i   b   l   e   .           T   h   i   s       i
+0010540    s       n   o   t       a       p   a   r   t   i   c   u   l
+0010560    a   r   l   y       f   a   s   t       f   u   n   c   t   i
+0010600    o   n   .  \r   (   M   A   T   .   I   N   V   E   R   T   .
+0010620    3   B   Y   3       M   A   T   R   I   X   )  \t   [   F   u
+0010640    n   c   t   i   o   n   ]  \r   R   e   t   u   r   n   s    
+0010660    t   h   e       i   n   v   e   r   s   e       o   f       M
+0010700    A   T   R   I   X   ,       w   h   i   c   h       i   s    
+0010720    p   r   e   s   u   m   e   d       t   o       b   e       o
+0010740    f       d   i   m   e   n   s   i   o   n       3       x    
+0010760    3   .           C   a   u   s   e   s       a   n       e   r
+0011000    r   o   r       i   f       M   A   T   R   I   X       i   s
+0011020        n   o   n   i   n   v   e   r   t   i   b   l   e   .    
+0011040        T   h   i   s       f   u   n   c   t   i   o   n       i
+0011060    s       m   u   c   h       f   a   s   t   e   r       t   h
+0011100    a   n       M   A   T   .   I   N   V   E   R   T       f   o
+0011120    r       m   a   t   r   i   c   e   s       k   n   o   w   n
+0011140        t   o       b   e       3       x       3   .  \r   (   M
+0011160    A   T   .   D   E   T   E   R   M   I   N   A   N   T       M
+0011200    A   T   R   I   X   )  \t   [   F   u   n   c   t   i   o   n
+0011220    ]  \r   R   e   t   u   r   n   s       t   h   e       d   e
+0011240    t   e   r   m   i   n   a   n   t       o   f       M   A   T
+0011260    R   I   X   .           C   a   u   s   e   s       a   n    
+0011300    e   r   r   o   r       i   f       M   A   T   R   I   X    
+0011320    i   s       n   o   t       s   q   u   a   r   e   .  \r   [
+0011340    T   h   i   s       p   a   g   e       i   n   t   e   n   t
+0011360    i   o   n   a   l   l   y       l   e   f   t       b   l   a
+0011400    n   k   ]  \r  \0  \0  \0  \0  \0 003   (   L   I   S   T    
+0011420    (   (   P   A   G   E       N   I   L       (   P   A   P   E
+0011440    R   S   I   Z   E       L   e   t   t   e   r       F   O   L
+0011460    I   O   I   N   F   O       (   A   R   A   B   I   C   )    
+0011500    S   T   A   R   T   I   N   G   P   A   G   E   #       2   9
+0011520    0   )       (   0       0       6   1   2       7   9   2   )
+0011540        (   (   F   O   L   I   O       N   I   L       (   P   A
+0011560    R   A   L   O   O   K   S       (   Q   U   A   D       L   E
+0011600    F   T   )       C   H   A   R   L   O   O   K   S       (   S
+0011620    U   P   E   R   S   C   R   I   P   T       0       I   N   V
+0011640    I   S   I   B   L   E       O   F   F       S   E   L   E   C
+0011660    T   P   O   I   N   T       O   F   F       P   R   O   T   E
+0011700    C   T   E   D       O   F   F       S   I   Z   E       1   0
+0011720        F   A   M   I   L   Y       M   O   D   E   R   N       O
+0011740    V   E   R   L   I   N   E       O   F   F       S   T   R   I
+0011760    K   E   O   U   T       O   F   F       U   N   D   E   R   L
+0012000    I   N   E       O   F   F       E   X   P   A   N   S   I   O
+0012020    N       R   E   G   U   L   A   R       S   L   O   P   E    
+0012040    R   E   G   U   L   A   R       W   E   I   G   H   T       M
+0012060    E   D   I   U   M       I   N   V   E   R   T   E   D       O
+0012100    F   F       U   S   E   R   I   N   F   O       N   I   L    
+0012120    S   T   Y   L   E       N   I   L   )       F   O   R   M   A
+0012140    T   I   N   F   O       (   A   R   A   B   I   C   )   )    
+0012160    (   5   4       1   2       2   8   8       3   6   )       N
+0012200    I   L   )       (   H   E   A   D   I   N   G       N   I   L
+0012220        (   H   E   A   D   I   N   G   T   Y   P   E       F   O
+0012240    O   T   I   N   G   V   )       (   5   4       2   7       5
+0012260    5   8       3   6   )       N   I   L   )       (   H   E   A
+0012300    D   I   N   G       N   I   L       (   H   E   A   D   I   N
+0012320    G   T   Y   P   E       V   E   R   S   O   H   E   A   D   )
+0012340        (   5   4       7   6   2       5   5   8       3   6   )
+0012360        N   I   L   )       (   T   E   X   T       N   I   L    
+0012400    N   I   L       (   5   4       5   4       5   0   4       6
+0012420    1   8   )       N   I   L   )   )   )       (   P   A   G   E
+0012440        N   I   L       (   P   A   P   E   R   S   I   Z   E    
+0012460    L   e   t   t   e   r       F   O   L   I   O   I   N   F   O
+0012500        (   A   R   A   B   I   C   )   )       (   0       0    
+0012520    6   1   2       7   9   2   )       (   (   F   O   L   I   O
+0012540        N   I   L       (   P   A   R   A   L   O   O   K   S    
+0012560    (   Q   U   A   D       R   I   G   H   T   )       C   H   A
+0012600    R   L   O   O   K   S       (   S   U   P   E   R   S   C   R
+0012620    I   P   T       0       I   N   V   I   S   I   B   L   E    
+0012640    O   F   F       S   E   L   E   C   T   P   O   I   N   T    
+0012660    O   F   F       P   R   O   T   E   C   T   E   D       O   F
+0012700    F       S   I   Z   E       1   0       F   A   M   I   L   Y
+0012720        M   O   D   E   R   N       O   V   E   R   L   I   N   E
+0012740        O   F   F       S   T   R   I   K   E   O   U   T       O
+0012760    F   F       U   N   D   E   R   L   I   N   E       O   F   F
+0013000        E   X   P   A   N   S   I   O   N       R   E   G   U   L
+0013020    A   R       S   L   O   P   E       R   E   G   U   L   A   R
+0013040        W   E   I   G   H   T       M   E   D   I   U   M       I
+0013060    N   V   E   R   T   E   D       O   F   F       U   S   E   R
+0013100    I   N   F   O       N   I   L       S   T   Y   L   E       N
+0013120    I   L   )       F   O   R   M   A   T   I   N   F   O       (
+0013140    A   R   A   B   I   C   )   )       (   2   7   0       1   2
+0013160        2   8   8       3   6   )       N   I   L   )       (   H
+0013200    E   A   D   I   N   G       N   I   L       (   H   E   A   D
+0013220    I   N   G   T   Y   P   E       F   O   O   T   I   N   G   R
+0013240    )       (   5   4       2   7       5   5   8       3   6   )
+0013260        N   I   L   )       (   H   E   A   D   I   N   G       N
+0013300    I   L       (   H   E   A   D   I   N   G   T   Y   P   E    
+0013320    R   E   C   T   O   H   E   A   D   )       (   5   4       7
+0013340    6   2       5   5   8       3   6   )       N   I   L   )    
+0013360    (   T   E   X   T       N   I   L       N   I   L       (   5
+0013400    4       5   4       5   0   4       6   8   4   )       N   I
+0013420    L   )   )   )       (   P   A   G   E       N   I   L       (
+0013440    P   A   P   E   R   S   I   Z   E       L   e   t   t   e   r
+0013460        F   O   L   I   O   I   N   F   O       (   A   R   A   B
+0013500    I   C   )   )       (   0       0       6   1   2       7   9
+0013520    2   )       (   (   F   O   L   I   O       N   I   L       (
+0013540    P   A   R   A   L   O   O   K   S       (   Q   U   A   D    
+0013560    L   E   F   T   )       C   H   A   R   L   O   O   K   S    
+0013600    (   S   U   P   E   R   S   C   R   I   P   T       0       I
+0013620    N   V   I   S   I   B   L   E       O   F   F       S   E   L
+0013640    E   C   T   P   O   I   N   T       O   F   F       P   R   O
+0013660    T   E   C   T   E   D       O   F   F       S   I   Z   E    
+0013700    1   0       F   A   M   I   L   Y       M   O   D   E   R   N
+0013720        O   V   E   R   L   I   N   E       O   F   F       S   T
+0013740    R   I   K   E   O   U   T       O   F   F       U   N   D   E
+0013760    R   L   I   N   E       O   F   F       E   X   P   A   N   S
+0014000    I   O   N       R   E   G   U   L   A   R       S   L   O   P
+0014020    E       R   E   G   U   L   A   R       W   E   I   G   H   T
+0014040        M   E   D   I   U   M       I   N   V   E   R   T   E   D
+0014060        O   F   F       U   S   E   R   I   N   F   O       N   I
+0014100    L       S   T   Y   L   E       N   I   L   )       F   O   R
+0014120    M   A   T   I   N   F   O       (   A   R   A   B   I   C   )
+0014140    )       (   5   4       1   2       2   8   8       3   6   )
+0014160        N   I   L   )       (   H   E   A   D   I   N   G       N
+0014200    I   L       (   H   E   A   D   I   N   G   T   Y   P   E    
+0014220    F   O   O   T   I   N   G   V   )       (   5   4       2   7
+0014240        5   5   8       3   6   )       N   I   L   )       (   H
+0014260    E   A   D   I   N   G       N   I   L       (   H   E   A   D
+0014300    I   N   G   T   Y   P   E       V   E   R   S   O   H   E   A
+0014320    D   )       (   5   4       7   6   2       5   5   8       3
+0014340    6   )       N   I   L   )       (   T   E   X   T       N   I
+0014360    L       N   I   L       (   5   4       5   4       5   0   4
+0014400        6   8   4   )       N   I   L   )   )   )   )   )  \0  \0
+0014420   \0  \0  \0 005  \0 020  \0   )  \0  \0  \0  \0  \0  \0  \0  \a
+0014440   \0  \0  \0  \0 002 001  \0 344 001 354  \0  \0  \0  \0  \0  \0
+0014460   \0  \0  \0  \0  \0 001   T  \0  \0  \0  \0  \0  \0  \0  \0  \0
+0014500    /  \0 314  \0 314 001 370  \0  \a  \0  \0  \0  \0 003 004  \0
+0014520   \0 001 001 370 001  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0
+0014540   \0  \0  \0  \0 001   T  \0  \0  \0  \0  \0  \0  \0  \0  \0   0
+0014560   \0  \0  \0  \0 001 370  \0   2  \0  \0  \0  \0 003 001  \0  \0
+0014600  001 001 370 001  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0
+0014620   \0  \0  \0 001   T  \0  \0  \0 001   T  \0  \0  \0  \0  \0   .
+0014640   \0  \0  \0  \0 001 370  \0   2  \0  \0  \0  \0 003 001  \0  \0
+0014660  001 001 310 001  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0
+0014700   \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0   /  \0  \0
+0014720   \0  \0 001 370  \0  \0  \0  \0  \0  \0 003 001  \0  \0 001 001
+0014740  310 001  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0
+0014760   \0  \0  \0  \0  \0 001   T  \0  \0  \0  \0  \0   .  \0 314  \0
+0015000  314 001 370  \0  \v  \0  \0  \0  \0 003 004  \0  \0 001 001 370
+0015020  001  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0
+0015040   \0  \0  \0  \0  \0  \0  \0  \0  \0  \0   /  \0  \0  \0  \0 001
+0015060  370  \0   2  \0  \0  \0  \0 003 001  \0  \0 001 001 370 001  \0
+0015100   \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0
+0015120   \0  \0 001   T  \0  \0  \0  \0  \0   /  \0  \0  \0  \0 001 370
+0015140   \0  \0  \0  \0  \0  \0 003 001  \0  \0 001 001 370 001  \0  \0
+0015160   \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0
+0015200   \0 001   T  \0  \0  \0  \0  \0   .  \0 314  \0 314 001 370  \0
+0015220   \a  \0  \0  \0  \0 003 004  \0  \0 001 001 370 001  \0  \0  \0
+0015240   \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0
+0015260   \0  \0  \0  \0  \0  \0   .  \0 314  \0 314 001 370  \0  \a  \0
+0015300   \0  \0  \0 003 004  \0  \0 001 001 370 001  \0  \0  \0  \0  \0
+0015320   \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0
+0015340   \0  \0  \0  \0   .  \0 314  \0 314 001 370  \0  \v  \0  \0  \0
+0015360   \0 003 004  \0  \0 001 001 310 001  \0  \0  \0  \0  \0  \0  \0
+0015400   \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0
+0015420   \0  \0   /  \0 314  \0 314 001 370  \0  \0  \0  \0  \0  \0 003
+0015440  002  \0  \0 001 001 310 001  \0  \0  \0  \0  \0  \0  \0  \0  \0
+0015460   \0  \0  \0  \0  \0  \0  \0  \0  \0  \0 001   T  \0  \0  \0  \0
+0015500   \0   B  \0  \0  \0  \0 001 370  \0  \0  \0  \0  \0  \0 003 001
+0015520   \0  \0 001 001 370 001  \0  \0  \0  \0  \0  \0  \0  \v   P   A
+0015540    G   E   H   E   A   D   I   N   G  \0  \t   V   E   R   S   O
+0015560    H   E   A   D  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0
+0015600   \0  \0  \0   B  \0  \0  \0  \0 001 370  \0  \0  \0  \0  \0  \0
+0015620  003 002  \0  \0 001 001 370 001  \0  \0  \0  \0  \0  \0  \0  \v
+0015640    P   A   G   E   H   E   A   D   I   N   G  \0  \t   R   E   C
+0015660    T   O   H   E   A   D  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0
+0015700   \0  \0  \0  \0  \0   A  \0  \0  \0  \0 001 370  \0 001  \0  \0
+0015720   \0 001 003 002  \0  \0 001 001 370 001  \0  \0  \0  \0  \0  \0
+0015740   \0  \v   P   A   G   E   H   E   A   D   I   N   G  \0  \b   F
+0015760    O   O   T   I   N   G   V  \0  \0  \0  \0  \0  \0  \0  \0  \0
+0016000   \0  \0  \0  \0  \0  \0   A  \0  \0  \0  \0 001 370  \0 001  \0
+0016020   \0  \0 001 003 001  \0  \0 001 001 370 001  \0  \0  \0  \0  \0
+0016040   \0  \0  \v   P   A   G   E   H   E   A   D   I   N   G  \0  \b
+0016060    F   O   O   T   I   N   G   R  \0  \0  \0  \0  \0  \0  \0  \0
+0016100   \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0 004  \0 004  \0 024
+0016120   \0 006   M   O   D   E   R   N  \0 016  \0  \0  \0  \0  \0  \0
+0016140  002  \0  \0 024  \0 006   M   O   D   E   R   N  \0  \n  \0  \0
+0016160   \0  \0  \0  \0 001  \0  \0 024  \0 006   M   O   D   E   R   N
+0016200   \0 022  \0  \0  \0  \0  \0  \0 002  \0  \0 024  \0 006   M   O
+0016220    D   E   R   N  \0  \n  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0
+0016240   \0  \0  \0 002  \0 020  \0  \0  \0 002  \0 001  \0  \v   H   R
+0016260    U   L   E   .   G   E   T   F   N 001  \0 024  \0 006   M   O
+0016300    D   E   R   N  \0  \n  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0
+0016320   \0 001  \0  \0  \0  \0 004  \0  \0  \0  \0  \0 002  \0 020  \0
+0016340   \0  \0 035  \0  \0  \0  \0 004  \0  \0  \0  \0  \0 002  \0 017
+0016360   \0  \0  \0 002  \0 001  \0  \v   H   R   U   L   E   .   G   E
+0016400    T   F   N 001  \0 024  \0 006   M   O   D   E   R   N  \0  \n
+0016420   \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0 001  \0  \0  \0  \0
+0016440  004  \0  \0  \0  \0  \0 002  \0 017  \0  \0  \0 035  \0  \0  \0
+0016460   \0 004  \0  \0  \0  \0  \0 002  \0 016  \0  \0  \0  \b  \0  \0
+0016500   \0  \0 004  \0  \0  \0  \0  \0 002  \0 016  \0  \0  \0 002  \0
+0016520  001  \0  \v   H   R   U   L   E   .   G   E   T   F   N 001  \0
+0016540  024  \0 006   M   O   D   E   R   N  \0  \n  \0  \0  \0  \0  \0
+0016560   \0  \0  \0  \0  \0  \0 001  \0  \0  \0  \0 004  \0  \0  \0  \0
+0016600   \0 002  \0  \r  \0  \0  \0 023  \0  \0  \0  \0 004  \0  \0  \0
+0016620   \0  \0 002  \0  \r  \0  \0  \0 002  \0 001  \0  \v   H   R   U
+0016640    L   E   .   G   E   T   F   N 001  \0 024  \0 006   M   O   D
+0016660    E   R   N  \0  \n  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0
+0016700  002  \0  \0  \0  \0 004  \0  \0  \0  \0  \0 002  \0  \f  \0  \0
+0016720   \0  \b  \0  \0  \0  \0 003  \0  \0  \0  \0  \0 002  \0  \f  \0
+0016740   \0  \0 002  \0 001  \0  \v   H   R   U   L   E   .   G   E   T
+0016760    F   N 001  \0 024  \0 006   M   O   D   E   R   N  \0  \n  \0
+0017000   \0  \0  \0  \0  \0  \0  \0  \0  \0  \0 001  \0  \0  \0  \0 004
+0017020   \0  \0  \0  \0  \0 002  \0  \v  \0  \0  \0 372  \0  \0  \0  \0
+0017040  004  \0  \0  \0  \0  \0 002  \0 004  \0  \0  \0 002  \0 001  \0
+0017060   \v   H   R   U   L   E   .   G   E   T   F   N 001  \0 024  \0
+0017100  006   M   O   D   E   R   N  \0 016  \0  \0  \0  \0  \0  \0 002
+0017120   \0  \0  \0  \0 001  \0  \0  \0  \0 001  \0  \0  \0  \0  \0 002
+0017140   \0 005  \0  \0  \0 032  \0  \0  \0  \0 001  \0  \0  \0  \0  \0
+0017160  002  \0 005  \0  \0  \0 002  \0 001  \0  \v   H   R   U   L   E
+0017200    .   G   E   T   F   N 001  \0 024  \0 006   M   O   D   E   R
+0017220    N  \0 016  \0  \0  \0  \0  \0  \0 002  \0  \0  \0  \0 001  \0
+0017240   \0  \0  \0 001  \0  \0  \0  \0  \0 002  \0 006  \0  \0  \0 030
+0017260   \0  \0  \0  \0 004  \0  \0  \0  \0  \0 002  \0  \n  \0  \0  \0
+0017300    -  \0  \0  \0  \0 004  \0  \0  \0  \0  \0 002  \0  \n  \0  \0
+0017320   \0 030  \0  \0  \0  \0 004  \0  \0  \0  \0  \0 002  \0  \n  \0
+0017340   \0  \0 031  \0  \0  \0  \0 004  \0  \0  \0  \0  \0 002  \0  \n
+0017360   \0  \0  \0 032  \0  \0  \0  \0 004  \0  \0  \0  \0  \0 002  \0
+0017400   \n  \0  \0  \0 031  \0  \0  \0  \0 004  \0  \0  \0  \0  \0 002
+0017420   \0  \n  \0  \0  \0 030  \0  \0  \0  \0 004  \0  \0  \0  \0  \0
+0017440  002  \0  \n  \0  \0  \0 031  \0  \0  \0  \0 004  \0  \0  \0  \0
+0017460   \0 002  \0  \n  \0  \0  \0 030  \0  \0  \0  \0 004  \0  \0  \0
+0017500   \0  \0 002  \0  \n  \0  \0  \0 031  \0  \0  \0  \0 004  \0  \0
+0017520   \0  \0  \0 002  \0  \n  \0  \0  \0 030  \0  \0  \0  \0 004  \0
+0017540   \0  \0  \0  \0 002  \0  \n  \0  \0  \0 031  \0  \0  \0  \0 004
+0017560   \0  \0  \0  \0  \0 002  \0  \n  \0  \0  \0  \r  \0  \0  \0  \0
+0017600  004  \0  \0  \0 002  \0  \0  \0  \0 002  \0  \0  \0  \r  \0  \0
+0017620   \0  \0 004  \0  \0  \0  \0  \0 002  \0  \n  \0  \0  \0 226  \0
+0017640   \0  \0  \0 004  \0  \0  \0 001  \0  \0  \0  \0 002  \0  \0  \0
+0017660    &  \0  \0  \0  \0 004  \0  \0  \0  \0  \0 002  \0  \n  \0  \0
+0017700   \0  \r  \0  \0  \0  \0 004  \0  \0  \0 002  \0  \0  \0  \0 002
+0017720   \0  \0  \0  \r  \0  \0  \0  \0 004  \0  \0  \0  \0  \0 002  \0
+0017740   \n  \0  \0  \0   "  \0  \0  \0  \0 004  \0  \0  \0  \0  \0 002
+0017760   \0  \n  \0  \0  \0  \f  \0  \0  \0  \0 004  \0  \0  \0 022  \0
+0020000   \0  \0  \0 002  \0  \0  \0  \r  \0  \0  \0  \0 004  \0  \0  \0
+0020020   \0  \0 002  \0  \n  \0  \0  \0   _  \0  \0  \0  \0 004  \0  \0
+0020040   \0 005  \0  \0  \0  \0 002  \0  \0  \0 024  \0  \0  \0  \0 004
+0020060   \0  \0  \0 005  \0  \0  \0  \0 002  \0  \0  \0   1  \0  \0  \0
+0020100   \0 004  \0  \0  \0  \n  \0  \0  \0  \0 002  \0  \0  \0 002  \0
+0020120   \0  \0  \0 004  \0  \0  \0  \0  \0 002  \0 002  \0  \0  \0 023
+0020140   \0  \0  \0  \0 004  \0  \0  \0 022  \0  \0  \0  \0 002  \0  \0
+0020160   \0  \r  \0  \0  \0  \0 004  \0  \0  \0  \0  \0 002  \0  \n  \0
+0020200   \0  \0   V  \0  \0  \0  \0 004  \0  \0  \0 005  \0  \0  \0  \0
+0020220  002  \0  \0  \0 002  \0  \0  \0  \0 004  \0  \0  \0  \0  \0 002
+0020240   \0  \n  \0  \0  \0 023  \0  \0  \0  \0 004  \0  \0  \0 022  \0
+0020260   \0  \0  \0 002  \0  \0  \0  \r  \0  \0  \0  \0 004  \0  \0  \0
+0020300   \0  \0 002  \0  \n  \0  \0  \0   V  \0  \0  \0  \0 004  \0  \0
+0020320   \0 005  \0  \0  \0  \0 002  \0  \0  \0 002  \0  \0  \0  \0 004
+0020340   \0  \0  \0  \0  \0 002  \0  \n  \0  \0  \0 023  \0  \0  \0  \0
+0020360  004  \0  \0  \0 022  \0  \0  \0  \0 002  \0  \0  \0  \r  \0  \0
+0020400   \0  \0 004  \0  \0  \0  \0  \0 002  \0  \n  \0  \0  \0   U  \0
+0020420   \0  \0  \0 004  \0  \0  \0 006  \0  \0  \0  \0 002  \0  \0  \0
+0020440  002  \0  \0  \0  \0 004  \0  \0  \0  \0  \0 002  \0  \n  \0  \0
+0020460   \0  \v  \0  \0  \0  \0 004  \0  \0  \0  \a  \0  \0  \0  \0 002
+0020500   \0  \0  \0  \r  \0  \0  \0  \0 004  \0  \0  \0  \0  \0 002  \0
+0020520   \n  \0  \0  \0   7  \0  \0  \0  \0 004  \0  \0  \0 002  \0  \0
+0020540   \0  \0 002  \0  \0  \0 023  \0  \0  \0  \0 004  \0  \0  \0 002
+0020560   \0  \0  \0  \0 002  \0  \0  \0 020  \0  \0  \0  \0 004  \0  \0
+0020600   \0  \0  \0 002  \0  \n  \0  \0  \0  \v  \0  \0  \0  \0 004  \0
+0020620   \0  \0  \n  \0  \0  \0  \0 002  \0  \0  \0  \r  \0  \0  \0  \0
+0020640  004  \0  \0  \0  \0  \0 002  \0  \n  \0  \0  \0   7  \0  \0  \0
+0020660   \0 004  \0  \0  \0 002  \0  \0  \0  \0 002  \0  \0  \0 020  \0
+0020700   \0  \0  \0 004  \0  \0  \0 003  \0  \0  \0  \0 002  \0  \0  \0
+0020720  022  \0  \0  \0  \0 004  \0  \0  \0 003  \0  \0  \0  \0 002  \0
+0020740   \0  \0 020  \0  \0  \0  \0 004  \0  \0  \0  \0  \0 002  \0  \n
+0020760   \0  \0  \0 017  \0  \0  \0  \0 004  \0  \0  \0  \a  \0  \0  \0
+0021000   \0 002  \0  \0  \0  \r  \0  \0  \0  \0 004  \0  \0  \0  \0  \0
+0021020  002  \0  \n  \0  \0  \0   =  \0  \0  \0  \0 004  \0  \0  \0 002
+0021040   \0  \0  \0  \0 002  \0  \0  \0 023  \0  \0  \0  \0 004  \0  \0
+0021060   \0 003  \0  \0  \0  \0 002  \0  \0  \0 017  \0  \0  \0  \0 004
+0021100   \0  \0  \0  \0  \0 002  \0  \n  \0  \0  \0 017  \0  \0  \0  \0
+0021120  004  \0  \0  \0  \n  \0  \0  \0  \0 002  \0  \0  \0  \r  \0  \0
+0021140   \0  \0 004  \0  \0  \0  \0  \0 002  \0  \n  \0  \0  \0   =  \0
+0021160   \0  \0  \0 004  \0  \0  \0 002  \0  \0  \0  \0 002  \0  \0  \0
+0021200  020  \0  \0  \0  \0 004  \0  \0  \0 003  \0  \0  \0  \0 002  \0
+0021220   \0  \0 023  \0  \0  \0  \0 004  \0  \0  \0 002  \0  \0  \0  \0
+0021240  002  \0  \0  \0 020  \0  \0  \0  \0 004  \0  \0  \0  \0  \0 002
+0021260   \0  \a  \0  \0  \0 002  \0 001  \0  \v   H   R   U   L   E   .
+0021300    G   E   T   F   N 001  \0 024  \0 006   M   O   D   E   R   N
+0021320   \0 016  \0  \0  \0  \0  \0  \0 002  \0  \0  \0  \0 001  \0  \0
+0021340   \0  \0 001  \0  \0  \0  \0  \0 002  \0  \b  \0  \0  \0 032  \0
+0021360   \0  \0  \0 001  \0  \0  \0  \0  \0 002  \0  \b  \0  \0  \0 002
+0021400   \0 001  \0  \v   H   R   U   L   E   .   G   E   T   F   N 001
+0021420   \0 024  \0 006   M   O   D   E   R   N  \0 016  \0  \0  \0  \0
+0021440   \0  \0 002  \0  \0  \0  \0 001  \0  \0  \0  \0 001  \0  \0  \0
+0021460   \0  \0 002  \0 006  \0  \0  \0  \f  \0  \0  \0  \0 004  \0  \0
+0021500   \0  \f  \0  \0  \0  \0 002  \0  \0  \0  \r  \0  \0  \0  \0 004
+0021520   \0  \0  \0  \0  \0 002  \0  \n  \0  \0  \0 017  \0  \0  \0  \0
+0021540  004  \0  \0  \0 006  \0  \0  \0  \0 002  \0  \0  \0   /  \0  \0
+0021560   \0  \0 004  \0  \0  \0 005  \0  \0  \0  \0 002  \0  \0  \0 002
+0021600   \0  \0  \0  \0 004  \0  \0  \0  \0  \0 002  \0  \n  \0  \0  \0
+0021620   \f  \0  \0  \0  \0 004  \0  \0  \0  \f  \0  \0  \0  \0 002  \0
+0021640   \0  \0  \r  \0  \0  \0  \0 004  \0  \0  \0  \0  \0 002  \0  \n
+0021660   \0  \0  \0 030  \0  \0  \0  \0 004  \0  \0  \0 006  \0  \0  \0
+0021700   \0 002  \0  \0  \0  \a  \0  \0  \0  \0 004  \0  \0  \0 005  \0
+0021720   \0  \0  \0 002  \0  \0  \0 002  \0  \0  \0  \0 004  \0  \0  \0
+0021740   \0  \0 002  \0  \n  \0  \0  \0  \f  \0  \0  \0  \0 004  \0  \0
+0021760   \0  \f  \0  \0  \0  \0 002  \0  \0  \0  \r  \0  \0  \0  \0 004
+0022000   \0  \0  \0  \0  \0 002  \0  \n  \0  \0  \0 030  \0  \0  \0  \0
+0022020  004  \0  \0  \0 006  \0  \0  \0  \0 002  \0  \0  \0 006  \0  \0
+0022040   \0  \0 004  \0  \0  \0 006  \0  \0  \0  \0 002  \0  \0  \0 002
+0022060   \0  \0  \0  \0 004  \0  \0  \0  \0  \0 002  \0  \n  \0  \0  \0
+0022100   \f  \0  \0  \0  \0 004  \0  \0  \0  \f  \0  \0  \0  \0 002  \0
+0022120   \0  \0  \r  \0  \0  \0  \0 004  \0  \0  \0  \0  \0 002  \0  \n
+0022140   \0  \0  \0   5  \0  \0  \0  \0 004  \0  \0  \0  \0  \0 002  \0
+0022160   \n  \0  \0  \0  \f  \0  \0  \0  \0 004  \0  \0  \0 006  \0  \0
+0022200   \0  \0 002  \0  \0  \0  \r  \0  \0  \0  \0 004  \0  \0  \0  \0
+0022220   \0 002  \0  \n  \0  \0  \0 033  \0  \0  \0  \0 004  \0  \0  \0
+0022240  006  \0  \0  \0  \0 002  \0  \0  \0 002  \0  \0  \0  \0 004  \0
+0022260   \0  \0  \0  \0 002  \0  \n  \0  \0  \0  \v  \0  \0  \0  \0 004
+0022300   \0  \0  \0  \a  \0  \0  \0  \0 002  \0  \0  \0  \r  \0  \0  \0
+0022320   \0 004  \0  \0  \0  \0  \0 002  \0  \n  \0  \0  \0 033  \0  \0
+0022340   \0  \0 004  \0  \0  \0 006  \0  \0  \0  \0 002  \0  \0  \0 002
+0022360   \0  \0  \0  \0 004  \0  \0  \0  \0  \0 002  \0 002  \0  \0  \0
+0022400   \f  \0  \0  \0  \0 004  \0  \0  \0 006  \0  \0  \0  \0 002  \0
+0022420   \0  \0  \r  \0  \0  \0  \0 004  \0  \0  \0  \0  \0 002  \0  \n
+0022440   \0  \0  \0 033  \0  \0  \0  \0 004  \0  \0  \0 006  \0  \0  \0
+0022460   \0 002  \0  \0  \0 002  \0  \0  \0  \0 004  \0  \0  \0  \0  \0
+0022500  002  \0  \n  \0  \0  \0  \f  \0  \0  \0  \0 004  \0  \0  \0 006
+0022520   \0  \0  \0  \0 002  \0  \0  \0  \r  \0  \0  \0  \0 004  \0  \0
+0022540   \0  \0  \0 002  \0  \n  \0  \0  \0 033  \0  \0  \0  \0 004  \0
+0022560   \0  \0 006  \0  \0  \0  \0 002  \0  \0  \0 002  \0  \0  \0  \0
+0022600  004  \0  \0  \0  \0  \0 002  \0  \a  \0  \0  \0 002  \0 001  \0
+0022620   \v   H   R   U   L   E   .   G   E   T   F   N 001  \0 024  \0
+0022640  006   M   O   D   E   R   N  \0 016  \0  \0  \0  \0  \0  \0 002
+0022660   \0  \0  \0  \0 001  \0  \0  \0  \0 001  \0  \0  \0  \0  \0 002
+0022700   \0  \b  \0  \0  \0      \0  \0  \0  \0 001  \0  \0  \0  \0  \0
+0022720  002  \0  \b  \0  \0  \0 002  \0 001  \0  \v   H   R   U   L   E
+0022740    .   G   E   T   F   N 001  \0 024  \0 006   M   O   D   E   R
+0022760    N  \0 016  \0  \0  \0  \0  \0  \0 002  \0  \0  \0  \0 001  \0
+0023000   \0  \0  \0 001  \0  \0  \0  \0  \0 002  \0 006  \0  \0  \0 230
+0023020   \0  \0  \0  \0 004  \0  \0  \0  \0  \0 002  \0 006  \0  \0  \0
+0023040   \t  \0  \0  \0  \0 004  \0  \0  \0 035  \0  \0  \0  \0 002  \0
+0023060   \0  \0  \r  \0  \0  \0  \0 004  \0  \0  \0  \0  \0 002  \0  \n
+0023100   \0  \0  \0  \v  \0  \0  \0  \0 004  \0  \0  \0  \a  \0  \0  \0
+0023120   \0 002  \0  \0  \0 003  \0  \0  \0  \0 004  \0  \0  \0  \b  \0
+0023140   \0  \0  \0 002  \0  \0  \0 016  \0  \0  \0  \0 004  \0  \0  \0
+0023160   \a  \0  \0  \0  \0 002  \0  \0  \0 025  \0  \0  \0  \0 004  \0
+0023200   \0  \0  \a  \0  \0  \0  \0 002  \0  \0  \0 005  \0  \0  \0  \0
+0023220  004  \0  \0  \0 001  \0  \0  \0  \0 002  \0  \0  \0 003  \0  \0
+0023240   \0  \0 004  \0  \0  \0 001  \0  \0  \0  \0 002  \0  \0  \0 002
+0023260   \0  \0  \0  \0 004  \0  \0  \0  \a  \0  \0  \0  \0 002  \0  \0
+0023300   \0 005  \0  \0  \0  \0 004  \0  \0  \0 001  \0  \0  \0  \0 002
+0023320   \0  \0  \0 003  \0  \0  \0  \0 004  \0  \0  \0 001  \0  \0  \0
+0023340   \0 002  \0  \0  \0 006  \0  \0  \0  \0 004  \0  \0  \0  \a  \0
+0023360   \0  \0  \0 002  \0  \0  \0 005  \0  \0  \0  \0 004  \0  \0  \0
+0023400  001  \0  \0  \0  \0 002  \0  \0  \0 003  \0  \0  \0  \0 004  \0
+0023420   \0  \0 001  \0  \0  \0  \0 002  \0  \0  \0 002  \0  \0  \0  \0
+0023440  004  \0  \0  \0  \0  \0 002  \0  \n  \0  \0 001   2  \0  \0  \0
+0023460   \0 004  \0  \0  \0 005  \0  \0  \0  \0 002  \0  \0  \0 002  \0
+0023500   \0  \0  \0 004  \0  \0  \0  \0  \0 002  \0  \n  \0  \0  \0  \v
+0023520   \0  \0  \0  \0 004  \0  \0  \0 030  \0  \0  \0  \0 002  \0  \0
+0023540   \0  \r  \0  \0  \0  \0 004  \0  \0  \0  \0  \0 002  \0  \n  \0
+0023560   \0  \0  \n  \0  \0  \0  \0 004  \0  \0  \0  \b  \0  \0  \0  \0
+0023600  002  \0  \0  \0  \f  \0  \0  \0  \0 004  \0  \0  \0  \a  \0  \0
+0023620   \0  \0 002  \0  \0  \0 026  \0  \0  \0  \0 004  \0  \0  \0  \a
+0023640   \0  \0  \0  \0 002  \0  \0  \0  \n  \0  \0  \0  \0 004  \0  \0
+0023660   \0  \0  \0 002  \0  \t  \0  \0  \0  \v  \0  \0  \0  \0 004  \0
+0023700   \0  \0 030  \0  \0  \0  \0 002  \0  \0  \0  \r  \0  \0  \0  \0
+0023720  004  \0  \0  \0  \0  \0 002  \0  \n  \0  \0  \0  \v  \0  \0  \0
+0023740   \0 004  \0  \0  \0  \b  \0  \0  \0  \0 002  \0  \0  \0  \f  \0
+0023760   \0  \0  \0 004  \0  \0  \0  \a  \0  \0  \0  \0 002  \0  \0  \0
+0024000  017  \0  \0  \0  \0 004  \0  \0  \0  \a  \0  \0  \0  \0 002  \0
+0024020   \0  \0  \n  \0  \0  \0  \0 004  \0  \0  \0  \0  \0 002  \0  \n
+0024040   \0  \0  \0  \v  \0  \0  \0  \0 004  \0  \0  \0 030  \0  \0  \0
+0024060   \0 002  \0  \0  \0  \r  \0  \0  \0  \0 004  \0  \0  \0  \0  \0
+0024100  002  \0  \n  \0  \0  \0  \f  \0  \0  \0  \0 004  \0  \0  \0  \a
+0024120   \0  \0  \0  \0 002  \0  \0  \0  \f  \0  \0  \0  \0 004  \0  \0
+0024140   \0  \a  \0  \0  \0  \0 002  \0  \0  \0 016  \0  \0  \0  \0 004
+0024160   \0  \0  \0  \b  \0  \0  \0  \0 002  \0  \0  \0  \n  \0  \0  \0
+0024200   \0 004  \0  \0  \0  \0  \0 002  \0  \n  \0  \0  \0  \v  \0  \0
+0024220   \0  \0 004  \0  \0  \0 030  \0  \0  \0  \0 002  \0  \0  \0  \r
+0024240   \0  \0  \0  \0 004  \0  \0  \0  \0  \0 002  \0  \n  \0  \0  \0
+0024260   \v  \0  \0  \0  \0 004  \0  \0  \0  \t  \0  \0  \0  \0 002  \0
+0024300   \0  \0  \n  \0  \0  \0  \0 004  \0  \0  \0  \b  \0  \0  \0  \0
+0024320  002  \0  \0  \0 017  \0  \0  \0  \0 004  \0  \0  \0  \a  \0  \0
+0024340   \0  \0 002  \0  \0  \0  \n  \0  \0  \0  \0 004  \0  \0  \0  \0
+0024360   \0 002  \0  \n  \0  \0  \0   0  \0  \0  \0  \0 004  \0  \0  \0
+0024400   \0  \0 002  \0  \n  \0  \0  \0   F  \0  \0  \0  \0 004  \0  \0
+0024420   \0  \0  \0 002  \0  \n  \0  \0  \0  \v  \0  \0  \0  \0 004  \0
+0024440   \0  \0 030  \0  \0  \0  \0 002  \0  \0  \0  \r  \0  \0  \0  \0
+0024460  004  \0  \0  \0  \0  \0 002  \0  \n  \0  \0  \0  \f  \0  \0  \0
+0024500   \0 004  \0  \0  \0  \a  \0  \0  \0  \0 002  \0  \0  \0  \f  \0
+0024520   \0  \0  \0 004  \0  \0  \0  \a  \0  \0  \0  \0 002  \0  \0  \0
+0024540  017  \0  \0  \0  \0 004  \0  \0  \0  \a  \0  \0  \0  \0 002  \0
+0024560   \0  \0  \n  \0  \0  \0  \0 004  \0  \0  \0  \0  \0 002  \0 003
+0024600   \0  \0  \0 002  \0 001  \0  \v   H   R   U   L   E   .   G   E
+0024620    T   F   N 001  \0 024  \0 006   M   O   D   E   R   N  \0 016
+0024640   \0  \0  \0  \0  \0  \0 002  \0  \0  \0  \0 001  \0  \0  \0  \0
+0024660  001  \0  \0  \0  \0  \0 002  \0  \b  \0  \0  \0 037  \0  \0  \0
+0024700   \0 001  \0  \0  \0  \0  \0 002  \0  \b  \0  \0  \0 002  \0 001
+0024720   \0  \v   H   R   U   L   E   .   G   E   T   F   N 001  \0 024
+0024740   \0 006   M   O   D   E   R   N  \0 016  \0  \0  \0  \0  \0  \0
+0024760  002  \0  \0  \0  \0 001  \0  \0  \0  \0 001  \0  \0  \0  \0  \0
+0025000  002  \0 006  \0  \0  \0  \v  \0  \0  \0  \0 004  \0  \0  \0  \a
+0025020   \0  \0  \0  \0 002  \0  \0  \0  \r  \0  \0  \0  \0 004  \0  \0
+0025040   \0  \0  \0 002  \0  \n  \0  \0  \0 027  \0  \0  \0  \0 004  \0
+0025060   \0  \0 006  \0  \0  \0  \0 002  \0  \0  \0   3  \0  \0  \0  \0
+0025100  004  \0  \0  \0 006  \0  \0  \0  \0 002  \0  \0  \0   >  \0  \0
+0025120   \0  \0 004  \0  \0  \0  \0  \0 002  \0  \n  \0  \0  \0 021  \0
+0025140   \0  \0  \0 004  \0  \0  \0 006  \0  \0  \0  \0 002  \0  \0  \0
+0025160   \r  \0  \0  \0  \0 004  \0  \0  \0  \0  \0 002  \0  \n  \0  \0
+0025200   \0 026  \0  \0  \0  \0 004  \0  \0  \0  \a  \0  \0  \0  \0 002
+0025220   \0  \0  \0   B  \0  \0  \0  \0 004  \0  \0  \0 006  \0  \0  \0
+0025240   \0 002  \0  \0  \0   a  \0  \0  \0  \0 004  \0  \0  \0  \0  \0
+0025260  002  \0  \n  \0  \0  \0 020  \0  \0  \0  \0 004  \0  \0  \0  \a
+0025300   \0  \0  \0  \0 002  \0  \0  \0  \r  \0  \0  \0  \0 004  \0  \0
+0025320   \0  \0  \0 002  \0  \n  \0  \0  \0   7  \0  \0  \0  \0 004  \0
+0025340   \0  \0 006  \0  \0  \0  \0 002  \0  \0  \0 020  \0  \0  \0  \0
+0025360  004  \0  \0  \0  \0  \0 002  \0 001  \0  \0  \0   %  \0  \0  \0
+0025400   \0 004  \0  \0  \0  \0  \0 002  \0 001  \0  \0 023 004 001   y
+0025420    z 272                                                        
+0025422
+</pre>
+  </body>
+</html>

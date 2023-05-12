@@ -1,0 +1,11 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [phylum]&lt;LispARs>02088.AR!3</title>
+  </head>
+  <body>
+    <pre>
+Number: 2088Date:  6-Sep-84 17':09':22Submitter: MasinterSource: Masinter, MikeDixonSubject: microcode page cross when too few args (gives MP 9013)Assigned To: Attn: Charnley, Purcell, HerringStatus: ClosedIn/By: HarmonyProblem Type: BugImpact: SeriousDifficulty: ModerateFrequency: IntermittentPriority: HopefullySystem: Language SupportSubsystem: MicrocodeMachine: 1108Disk: Lisp Version:  4-Sep-84 19':45':00Source Files: Microcode Version: 5124Memory Size: 7167File Server: Server Software Version: Disposition: '["Sannella.PA" "11-Sep-84 11':07':34" Subject': Description':]'["Charnley" "25-Sep-84 11':01':48" Status':(Open-&gt;Closed) In/By':]Description: 'Date':  2 Sep 84 12':18 PDT'From': Masinter.pa'Subject': Another microcode page-cross/page-fault problem (12K)'To': Charnley, Herring, Purcell'cc': LispSupport''OK, here''s the situation':''CROCK.PROCESS starts at location '54,144034.''At PC=775 is a function call''775':     6   11  47 | 221      FN1       SIN''where the | is a page break.''Now, SIN is being called with 1 argument, when it expects 2. The system dies with a 9013 (bad PC in function call). The frame at the top of stack shows''16706':  140400 16660 [N, alink]'16710':  144034    54 [fn header]'16712':  17064 146002 [next, pc]''...''17042':       1   1310 (arg passed to SIN)'17044':       0      0 NIL (looks like FN1 added the extra NIL)'17046':  100000  17042 (looks like right BF flags)'17050   140000   2004 (FX flags, alink not stored)'17052     ....'''I.e., looks like some kind of page fault during this function call.''-----''Date':  7 Sep 84 16':14 PDT'From': Lispar.auto'Subject': Re': Lisp': Dlion crashes on 9013 when the CROCK clock is displayed'In-reply-to': halvorsen.pa''s message of 7 Sep 84 14':00 PDT'To': halvorsen.pa'cc': LispSupport.pa''it is a known pagefault problem. hit "stop" and you can keep on running. Hopefully will be fixed next week.'Workaround: Test Case: Edit-By: CharnleyEdit-Date: 25-Sep-84 11':01':50</pre>
+  </body>
+</html>

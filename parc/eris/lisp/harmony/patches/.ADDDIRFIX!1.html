@@ -1,0 +1,11 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [eris]&lt;Lisp>Harmony>Patches>ADDDIRFIX!1</title>
+  </head>
+  <body>
+    <pre>
+(FILECREATED "17-Dec-84 17:41:38" {GENIE}&lt;LISP.HARMONY&gt;ADDDIRFIX.;2              changes to:  (FNS \ADD.CONNECTED.DIR \NEW\ADD.CONNECTED.DIR)		   (VARS ADDDIRFIXCOMS)      previous date: "17-Dec-84 14:58:17" {GENIE}&lt;LISP.HARMONY&gt;ADDDIRFIX.;1)(* Copyright (c) 1984 by public domain. All rights reserved.)(PRETTYCOMPRINT ADDDIRFIXCOMS)(RPAQQ ADDDIRFIXCOMS ((FNS \ADD.CONNECTED.DIR)))(DEFINEQ(\ADD.CONNECTED.DIR  [LAMBDA (FILENAME)                                                          (* M.Yonke "17-Dec-84 17:40")          (* * \ADD.CONNECTED.DIR didn't work if FILENAME was DEVICE:&lt;DIR&gt;... -- it would return &lt;DIR&gt;DEVICE:&lt;DIR&gt;...	  -- fixed it, but it will probably be fixed in the real release of Harmony * *)    (DECLARE (GLOBALVARS \CONNECTED.HOST \CONNECTED.DIR))    (SELCHARQ (NTHCHARCODE FILENAME 1)	      ({ FILENAME)	      (&lt; (PACK* (QUOTE {)			\CONNECTED.HOST			(QUOTE })			(SELCHARQ (NTHCHARCODE FILENAME 2)				  (&gt; (SUBATOM FILENAME 3 -1))				  FILENAME)))	      (PACK* (QUOTE {)		     \CONNECTED.HOST		     (QUOTE })		     (if (STRPOS ":" FILENAME)			 then ""		       else \CONNECTED.DIR)		     FILENAME]))(PUTPROPS ADDDIRFIX COPYRIGHT ("public domain" 1984))STOP</pre>
+  </body>
+</html>

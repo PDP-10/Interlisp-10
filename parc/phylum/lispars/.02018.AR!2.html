@@ -1,0 +1,11 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [phylum]&lt;LispARs>02018.AR!2</title>
+  </head>
+  <body>
+    <pre>
+Number: 2018Date: 29-Aug-84 15':28':37Submitter: le.pasaSource: Bird.pasaSubject: FUNARG stack storage leakAssigned To: Attn: Masinter, VanMelleStatus: OpenIn/By: Problem Type: PerformanceImpact: SeriousDifficulty: Frequency: EverytimePriority: PerhapsSystem: Language SupportSubsystem: Stack and InterpreterMachine: 1108Disk: Lisp Version: 21-Jun-84 10':50':28Source Files: Microcode Version: 5124Memory Size: 3071File Server: Server Software Version: Disposition: '["Sannella.PA" "29-Aug-84 17':24':07" Status':(New-&gt;Open) Problem% Type':(-&gt;Performance) Priority':(-&gt;Perhaps)]Description: Running the test case shown below causes a stack overflow after a few seconds (I=251 in SO1).  I have little experience of reference counting garbage collectors but fail to see any possible circularity if the FUNARG stack frame is built as described in the programmer''s reference manual.  If the FUNCTION is changed so as not to construct a FUNARG the stack overflow doesn''t occurWorkaround: Test Case: {rose}&lt;lispusers&gt;artestcases&gt;SO''Load the file, then execute "(SO1)".  For reference, the fns defined in SO are copied below.''SO1[] = (for I from 1 to 500 do (SO2))'SO2[] = (PROG ((X (CONS)) F)'                  (F &larr; (FUNCTION (LAMBDA (Y) (EQ X Y))'                                             (X)))'                  (SO3 X F))'SO3[A;B] = (for I from 1 to 5 do (APPLY* B A))''Edit-By: Sannella.PAEdit-Date: 29-Aug-84 17':24':09</pre>
+  </body>
+</html>

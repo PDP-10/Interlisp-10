@@ -1,0 +1,194 @@
+Getting Started in Interlisp-D at Xerox(for Internal Xerox Use Only)[eris]<Lisp>Harmony>Doc>GettingStarted.teditThis document is intended as a supplement to the Interlisp Reference Manual, the Harmony Release Notes, and the 1108 Users Guide.  It tells you how to configure local disks of Dorados, Dolphins, and Dandelions for Interlisp-D, and it says where to find various important files.   This is not a guide to programming Interlisp-D.  The first three sections apply to Dolphin/Dorado users; the remaining sections to Dandelion users.At Xerox, the Lisp files are generally kept on the directory [Eris]<Lisp>Releasename>, in various sub-directories.  For the "Harmony" release, packages that can be loaded into Lisp are located on <Lisp>Harmony>Library> and <LispUsers>.  The packages on <Lisp>Harmony>Library> are supported by the Interlisp-D support group; those on <Lispusers> are (sometimes) supported by their authors. Documentation for packages in the Library and LispUsers are generally found with the files they document. The "rules" for LispUsers packages are found on {ERIS}<LispUsers>LispUsersRules.TEdit.New users should add themselves to the distribution list LispUsers^.PA to get announcements about new releases, workarounds for common problems, etc.  Please send reports of bugs, anomalies or requests, questions about this document, installation procedures, or what have you to LispSupport.PA. There's another distribution list, LispFolklore^.x, for discussion about Interlisp-D features, opinion polls and the like -- add yourself if you like. Make sure you have an Interlisp Reference Manual, and a reasonably current list of Library and LispUsers package documentation -- look on {ERIS}<LIsp>Harmony>Doc>, and, after looking at {Eris}<LispUsers>LispUsers.tty and {ERIS}<Lisp>Harmony>LIbrary>LispLibrary.tty, get the documentation for the LispUsers and Library packages that you think you might be interested in.Releases of Interlisp-D are named after musical terms, in the series Chorus, Fugue, Carol, Harmony, Intermezzo, Jazz, K--, L--, ..... This document is intended for the Harmony release, but (I hope) it will be appropriate for future releases by appropriate substitution of release names.(Dorado/Dolphin)  The very first time -- Setting up the disk:If you are setting up on a Dolphin, you probably have to set up your disk for running Lisp. Interlisp-D currently runs with the Alto file system, at least on Dolphins and Dorados. If you have Pilot on your disk, you will need to reserve an Alto partition.  Decide which partition(s) you want to use for Lisp.  (The only asymmetry on Dolphins between the partitions is that when the machine is initially booted it will come up in partition 1. To boot Partition 2, hold down the 0 key while pressing the boot button.) The standard Dorado microcode obtained from the network starts you out in Partition 5 (on machines with T-80s) and Partition 19 on machines with 300 MB drives. You have to hold down the appropriate key to any other partition. On T-80 machines, keys 1,2,3,4,5 get you to partitions 1,2,3,4,5 respectively. On T-300s, keys 1,2,3,4,5 get you to partitions 1,2,3,4,5, while keys 6,7, 8, 9 get you to partitions 16,17,18 and 19.)You should now (re)initialize the disk partition.  (This procedure will erase the disk partition.  If there is something that you want to save on the partition, FTP it to your local file server and retrieve it after this procedure is finished.  It is possible, though not usually desirable, to install Lisp without erasing the disk;  see below.)  First, get to the NetExec, by saying:       > NetExecIf you want partition 2, say:       > Partition 2The next thing to do is search the partition for bad pages.  If this step has been done at any time before in the history of this partition, then you don't have to do it again (since the old bad page table will not be erased when you erase the volume).  But if no one ever searched the partition for bad pages, or if you're not sure, then it is adviseable to do the search, particularly on the larger, higher density drives (the T-300's).  Note that the bad page search destroys the contents of the volume.  To do the search:> BFSTest.boot * CertifyHow many passes? 10Use both disks? YesUse all 406 cylinders? YesUse all 14 sectors? YesDisks: 2, Cylinders: 406, Heads: 2, Sectors: 14About to CERTIFY a dual model 44 14 sector file system.WARNING: The old disk contents will be destroyed.Are you sure this is what you want to do? YesAre you still sure? Yes(Long pause while the disk is searched for bad pages.)* QuitThen, get a new operating system and install it (this dialog is approximately correct. Newer versions of NewOS ask about changing partitions): > NewOS.boot        Do you want to install this OS? Yes Do you want the long installation dialogue? Yes Do you want to first erase a disk? YesType the name of a host from which Alto programs can be obtained: AltoIFS       If this is Maxc or an IFS, this should probably be 'Alto', ...: Alto       Include DP1 in the file system? Yes       Use all 14 sectors of the Disk? Yes       Type OK when ready: OK(There will be a pause for a minute or so while the partition getserased.)       Do you want to disable error logging?  No       Do you want to change the address for error logging?  No       Do you want to change memory error params? No       User name? your name, or Public       Disk name? Partition partition number       Do you want a password? no, if PublicThe "AltoIFS" above is the source for <Alto> programs. E.g., at PARC, use Indigo.All of this will give you a very clean partition with hardly any files at all.  In order to get the files necessary for running Lisp, execute the following commands (where fileserver is currently ERIS and site is one of ISL, KSA; site adminstrators at other locations may have set up other command files):> Ftp fileserver directory/c Lisp>Harmony>cm retrieve/c NewUserDisk.site> @NewUserDisk.site@This will bring all of the files that you need to run Lisp.(Dorado/Dolphin)  The very first time -- Setting up the disk without erasing it:It is possible to install Lisp without erasing the disk, merely by performing the commands in NewUserDisk without first doing the erase.  Note that performance is degraded if the file Lisp.VirtualMem is not contiguous, although the system should still work.(Dorado/Dolphin)  Each time you want to run Lisp:Assume you have just booted your machine.  You will be in partition 1.  If you want to boot Partition 2 directly, hold down "0" (zero) while you push the boot button.  Alternatively, when in Partition 1, type the command Partition 2.If your Lisp function files are on an IFS, you can load them from Lisp directly.  Lisp will also talk directly to files on other partitions on the same disk, or to NS file servers. Maxc also runs a file server so that you can just LOAD or MAKEFILE directly to Maxc. Note, however, that Lisp prefers file servers which speak the "Leaf" protocol, because that allows direct random access to files. If your file server doesn't run LEAF, you won't be able to do LOADFROM, or use the "remake" option of MAKEFILE (which saves a lot of time in program development.)  Interlisp-D will also work with NS servers (8030 series) and Unix and VMS using a variety of protocols, but details of installation, etc. will differ.You are now ready to run Lisp.        > Lisp [yourfileserver]<Lisp>releaseName>Basics>lispsysoutwill bring over a fresh, clean version of Lisp from yourfileserver and start it up.  lispsysout = LISP.SYSOUT will get you the standard lisp sysout; lispsysout = FULL.SYSOUT will get you the standard sysout enhanced by some Library and LispUsers packages such as the Interlisp text editor and mail system; and lispsysout = DEMO.SYSOUT will get you the full sysout enhanced by a lot of random packages used in the standard Interlisp demo.  LOAD your files (from your disk or from the IFS), and you're on your way.  You may want to make a command file to execute this, e.g., if you create {DSK}KEY1.CM;1 from inside Interlisp-D to contain the line starting with "Lisp", then pressing the right-blank key of the Dolphin/Dorado keyboard will execute that line.When you want to leave Lisp, if you type       _(LOGOUT)it will save your "virtual memory" so that the next time you type       > LISPit will resume from where you left off.  (Dorado/Dolphin/Dandelion)  Init files:At some point after your disk has been set up, you should install a Lisp init file (called {DSK}INIT.LISP) on your disk.  Init files usually contain Lisp commands to tailor a vanilla sysout to your liking.  Lisp will run perfectly well without an init file. (However, when a brand-new vanilla sysout is first fired up, if the sysout fails to find an init file on your disk, it will ask you to tell it where there is one:	Please enter the name of system init file	(e.g. {server}<directory>INIT.extension):If you don't have one yet or don't want to bother, you can just type a carriage-return; this will cause Lisp to go on and forget about finding an init file.)To find out more about init files and how to install them, see the file [eris]<lisp>releaseName>doc>InitFiles.tedit, .press, or .ip.(Dandelion)  The Very First Time -- Setting up the Disk:On a new Dandelion, it is necessary to configure the disk and install the Interlisp-D software.  You must first start by configuring your disk. There are a number of ways of doing this.  The following notes describe the procedures used to install and run Interlisp using an ethernet.  For users with "standalone" Dlions not connected to an ethernet, it is necessary to configure the Dlion disk and install Interlisp-D using floppy disks.  This is described at the end of this document.VERY IMPORTANT WARNING FOR DLION USERS:  The Harmony release of Interlisp-D is compatible with the Mesa 11.0 (Klamath) version of the Pilot DLion file system.  This release of the Pilot file system is INCOMPATIBLE with older versions.  The mesa environment provides tools for "scavenging-forward", to convert a Mesa 10.0 volume to a Mesa 11.0 volume, but Interlisp does not provide such a facility for upgrading Interlisp local file system volumes.  Therefore, before upgrading to Mesa 11.0, be sure that any valuable information stored on the Dlion local file system has been saved on a file server, or on floppy disks.To configure the Dlion disk, you must run either the "Othello" or "Hello" utility program on your machine.  Othello is the Mesa development environment utility for managing Pilot Volumes as documented in "Mesa User's Guide" from the Office Systems Division.  Hello is a slightly modified version of Othello, maintained by the Interlisp-D support group, which has a few more commands.Unfortunately, there are many ways to get Othello running on your Dlion, not all of which will work in every case.  Below are described a number of different procedures to try.  In all cases, to boot (start) a Dandelion, locate the maintenance panel under the floppy drive.  Next to the red numbers you will find two buttons, labelled "B Reset" and "Alt B".  The phrase "Alt-Boot-N" means to hold down both buttons, and then release the left button (B Reset) while holding the right button (Alt B). When the panel reads 000N, let up on the right button. (There are 10 so-called boot options: the lights will cycle from 0001 to 0010 while holding Alt B after pressing both buttons and letting up on B reset.)Booting Othello from disk:Do an "Alt-Boot-1". If the Display reads "Othello 11.0", you win. If it reads Hello 11.0, you still win.Booting Othello from Ethernet:Try an"Alt-Boot-3". After a few minutes, you should be in Othello. If the display reads "Othello 11.0" at the top, you win. In some circumstances, you won't get Othello 11.0.Booting Othello from Floppy:If you cannot boot from the Ethernet you will need an Othello 11.0 bootable floppy. You can sometimes get one of these from your local Dandelion hardware support crew. To boot Othello 11.0 from floppy, insert it into your floppy drive, label side up, close the drive panel, and do an "Alt-Boot-2".  The floppy drive should click for a minute or so, and then Othello should appear.Configuring the DLion Disk from Othello:When started, Othello/Hello will display a herald, e.g.:Othello 11.0 of  2-Aug-84 8:34:15Processor = 0AA001EE1H = 25200017347B = 2-852-134-631Memory size = 1536K bytes = 768K words > OnlineDrive name: RD0Make sure it says Othello 11.0 or Hello 11.0 at the top. Note that the memory size will not show greater than 1.5 MB even though your machine has more memory than that. Pilot/Mesa doesn't know about the extended memory (yet).)   Type a "carriage return" to the Online command after RD0. If you have never installed Lisp on this machine before, you will need to reconfigure the disk into logical volumes with a Lisp volume sufficient to hold Interlisp-D. Note: Othello network communications are currently based on PUP communcation over 10MB Ethernet, although NS protocol is under development.  The Mesa/Othello software will only talk PUPs if a gateway or other server explicitly tells it its net number (otherwise, it will hang with a 981 in the maintenance panel.) A network adminstrator must register Dandelions in the gateway tables.  Message NetSupport.wbst (or, at PARC, PTS.PA) for assistance if necessary. You can still run Interlisp-D if you aren't on a PUP-network, but you must follow different installation procedures than these. Use the "Login" command to log in with your name and password, e.g.:> LoginUser: MasinterPassword: ******How you partition the hard disk of the 1108 depends on what size disk you have.  If you have a 10MB disk, the command:> @[eris]<Lisp>Harmony>cm>Partition10Lisp.othellowill configure the disk into three logical volumes, one of 1000 pages called Hello, one of 3000 pages called LispFiles (for the lisp local file system), and the rest of the disk in the volume, Lisp. This command file will also install Hello into the first volume, since partitioning erases the disk. This is usually the right command file for the 10MByte disk 8010 Dandelion configuration. Users with bigger disks (either the two-cabinet 29MByte SA4000 or the newer 40MByte or 80 MByte Quantums) will probably want to reconfigure the disk in other ways, depending on what other programs one wants to run along with Lisp.  Some other command files are:> @[eris]<Lisp>Harmony>cm>Partition29Lisp.othelloThe same as Partition10Lisp, except that 16200 pages are allocated for the Lisp volume (the max that Interlisp-D can use), and the rest for the LispFiles volume.Partition43Lisp.othello allocates four volumes, Hello (1000 pages), Lisp (16200), Lisp2 (16200), and LispFiles.  Partition29or43LispTajo.othello allocates four volumes, Hello (1000 pages), Tajo (16000 pages), Lisp (16200), and LispFiles.  It also installs Tajo on the Tajo volume; PartitionLispStarTajo.othello allocates six volumes, Hello (1000 pages), Tajo (10000 pages), System (7500), User (8000), Lisp (16200), and LispFiles.  The System and User volumes can be used with Star with standard Star installation procedures.  This command file does not install Star, however.If you want some other configuration of logical volumes, you can edit any of these othello command files with any editor, or type it in directly.These command files install "Hello" on the local disk to be what you get when you Alt-Boot-1.(Dandelion)  Running Lisp:Once you have the basic system installed, you need to bring over a Lisp sysout into one of your virtual memory files.  To do this, first, start Hello.Note:  Previously, it was possible to install Interlisp using Othello.  However, due to added functionality in Hello, it is no longer a recommended procedure.Typing the following in Hello:> @[eris]<Lisp>Harmony>CM>InstallLisp.hellowill install [eris]<Lisp>Harmony>Basics>LISP.SYSOUT onto the Lisp volume and start it.  (Users at other sites may find similar command files on their local file server.)  The command file InstallFull.Hello is identical to InstallLisp.othello, except that it fetches FULL.SYSOUT instead of LISP.SYSOUT. Likewise, InstallDemo.othello brings over DEMO.SYSOUT. To fetch other SYSOUT files of your own making or from file servers other than Eris, you can edit the .hello command file using your favorite text editor as appropriate.It is possible to install Lisp directly from the Mesa development environment (Tajo 11.0) instead of Othello/Hello. Tajo-based tools InstallMu.bcd, LispTool.bcd are available which can install SYSOUTs over the Ethernet from Xerox NS 8000 series file servers. See {ERIS}<Lisp>Harmony>Doc>InstallLisp.doc for more details.(Dandelion)  Returning to Mesa/Star:To boot Mesa/Star, provided it had been previously installed, do an "Alt-Boot-1" as described above. From inside Lisp, the (LOGOUT) function will automatically cause an "Alt-Boot-1" after saving your state, so that it is possible to switch back and forth between Mesa and Interlisp-D without touching the boot button. (LOGOUT T) will switch without saving state; a convenience if you are returning to Mesa merely to retrieve a new version of Lisp.(Dandelion)  Each time you want to run Lisp:To return to a previously saved state (e.g., saved via a SAVEVM or LOGOUT), perform a simple machine boot (either by pressing B-reset, machine power on, or the "Quit" command inside Othello/Hello.).  This returns you to the saved computation, similar to typing simply "Lisp<return>" to the Alto Executive on Dolphins/Dorados.(Dandelion)  To remove Lisp from your disk:(1)  Use the Othello/Hello "Initial" command to reinstall normal initial microcode from [iris|rain]<mesa>11.0>SAx000Initial.db(2)  Use the Othello/Hello "Diagnostic Microcode Fetch" command to reinstall diagnostic microcode from [iris|rain]<mesa>11.0>Moonboot.db  (Dandelion)  Installing/Running Interlisp-D without an Ethernet:A number of tools have been created to accomodate non-Xerox users of Interlisp-D, who don't have access to the Xerox ethernet.  They may also be useful for Internal Xerox users who have stand-alone Dlions not connected to the ethernet.  These tools are contained on two floppies, called the "SystemTools" floppy and the "InstallationUtility" floppy.  These floppies provide tools for partitioning a Dlion disk and installing Interlisp-D (off of floppies).Floppy "image" files for these floppies are stored on the following files: (Floppies can be made from these files using the Interlisp FLOPPY.FROM.FILE function){eris}<Lisp>Harmony>Mesa>SystemTools.floppy {eris}<Lisp>Harmony>Mesa>InstallationUtility.floppyInterlisp-D sysouts can be put on floppies by executing the function (SYSOUT '{FLOPPY}), or using the function (COPYFILE xxx '{FLOPPY}) to copy from an existing sysout file to the floppy.Documentation for using these floppies can be found in {eris}<Lisp>Harmony>Doc>SystemTools.doc (& .press).                       NIL NIL              MODERN 
+           (   MODERN                               NIL NIL              MODERN                               NIL NIL           .   MODERN 
+                               NIL NIL              MODERN 
+                               NIL NIL              MODERN 
+              MODERN 
+          â   MODERN 
+                               NIL NIL           I   MODERN 
+              MODERN 
+         Ú   MODERN 
+                               NIL NIL          0   MODERN 
+                               NIL NIL             MODERN 
+                               NIL NIL              MODERN                               NIL NIL           >   MODERN                               NIL NIL          ≠   MODERN 
+                               NIL NIL          Å   MODERN 
+                               NIL NIL           	   MODERN 
+              MODERN 
+       Ä                       NIL NIL              MODERN 
+                               NIL NIL           	   MODERN 
+              MODERN 
+       Ä                       NIL NIL             MODERN 
+                               NIL NIL              MODERN 
+              MODERN 
+       Ä      MODERN 
+                               NIL NIL              MODERN 
+              MODERN 
+       Ä                        NIL NIL              MODERN 
+              MODERN 
+       Ä                        NIL NIL              MODERN 
+              MODERN 
+       Ä      MODERN 
+                                NIL NIL              MODERN 
+              MODERN 
+       Ä      MODERN 
+                                NIL NIL              MODERN 
+              MODERN 
+       Ä      MODERN 
+                                NIL NIL           0   MODERN 
+                                NIL NIL           8   MODERN 
+                                NIL NIL           2   MODERN 
+                                NIL NIL           *   MODERN 
+              MODERN 
+       Ä      MODERN 
+                                NIL NIL              MODERN 
+              MODERN 
+       Ä      MODERN 
+                                NIL NIL              MODERN 
+                                NIL NIL           7   MODERN 
+                                NIL NIL              MODERN 
+                                NIL NIL              MODERN 
+              MODERN 
+       Ä                       NIL NIL              MODERN 
+                               NIL NIL           è   MODERN 
+                               NIL NIL              MODERN 
+              MODERN 
+       Ä   )   MODERN 
+              MODERN 
+       Ä   0   MODERN 
+              MODERN 
+       Ä   '   MODERN 
+              MODERN 
+       Ä   E   MODERN 
+              MODERN 
+      Ä      MODERN 
+       Ä   G   MODERN 
+              MODERN 
+       Ä   '   MODERN 
+              MODERN 
+       Ä   *   MODERN 
+              MODERN 
+       Ä      MODERN 
+              MODERN 
+       Ä   }   MODERN 
+              MODERN 
+       Ä   ?   MODERN 
+              MODERN 
+       Ä   4   MODERN 
+              MODERN 
+       Ä      MODERN 
+              MODERN 
+      Ä      MODERN 
+       Ä      MODERN 
+           
+   MODERN 
+       Ä      MODERN 
+      Ä      MODERN 
+       Ä      MODERN 
+              MODERN 
+      Ä      MODERN 
+              MODERN 
+      Ä   F   MODERN 
+                               NIL NIL              MODERN 
+                               NIL NIL           ¨   MODERN 
+           
+   MODERN 
+             MODERN 
+              MODERN 
+          a   MODERN 
+                               NIL NIL              MODERN 
+           
+   MODERN 
+          4   MODERN 
+              MODERN 
+             MODERN 
+              MODERN 
+             MODERN 
+                               NIL NIL           <   MODERN 
+                               NIL NIL              MODERN 
+                               NIL NIL           P   MODERN              MODERN 
+                               NIL NIL             MODERN 
+                               NIL NIL              MODERN 
+           1   MODERN              MODERN 
+                               NIL NIL           Í   MODERN 
+                               NIL NIL          «   MODERN 
+                               NIL NIL               MODERN 
+                               NIL NIL              MODERN 
+              MODERN 
+             MODERN 
+              MODERN 
+             MODERN 
+           
+   MODERN 
+             MODERN 
+                               NIL NIL           4   MODERN 
+              MODERN 
+             MODERN 
+           
+   MODERN 
+          6   MODERN 
+           
+   MODERN 
+          ó   MODERN 
+           
+   MODERN 
+         µ   MODERN 
+                               NIL NIL           2   MODERN 
+              MODERN 
+       Ä   N   MODERN 
+              MODERN 
+       Ä   ,   MODERN 
+                               NIL NIL           '   MODERN              MODERN 
+                               NIL NIL          •   MODERN 
+                               NIL NIL           +   MODERN 
+                                NIL NIL           +   MODERN 
+                               NIL NIL           û   MODERN 
+                               NIL NIL           T   MODERN 
+              MODERN 
+          &   MODERN 
+                               NIL NIL              MODERN 
+           :   MODERN          Ê   MODERN 
+                             NIL NIL           '   MODERN 
+         F   MODERN 
+                               NIL NIL          Ä   MODERN 
+                               NIL NIL          ƒ   MODERN 
+                               NIL NIL              MODERN 
+             MODERN 
+                               NIL NIL           i   MODERN 
+                               NIL NIL              MODERN 
+             MODERN 
+                               NIL NIL           ∞   MODERN 
+              MODERN 
+            MODERN 
+           )   MODERN 
+                              NIL NIL          õ   MODERN 
+                               NIL NIL          M   MODERN 
+                               NIL NIL           F   MODERN 
+                               NIL NIL           (   MODERN 
+                               NIL NIL           w   MODERN 
+                               NIL NIL              MODERN 
+           0   MODERN 
+       Ä                       NIL NIL          å   MODERN 
+                               NIL NIL              MODERN 
+           0   MODERN 
+       Ä                       NIL NIL           ¢   MODERN 
+                               NIL NIL          A   MODERN 
+                               NIL NIL           í   MODERN 
+                               NIL NIL           ^   MODERN 
+                               NIL NIL              MODERN                               NIL NIL           ó   MODERN 
+                               NIL NIL           ü   MODERN 
+                               NIL NIL              MODERN 
+                               NIL NIL              MODERN 
+           *   MODERN 
+       Ä                       NIL NIL           ¨   MODERN 
+                               NIL NIL          d   MODERN 
+                               NIL NIL          A   MODERN 
+                               NIL NIL           %   MODERN                               NIL NIL          ¿   MODERN 
+                               NIL NIL           -   MODERN                               NIL NIL          F   MODERN 
+                               NIL NIL           ,   MODERN                               NIL NIL              MODERN 
+                               NIL NIL           ã   MODERN 
+                               NIL NIL           A   MODERN                               NIL NIL          »   MODERN 
+                               NIL NIL           °   MODERN 
+                               NIL NIL           `   MODERN 
+                               NIL NIL           º   MODERN 
+                               NIL NIL           k   MODERN 
+                               NIL NIL              MODERN 
+          JÑ'z∏

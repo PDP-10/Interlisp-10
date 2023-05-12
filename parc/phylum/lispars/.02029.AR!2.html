@@ -1,0 +1,11 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [phylum]&lt;LispARs>02029.AR!2</title>
+  </head>
+  <body>
+    <pre>
+Number: 2029Date: 31-Aug-84 10':37':36Submitter: Sannella.PASource: Kahn.paSubject: Compiler doesn''t notice Tail recursion if PROG vars initializedAssigned To: Attn: Status: DeclinedIn/By: Problem Type: PerformanceImpact: ModerateDifficulty: Frequency: Priority: HopefullySystem: Language SupportSubsystem: Compiler, Code FormatMachine: Disk: Lisp Version: 27-Aug-84 21':14':00Source Files: Microcode Version: 5124Memory Size: 3071File Server: Server Software Version: Disposition: From': masinter.pa'Date': 31-Aug-84 18':31':08 PDT'Subject': "That''s not a bug-- its a feature!"'To': Kahn'cc': LispSupport, Bobrow''The compiler cannot tell, in the first of your two examples below, that (FIE) does not use the variable A freely. If it were to use A freely, then tail recursion removal would cause it to see the wrong binding.''Both examples *would* compile with tail recursion if either you declared A to be a localvar, or else (FIE) in fact consisted only of expressions that the compiler knew could access no free vriables. (There is currently no documented user interface for extending that set although it is easy.)'''["Masinter" " 2-Sep-84 14':46':32" Attn': Status':(Open-&gt;Declined) Machine':(1108-&gt;) Disposition':]Description: 'Date': 30 Aug 84 17':06 PDT'From': Kahn.pa'Subject': Lisp': Tail recursion not noticed'To': LispSupport.pa'cc': Kahn.pa, Bobrow''Lisp System Date': 23-Aug-84 18':52':49'Machine': Dorado (DewDrop)'Microcode version': 24,4'Memory size': 10000'Frequency': Always'Impact': Serious''The following function does not compile tail recursively''(DEFINEQ (FOO (LAMBDA (X)'   (PROG ((A (FIE)))'     (COND (A (RETURN (FOO (SUB1 X))))'                (T (RETURN T)]''while the following version does''(DEFINEQ (FOO (LAMBDA (X)'   (PROG (A) (SETQ A (FIE))'     (COND (A (RETURN (FOO (SUB1 X))))'                (T (RETURN T)]''Workaround: Test Case: Edit-By: MasinterEdit-Date:  2-Sep-84 14':46':36</pre>
+  </body>
+</html>

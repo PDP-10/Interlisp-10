@@ -1,0 +1,11 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [phylum]&lt;LispARs>00418.AR!4</title>
+  </head>
+  <body>
+    <pre>
+Number: 418Date: 31-Mar-84 14':38':38Submitter: Sannella.PASource: Stansbury.paSubject: DECL': SATISFIES failed to recognise deleted fieldLisp Version: Description: 'Date':  2 Jan 84 19':28 PST'From': Stansbury.pa'Subject': Lisp': DECL SATISFIES'Lisp-System-Date':  1-Jan-84 03':16':41'Machine-Type': Dorado''A SATISFIES clause in a DLAMBDA kept referencing the missing field.  Deleting the SATISFIES clause, exiting DEdit, running the function, reentering DEdit, and retyping the clause verbatim was the only way to solve the problem.  ''Details': the offending DLAMBDA was '(DLAMBDA ((M FSM (SATISFIES (EQ fetch NAME of (CAR (STATES M)))(QUOTE  START))))) ...]''and FSM (without the old field) is defined as '(DATATYPE FSM (START BackLinks SymbolTable) (TYPE? (AND (type? STATE (FETCH START OF DATUM)) (type? (ONEOF HASHARRAY NIL) (FETCH BackLinks OF DATUM)) (type? (ONEOF HASHARRAY NIL) (fetch (FSM SymbolTable) of DATUM)))))''Perusal of the stack indicated that the SATISFIES was attempting to run the old DECLTYPE for FSM (that is, with a (type? ... (fetch OLDFIELD of DATUM)) check on the no-longer-existant field.)''--Tayloe.Workaround: Test Case: Edit-By: Sannella.PAEdit-Date: 23-Apr-84 16':18':40Attn: Sheil, KaplanAssigned To: In/By: Disposition: System: Other SoftwareSubsystem: Machine: Disk: Microcode Version: Memory Size: File Server: Server Software Version: Difficulty: ModerateFrequency: IntermittentImpact: ModeratePriority: UnlikelyStatus: OpenProblem Type: BugSource Files: </pre>
+  </body>
+</html>

@@ -1,0 +1,11 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [phylum]&lt;LispARs>02222.AR!2</title>
+  </head>
+  <body>
+    <pre>
+Number: 2222Date: 21-Sep-84 14':54':34Submitter: RoachSource: RoachSubject: \BACKPEEKBIN over IMAGEOBJ at BOF breaksAssigned To: Attn: SYBALSKYStatus: OpenIn/By: Problem Type: BugImpact: SeriousDifficulty: Frequency: EverytimePriority: PerhapsSystem: TextSubsystem: TEditMachine: 1100Disk: Lisp Version: 19-Sep-84 12':36':46Source Files: Microcode Version: 5121Memory Size: 2688File Server: Server Software Version: Disposition: '["Sannella.PA" "21-Sep-84 15':59':26" Subject': Status':(New-&gt;Open) Priority':(-&gt;Perhaps)]Description: When the first character in TEXTSTREAM is an IMAGEOBJ, (GETFILEPTR TEXTSTREAM) = 1, and you do (\BACKPEEKBIN TEXTSTREAM), you get the break "Trying to BACKFILEPTR thru start of text" with stack'     \TEXTBACKFILEPTR'     \BACKFILEPTR'     \BACKPEEKBIN'I''ve marked this problem serious since there seem to be a variety of other bad symptoms involving file ptr manipulation in the presence of IMAGEOBJs at and/or near the beginning of your file, including dropping into RAID (error in uninterruptable system code underneath \TEXTBACKFILEPTR), and "CAN''T GET TO NEXT PIECE".Workaround: Test Case: Edit-By: Sannella.PAEdit-Date: 21-Sep-84 15':59':26</pre>
+  </body>
+</html>

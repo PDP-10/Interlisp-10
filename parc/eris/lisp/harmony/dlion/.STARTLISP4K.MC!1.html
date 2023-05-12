@@ -1,0 +1,11 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [eris]&lt;Lisp>Harmony>Dlion>STARTLISP4K.MC!1</title>
+  </head>
+  <body>
+    <pre>
+{File name:  StartLisp4K.mc don 29-Dec-83 10:17:06 }Reserve[0F6F]; Reserve[0F78]; Reserve[0F7F,0FFF];	{Kernel}SetTask[0];StartAddress[Germ];Germ:	rhTT &larr;  0, CANCELBR[SetMDS,0F],	c1, at[0,2,Germ];	rhTT &larr;  0, CANCELBR[SetMDS,0F],	c1, at[1,2,Germ];SetMDS:	TT &larr; 0FF,	c2;	TT{0FF00} &larr; TT LRot8,	c3;	Rx &larr; 40,	c1;	Rx &larr; Rx LRot8,	c2;	uPageFault &larr; 0{notFaulting},	c3;	Map &larr; [rhTT,TT],	c1;	MDR &larr; Rx{4000} or {0B1}31,	c2;	Q &larr; 0,	c3;	L &larr; 41,	c1;	IOPCtl &larr; IOPInMode,	c2;	DCtl &larr; L LRot0,	c3;	uWP &larr; 0, ClrIntErr,	c1;	TOS &larr; 0, rhMDS &larr; 0	c2;	rhTT &larr; TT &larr; uIOPage,	c3;{set all keys up; 1403D thru 14043 &larr; -1}	stackP &larr; 0,	c1;	T &larr; 0FF LShift1, SE &larr; 1,	c2;	Q &larr; 7,	c3;KeyLoop:	MAR &larr; [rhTT,IOPage.keyBitsm1+Q], BRANCH[$,KeyDone],	c1;	MDR &larr; L xor ~L, CANCELBR[$,0],	c2;	Q &larr; Q - 1, ZeroBr, GOTO[KeyLoop],	c3;KeyDone:	KCtl &larr; 0, PC &larr; 0+0+1, CANCELBR[$,0],	c2;	uWDC &larr; PC,	c3;	MAR &larr; [rhTT, IOPage.DSCB.fieldCmd+0],	c1;	MDR &larr; L,	c2;	T &larr; T + 3,	c3;LastChance:	MAR &larr; [rhTT, IOPage.DSCB.syncCmd+0],	c1;	MDR &larr; L,	c2;	L &larr; 0, GOTO[EFCHaveLink],	c3;</pre>
+  </body>
+</html>

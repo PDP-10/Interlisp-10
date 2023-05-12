@@ -1,0 +1,31 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>[eris]&lt;Lisp>Harmony>uCode>ALTOMC.DM!1>XWSIO2.mc</title>
+  </head>
+  <body>
+    <div style="width: 442pt; margin-left: 84pt; margin-top: 0pt; text-align: left">
+<span style="font: 12pt serif">:TITLE[XWSIO2];</span><span class="tab" val="77"></span><span style="font: 12pt serif">*Reset & initialization of various Ethernets.<br></span><span class="tab" val="77"></span><span class="tab" val="77"></span><span style="font: 12pt serif">***Could use JRAM to carry out the reset functions.<br>* some excisions for Lisp January 12, 1983  10:43 PM van Melle<br><br>%Edit by Fiala 10 March 1982: Replace code for old two-task 10 mb boards by<br>  HGM&rsquo;s new code for one-task 10 mb boards.<br>Edit by Fiala 3 March 1982: Use With10MB and With3MB conditionals.<br>Edit by Fiala 8 October 1981: Reformat; use HiA and LoA; bum 14b mi.<br>Edit by Fiala August 8, 1980  4:02 PM save one mi at SIO<br>Edit by Jim Frandeen July 16, 1980  1:29 PM: Change all references to AC0 to RTemp1 to free up AC0.<br>Edit by HGM June 29, 1980  12:14 AM: Add XWire board,<br>  Fix dangling Timer problem by moving TimerTurnoff to Output task startup.<br>Edit by Johnsson January 27, 1980  4:34 PM: External refs<br>Edit by Danielson January 25, 1980  2:10 PM: removed RS232 hooks.<br>Edit by Jim Frandeen January 20, 1980  11:03 AM: cleanup for D0Lang Version 6.<br>Edit by Johnsson January 18, 1980  12:02 PM: fixed fixed clobber of timers at KillTimer<br>Edit by Jim Frandeen December 22, 1979  9:52 PM: cleanup for D0Lang Version 5.<br>Edit by Roy Ogus - June 22, 1979  4:15 PM<br><br><br>Emulator executes this code on the SIO instruction.<br>SIO control bits initially in T are decoded in pairs.<br><br>Bits 16+17 (octal) =&gt; 1st  3 mb Ethernet board<br>Bits 14+15 (octal) =&gt; 2nd  3 mb Ethernet board<br><br>Each pair of bits above is interpreted as follows:<br>  Bit 17b</span><span class="tab" val="77"></span><span style="font: 12pt serif">If 1, disable output & initialize output TPC.<br>  Bit 16b</span><span class="tab" val="77"></span><span style="font: 12pt serif">If 1, disable input & initialize input TPC.<br><br>1000 =&gt; reset 1st 10 mb Ethernet<br>2000 =&gt; reset 2nd 10 mb Ethernet<br>4000 =&gt; reset 3rd 10 mb Ethernet<br>%<br><br>SetTask[0];<br><br>OnPage[StartIOPage];<br><br>*Caller has put control bits in T, complement of control bits in RTemp1.<br>:IF[With10MB]; ****************************************<br></span><span class="tab" val="77"></span><span style="font: 12pt serif">RTemp1 &larr; RSh[RTemp1,5], At[StartIOLoc];<br>*1st 10mb Ethernet board (Check bits 12+13):<br>SIO1000:</span><span class="tab" val="77"></span><span style="font: 12pt serif">RTemp &larr; HiA[ENXStartLoc,enxTask], Call[SIOENX];<br>*2nd 10mb Ethernet board (Check bits 10+11):<br>*SIO2000:</span><span class="tab" val="77"></span><span style="font: 12pt serif">RTemp &larr; HiA[ENXStartLoc,enxTask2], Call[SIOENX];<br>*2nd 10mb Ethernet board (Check bits 10+11):<br>*SIO4000:</span><span class="tab" val="77"></span><span style="font: 12pt serif">RTemp &larr; HiA[ENXStartLoc,enxTask3], Call[SIOENX];<br>:ENDIF; ***********************************************<br><br>SIOTail:</span><span class="tab" val="77"></span><span style="font: 12pt serif">LoadPageExternal[opPage3];<br></span><span class="tab" val="77"></span><span style="font: 12pt serif">GoToExternal[P7TailLoc];<br><br><br>:IF[With10MB]; *****************************************<br>SIOENX:</span><span class="tab" val="77"></span><span style="font: 12pt serif">RTemp &larr; (RTemp) or (LoA[ENXStartLoc]), GoTo[SIONotify];<br>:ENDIF; ***********************************************<br>:IF[With3MB]; *****************************************<br>SIOXO:</span><span class="tab" val="77"></span><span style="font: 12pt serif">RTemp &larr; (RTemp) or (LoA[xoStartLoc]), GoTo[SIONotify];<br>SIOXI:</span><span class="tab" val="77"></span><span style="font: 12pt serif">RTemp &larr; (RTemp) or (LoA[xiStartLoc]), GoTo[SIONotify];<br>:ENDIF; ***********************************************<br>SIONotify:<br></span><span class="tab" val="77"></span><span style="font: 12pt serif">RTemp1 &larr; RSh[RTemp1,1], Skip[R Odd];<br></span><span class="tab" val="77"></span><span style="font: 12pt serif">  APCTask&APC &larr; RTemp;<br></span><span class="tab" val="77"></span><span style="font: 12pt serif">Return;<br><br>:END[XWSIO2];<br></span></div>
+<script>function do_tabs() { // unit = px
+  var tabs = document.getElementsByClassName("tab");
+  for (var i = 0; i < tabs.length; ++i) {
+    var span = tabs[i];
+    var val = span.getAttribute("val");
+    if (val == null) console.log("Couldn't get val");
+    var rect = span.getBoundingClientRect();
+    var tabstop;
+    if (val > 0) tabstop = Math.ceil(rect.left / val) * val;
+    else tabstop = -val;
+    console.log("do_tabs", val, tabstop)
+    if (tabstop > 0) {
+      var width = tabstop - rect.left;
+      span.style.display = "inline-block";
+      span.style.width = width + "px";
+    }
+  }
+}
+do_tabs();
+</script>
+  </body>
+</html>

@@ -1,0 +1,11 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [eris]&lt;Lisp>Harmony>Dlion>INITLISP4K.MC!2</title>
+  </head>
+  <body>
+    <pre>
+{File name InitLisp4K.mc;    DandeLion Interlisp Emulator - InitializationAuthor: PurcellLast edited: 31-Jan-84 17:37:00 by don -- deleted u reg initLast edited: 24-Jan-84 11:27:34 by don -- restored u reg initLast edited: 19-Jan-84 15:35:14 by don -- added org for LCS and put kernel reserves hereLast edited: 17-Jan-84  9:59:07 by don -- removed u reg initLast edited: April 6, 1983  1:35 PM; dont move display in new sysoutCreated: January 17, 1983 out of NewLisp.mcLast edited: February 5, 1983  11:42 AM}Reserve[0F6F]; Reserve[0F78]; Reserve[0F7F,0FFF];	{Kernel}EFCHaveLink:  	at[LispStart],{**************************************************STALL to test display and maintpanel: 			**************************************************}	TT &larr; 88, CANCELBR[$, 0F],	c1;	rhRx &larr; Rx &larr; uIOPage,	c2;	TT &larr; TT LRot8,	c3;	MAR &larr; [rhRx, 0EC+0],	c1;	MDR &larr; uFF00{was 0},	c2;	PC &larr; 1 + PC + PC16,	c3;	MAR &larr; [rhRx, 0ED+0],	c1;	MDR &larr; TT{8800} or 22,	c2;	Q &larr; 71{was 41},	c3;	DCtl&larr;Q LRot0,	c1;	TOS &larr; LH.FMP,	c2;	TOS &larr; TOS LRot8,	c3;Stall:	MAR &larr; [rhRx, IOPage.MP+0], BRANCH[Stall0, StallContinue],	c1;Stall0:	MDR &larr; TOS or RH.FMP,	c2;StallJn:	TT &larr; TT  - 1, ZeroBr, GOTO[Stall],	c3;StallContinue:	Q &larr; Q - 1, ZeroBr,	c2;	TOSH &larr; 0, BRANCH[Stall, SkipBurdock],	c3;Burdock:	IOPCtl &larr; 1, CANCELBR[NoMoreWait, 0F],	c1;SkipBurdock:	,	c1;NoMoreWait:	TOS &larr; KTval,	c2;	uPageFault &larr; Q &larr; 0,	c3;{change to context Q{fxp}}FXP:	rhTT &larr;  INTERFACEspace,	c1;	TT &larr; INTERFACEbasePage{20'b} {INTERFACEbase=10000'b},	c2;	TT &larr; TT LRot8,	c3;FXP1:	Map &larr; [rhTT,TT],	c1;	rhS &larr; nRhS,	c2;	Rx &larr; rhRx &larr; MD,	c3;FXP2:	MAR&larr; [rhRx, Q + 0],	c1;	rhPV &larr; nRhS,	c2;	PV{FXP} &larr; MD, GOTO[RTN2],	c3;Reset:	Noop,	c1;Reset2:	uPageFault &larr; 0,	c2;	Q &larr; 1, GOTO[FXP],	c3;	{ E N D }</pre>
+  </body>
+</html>

@@ -1,0 +1,803 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [eris]&lt;LispCore>SOURCES>CMLPARSE.DCOM!4</title>
+  </head>
+  <body>
+    <pre>
+$ od -c -N 50000 [eris]&lt;LispCore>SOURCES>CMLPARSE.DCOM!4
+0000000    (   F   I   L   E   C   R   E   A   T   E   D       "   2   6
+0000020    -   S   e   p   -   8   6       1   4   :   5   7   :   2   7
+0000040    "       (   "   c   o   m   p   i   l   e   d       o   n    
+0000060    "       {   E   R   I   S   }   <   L   I   S   P   C   O   R
+0000100    E   >   S   O   U   R   C   E   S   >   C   M   L   P   A   R
+0000120    S   E   .   ;   4   )      \r   "   2   4   -   S   e   p   -
+0000140    8   6       1   9   :   5   1   :   3   1   "       i   n    
+0000160    "   X   e   r   o   x       L   i   s   p       2   4   -   S
+0000200    e   p   -   8   6       .   .   .   "       d   a   t   e   d
+0000220        "   2   4   -   S   e   p   -   8   6       2   0   :   0
+0000240    8   :   2   3   "   )  \r   (   F   I   L   E   C   R   E   A
+0000260    T   E   D       "   2   6   -   S   e   p   -   8   6       1
+0000300    4   :   5   5   :   2   0   "       {   E   R   I   S   }   <
+0000320    L   I   S   P   C   O   R   E   >   S   O   U   R   C   E   S
+0000340    >   C   M   L   P   A   R   S   E   .   ;   4       3   8   1
+0000360    3   6       c   h   a   n   g   e   s       t   o   :       (
+0000400    F   U   N   C   T   I   O   N   S      \r   A   N   A   L   Y
+0000420    Z   E   -   P   A   R   A   M   E   T   E   R       A   N   A
+0000440    L   Y   Z   E       A   N   A   L   Y   Z   E   -   R   E   S
+0000460    T   )       (   V   A   R   S       C   M   L   P   A   R   S
+0000500    E   C   O   M   S   )       p   r   e   v   i   o   u   s    
+0000520    d   a   t   e   :       "   2   6   -   S   e   p   -   8   6
+0000540        1   2   :   3   6   :   4   8   "      \r   {   E   R   I
+0000560    S   }   <   L   I   S   P   C   O   R   E   >   S   O   U   R
+0000600    C   E   S   >   C   M   L   P   A   R   S   E   .   ;   3   )
+0000620   \r   (   R   P   A   Q   Q       C   M   L   P   A   R   S   E
+0000640    C   O   M   S       (   (   *       ;   ;       "   P   a   r
+0000660    s   i   n   g       b   o   d   i   e   s       a   n   d    
+0000700    a   r   g   u   m   e   n   t       l   i   s   t   s   "   )
+0000720        (   V   A   R   I   A   B   L   E   S       %   %   A   R
+0000740    G   -   C   O   U   N   T       %   %   M   I   N   -   A   R
+0000760    G   S      \r   %   %   U   N   B   O   U   N   D   E   D   -
+0001000    A   R   G   -   C   O   U   N   T       %   %   L   E   T   -
+0001020    L   I   S   T       %   %   K   E   Y   W   O   R   D   -   T
+0001040    E   S   T   S       %   %   E   N   V   -   A   R   G   -   U
+0001060    S   E   D       %   %   C   T   X   -   A   R   G   -   U   S
+0001100    E   D       %   %   E   N   V   -   A   R   G   -   N   A   M
+0001120    E      \r   %   %   C   T   X   -   A   R   G   -   N   A   M
+0001140    E   )       (   V   A   R   I   A   B   L   E   S       *   D
+0001160    E   F   A   U   L   T   -   D   E   F   A   U   L   T   *    
+0001200    *   K   E   Y   -   F   I   N   D   E   R   *   )       (   F
+0001220    U   N   C   T   I   O   N   S       P   A   R   S   E   -   B
+0001240    O   D   Y   )       (   F   U   N   C   T   I   O   N   S    
+0001260   \r   P   A   R   S   E   -   D   E   F   M   A   C   R   O    
+0001300    A   N   A   L   Y   Z   E       A   N   A   L   Y   Z   E   -
+0001320    A   U   X       A   N   A   L   Y   Z   E   -   K   E   Y    
+0001340    A   N   A   L   Y   Z   E   -   P   A   R   A   M   E   T   E
+0001360    R       P   U   S   H   -   K   E   Y   W   O   R   D   -   B
+0001400    I   N   D   I   N   G       A   N   A   L   Y   Z   E   -   R
+0001420    E   S   T      \r   R   E   C   U   R   S   I   V   E   L   Y
+0001440    -   A   N   A   L   Y   Z   E       D   E   F   M   A   C   R
+0001460    O   -   A   R   G   -   T   E   S   T   )       (   *       ;
+0001500    ;       "   T   e   s   t   i   n   g       t   h   e       a
+0001520    r   g   u   m   e   n   t   -   l   i   s   t       p   a   r
+0001540    s   i   n   g   "   )       (   V   A   R   I   A   B   L   E
+0001560    S      \r   A   N   A   L   Y   Z   E   -   T   E   S   T   S
+0001600    )       (   *       ;   ;       "   R   u   n   t   i   m   e
+0001620        s   u   p   p   o   r   t       f   u   n   c   t   i   o
+0001640    n   s   "   )       (   F   U   N   C   T   I   O   N   S    
+0001660    K   E   Y   W   O   R   D   -   T   E   S   T       F   I   N
+0001700    D   -   K   E   Y   W   O   R   D   )       (   *       ;   ;
+0001720       \r   "   A   r   r   a   n   g   e       t   o       u   s
+0001740    e       t   h   e       c   o   r   r   e   c   t       c   o
+0001760    m   p   i   l   e   r   "   )       (   P   R   O   P       F
+0002000    I   L   E   T   Y   P   E       C   M   L   P   A   R   S   E
+0002020    )   )   )  \r   (   P   R   O   C   L   A   I   M       (   Q
+0002040    U   O   T   E       (   S   P   E   C   I   A   L       %   %
+0002060    A   R   G   -   C   O   U   N   T   )   )   )  \r   (   O   R
+0002100        (   B   O   U   N   D   P       (   Q   U   O   T   E    
+0002120    %   %   A   R   G   -   C   O   U   N   T   )   )       (   S
+0002140    E   T   Q       %   %   A   R   G   -   C   O   U   N   T    
+0002160    N   I   L   )   )  \r   (   P   R   O   C   L   A   I   M    
+0002200    (   Q   U   O   T   E       (   S   P   E   C   I   A   L    
+0002220    %   %   M   I   N   -   A   R   G   S   )   )   )  \r   (   O
+0002240    R       (   B   O   U   N   D   P       (   Q   U   O   T   E
+0002260        %   %   M   I   N   -   A   R   G   S   )   )       (   S
+0002300    E   T   Q       %   %   M   I   N   -   A   R   G   S       N
+0002320    I   L   )   )  \r   (   P   R   O   C   L   A   I   M       (
+0002340    Q   U   O   T   E       (   S   P   E   C   I   A   L       %
+0002360    %   U   N   B   O   U   N   D   E   D   -   A   R   G   -   C
+0002400    O   U   N   T   )   )   )  \r   (   O   R       (   B   O   U
+0002420    N   D   P       (   Q   U   O   T   E       %   %   U   N   B
+0002440    O   U   N   D   E   D   -   A   R   G   -   C   O   U   N   T
+0002460    )   )       (   S   E   T   Q       %   %   U   N   B   O   U
+0002500    N   D   E   D   -   A   R   G   -   C   O   U   N   T       0
+0002520    )   )  \r   (   P   R   O   C   L   A   I   M       (   Q   U
+0002540    O   T   E       (   S   P   E   C   I   A   L       %   %   L
+0002560    E   T   -   L   I   S   T   )   )   )  \r   (   O   R       (
+0002600    B   O   U   N   D   P       (   Q   U   O   T   E       %   %
+0002620    L   E   T   -   L   I   S   T   )   )       (   S   E   T   Q
+0002640        %   %   L   E   T   -   L   I   S   T       N   I   L   )
+0002660    )  \r   (   P   R   O   C   L   A   I   M       (   Q   U   O
+0002700    T   E       (   S   P   E   C   I   A   L       %   %   K   E
+0002720    Y   W   O   R   D   -   T   E   S   T   S   )   )   )  \r   (
+0002740    O   R       (   B   O   U   N   D   P       (   Q   U   O   T
+0002760    E       %   %   K   E   Y   W   O   R   D   -   T   E   S   T
+0003000    S   )   )       (   S   E   T   Q       %   %   K   E   Y   W
+0003020    O   R   D   -   T   E   S   T   S       N   I   L   )   )  \r
+0003040    (   P   R   O   C   L   A   I   M       (   Q   U   O   T   E
+0003060        (   S   P   E   C   I   A   L       %   %   E   N   V   -
+0003100    A   R   G   -   U   S   E   D   )   )   )  \r   (   O   R    
+0003120    (   B   O   U   N   D   P       (   Q   U   O   T   E       %
+0003140    %   E   N   V   -   A   R   G   -   U   S   E   D   )   )    
+0003160    (   S   E   T   Q       %   %   E   N   V   -   A   R   G   -
+0003200    U   S   E   D       N   I   L   )   )  \r   (   P   R   O   C
+0003220    L   A   I   M       (   Q   U   O   T   E       (   S   P   E
+0003240    C   I   A   L       %   %   C   T   X   -   A   R   G   -   U
+0003260    S   E   D   )   )   )  \r   (   O   R       (   B   O   U   N
+0003300    D   P       (   Q   U   O   T   E       %   %   C   T   X   -
+0003320    A   R   G   -   U   S   E   D   )   )       (   S   E   T   Q
+0003340        %   %   C   T   X   -   A   R   G   -   U   S   E   D    
+0003360    N   I   L   )   )  \r   (   P   R   O   C   L   A   I   M    
+0003400    (   Q   U   O   T   E       (   S   P   E   C   I   A   L    
+0003420    %   %   E   N   V   -   A   R   G   -   N   A   M   E   )   )
+0003440    )  \r   (   O   R       (   B   O   U   N   D   P       (   Q
+0003460    U   O   T   E       %   %   E   N   V   -   A   R   G   -   N
+0003500    A   M   E   )   )       (   S   E   T   Q       %   %   E   N
+0003520    V   -   A   R   G   -   N   A   M   E       N   I   L   )   )
+0003540   \r   (   P   R   O   C   L   A   I   M       (   Q   U   O   T
+0003560    E       (   S   P   E   C   I   A   L       %   %   C   T   X
+0003600    -   A   R   G   -   N   A   M   E   )   )   )  \r   (   O   R
+0003620        (   B   O   U   N   D   P       (   Q   U   O   T   E    
+0003640    %   %   C   T   X   -   A   R   G   -   N   A   M   E   )   )
+0003660        (   S   E   T   Q       %   %   C   T   X   -   A   R   G
+0003700    -   N   A   M   E       N   I   L   )   )  \r   (   P   R   O
+0003720    C   L   A   I   M       (   Q   U   O   T   E       (   S   P
+0003740    E   C   I   A   L       *   D   E   F   A   U   L   T   -   D
+0003760    E   F   A   U   L   T   *   )   )   )  \r   (   O   R       (
+0004000    B   O   U   N   D   P       (   Q   U   O   T   E       *   D
+0004020    E   F   A   U   L   T   -   D   E   F   A   U   L   T   *   )
+0004040    )       (   S   E   T   Q       *   D   E   F   A   U   L   T
+0004060    -   D   E   F   A   U   L   T   *       N   I   L   )   )  \r
+0004100    (   P   R   O   C   L   A   I   M       (   Q   U   O   T   E
+0004120        (   S   P   E   C   I   A   L       *   K   E   Y   -   F
+0004140    I   N   D   E   R   *   )   )   )  \r   (   O   R       (   B
+0004160    O   U   N   D   P       (   Q   U   O   T   E       *   K   E
+0004200    Y   -   F   I   N   D   E   R   *   )   )       (   S   E   T
+0004220    Q       *   K   E   Y   -   F   I   N   D   E   R   *       N
+0004240    I   L   )   )  \r   P   A   R   S   E   -   B   O   D   Y   A
+0004260    0   0   0   1   A   0   0   0   2       D   1  \r   (   L    
+0004300    (   0       P   R   O   C   E   E   D   -   C   A   S   E   )
+0004320        P       1       *   P   R   I   N   T   -   L   E   N   G
+0004340    T   H   *       P       0       *   P   R   I   N   T   -   L
+0004360    E   V   E   L   *       I       1       *   S   T   A   N   D
+0004400    A   R   D   -   O   U   T   P   U   T   *       F       2    
+0004420    F   O   R   M   )      \0 021 002 001  \0 002   l 003   d 021
+0004440  002 001   i   o  \0  \0  \0   R  \v  \0  \0 020  \0   (   1   6
+0004460    Q       F   O   R   M   A   T   )  \r   N   I   L  \r   (    
+0004500    1   2   Q       "   A   s   s   u   m   e       t   h   a   t
+0004520        ~   S       d   o   e   s       n   o   t       e   x   p
+0004540    a   n   d       i   n   t   o       a       d   e   c   l   a
+0004560    r   a   t   i   o   n   .   "   )  \r   P   A   R   S   E   -
+0004600    B   O   D   Y   A   0   0   0   1       D   1  \r   (   P    
+0004620    0       *   P   R   O   C   E   E   D   -   C   A   S   E   S
+0004640    *       F       1       P   R   O   C   E   E   D   -   C   A
+0004660    S   E   1   5   6   1       F       2       *   P   R   O   C
+0004700    E   E   D   -   C   A   S   E   S   *       F       3       F
+0004720    O   R   M       F       4       E   N   V   I   R   O   N   M
+0004740    E   N   T   )      \0   0 001 004  \0  \0   g  \0  \0   g  \0
+0004760   \0   g  \0  \0   g  \0  \0   Q   g  \0  \0   j   g  \0  \0   h
+0005000    g  \0  \0   g  \0  \0  \r  \n  \0  \0   R 032 021 001  \0   S
+0005020    T  \n  \0  \0  \t  \0  \0 022 032 020  \0   (   5   3   Q    
+0005040    \   M   V   L   I   S   T       5   0   Q       M   A   C   R
+0005060    O   E   X   P   A   N   D       3   6   Q       M   A   K   E
+0005100    -   P   R   O   C   E   E   D   -   C   A   S   E   )  \r   (
+0005120    3   2   Q       P   A   R   S   E   -   B   O   D   Y   A   0
+0005140    0   0   1   A   0   0   0   2       2   7   Q       :   R   E
+0005160    P   O   R   T       2   3   Q       :   T   E   S   T       1
+0005200    7   Q       :   S   E   L   E   C   T   O   R       1   3   Q
+0005220        :   T   A   G       1   0   Q       P   R   O   C   E   E
+0005240    D       5       :   N   A   M   E       2       :   N   O   R
+0005260    M   A   L   )  \r   (   )  \r   P   A   R   S   E   -   B   O
+0005300    D   Y   A   0   0   0   3       D   1  \r   (   L       (   0
+0005320        I   G   N   O   R   E   )       F       0       F   O   R
+0005340    M   )      \0 003  \0 001  \0 001   P 020  \0   N   I   L  \r
+0005360    N   I   L  \r   (   )  \r   P   A   R   S   E   -   B   O   D
+0005400    Y       D   1  \r   (   L       (   0       -   a   r   g   s
+0005420    -   )       P       1   6   Q       P   R   O   C   E   E   D
+0005440    -   C   A   S   E   1   5   6   1       P       1   5   Q    
+0005460    F   O   R   M       P       2       E   N   V   I   R   O   N
+0005500    M   E   N   T   )      \0 336 017  \0 002  \0   e 021 001  \0
+0005520    k   a 021 201  \t   l 002   a 272   l 003   H 361 221   i 202
+0005540    l 003   a 273   I 021   !  \f   O 024 265 005 261  \0 230 001
+0005560  021 001  \r   O 032 005  \a 262 032   O 024 002 262 025   O 030
+0005600  222 261  \0 237   K 242 261  \0 232   O 032   _ 030 277 261  \0
+0005620  222   O 032 003 262   o   O 032   d 001 004   l 004 360 242 277
+0005640  260   c 001   g  \0  \0 360 223   O 032 260   p   O 032 001  \t
+0005660   \0  \0 264 004 260   O   h 032 021 001 016   O 034   g  \0  \0
+0005700   \n  \0  \0 022   _ 020 001   _ 016 277   O 020 002 276   O 016
+0005720    g  \0  \0 360 225   N  \t  \0  \0 260   %   g  \0  \0   j 275
+0005740  274   N 260 027   d 001 375 002   M   k 330   ]   n 002  \0 361
+0005760  227   o  \0  \0  \0  \t  \0  \0 277 265 353   M   L 016   _ 022
+0006000  003 265 020 023   O 024   O 026  \t  \0  \0   O 030  \v  \0  \0
+0006020  020 001   g  \0  \0 360 262 355   O 022   O 026 032   _ 026 277
+0006040  023   O 024 002   _ 024 261 377   D  \0   (   3   0   3   Q    
+0006060    V   A   L   U   E   S       2   7   6   Q       R   E   V   E
+0006100    R   S   E       2   5   3   Q       L   I   S   P   E   R   R
+0006120    O   R       2   1   4   Q       V   A   L   U   E   S   -   L
+0006140    I   S   T       1   6   6   Q       \   C   A   T   C   H   -
+0006160    F   U   N   C   A   L   L       1   4   5   Q       S   P   E
+0006200    C   I   A   L   -   F   O   R   M   -   P   )  \r   (   3   1
+0006220    0   Q       D   E   C   L   A   R   E       2   2   1   Q    
+0006240    P   A   R   S   E   -   B   O   D   Y   A   0   0   0   3    
+0006260    2   0   6   Q       :   N   O   R   M   A   L       1   6   3
+0006300    Q       P   A   R   S   E   -   B   O   D   Y   A   0   0   0
+0006320    1       1   3   1   Q       D   E   C   L   A   R   E   )  \r
+0006340    (       2   5   0   Q       "   T   O   O       M   A   N   Y
+0006360        A   R   G   U   M   E   N   T   S   "   )  \r   P   A   R
+0006400    S   E   -   D   E   F   M   A   C   R   O       D   1  \r   (
+0006420    L       (   0       -   a   r   g   s   -   )       P       5
+0006440    3   Q       %   %   C   T   X   -   A   R   G   -   U   S   E
+0006460    D       P       5   2   Q       %   %   E   N   V   -   A   R
+0006500    G   -   U   S   E   D       P       5   1   Q       %   %   K
+0006520    E   Y   W   O   R   D   -   T   E   S   T   S       P       5
+0006540    0   Q       %   %   L   E   T   -   L   I   S   T       P    
+0006560    4   7   Q       %   %   U   N   B   O   U   N   D   E   D   -
+0006600    A   R   G   -   C   O   U   N   T       P       4   6   Q    
+0006620    %   %   M   I   N   -   A   R   G   S       P       4   5   Q
+0006640        %   %   A   R   G   -   C   O   U   N   T       P       3
+0006660    2   Q       *   K   E   Y   -   F   I   N   D   E   R   *    
+0006700    P       2   7   Q       *   D   E   F   A   U   L   T   -   D
+0006720    E   F   A   U   L   T   *       P       1   6   Q       %   %
+0006740    C   T   X   -   A   R   G   -   N   A   M   E       P       1
+0006760    3   Q       %   %   E   N   V   -   A   R   G   -   N   A   M
+0007000    E   )     002 240   ,  \0 002  \0   e 021 001  \0   k   a 021
+0007020  361 020 021 360 037 021   P   $   l 002   a 272   l 003   a 273
+0007040    l 004   a 274   l 005   a 275   H   l 006   _ 016 277 276   O
+0007060  016   d   N 363 242 261  \0 375 277   g  \0  \0   J   h 032 032
+0007100    _ 020 277   H   l 006   _ 024 277   _ 022 277   O 024   d   O
+0007120  022 363 242 261  \0 367 277   h   _ 026 277   H   l 006   _ 032
+0007140  277   _ 030 277   O 032   d   O 030 363 242 261  \0 367 277   h
+0007160    _ 034 277   H   l 006   _     277   _ 036 277   O       d   O
+0007200  036 363 242 261  \0 367 277   h   _   " 277   H   l 006   _   &
+0007220  277   _   $ 277   O   &   d   O   $ 363 242 261  \0 367 277   i
+0007240    _   ( 277   H   l 006   _   , 277   _   * 277   O   ,   d   O
+0007260    * 363 242 261  \0 367 277   h   _   . 277   H   l 006   _   2
+0007300  277   _   0 277   O   2   d   O   0 363 242 261  \0 367 277   g
+0007320   \0  \0   _   4 277   H   l 006   _   8 277   _   6 277   O   8
+0007340    d   O   6 363 242 261  \0 365 277   I 001   g  \0  \0 360 264
+0007360   \t   I 002 001   g  \0  \0 360   _   : 277   K   M   O   (  \v
+0007400   \0  \0  \t  \0  \0   _   < 001   _   > 277   O   < 002   _   @
+0007420  001   _   B 277   O   @ 002 001   _   D 277   j   d 021   R   +
+0007440    I   O   : 242 261  \0 316   g  \0  \0   O 020   h 032 032 261
+0007460   \0 305   a   g  \0  \0 360 227   O 016   k 330   a 261 377 003
+0007500    O 016   l 002 324   _ 016 261 376 352   a   g  \0  \0 360 227
+0007520    O 024   k 330   a 261 377 003   O 024   l 002 324   _ 024 261
+0007540  376 357   a   g  \0  \0 360 227   O 032   k 330   a 261 377 003
+0007560    O 032   l 002 324   _ 032 261 376 357   a   g  \0  \0 360 227
+0007600    O       k 330   a 261 377 003   O       l 002 324   _     261
+0007620  376 357   a   g  \0  \0 360 227   O   &   k 330   a 261 377 003
+0007640    O   &   l 002 324   _   & 261 376 357   a   g  \0  \0 360 227
+0007660    O   ,   k 330   a 261 377 003   O   ,   l 002 324   _   , 261
+0007700  376 357   a   g  \0  \0 360 227   O   2   k 330   a 261 377 005
+0007720    O   2   l 002 324   _   2 261 376 357   a   g  \0  \0 360 227
+0007740    O   8   k 330   a 261 377 023   O   8   l 002 324   _   8 261
+0007760  376 361   O 020   L   J  \f  \0  \0   O   " 264  \a   O 020  \t
+0010000   \0  \0   g  \0  \0   O   P  \t  \0  \0   O   B   O   R   O   >
+0010020   \n  \0  \0  \n  \0  \0 032 032   _   H 277   _   F 262   (   g
+0010040   \0  \0   O   F   g  \0  \0   O   "   g  \0  \0   L   h 032 032
+0010060    g  \0  \0   O 020   h 032 032   h 032 032 032 032   O   H   h
+0010100  032 032 032 032 201   O   H   O   F 263 024   I 257   g  \0  \0
+0010120    g  \0  \0   J   h 032 032   h 032 032   h 032 200   h   O 026
+0010140  264 030   O   T 263 023   g  \0  \0   g  \0  \0   O 026   h 032
+0010160  032   h 032 032   h 032 200   h   O 034 264 030   O   V 263 023
+0010200    g  \0  \0   g  \0  \0   O 034   h 032 032   h 032 032   h 032
+0010220  200   h  \n  \0  \0  \n  \0  \0   O   D   O   L   O   N 221   h
+0010240  201   O   J  \r 005  \0  \0 020  \0   (   1   2   3   5   Q    
+0010260    V   A   L   U   E   S       1   2   1   6   Q       \   A   P
+0010300    P   E   N   D   2       1   2   1   3   Q       \   A   P   P
+0010320    E   N   D   2       1   0   1   4   Q       \   A   P   P   E
+0010340    N   D   2       1   0   1   1   Q       \   A   P   P   E   N
+0010360    D   2       1   0   0   0   Q       R   E   V   E   R   S   E
+0010400        7   7   0   Q       D   E   F   M   A   C   R   O   -   A
+0010420    R   G   -   T   E   S   T       7   5   7   Q       A   N   A
+0010440    L   Y   Z   E       3   7   3   Q       \   M   V   L   I   S
+0010460    T       3   7   0   Q       P   A   R   S   E   -   B   O   D
+0010500    Y   )  \r   (   1   1   7   4   Q       I   G   N   O   R   E
+0010520        1   1   7   1   Q       D   E   C   L   A   R   E       1
+0010540    1   4   2   Q       I   G   N   O   R   E       1   1   3   7
+0010560    Q       D   E   C   L   A   R   E       1   1   1   1   Q    
+0010600    I   G   N   O   R   E       1   1   0   6   Q       D   E   C
+0010620    L   A   R   E       1   0   5   1   Q       C   L   :   L   E
+0010640    N   G   T   H       1   0   4   2   Q       Q   U   O   T   E
+0010660        1   0   3   5   Q       C   L   :   E   R   R   O   R    
+0010700    1   0   3   0   Q       C   L   :   I   F       7   7   3   Q
+0010720        L   E   T   *       7   2   4   Q       :   R   E   M   O
+0010740    V   E   -   C   O   M   M   E   N   T   S       6   7   4   Q
+0010760        :   K   E   Y   -   F   I   N   D   E   R       6   4   4
+0011000    Q       :   D   E   F   A   U   L   T   -   D   E   F   A   U
+0011020    L   T       6   1   4   Q       :   D   O   C   -   S   T   R
+0011040    I   N   G   -   A   L   L   O   W   E   D       5   6   4   Q
+0011060        :   E   R   R   O   R   -   S   T   R   I   N   G       5
+0011100    3   4   Q       :   C   O   N   T   E   X   T       5   0   4
+0011120    Q       :   E   N   V   I   R   O   N   M   E   N   T       4
+0011140    5   4   Q       :   P   A   T   H       4   4   0   Q       R
+0011160    E   M   O   V   E   -   C   O   M   M   E   N   T   S       3
+0011200    5   5   Q       %   %   O   R   I   G   I   N   A   L   -   D
+0011220    E   F   I   N   I   T   I   O   N       3   4   4   Q       &
+0011240    W   H   O   L   E       3   1   0   Q       F   I   N   D   -
+0011260    K   E   Y   W   O   R   D       6   2   Q       C   D   R   )
+0011300   \r   (   )  \r   A   N   A   L   Y   Z   E       D   1  \r   (
+0011320    L       (   3       W   H   O   L   E       2       E   R   R
+0011340    L   O   C       1       P   A   T   H       0       A   R   G
+0011360    L   I   S   T   )       F       5       %   %   L   E   T   -
+0011400    L   I   S   T       F       6       %   %   A   R   G   -   C
+0011420    O   U   N   T       F       7       %   %   U   N   B   O   U
+0011440    N   D   E   D   -   A   R   G   -   C   O   U   N   T       F
+0011460        1   0   Q       %   %   E   N   V   -   A   R   G   -   N
+0011500    A   M   E       F       1   1   Q       %   %   C   T   X   -
+0011520    A   R   G   -   N   A   M   E       F       1   2   Q       %
+0011540    %   M   I   N   -   A   R   G   S       F       1   3   Q    
+0011560    *   D   E   F   A   U   L   T   -   D   E   F   A   U   L   T
+0011600    *       F       1   4   Q       %   %   C   T   X   -   A   R
+0011620    G   -   U   S   E   D       F       1   5   Q       %   %   E
+0011640    N   V   -   A   R   G   -   U   S   E   D   )     002   . 005
+0011660   \t  \0 004   A 003 262 026  \b  \0  \0 021 001  \0   H   A   h
+0011700  032 032   U 032   c  \n 277   H   b 002 023   @ 021   A 004   H
+0011720  003 265 026   H 264 003 202 261 001 023   i   c 016   H   A   h
+0011740  032 032   U 032   c  \n 020 001   Z   d   g  \0  \0 360 262   4
+0011760  277   C 262   %   H 002 003 262       H 002 001 004   l 004 360
+0012000  262 027   H 002 001   C   h 032 032   U 032   c  \n 277   i   c
+0012020  016 277   H 002 261 001 307   o  \0  \0  \0   B  \n  \0  \0 261
+0012040  001 272   g  \0  \0 360 262   5   W 020 262   &   H 002 003 262
+0012060    !   H 002 001 004   l 004 360 262 030   H 002 001   W 020   h
+0012100  032 032   U 032   c  \n 277   i   c 032 277   H 002 261 001 216
+0012120    o  \0  \0  \0   B  \n  \0  \0 261 001 201   J   d   g  \0  \0
+0012140  360 262   6 277   W 022 262   &   H 002 003 262   !   H 002 001
+0012160  004   l 004 360 262 030   H 002 001   W 022   h 032 032   U 032
+0012200    c  \n 277   i   c 030 277   H 002 261 001   R   o  \0  \0  \0
+0012220    B  \n  \0  \0 261 001   E   g  \0  \0 360 262 026   I 234   o
+0012240   \0  \0  \0   o  \0  \0  \0   B  \v  \0  \0 277   i   Y 261 001
+0012260    +   J   g  \0  \0 360 247   J   d   g  \0  \0 360 234 277   H
+0012300  001   H 002   A   B   C  \r 005  \0  \0 020   g  \0  \0 360 262
+0012320  034  \b  \0  \0 273   i   c 016 277   K   A   h 032 032   U 032
+0012340    c  \n 277   H 002   K   B  \v  \0  \0 020   J   d   g  \0  \0
+0012360  360 237 277   o  \0  \0  \0   o  \0  \0  \0   B  \v  \0  \0 261
+0012400   \0 332   g  \0  \0 360 226   H 002   B  \n  \0  \0 020   I 242
+0012420  261  \0 207   V   k 324   c  \f 277   J   d 004   l 004 360 262
+0012440    #   g  \0  \0   A   g  \0  \0   A   h 032 032   h 032 032   i
+0012460    W 026   h 032 032   h 032 032 032   h 032 032   U 032   c  \n
+0012500  260   p 003 255   o  \0  \0  \0   o  \0  \0  \0   B  \v  \0  \0
+0012520  260   `   J 001   g  \0  \0   A   g  \0  \0   A   h 032 032   h
+0012540  032 032   i   J 002 223   J 002 001 201   W 026   h 032 032   h
+0012560  032 032 032   B  \v  \0  \0 277   J 002 002 262   6   J 002 002
+0012600  001   g  \0  \0   g  \0  \0   A   h 032 032   h 032 032   h 032
+0012620  032   U 032   c  \n 260 033   W 024   k 324   c 024 277   V   k
+0012640  324   c  \f 277   J   g  \0  \0   A   h 032 032   B  \v  \0  \0
+0012660  277   H 002 003 224   H 002 002 003 250   g  \0  \0   A   h 032
+0012700  032 260 026  \b  \0  \0   \   g  \0  \0   A   h 032 032   h 032
+0012720  032   U 032   c  \n 277   L   b 002 277   H 002   X 261 375 363
+0012740   \0   (   1   0   2   2   Q       G   E   N   S   Y   M       7
+0012760    7   4   Q       A   N   A   L   Y   Z   E   -   P   A   R   A
+0013000    M   E   T   E   R       7   0   3   Q       A   N   A   L   Y
+0013020    Z   E   -   P   A   R   A   M   E   T   E   R       6   3   4
+0013040    Q       C   E   R   R   O   R       5   3   1   Q       A   N
+0013060    A   L   Y   Z   E   -   A   U   X       5   1   3   Q       C
+0013100    E   R   R   O   R       4   6   6   Q       A   N   A   L   Y
+0013120    Z   E   -   K   E   Y       4   4   0   Q       G   E   N   S
+0013140    Y   M       4   2   6   Q       A   N   A   L   Y   Z   E   -
+0013160    R   E   S   T       3   6   7   Q       C   E   R   R   O   R
+0013200        3   4   0   Q       C   L   :   E   R   R   O   R       2
+0013220    4   4   Q       C   L   :   E   R   R   O   R       1   5   3
+0013240    Q       C   L   :   E   R   R   O   R       6       G   E   N
+0013260    S   Y   M   )  \r   (   1   0   2   6   Q       C   D   R    
+0013300    1   0   1   1   Q       C   D   R       7   6   4   Q       C
+0013320    A   R       7   2   3   Q       N   U   L   L       7   2   0
+0013340    Q       N   O   T       6   4   7   Q       C   A   R       6
+0013360    4   3   Q       C   O   N   D       5   6   4   Q       C   A
+0013400    R       5   6   0   Q       C   O   N   D       5   2   1   Q
+0013420        &   A   U   X       4   7   4   Q       &   A   L   L   O
+0013440    W   -   O   T   H   E   R   -   K   E   Y   S       4   3   2
+0013460    Q       &   K   E   Y       4   1   0   Q       &   B   O   D
+0013500    Y       4   0   1   Q       &   R   E   S   T       3   4   6
+0013520    Q       &   O   P   T   I   O   N   A   L       2   5   4   Q
+0013540        &   C   O   N   T   E   X   T       1   6   1   Q       &
+0013560    E   N   V   I   R   O   N   M   E   N   T       7   1   Q    
+0013600    &   W   H   O   L   E   )  \r   (       6   3   0   Q       "
+0013620    N   o   n   -   s   y   m   b   o   l       v   a   r   i   a
+0013640    b   l   e       n   a   m   e       i   n       ~   S   .   "
+0013660        6   2   4   Q       "   I   g   n   o   r   e       t   h
+0013700    i   s       i   t   e   m   .   "       5   0   7   Q       "
+0013720    S   t   r   a   y       &   A   L   L   O   W   -   O   T   H
+0013740    E   R   -   K   E   Y   S       i   n       a   r   g   l   i
+0013760    s   t       o   f       ~   S   .   "  \r       5   0   3   Q
+0014000        "   I   g   n   o   r   e       i   t   .   "       3   6
+0014020    3   Q       "   R   e   d   u   n   d   a   n   t       &   o
+0014040    p   t   i   o   n   a   l       f   l   a   g       i   n    
+0014060    v   a   r   l   i   s   t       o   f       ~   S   .   "    
+0014100    3   5   7   Q       "   I   g   n   o   r   e       i   t   .
+0014120    "       3   3   4   Q       "   I   l   l   e   g   a   l    
+0014140    o   r       i   l   l   -   f   o   r   m   e   d       &   c
+0014160    o   n   t   e   x   t       a   r   g       i   n       ~   S
+0014200    .   "  \r       2   4   0   Q       "   I   l   l   e   g   a
+0014220    l       o   r       i   l   l   -   f   o   r   m   e   d    
+0014240    &   e   n   v   i   r   o   n   m   e   n   t       a   r   g
+0014260        i   n       ~   S   .   "       1   4   7   Q       "   I
+0014300    l   l   e   g   a   l       o   r       i   l   l   -   f   o
+0014320    r   m   e   d       &   w   h   o   l   e       a   r   g    
+0014340    i   n       ~   S   .   "   )  \r   A   N   A   L   Y   Z   E
+0014360    -   A   U   X       D   1  \r   (   L       (   1       E   R
+0014400    R   L   O   C       0       A   R   G   L   I   S   T   )    
+0014420    F       3       %   %   L   E   T   -   L   I   S   T       F
+0014440        4       L   A   M   B   D   A   -   L   I   S   T   -   K
+0014460    E   Y   W   O   R   D   S   )      \0 201 003 002  \0 002   @
+0014500  021   ! 002   H   d 240 020 003 255   o  \0  \0  \0   o  \0  \0
+0014520   \0   A  \v  \0  \0   h 020   H   d 001 003 263   =   d 001 004
+0014540    l 004 360 254 277   o  \0  \0  \0   H 001   A  \v  \0  \0 277
+0014560    H 001 272   T   Y 003 265 027   h 232   o  \0  \0  \0   H 001
+0014600    A  \v  \0  \0 277   H 001   o  \0  \0  \0 260   ) 001   J   :
+0014620  222   I 260 347   I 002 260 336 001 001 004   l 004 360 253   o
+0014640   \0  \0  \0   H 001 001   A  \v  \0  \0 277   H 001 001   H 001
+0014660  002 001   h 032 032   S 032   c 006 277   H 002   X 260 207  \0
+0014700    (   1   5   2   Q       C   L   :   E   R   R   O   R       1
+0014720    0   4   Q       W   A   R   N       5   7   Q       C   L   :
+0014740    E   R   R   O   R       2   5   Q       C   E   R   R   O   R
+0014760    )  \r   N   I   L  \r   (       1   4   3   Q       "   N   o
+0015000    n   -   s   y   m   b   o   l   i   c       &   A   U   X    
+0015020    p   a   r   a   m   e   t   e   r       %   "   ~   S   %   "
+0015040        i   n       a   r   g   l   i   s   t       o   f       ~
+0015060    S   .   "       1   1   3   Q       (   N   I   L   )       7
+0015100    6   Q       "   W   A   R   N   I   N   G   :       T   h   e
+0015120        l   a   m   b   d   a   -   l   i   s   t       k   e   y
+0015140    w   o   r   d       %   "   ~   S   %   "       w   a   s    
+0015160    f   o   u   n   d       w   h   e   r   e       a   n       &
+0015200    a   u   x       v   a   r   i   a   b   l   e       s   h   o
+0015220    u   l   d       b   e       i   n       t   h   e       a   r
+0015240    g   l   i   s   t       o   f       ~   S   .   ~   %   %   I
+0015260    t       w   i   l   l       b   e       t   r   e   a   t   e
+0015300    d       a   s       a   n       &   a   u   x       v   a   r
+0015320    i   a   b   l   e       a   n   d       b   o   u   n   d    
+0015340    t   o       N   I   L   .   ~   %   %   Y   o   u       w   i
+0015360    l   l       a   l   m   o   s   t       c   e   r   t   a   i
+0015400    n   l   y       l   o   s   e   .   ~   %   %   "  \r       5
+0015420    1   Q       "   N   o   n   -   s   y   m   b   o   l   i   c
+0015440        &   A   U   X       p   a   r   a   m   e   t   e   r    
+0015460    %   "   ~   S   %   "       i   n       a   r   g   l   i   s
+0015500    t       o   f       ~   S   .   "       2   1   Q       "   D
+0015520    o   t   t   e   d       a   r   g   l   i   s   t       a   f
+0015540    t   e   r       &   A   U   X       i   n       ~   S   .   "
+0015560        1   5   Q  \r       "   I   g   n   o   r   e       t   h
+0015600    e       i   l   l   e   g   a   l       t   e   r   m   i   n
+0015620    a   t   o   r   .   "   )  \r   A   N   A   L   Y   Z   E   -
+0015640    K   E   Y       D   1  \r   (   L       (   2       E   R   R
+0015660    L   O   C       1       R   E   S   T   V   A   R       0    
+0015700    A   R   G   L   I   S   T   )       F       1   0   Q       %
+0015720    %   L   E   T   -   L   I   S   T       F       1   1   Q    
+0015740    %   %   K   E   Y   W   O   R   D   -   T   E   S   T   S   )
+0015760      001   O  \b 002  \0 003  \b  \0  \0   i 021 022 002   H   W
+0016000  020 032   c 020   @ 021   A  \a   K 003 265 023   K 262   +   o
+0016020   \0  \0  \0   o  \0  \0  \0   B  \v  \0  \0 260 034 001   \   d
+0016040    g  \0  \0 360 225 277   h   Y 261 001 026   g  \0  \0 360 262
+0016060    "   K 002   B  \n  \0  \0 277 023   I 264 026   g  \0  \0   A
+0016100    g  \0  \0   J   h 032 032   h 032 032 032   W 022 032   c 022
+0016120  020   L   d 004   l 004 360 262 031  \t  \0  \0 275   L   M   h
+0016140    d   A   H   B  \r  \a  \0  \0 277   M   J 032   Z 261  \0 321
+0016160  003 257   o  \0  \0  \0   o  \0  \0  \0   L   B  \f  \0  \0 261
+0016200   \0 277   L   d 001 004   l 004 360 262   " 001  \t  \0  \0 275
+0016220    L 002 002 001 276   L 001   M   L 002 001   N   A   H   B  \r
+0016240   \a  \0  \0 277   M   J 032   Z 261  \0 226 001 003 236   L 001
+0016260  001  \t  \0  \0 227   L   d 001 002 003 263 023 277   o  \0  \0
+0016300   \0   o  \0  \0  \0   L 001   B  \f  \0  \0 260   s 001 002 001
+0016320  004   l 004 360 262   0   L 001 001   ]  \t  \0  \0 251   o  \0
+0016340   \0  \0   M   B  \v  \0  \0 277   L 002 002 001 276   L 001 002
+0016360  001   M   L 002 001   N   A   H   B  \r  \a  \0  \0 277   M   J
+0016400  032   Z 260   <   L 001 001   ]  \t  \0  \0 251   o  \0  \0  \0
+0016420    M   B  \v  \0  \0 277  \b  \0  \0   _ 016 277   L 002 002 001
+0016440  276   O 016   M   L 002 001   N   A   H   B  \r  \a  \0  \0 277
+0016460    M   J 032 272   L 001 002 001   O 016   B  \v  \0  \0 277   K
+0016500  002   [ 261 376 307  \0   (   5   0   6   Q       R   E   C   U
+0016520    R   S   I   V   E   L   Y   -   A   N   A   L   Y   Z   E    
+0016540    4   6   7   Q       P   U   S   H   -   K   E   Y   W   O   R
+0016560    D   -   B   I   N   D   I   N   G       4   4   1   Q       G
+0016600    E   N   S   Y   M       4   3   5   Q       C   L   :   E   R
+0016620    R   O   R       4   2   3   Q       K   E   Y   W   O   R   D
+0016640    P       4   0   5   Q       P   U   S   H   -   K   E   Y   W
+0016660    O   R   D   -   B   I   N   D   I   N   G       3   5   7   Q
+0016700        C   L   :   E   R   R   O   R       3   4   5   Q       K
+0016720    E   Y   W   O   R   D   P       3   2   3   Q       C   E   R
+0016740    R   O   R       2   7   4   Q       K   E   Y   W   O   R   D
+0016760    P       2   5   3   Q       P   U   S   H   -   K   E   Y   W
+0017000    O   R   D   -   B   I   N   D   I   N   G       2   2   7   Q
+0017020        M   A   K   E   -   K   E   Y   W   O   R   D       2   0
+0017040    7   Q       C   E   R   R   O   R       1   6   0   Q       P
+0017060    U   S   H   -   K   E   Y   W   O   R   D   -   B   I   N   D
+0017100    I   N   G       1   4   4   Q       M   A   K   E   -   K   E
+0017120    Y   W   O   R   D       7   7   Q       A   N   A   L   Y   Z
+0017140    E   -   A   U   X       4   3   Q       C   E   R   R   O   R
+0017160        2       G   E   N   S   Y   M   )  \r   (   1   1   3   Q
+0017200        Q   U   O   T   E       1   0   7   Q       K   E   Y   W
+0017220    O   R   D   -   T   E   S   T       6   6   Q       &   A   U
+0017240    X       5   3   Q       &   A   L   L   O   W   -   O   T   H
+0017260    E   R   -   K   E   Y   S   )  \r   (       4   3   0   Q    
+0017300    "   %   "   ~   S   %   "       s   h   o   u   l   d       b
+0017320    e       a       k   e   y   w   o   r   d   ,       i   n    
+0017340    a   r   g   l   i   s   t       o   f       ~   S   .   "    
+0017360    3   5   2   Q       "   %   "   ~   S   %   "       s   h   o
+0017400    u   l   d       b   e       a       k   e   y   w   o   r   d
+0017420    ,       i   n       a   r   g   l   i   s   t       o   f    
+0017440    ~   S   .   "  \r       3   1   5   Q       "   ~   S       -
+0017460    -       i   l   l   -   f   o   r   m   e   d       k   e   y
+0017500    w   o   r   d       a   r   g       i   n       ~   S   .   "
+0017520        3   1   1   Q       "   I   g   n   o   r   e       t   h
+0017540    i   s       i   t   e   m   .   "       2   0   2   Q       "
+0017560    ~   S       -   -       n   o   n   -   s   y   m   b   o   l
+0017600        v   a   r   i   a   b   l   e       n   a   m   e       i
+0017620    n       a   r   g   l   i   s   t       o   f       ~   S   .
+0017640    "  \r       1   7   6   Q       "   I   g   n   o   r   e    
+0017660    t   h   i   s       i   t   e   m   .   "       3   7   Q    
+0017700    "   D   o   t   t   e   d       a   r   g   l   i   s   t    
+0017720    a   f   t   e   r       &   k   e   y       i   n       ~   S
+0017740    .   "       3   3   Q       "   I   g   n   o   r   e       t
+0017760    h   e       i   l   l   e   g   a   l       t   e   r   m   i
+0020000    n   a   t   o   r   .   "   )  \r   A   N   A   L   Y   Z   E
+0020020    -   P   A   R   A   M   E   T   E   R       D   1  \r   (   L
+0020040        (   2       E   R   R   L   O   C       1       P   A   T
+0020060    H       0       P   A   R   A   M   )       F       1       %
+0020100    %   L   E   T   -   L   I   S   T   )      \0   8 001 001  \0
+0020120  003   @   d 004   l 004 360 230   A   h 032 032   Q 032   c 002
+0020140  020 003 255   o  \0  \0  \0   o  \0  \0  \0   @   B  \f  \0  \0
+0020160  020  \b  \0  \0 021 001  \0   H   A   h 032 032   Q 032   c 002
+0020200    @   H   B   H  \f  \0  \0 020  \0   (   6   5   Q       R   E
+0020220    C   U   R   S   I   V   E   L   Y   -   A   N   A   L   Y   Z
+0020240    E       4   2   Q       G   E   N   S   Y   M       3   6   Q
+0020260        C   E   R   R   O   R   )  \r   N   I   L  \r   (       3
+0020300    1   Q       "   N   o   n   -   s   y   m   b   o   l       v
+0020320    a   r   i   a   b   l   e       n   a   m   e       %   "   ~
+0020340    S   %   "       i   n       ~   S   .   "       2   5   Q    
+0020360    "   I   g   n   o   r   e       t   h   i   s       i   t   e
+0020400    m   .   "   )  \r   P   U   S   H   -   K   E   Y   W   O   R
+0020420    D   -   B   I   N   D   I   N   G       D   1  \r   (   L    
+0020440    (   6       E   R   R   L   O   C       5       T   E   M   P
+0020460    -   V   A   R       4       R   E   S   T   -   V   A   R    
+0020500    3       S   U   P   P   L   I   E   D   -   P   -   V   A   R
+0020520        2       D   E   F   A   U   L   T       1       K   E   Y
+0020540    W   O   R   D       0       V   A   R   I   A   B   L   E   )
+0020560        F       0       %   %   L   E   T   -   L   I   S   T    
+0020600    F       1       *   K   E   Y   -   F   I   N   D   E   R   *
+0020620        F       2       *   D   E   F   A   U   L   T   -   D   E
+0020640    F   A   U   L   T   *   )      \0   `  \0 003  \0  \a   C 004
+0020660    l 004 360 251   o  \0  \0  \0   C   F  \v  \0  \0 277   @   g
+0020700   \0  \0   g  \0  \0   E   Q   g  \0  \0   A   h 032 032   D   h
+0020720  032 032 032   h 032 032 032   g  \0  \0   E   h 032 032   h 032
+0020740  032   i   B 265 003   R   h 032 032   h 032 032 032   h 032 032
+0020760    P 032   c  \0   C   d 262 026   g  \0  \0   g  \0  \0   E   h
+0021000  032 032   h 032 032   h 032 032   P 032   c  \0 020  \0   (   1
+0021020    6   Q       C   L   :   E   R   R   O   R   )  \r   (   1   1
+0021040    7   Q       N   U   L   L       1   1   4   Q       N   O   T
+0021060        5   3   Q       C   A   R       3   3   Q       Q   U   O
+0021100    T   E       2   6   Q       C   L   :   S   E   T   Q       2
+0021120    3   Q       C   O   N   D   )  \r   (       1   1   Q       "
+0021140    N   o   n   -   s   y   m   b   o   l   i   c       s   u   p
+0021160    p   l   i   e   d   -   p       p   a   r   a   m   e   t   e
+0021200    r       %   "   ~   S   %   "       f   o   u   n   d       i
+0021220    n       a   r   g   l   i   s   t       o   f       ~   S   .
+0021240    "   )  \r   A   N   A   L   Y   Z   E   -   R   E   S   T    
+0021260    D   1  \r   (   L       (   4       W   H   O   L   E       3
+0021300        E   R   R   L   O   C       2       P   A   T   H       1
+0021320        A   R   G   L   I   S   T       0       K   E   Y   W   O
+0021340    R   D   )       F       7       %   %   L   E   T   -   L   I
+0021360    S   T       F       1   0   Q       %   %   E   N   V   -   A
+0021400    R   G   -   N   A   M   E       F       1   1   Q       %   %
+0021420    C   T   X   -   A   R   G   -   N   A   M   E       F       1
+0021440    2   Q       %   %   U   N   B   O   U   N   D   E   D   -   A
+0021460    R   G   -   C   O   U   N   T       F       1   3   Q       D
+0021500    O   C   -   V   A   R       F       1   4   Q       R   E   S
+0021520    T   -   V   A   R       F       1   5   Q       %   %   E   N
+0021540    V   -   A   R   G   -   U   S   E   D       F       1   6   Q
+0021560        %   %   C   T   X   -   A   R   G   -   U   S   E   D   )
+0021600      001 320  \a  \b  \0 005   A 003 251   o  \0  \0  \0   @   C
+0021620   \v  \0  \0 277   i   c 024   A 001 021   ! 002   H   d 003 262
+0021640  032 277   @   g  \0  \0 360 257   @   g  \0  \0 360 262 023   H
+0021660    d 003 235   d 002 252 001 270   H   B   C  \v  \0  \0 260   ~
+0021700    H 003 262   r   H  \t  \0  \0   k 363 262   j   W 020 247   o
+0021720   \0  \0  \0  \t  \0  \0 277   H 001   H 002 001   H 002 002 001
+0021740   \b  \0  \0 021 004 006   h 270   N   g  \0  \0   g  \0  \0   B
+0021760    W 020   M   h 360   h 360   h 032 032 032 032   h 032 032   h
+0022000  032 032   W 016 032   c 016 277   K   g  \0  \0   N   h 032 032
+0022020    C  \v  \0  \0 277   L   g  \0  \0   N   h 032 032   C  \v  \0
+0022040   \0 277   W 026 234   M   g  \0  \0   N   h 032 032   C  \v  \0
+0022060   \0 277 023 210   o  \0  \0  \0   C  \n  \0  \0 277   A 002   Y
+0022100    d 003 257 241   h 020   o  \0  \0  \0   o  \0  \0  \0   C  \v
+0022120   \0  \0 020 001   Z   d   g  \0  \0 360 262 035 277   W 030 256
+0022140    o  \0  \0  \0   o  \0  \0  \0   C  \v  \0  \0 261  \0 345   I
+0022160  002   H   C  \v  \0  \0 020   g  \0  \0 360 226   I 002   C  \n
+0022200   \0  \0 020   J   d   g  \0  \0 360 237 277   o  \0  \0  \0   o
+0022220   \0  \0  \0   C  \v  \0  \0 261  \0 272   g  \0  \0 360 262   1
+0022240    D 262   #   I 002 003 262 036   I 002 001 004   l 004 360 262
+0022260  025   I 002 001   D   h 032 032   W 016 032   c 016 277   I 002
+0022300    Y 261  \0 220   o  \0  \0  \0   C  \n  \0  \0 261  \0 205   J
+0022320    d   g  \0  \0 360 262   6 277   W 020 262   '   I 002 003 262
+0022340    "   I 002 001 004   l 004 360 262 031   I 002 001   W 020   h
+0022360  032 032   W 016 032   c 016 277   i   c 032 277   I 002   Y 260
+0022400    R   o  \0  \0  \0   C  \n  \0  \0 260   H   g  \0  \0 360 262
+0022420    4   W 022 262   '   I 002 003 262   "   I 002 001 004   l 004
+0022440  360 262 031   I 002 001   W 022   h 032 032   W 016 032   c 016
+0022460  277   i   c 034 277   I 002   Y 260 031   o  \0  \0  \0   C  \n
+0022500   \0  \0 215   o  \0  \0  \0   o  \0  \0  \0   I 001   C  \f  \0
+0022520   \0 277   I 261 376 353  \0   (   7   1   1   Q       C   E   R
+0022540    R   O   R       6   7   2   Q       C   L   :   E   R   R   O
+0022560    R       6   0   1   Q       C   L   :   E   R   R   O   R    
+0022600    5   0   4   Q       C   L   :   E   R   R   O   R       4   1
+0022620    7   Q       C   E   R   R   O   R       3   7   2   Q       A
+0022640    N   A   L   Y   Z   E   -   A   U   X       3   5   6   Q    
+0022660    A   N   A   L   Y   Z   E   -   K   E   Y       3   4   4   Q
+0022700        C   R   R   O   R       3   1   2   Q       C   E   R   R
+0022720    O   R       2   6   4   Q       C   L   :   E   R   R   O   R
+0022740        2   5   1   Q       A   N   A   L   Y   Z   E   -   P   A
+0022760    R   A   M   E   T   E   R       2   3   1   Q       A   N   A
+0023000    L   Y   Z   E   -   P   A   R   A   M   E   T   E   R       2
+0023020    1   4   Q       A   N   A   L   Y   Z   E   -   P   A   R   A
+0023040    M   E   T   E   R       1   3   3   Q       G   E   N   S   Y
+0023060    M       1   1   6   Q       C   L   :   E   R   R   O   R    
+0023100    1   0   0   Q       C   L   :   L   E   N   G   T   H       6
+0023120    6   Q       A   N   A   L   Y   Z   E   -   P   A   R   A   M
+0023140    E   T   E   R       1   3   Q       C   L   :   E   R   R   O
+0023160    R   )  \r   (   6   0   6   Q       &   C   O   N   T   E   X
+0023200    T       5   1   4   Q       &   E   N   V   I   R   O   N   M
+0023220    E   N   T       4   2   5   Q       &   W   H   O   L   E    
+0023240    4   0   0   Q       &   A   L   L   O   W   -   O   T   H   E
+0023260    R   -   K   E   Y   S       3   6   2   Q       &   A   U   X
+0023300        3   2   1   Q       &   K   E   Y       2   4   1   Q    
+0023320    T   H   I   R   D       2   2   1   Q       S   E   C   O   N
+0023340    D       2   0   4   Q       C   L   :   F   I   R   S   T    
+0023360    1   4   7   Q       P   A   R   S   E   -   B   O   D   Y    
+0023400    1   4   4   Q       M   U   L   T   I   P   L   E   -   V   A
+0023420    L   U   E   -   L   I   S   T       4   4   Q       &   B   O
+0023440    D   Y       3   6   Q       &   R   E   S   T   )  \r   (    
+0023460    7   0   3   Q       "   S   t   r   a   y       p   a   r   a
+0023500    m   e   t   e   r       %   "   ~   S   %   "       f   o   u
+0023520    n   d       i   n       a   r   g   l   i   s   t       o   f
+0023540        ~   S   .   "       6   7   7   Q       "   I   g   n   o
+0023560    r   e       i   t   .   "       6   6   6   Q       "   I   l
+0023600    l   -   f   o   r   m   e   d       o   r       i   l   l   e
+0023620    g   a   l       &   c   o   n   t   e   x   t       a   r   g
+0023640        i   n       ~   S   .   "  \r       5   7   5   Q       "
+0023660    I   l   l   -   f   o   r   m   e   d       o   r       i   l
+0023700    l   e   g   a   l       &   e   n   v   i   r   o   n   m   e
+0023720    n   t       a   r   g       i   n       ~   S   .   "       5
+0023740    0   0   Q       "   I   l   l   -   f   o   r   m   e   d    
+0023760    o   r       i   l   l   e   g   a   l       &   w   h   o   l
+0024000    e       a   r   g       i   n       ~   S   .   "       4   1
+0024020    3   Q  \r       "   S   t   r   a   y       &   A   L   L   O
+0024040    W   -   O   T   H   E   R   -   K   E   Y   S       i   n    
+0024060    a   r   g   l   i   s   t       o   f       ~   S   .   "    
+0024100    4   0   7   Q       "   I   g   n   o   r   e       i   t   .
+0024120    "       3   4   0   Q       "   T   h   e       p   a   r   s
+0024140    i   n   g       v   e   r   s   i   o   n       o   f       &
+0024160    b   o   d   y       w   a   s       m   i   x   e   d       w
+0024200    i   t   h       &   k   e   y       i   n       a   r   g   l
+0024220    i   s   t       o   f       ~   S   .   "  \r       3   3   4
+0024240    Q       "   I   g   n   o   r   e       t   h   e       k   e
+0024260    y   w   o   r   d   s   .   "       3   0   6   Q       "   D
+0024300    o   t   t   e   d       a   r   g   l   i   s   t       t   e
+0024320    r   m   i   n   a   t   o   r       a   f   t   e   r       &
+0024340    r   e   s   t       a   r   g       i   n       ~   S   .   "
+0024360        3   0   2   Q       "   I   g   n   o   r   e       t   h
+0024400    e       i   l   l   e   g   a   l       t   e   r   m   i   n
+0024420    a   t   o   r   .   "  \r       2   6   0   Q       "   B   a
+0024440    d       &   r   e   s   t       o   r       &   b   o   d   y
+0024460        a   r   g       i   n       ~   S   .   "       1   1   3
+0024500    Q       "   T   h   e       p   a   r   s   i   n   g       v
+0024520    e   r   s   i   o   n       o   f       &   b   o   d   y    
+0024540    i   s       n   o   t       a   l   l   o   w   e   d       w
+0024560    h   e   n       n   o       l   e   x   i   c   a   l       e
+0024600    n   v   i   r   o   n   m   e   n   t       i   s       a   v
+0024620    a   i   l   a   b   l   e   .   "  \r       6       "   B   a
+0024640    d       ~   S       a   r   g       i   n       ~   S   .   "
+0024660    )  \r   R   E   C   U   R   S   I   V   E   L   Y   -   A   N
+0024700    A   L   Y   Z   E       D   1  \r   (   L       (   3       W
+0024720    H   O   L   E       2       E   R   R   L   O   C       1    
+0024740    P   A   T   H       0       A   R   G   L   I   S   T   )    
+0024760    P       4       %   %   C   T   X   -   A   R   G   -   N   A
+0025000    M   E       P       3       %   %   E   N   V   -   A   R   G
+0025020    -   N   A   M   E       P       2       %   %   U   N   B   O
+0025040    U   N   D   E   D   -   A   R   G   -   C   O   U   N   T    
+0025060    P       1       %   %   A   R   G   -   C   O   U   N   T    
+0025100    P       0       %   %   M   I   N   -   A   R   G   S   )    
+0025120   \0 016 005  \0  \0 004   j   d 021   2 004   @   A   B   C  \f
+0025140   \0  \0 020  \0   (   1   3   Q       A   N   A   L   Y   Z   E
+0025160    )  \r   N   I   L  \r   (   )  \r   D   E   F   M   A   C   R
+0025200    O   -   A   R   G   -   T   E   S   T       D   1  \r   (   L
+0025220        (   0       A   R   G   S   )       F       0       %   %
+0025240    M   I   N   -   A   R   G   S       F       1       %   %   A
+0025260    R   G   -   C   O   U   N   T       F       2       %   %   U
+0025300    N   B   O   U   N   D   E   D   -   A   R   G   -   C   O   U
+0025320    N   T   )      \0 200  \0 003  \0 001   P   j 360 250   P   d
+0025340  005 003 230  \t  \0  \0 223   R 221   h 020   P   j 360 263 037
+0025360    P 005 003 265 025   R 262   '   g  \0  \0   g  \0  \0   @   h
+0025400  032 032   P   h 032 032 032 020  \t  \0  \0 262 352   g  \0  \0
+0025420    g  \0  \0   @   h 032 032   Q   h 032 032 032 020   P   Q  \n
+0025440   \0  \0 237   g  \0  \0   g  \0  \0   @   h 032 032   P   h 032
+0025460  032 032 020   g  \0  \0   g  \0  \0   g  \0  \0   @   h 032 032
+0025500    Q   h 032 032 032   g  \0  \0   g  \0  \0   @   h 032 032   P
+0025520    h 032 032 032   h 032 032 032 020  \0   (   1   0   7   Q    
+0025540    %   %   =       6   0   Q       \   F   Z   E   R   O   P    
+0025560    1   3   Q       \   F   Z   E   R   O   P   )  \r   (   1   6
+0025600    0   Q       C   L   :   L   E   N   G   T   H       1   5   5
+0025620    Q       <       1   4   1   Q       C   L   :   L   E   N   G
+0025640    T   H       1   3   6   Q       >       1   3   3   Q       O
+0025660    R       1   1   6   Q       C   L   :   L   E   N   G   T   H
+0025700        1   1   3   Q       /   =       7   0   Q       C   L   :
+0025720    L   E   N   G   T   H       6   5   Q       >       4   3   Q
+0025740        C   L   :   L   E   N   G   T   H       4   0   Q       <
+0025760    )  \r   (   )  \r   (   P   R   O   C   L   A   I   M       (
+0026000    Q   U   O   T   E       (   S   P   E   C   I   A   L       A
+0026020    N   A   L   Y   Z   E   -   T   E   S   T   S   )   )   )  \r
+0026040    (   O   R       (   B   O   U   N   D   P       (   Q   U   O
+0026060    T   E       A   N   A   L   Y   Z   E   -   T   E   S   T   S
+0026100    )   )       (   S   E   T   Q       A   N   A   L   Y   Z   E
+0026120    -   T   E   S   T   S       (   Q   U   O   T   E       (   (
+0026140    M   U   L   T   I   P   L   E   -   V   A   L   U   E   -   L
+0026160    I   S   T       (   P   A   R   S   E   -   D   E   F   M   A
+0026200    C   R   O       (  \r   Q   U   O   T   E       (   (   &   W
+0026220    H   O   L   E       H   E   A   D       M   O   U   T   H    
+0026240    &   O   P   T   I   O   N   A   L       E   Y   E   1       (
+0026260    E   Y   E   2       7       E   Y   E   2   -   P   )   )    
+0026300    (   (   F   I   N   1       L   E   N   G   T   H   1       &
+0026320    K   E   Y       O   N   E       (   T   W   O       8   )    
+0026340    (   (   :   T   H   R   E   E      \r   T   R   O   I   S   )
+0026360        3       T   R   E   S   -   P   )       (   (   :   F   O
+0026400    U   R       (   Q   U   A   T   R   E       Q   U   A   T   R
+0026420    O   )   )       (   Q   U   O   T   E       (   4       4   )
+0026440    )   )   )       &   O   P   T   I   O   N   A   L       (   (
+0026460    F   I   N   2       L   E   N   G   T   H   2   )       9    
+0026500    F   L   2   -   P   )   )       T   A   I   L      \r   &   R
+0026520    E   S   T       (   F   O   O       B   A   R       B   A   Z
+0026540    )       &   E   N   V   I   R   O   N   M   E   N   T       E
+0026560    N   V   )   )       (   Q   U   O   T   E       W   H   O   L
+0026600    E   -   A   R   G   )       (   Q   U   O   T   E       (   (
+0026620    C   O   D   E   )   )   )       (   Q   U   O   T   E       E
+0026640    R   R   L   O   C   )       :   E   N   V   I   R   O   N   M
+0026660    E   N   T      \r   (   Q   U   O   T   E       *   E   N   V
+0026700    *   )       :   E   R   R   O   R   -   S   T   R   I   N   G
+0026720        "   A   c   k   !   "   )   )       (   Q   U   O   T   E
+0026740        (   (   &   W   H   O   L   E       H   E   A   D       M
+0026760    O   U   T   H       E   Y   E   1       E   Y   E   2   )    
+0027000    (   (   F   I   N   1       L   E   N   G   T   H   1   )    
+0027020    (   F   I   N   2      \r   L   E   N   G   T   H   2   )   )
+0027040        T   A   I   L   )   )       (   Q   U   O   T   E       (
+0027060    (   &   W   H   O   L   E       H   E   A   D       M   O   U
+0027100    T   H       &   O   P   T   I   O   N   A   L       E   Y   E
+0027120    1       (   E   Y   E   2       7       E   Y   E   2   -   P
+0027140    )   )       (   (   F   I   N   1       L   E   N   G   T   H
+0027160    1       &   K   E   Y       O   N   E       (  \r   T   W   O
+0027200        8   )       (   (   :   T   H   R   E   E       T   R   O
+0027220    I   S   )       3       T   R   E   S   -   P   )       (   (
+0027240    :   F   O   U   R       (   Q   U   A   T   R   E       Q   U
+0027260    A   T   R   O   )   )       (   Q   U   O   T   E       (   4
+0027300        4   )   )   )   )       &   O   P   T   I   O   N   A   L
+0027320        (   (   F   I   N   2       L   E   N   G   T   H   2   )
+0027340        9      \r   F   L   2   -   P   )   )       T   A   I   L
+0027360        &   R   E   S   T       (   F   O   O       B   A   R    
+0027400    B   A   Z   )       &   E   N   V   I   R   O   N   M   E   N
+0027420    T       E   N   V   )   )   )   )   )   )  \r   K   E   Y   W
+0027440    O   R   D   -   T   E   S   T       D   1  \r   (   L       (
+0027460    1       K   E   Y   S       0       A   R   G   S   )   )    
+0027500   \0   C 002  \0  \0 002 021     001   @   Y 003 265 016   H 262
+0027520    5   o  \0  \0  \0   H  \n  \0  \0 020 001   g  \0  \0 360 233
+0027540    I   d 002 001 227 277  \b  \0  \0 277 260 344   I 001   A   g
+0027560   \0  \0   g  \0  \0  \t  \0  \0  \f  \0  \0 242   I 001 270   I
+0027600  002 002 260 310  \b  \0  \0 020  \0   (   1   0   0   Q       V
+0027620    A   L   U   E   S       6   4   Q       C   L   :   M   E   M
+0027640    B   E   R       6   1   Q       S   Y   M   B   O   L   -   F
+0027660    U   N   C   T   I   O   N       4   2   Q       V   A   L   U
+0027700    E   S       2   2   Q       C   L   :   E   R   R   O   R   )
+0027720   \r   (   5   6   Q       E   Q       5   3   Q       :   T   E
+0027740    S   T       2   7   Q       :   A   L   L   O   W   -   O   T
+0027760    H   E   R   -   K   E   Y   S   )  \r   (       1   6   Q    
+0030000    "   E   x   t   r   a   n   e   o   u   s       k   e   y   w
+0030020    o   r   d       %   "   ~   S   %   "       g   i   v   e   n
+0030040    .   "   )  \r   F   I   N   D   -   K   E   Y   W   O   R   D
+0030060        D   1  \r   (   L       (   1       K   E   Y   L   I   S
+0030100    T       0       K   E   Y   W   O   R   D   )   )      \0   0
+0030120  001  \0  \0 002   A 021 001  \0   H 003 265 004   h 020 002 003
+0030140  263 023   o  \0  \0  \0   o  \0  \0  \0  \n  \0  \0 277   H   h
+0030160    &   h 020   H   d 001   @ 360 224 002 001   h 032 020 002 002
+0030200    X 260 330  \0   (   3   0   Q       C   E   R   R   O   R   )
+0030220   \r   N   I   L  \r   (       2   5   Q       "   U   n   p   a
+0030240    i   r   e   d       i   t   e   m       i   n       k   e   y
+0030260    w   o   r   d       p   o   r   t   i   o   n       o   f    
+0030300    m   a   c   r   o       c   a   l   l   .   "       2   1   Q
+0030320        "   S   t   i   c   k       a       N   I   L       o   n
+0030340        t   h   e       e   n   d       a   n   d       g   o    
+0030360    o   n   .   "   )  \r   (   P   U   T   P   R   O   P   S    
+0030400    C   M   L   P   A   R   S   E       F   I   L   E   T   Y   P
+0030420    E       C   O   M   P   I   L   E   -   F   I   L   E   )  \r
+0030440    (   P   U   T   P   R   O   P   S       C   M   L   P   A   R
+0030460    S   E       C   O   P   Y   R   I   G   H   T       (   "   X
+0030500    e   r   o   x       C   o   r   p   o   r   a   t   i   o   n
+0030520    "       1   9   8   6   )   )  \r   N   I   L  \r            
+0030535
+</pre>
+  </body>
+</html>

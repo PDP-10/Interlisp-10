@@ -1,0 +1,11 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [eris]&lt;Lisp>Harmony>Patches>PRETTYCOM1PATCH!1</title>
+  </head>
+  <body>
+    <pre>
+(FILECREATED "13-Feb-85 22:54:37" {PHYLUM}&lt;LFG&gt;PARSER&gt;PRETTYCOM1PATCH.;1 1469         changes to:  (FNS PRETTYCOM1))(* Copyright (c) 1985 by Xerox Corporation. All rights reserved.)(PRETTYCOMPRINT PRETTYCOM1PATCHCOMS)(RPAQQ PRETTYCOM1PATCHCOMS ((FNS PRETTYCOM1)))(DEFINEQ(PRETTYCOM1  [LAMBDA (PRTYCOM PRTYFLG REMOVECOMMENTS)                   (* rmk: "13-Feb-85 22:54")    (PROG (PRTYX)          [COND	    ((AND (EQ [CAR (LISTP (SETQ PRTYX (CDR PRTYCOM]		      (QUOTE *))		  (CDR PRTYX))	      (COND		((AND (LITATOM (SETQ PRTYX (CADR PRTYX)))		      PRTYFLG)                               (* Checks to see if the variable is already being 							     dumped and dumps it if not.)		  (PRETTYCOM PRTYX)))	      (SETQ PRTYX (COND		  (PRTYFLG (EVAL PRTYX))		  ((LITATOM PRTYX)		    (AND (NEQ (SETQ PRTYX (GETTOPVAL PRTYX))			      (QUOTE NOBIND))			 PRTYX))		  (T (RESETVARS (DWIMLOADFNSFLG)			        (RETURN (AND (ERSETQ (SETQ PRTYX (EVAL PRTYX)))					     PRTYX]          (RETURN (if (AND REMOVECOMMENTS (LISTP PRTYX))		      then [SUBSET PRTYX (FUNCTION (LAMBDA (X)				       (OR (NLISTP X)					   (NEQ (CAR X)						COMMENTFLG]		    else PRTYX]))(PUTPROPS PRETTYCOM1PATCH COPYRIGHT ("Xerox Corporation" 1985))(DECLARE: DONTCOPY  (FILEMAP (NIL (283 1383 (PRETTYCOM1 293 . 1381)))))STOP</pre>
+  </body>
+</html>

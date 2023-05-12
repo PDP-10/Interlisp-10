@@ -1,0 +1,11 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [phylum]&lt;LispARs>01843.AR!2</title>
+  </head>
+  <body>
+    <pre>
+Number: 1843Date: 15-Aug-84 14':15':51Submitter: Sannella.PASource: JonL.paSubject: Figure out **WHY** FOO had the longest ATOMHASH#PROBES numberAssigned To: JonlAttn: ReleaseStatus: FixedIn/By: Problem Type: PerformanceImpact: ModerateDifficulty: Frequency: Priority: PerhapsSystem: Language SupportSubsystem: Storage Formats/MgtMachine: Disk: Lisp Version: Source Files: Microcode Version: Memory Size: File Server: Server Software Version: Disposition: I take the following as an adequate explanation of the observed phenomenon':  After a Full.sysout is created, there are over 18000 litatoms; after a few other packages, and the ABC environment, are loaded, one quickly gets up to about 26000 litatoms --- this is roughly 80% occupancy for the litatom hash table, and the algorithm (not a particularly "bright" one, but at least it''s fast) just doesn''t distribute atoms well when the table is nearly full.  See also AR 1440 for extensive discussion of the topic.'["JonL.pa" " 4-Sep-84 21':56':12" Assigned% To': Attn': Status':(Open-&gt;Fixed) Disposition':]Description: 'mjs':  dammit, there MUST be some reason besides the fact that it was introduced after all of the packages were loaded.  I refuse to believe that it is coincidence.''-----''Date': 27 Jul 84 03':28 PDT'From': JonL.pa'Subject': FOO! in LOADFULL.CM'To': Masinter, Sannella'cc': JonL.pa''All right, dammit, who removed the (QUOTE FOO) from LOADFULL.CM???  There''s no damn reason at all why FULL.sysout shouldn''t have FOO already existing -- its the difference between an ATOMHASH#PROBES of about 50 and one of about 200 *** for the most common meta variable that we all use ***.    More importantly, it costs 15-30 seconds of page swapping every 5 minutes or so of debugging.''PLEASE PUT IT BACK ASAP.''-- JonL --'''Workaround: Test Case: Edit-By: JonL.paEdit-Date:  4-Sep-84 21':56':12</pre>
+  </body>
+</html>

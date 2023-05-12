@@ -1,0 +1,11 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [phylum]&lt;LispARs>00572.AR!2</title>
+  </head>
+  <body>
+    <pre>
+Number: 572Date: 10-Apr-84 10':10':50Submitter: Sannella.PASource: Kaplan.paSubject: File browser gets confused with subdirectoriesAssigned To: Attn: JellinekStatus: FixedIn/By: Problem Type: BugImpact: AnnoyingDifficulty: Frequency: EverytimePriority: PerhapsSystem: Windows and GraphicsSubsystem: LibraryMachine: Disk: Lisp Version: Source Files: Microcode Version: Memory Size: File Server: Server Software Version: Disposition: '["Jellinek" "13-Sep-84 15':43':07" Status':(Open-&gt;Fixed)]Description: 'Date': 13 Jan 84 18':57 PST'From': Kaplan.pa'Subject': Lisp': File browser bug'To': Gadol, LispSupport.pa'cc': Kaplan.pa'Lisp-System-Date': 12-Jan-84 18':49':00'Machine-Type': Dorado''I did FILEBROWSER(&lt;FOO&gt;*FUM*) and it turned out that there were files named &lt;FOO&gt;FUMA and &lt;FOO&gt;FUM&gt;X (i.e., with FUM a subdirectory.  The latter files did not show up in the browser, and instead what I saw was &lt;FOO&gt;FUM&gt;.;1 and &lt;FOO&gt;FUM.;2.  When I SEEd those files, what I saw was another browser window with the files in that directory, followed at the end by .;1 and .;2.  When I SEEed one of those, I got exactly the same kind of secondary browser, with the same funny files at the end.''Also, some of the FUM files were in a FIE subdirectory':  &lt;FOO&gt;FIE&gt;FUMZ.  These showed up in the browser as &lt;FIE&gt;FUMZ, which was very misleading.  If the common prefix &lt;FOO&gt; is going to be stripped off, then at least the filename in the browser should not begin with the dishonest open bracket.  If I don''t see &lt;FOO&gt;FIE&gt;FUMZ, at least I should see &gt;FIE&gt;FUMZ.''--Ron'Workaround: Test Case: Edit-By: JellinekEdit-Date: 13-Sep-84 15':43':08</pre>
+  </body>
+</html>

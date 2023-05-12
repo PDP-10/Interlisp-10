@@ -1,0 +1,650 @@
+;                                                 8/20/84
+;
+;
+;  INITIALIZATION ROUTINES FOR NNGS
+;
+;
+;   COPYRIGHT (C) 1984 number nine computer corp.
+;
+;
+ 
+STACK1        SEGMENT PARA STACK 'GROUP1'
+;
+;DEFINE 256 BYTES OF STACK AREA
+              DB   256 DUP('STACK ')
+STACK1        ENDS
+;
+;
+;
+INIT          SEGMENT PARA      'GROUP1'
+              ASSUME CS:INIT,DS:INIT
+START         PROC FAR
+;
+;
+GDC_SEG         EQU      0C000H  ;SEGMENT
+ 
+PALLETE_RED     EQU      00100H  ;LUT
+PALLETE_GREEN   EQU      00200H
+PALLETE_BLUE    EQU      00300H
+ 
+STAT_PORT       EQU      0000H   ; NEC 7220 GDC ports
+PAR_PORT        EQU      0000H
+COMD_PORT       EQU      0001H
+DATA_PORT       EQU      0001H
+ 
+ZOOM_SWITCH     EQU      00700H  ;SOFTSWITCHES
+MODE_SWITCH     EQU      00704H
+BANK0_SWITCH    EQU      00705H
+BANK1_SWITCH    EQU      00706H
+ENABLE_SWITCH   EQU      00707H
+ 
+;
+;DOS ENTRY
+              PUSH DS
+              SUB  AX,AX
+              PUSH AX
+;
+;ADDRESS TO WORK AREA
+              MOV  AX,CS
+              MOV  DS,AX
+              MOV  ES,AX
+ 
+              CALL NNGS
+ 
+              RET
+ 
+START         ENDP
+ 
+ 
+ 
+ 
+NNGS          PROC  NEAR
+ 
+ 
+       ;ENABLE CARD AND PIXEL MODE ACCESS
+        CALL PIX_DMA
+ 
+ 
+        ; RESET THE BOARD
+ 
+        MOV     AL,00H
+        CALL    RESET
+ 
+ 
+        ; INITIALIZE PARAMETERS
+        CALL    INIT_PARMS
+ 
+        ; CLEAR ALL OF DISPLAY
+        CALL    CLEAR
+ 
+ 
+        ; PRESET DEFAULT PALLETE
+        CALL RGBW_PAL
+ 
+ 
+        ; START DISPLAYING
+        CALL    START_DISP
+ 
+        ; TURN ON DISPLAY
+        CALL    UN_BLANK
+ 
+        RET
+ 
+NNGS    ENDP
+ 
+ 
+; RESET THE NNGS BOARD
+;
+ 
+RESET   PROC    NEAR
+ 
+        PUSH    ES
+        PUSH    DI
+        PUSH    AX
+        MOV     AX,GDC_SEG
+        MOV     ES,AX
+        MOV     DI,COMD_PORT
+        POP     AX
+        MOV     ES: [DI],AL  ; AL set by calling routine
+        POP     DI
+        POP     ES
+ 
+        PUSH    SI              ;save source index
+ 
+        MOV     SI,OFFSET INIT_TABLE
+        MOV     CX,08H
+ 
+RES1:   MOV     AL,BYTE PTR [SI]
+        INC     SI
+        CALL    OUT_PAR
+        LOOP    RES1
+ 
+        POP     SI
+ 
+ 
+        RET
+ 
+RESET   ENDP
+ 
+ 
+ 
+ 
+INIT_PARMS PROC NEAR
+ 
+ 
+        ;set pitch
+ 
+        MOV AL,INIT_TABLE+1
+        ADD AL,2
+        CALL SET_PITCH
+ 
+        ; set vertical sync
+ 
+        MOV     AL,06FH
+        CALL    OUT_COMD
+ 
+        ; SET ZOOM TO 1
+ 
+        MOV     BYTE PTR ZOOM_SAVE,00H
+        CALL    ZOOM
+ 
+        ; disable character mode
+ 
+        CALL    DIS_CHR
+ 
+        ; set the screen parameters
+ 
+        MOV     BX,OFFSET PRAM_TABLE
+        MOV     CX,0004H
+        CALL    PAR_RAM
+ 
+        ; graphics parameters
+ 
+        MOV     BX,OFFSET G_TABLE
+        MOV     CX,0008H
+        CALL    GRAF_PAR
+ 
+        ; set mask to all 1s
+ 
+        MOV     AX,0FFFFH
+        CALL    SET_MASK
+ 
+        RET
+INIT_PARMS ENDP
+ 
+ 
+ 
+PIX_DMA         PROC NEAR
+ 
+                PUSH ES
+                MOV  AX,GDC_SEG
+                MOV  ES,AX
+;
+                MOV  DI,MODE_SWITCH
+                MOV  AL,0FFH
+                MOV  ES:[DI],AL
+                MOV  DI,ENABLE_SWITCH
+                MOV  ES:[DI],AL
+                POP  ES
+                RET
+ 
+PIX_DMA         ENDP
+ 
+ 
+PLANE_DMA       PROC NEAR
+ 
+                PUSH ES
+                MOV  AX,GDC_SEG
+                MOV  ES,AX
+;
+                MOV  DI,MODE_SWITCH
+                MOV  AL,000H
+                MOV  ES:[DI],AL
+                MOV  AL,0FFH
+                MOV  DI,ENABLE_SWITCH
+                MOV  ES:[DI],AL
+                POP  ES
+                RET
+ 
+PLANE_DMA       ENDP
+ 
+ 
+; OUTPUT COMMAND
+;
+ 
+OUT_COMD PROC NEAR
+        PUSH ES
+        PUSH DI
+        PUSH AX
+        MOV  AX,GDC_SEG
+        MOV  ES,AX
+        MOV  DI,STAT_PORT
+OCOM1:  MOV  AL,ES: [DI]
+        AND  AL,002H
+        JNE  OCOM1
+        POP  AX
+        MOV  DI,COMD_PORT
+        MOV  ES: [DI],AL
+        POP  DI
+        POP  ES
+        RET
+ 
+OUT_COMD ENDP
+ 
+;
+; OUTPUT PARAMETER
+;
+ 
+OUT_PAR PROC NEAR
+ 
+        PUSH ES
+        PUSH DI
+        PUSH AX
+        MOV  AX,GDC_SEG
+        MOV  ES,AX
+        MOV  DI,STAT_PORT
+OPAR1:  MOV  AL,ES: [DI]
+        AND  AL,002H
+        JNE  OPAR1
+        POP  AX
+        MOV  DI,PAR_PORT
+        MOV  ES: [DI],AL
+        POP  DI
+        POP  ES
+        RET
+ 
+OUT_PAR ENDP
+ 
+SET_PITCH     PROC NEAR
+ 
+              MOV  PITCH,AL
+              MOV AH,AL
+              MOV AL,047H
+              CALL OUT_COMD
+ 
+              MOV AL,AH
+              CALL OUT_PAR
+              RET
+ 
+SET_PITCH     ENDP
+ 
+ 
+ 
+ 
+ 
+ 
+; TURN ON DISPLAY
+;
+ 
+UN_BLANK  PROC  NEAR
+ 
+        MOV     AL,0DH
+        CALL    OUT_COMD
+ 
+        RET
+UN_BLANK ENDP
+ 
+;
+; TURN OFF DISPLAY
+;
+ 
+BLANK   PROC    NEAR
+ 
+        MOV     AL,0CH
+        CALL    OUT_COMD
+ 
+        RET
+BLANK   ENDP
+ 
+;
+; DISABLE CHARACTER MODE
+;
+ 
+DIS_CHR PROC    NEAR
+ 
+        MOV     AL,4BH
+        CALL    OUT_COMD
+ 
+        MOV     AL,00H
+        CALL    OUT_PAR
+        MOV     AL,0C0H
+        CALL    OUT_PAR
+        MOV     AL,00H
+        CALL    OUT_PAR
+ 
+        RET
+DIS_CHR ENDP
+ 
+;
+; SET ZOOM
+;
+ 
+ZOOM    PROC    NEAR
+ 
+        MOV     AL,46H
+        CALL    OUT_COMD
+ 
+        MOV     AL,ZOOM_SAVE
+        CALL    OUT_PAR
+ 
+        PUSH    ES
+        PUSH    DI
+        MOV     AX,GDC_SEG
+        MOV     ES,AX
+        MOV     DI,ZOOM_SWITCH
+ 
+        MOV     AH,ZOOM_SAVE
+        MOV     AL,AH
+        XOR     AL,0FFH
+        MOV     ES: [DI] [3],AL
+ 
+        ROL     AH,1
+        MOV     AL,AH
+        XOR     AL,0FFH
+        MOV     ES: [DI] [2],AL
+ 
+        ROL     AH,1
+        MOV     AL,AH
+        XOR     AL,0FFH
+        MOV     ES: [DI] [1],AL
+ 
+        ROL     AH,1
+        MOV     AL,AH
+        XOR     AL,0FFH
+        MOV     ES: [DI],AL
+ 
+        POP     DI
+        POP     ES
+        RET
+ZOOM    ENDP
+ 
+;
+; CLEAR MASK (SET TO ALL 1s)
+;
+ 
+CLR_MSK PROC    NEAR
+ 
+        MOV     AX,0FFFFH
+        CALL    SET_MASK
+ 
+        RET
+CLR_MSK ENDP
+ 
+;
+; SET MASK REGISTER
+;
+ 
+SET_MASK PROC    NEAR
+ 
+        PUSH    AX
+        MOV     AL,4AH
+        CALL    OUT_COMD
+ 
+        POP     AX
+        CALL    OUT_PAR
+        MOV     AL,AH
+        CALL    OUT_PAR
+ 
+        RET
+SET_MASK ENDP
+ 
+;
+; SET PARAMETER RAM
+;
+ 
+PAR_RAM PROC    NEAR
+ 
+        MOV     AL,70H
+        CALL    OUT_COMD
+ 
+PRAM1:  MOV AL,IMAGE_BIT
+        OR  [BX] [3],AL
+ 
+PRAM1X: MOV     AL,BYTE PTR [BX]
+        CALL    OUT_PAR
+        INC     BX
+        LOOP    PRAM1X
+ 
+        RET
+PAR_RAM ENDP
+ 
+;
+; SET GRAPHICS PARAMETERS
+;
+ 
+GRAF_PAR PROC   NEAR
+ 
+        MOV     AL,78H
+        CALL    OUT_COMD
+ 
+GPAR1:  MOV     AL,BYTE PTR [BX]
+        CALL    OUT_PAR
+        INC     BX
+        LOOP    GPAR1
+ 
+        RET
+GRAF_PAR ENDP
+ 
+;
+; START THE DISPLAY
+;
+ 
+START_DISP PROC NEAR
+ 
+        MOV     AL,6BH
+        CALL    OUT_COMD
+ 
+        RET
+START_DISP ENDP
+;
+ 
+ 
+RGBW_PAL        PROC NEAR
+ 
+                PUSH BX
+ 
+;       SET COLOR SCALES IN THREE PALETTES
+                MOV  BX,OFFSET RED_COPY
+                MOV  DI,RED_PART
+                CALL STEP_PAL
+ 
+                MOV  BX,OFFSET GREEN_COPY
+                MOV  DI,GREEN_PART
+                CALL STEP_PAL
+ 
+                MOV  BX,OFFSET BLUE_COPY
+                MOV  DI,BLUE_PART
+                CALL STEP_PAL
+ 
+;       SET WHITE PARTS OF ALL THREE PALETTES
+                MOV  BX,OFFSET RED_COPY
+                MOV  DI,WHITE_PART
+                CALL STEP_PAL
+                MOV  BX,OFFSET GREEN_COPY
+                MOV  DI,WHITE_PART
+                CALL STEP_PAL
+                MOV  BX,OFFSET BLUE_COPY
+                MOV  DI,WHITE_PART
+                CALL STEP_PAL
+ 
+                CALL PALMOV
+ 
+                POP BX
+                RET
+ 
+STEP_PAL:       MOV  AL,00
+                MOV  CX,040H
+RGBW1:          MOV  BYTE PTR [BX+DI],AL
+                ADD  AL,4
+                INC  DI
+                LOOP RGBW1
+                RET
+ 
+RGBW_PAL        ENDP
+ 
+ 
+ 
+PALMOV          PROC NEAR
+ 
+;WAIT FOR BLANKING
+                CALL VSYNC
+ 
+;RED PALLETE
+                PUSH ES
+                MOV  AX,GDC_SEG
+                MOV  ES,AX
+                MOV  SI,OFFSET RED_COPY
+                MOV  DI,PALLETE_RED
+                MOV  CX,0128
+                REP  MOVSW
+;
+;GREEN PALLETE
+                MOV  SI,OFFSET GREEN_COPY
+                MOV  DI,PALLETE_GREEN
+                MOV  CX,0128
+                REP  MOVSW
+;
+;BLUE PALLETE
+                MOV  SI,OFFSET BLUE_COPY
+                MOV  DI,PALLETE_BLUE
+                MOV  CX,0128
+                REP  MOVSW
+;
+                POP  ES
+                RET
+ 
+PALMOV          ENDP
+ 
+ 
+ 
+ 
+;    WAIT FOR VERTICAL BLANKING
+;
+VSYNC           PROC NEAR
+ 
+                PUSH DS
+                MOV  DI,STAT_PORT
+                MOV  AX,GDC_SEG
+                MOV  DS,AX
+VSYNC1:         MOV  AL,[DI]
+                AND  AL,020H
+                JNZ  VSYNC1
+;
+VSYNC2:         MOV  AL,[DI]
+                AND  AL,020H
+                JZ   VSYNC2
+                POP  DS
+                RET
+ 
+VSYNC           ENDP
+ 
+ 
+CLEAR           PROC NEAR
+ 
+                PUSH ES
+                PUSH DS
+ 
+                MOV AX,GDC_SEG
+                MOV DS,AX
+ 
+ 
+                MOV  AX,0A000H
+                MOV  ES,AX
+;
+                MOV  DI,BANK0_SWITCH
+                MOV  BYTE PTR [DI],00H
+                INC DI
+                MOV  BYTE PTR [DI],00H
+                MOV  AX,0000H
+                MOV  DI,0
+                MOV  CX,08000H
+                REP  STOSW
+;
+;
+                MOV  DI,BANK0_SWITCH
+                MOV  BYTE PTR [DI],0FFH
+                INC DI
+                MOV  BYTE PTR [DI],00H
+;
+                MOV  AX,0000H
+                MOV  DI,0
+                MOV  CX,08000H
+                REP  STOSW
+;
+                MOV  DI,BANK0_SWITCH
+                MOV  BYTE PTR [DI],000H
+                INC DI
+                MOV  BYTE PTR [DI],0FFH
+;
+                MOV  AX,0000H
+                MOV  DI,0
+                MOV  CX,08000H
+                REP  STOSW
+;
+;
+                MOV  DI,BANK0_SWITCH
+                MOV  BYTE PTR [DI],0FFH
+                INC DI
+                MOV  BYTE PTR [DI],0FFH
+;
+                MOV  AX,0000H
+                MOV  DI,0
+                MOV  CX,08000H
+                REP  STOSW
+ 
+                POP  DS
+                POP  ES
+                RET
+ 
+CLEAR           ENDP
+ 
+ 
+ 
+INIT_TABLE      DB      01FH    ; standard initialization table
+                DB      03EH    ; RS170A INTERLACED 
+                DB      064H    ; 512X480 DISPLAY
+                DB      004H    ; 512X512 BIT-PLANE *
+                DB      005H
+                DB      003H
+                DB      080H; *
+                DB      041H; *
+ 
+PRAM_TABLE      DB      000H     ; START DISPLAY AT 0,0
+                DB      000H
+                DB      000H
+                DB      07FH
+ 
+G_TABLE         DB      8 DUP (0FFH)  ;GRAFICS CHARACTER
+ 
+IMAGE_BIT       DB      000H; *
+ 
+ 
+PITCH           DB      (?)
+ZOOM_SAVE       DB      (?)
+ 
+ 
+;
+RED_COPY                DW 128 DUP (0)
+GREEN_COPY              DW 128 DUP (0)
+BLUE_COPY               DW 128 DUP (0)
+ 
+RED_PART        DW 000H
+GREEN_PART      DW 040H
+BLUE_PART       DW 080H
+WHITE_PART      DW 0C0H
+ 
+ 
+INIT          ENDS
+              END
+ 
+ 
+]
+        CALL    OUT_PAR
+        INC     BX
+        LOOP    GPAR1
+ 
+        RET
+GRAF_PAR ENDP
+ 
+;
+; START THE DISP

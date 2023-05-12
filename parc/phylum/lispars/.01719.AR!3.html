@@ -1,0 +1,11 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [phylum]&lt;LispARs>01719.AR!3</title>
+  </head>
+  <body>
+    <pre>
+Number: 1719Date: 27-Jul-84 15':50':57Submitter: Sannella.PASource: MASINTER.PASubject: breakdown has too large an overhead per call, gives meaningless resultsAssigned To: Attn: Masinter, JonLStatus: OpenIn/By: Problem Type: PerformanceImpact: SeriousDifficulty: ModerateFrequency: EverytimePriority: HopefullySystem: Programming EnvironmentSubsystem: Performance ToolsMachine: Disk: Lisp Version: Source Files: Microcode Version: Memory Size: File Server: Server Software Version: Disposition: '["Masinter" " 6-Sep-84 10':40':53" Subject': Attn': Impact':(Moderate-&gt;Serious) Description':]'["Masinter" " 6-Sep-84 11':06':45" Subject': Attn': Impact':(Moderate-&gt;Serious) Difficulty':(-&gt;Moderate) Disposition': Description': Edit-By': Edit-Date':]Description: [lmm': I tried to get BREAKDOWN to give better results but couldn''t. SPY still reports that  when in BREAKDOWN it spends far too much time in CLOCK0 figuring out what time it is, doing a \SLOWIQUOTIENT. We need to have BRKDWNCOMPFLG on by default, and declare the global variables BDLST and BDPTR. ''One attempt at fixing this is on [eris]&lt;LispCore&gt;New&gt;BRKDWN, but that still needs work before putting it in the system. (Idea was to measure time in RCLK ticks, but that can''t work ''cause it doesn''t filter out GC, Swap time.']''Date': 27 JUL 84 00':30 PDT'From': MASINTER.PA'Subject': Lisp': test out new BRKDWN'To':   lispsupport''I tried to fix some things in BRKDWN including the performance, but I didn''t test it extensively. This is an AR ''cause I don''t think I''m gonna get to it in the couple of days before I leave.''''Workaround: Test Case: Edit-By: MasinterEdit-Date:  6-Sep-84 11':06':47</pre>
+  </body>
+</html>

@@ -1,0 +1,11 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [eris]&lt;LispCore>BVM>ZNewHeaders>LispBcplFiles.dm!1>VMemExtra.bcpl</title>
+  </head>
+  <body>
+    <pre>
+// VMemExtra.bcpl. virtual memory package debugging// Last modified March 20, 1985  10:27 AM by Bill van Melle// Last modified May 25, 1983  11:21 AM by Bill van Melle// Last modified June 25, 1982  2:42 PM by Bill van Melle// Last modified March 29, 1982  2:56 PM by Bill van Melle	get "LispBcpl.decl"	get "VMem.decl"external [		// defined here	PrintPageTable			// Other procs used	@BGetBase			// Raid procs	Ws; Wo; Wn; Wc; CRLF; RaidReset; PrintPtr; RAIDCode; GetFXP			// Statics	LastRealPageNo; @RMSK			// Other external VMem procs (from VmemA.asm)	ReadFlags	// (VP) -&gt; oldflags	]let PrintPageTable() be[let oldstate, start = 0, 0let n = RPoffsetlet bp = Bpt+1				// start of page table: dummy entryWs ("Real pg  virtual page    flags")CRLF()   [	n = n+1	bp = bp+3			// 3 words per entry	let vp = BGetBase(BptSegment, bp)	if oldstate &amp; ((vp ne oldstate) % (n ge LastRealPageNo))	   then	[		Wo (start)		// show range of pages		if start ne n-1		   then [ Ws(" thru "); Wo(n-1) ]		Ws (oldstate eq EMPTY? " empty", " unavailable")		CRLF()		oldstate, start = 0, 0		]	if n ge LastRealPageNo	   then break	test (vp eq EMPTY) % (vp eq UNAVAIL)	   ifso [			// no vp here, collapse maybe		if oldstate eq 0		   then [ oldstate = vp; start = n ]		]	  ifnot [		Wo(n); Wc($*S)		Wo(vp); Ws (" (");		Wo(vp rshift 8, true); Wc($,)	// translate to seg, page#		Wo(vp &amp; RMSK, true); Ws (") "); Wc(9)		if BGetBase(BptSegment, bp-1) ls 0		   then Ws (" locked")		let flags = ReadFlags(vp)		if (flags &amp; REFbit) ne 0		   then Ws (" ref")		if (flags &amp; DIRTYbit) ne 0		   then Ws (" dirty")		CRLF()		]    ] repeat]</pre>
+  </body>
+</html>

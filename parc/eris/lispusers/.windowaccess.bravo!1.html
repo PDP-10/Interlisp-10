@@ -1,0 +1,39 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>[eris]&lt;LispUsers>windowaccess.bravo!1</title>
+  </head>
+  <body>
+    <div style="width: 464pt; margin-left: 84pt; margin-top: 12pt; text-align: center">
+<span style="font: bold 10pt sans-serif">WINDOWACCESS<br></span></div>
+<div style="width: 464pt; margin-left: 84pt; margin-top: 12pt; text-align: left">
+<span style="font: 8pt sans-serif">File:</span><span class="tab" val="79"></span><span style="font: 8pt sans-serif">[Phylum]&lt;LispUsers&gt;WindowAccess.Press<br>Revised:</span><span class="tab" val="79"></span><span style="font: 8pt sans-serif">February 2, 1983 by Martin Yonke</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 0pt; text-align: justify">
+<span style="font: 10pt serif"><br></span><span style="font: 10pt sans-serif">This file contains one record declaration which declares </span><span style="font: 8pt sans-serif">ACCESSFNS</span><span style="font: 10pt sans-serif"> for all the standard window properties.  This allows one to write code using </span><span style="font: 8pt sans-serif">fetch </span><span style="font: 10pt sans-serif">and </span><span style="font: 8pt sans-serif">replace</span><span style="font: 10pt sans-serif"> instead of </span><span style="font: 8pt sans-serif">WINDOWPROP </span><span style="font: 10pt sans-serif">function calls.  Using </span><span style="font: 8pt sans-serif">CLOSEFN </span><span style="font: 10pt sans-serif"> as the example property, the following become equivalent:</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 0pt; text-align: left">
+<span style="font: 10pt serif"><br></span><span style="font: 8pt sans-serif">(fetch CLOSEFN of WINDOW) </span><span style="font: 10pt sans-serif"> = </span><span style="font: 8pt sans-serif">(WINDOWPROP WINDOW (QUOTE CLOSEFN))</span><span style="font: 10pt serif"><br><br>and<br><br></span><span style="font: 8pt sans-serif">(replace CLOSEFN of WINDOW with FOO) </span><span style="font: 10pt sans-serif">= </span><span style="font: 8pt sans-serif">(WINDOWPROP WINDOW (QUOTE CLOSEFN)  FOO)</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 0pt; text-align: justify">
+<span style="font: 10pt serif"><br></span><span style="font: 10pt sans-serif">This also has the advantage that you can now ask questions to </span><span style="font: 8pt sans-serif">MASTERSCOPE </span><span style="font: 10pt sans-serif"> about </span><span style="font: 8pt sans-serif">CLOSEFN </span><span style="font: 10pt sans-serif">as a field.</span></div>
+<script>function do_tabs() { // unit = px
+  var tabs = document.getElementsByClassName("tab");
+  for (var i = 0; i < tabs.length; ++i) {
+    var span = tabs[i];
+    var val = span.getAttribute("val");
+    if (val == null) console.log("Couldn't get val");
+    var rect = span.getBoundingClientRect();
+    var tabstop;
+    if (val > 0) tabstop = Math.ceil(rect.left / val) * val;
+    else tabstop = -val;
+    console.log("do_tabs", val, tabstop)
+    if (tabstop > 0) {
+      var width = tabstop - rect.left;
+      span.style.display = "inline-block";
+      span.style.width = width + "px";
+    }
+  }
+}
+do_tabs();
+</script>
+  </body>
+</html>

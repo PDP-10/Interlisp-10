@@ -1,0 +1,632 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [eris]&lt;Lisp>KOTO>LISPUSERS>unboxedops.tedit!1</title>
+  </head>
+  <body>
+    <pre>
+$ od -c -N 50000 [eris]&lt;Lisp>KOTO>LISPUSERS>unboxedops.tedit!1
+0000000    X   E   R   O   X  \t   U   N   B   O   X   E   D   O   P   S
+0000020   \r   2  \r  \r   4  \r  \r   1  \r  \r   U   N   B   O   X   E
+0000040    D   O   P   S  \r   1  \r  \r   4  \r  \r   B   y   :        
+0000060    J   a   n       P   e   d   e   r   s   e   n   (   P   e   d
+0000100    e   r   s   e   n   .   P   A       @       X   e   r   o   x
+0000120    .   c   o   m   ]       a   n   d       L   a   r   r   y    
+0000140    M   a   s   i   n   t   e   r       (   M   a   s   i   n   t
+0000160    e   r   .   P   A       @       X   e   r   o   x   .   c   o
+0000200    m   ]  \r   T   h   e       p   a   c   k   a   g   e       U
+0000220    N   B   O   X   E   D   O   P   S       i   s       i   n   t
+0000240    e   n   d   e   d       t   o       a   s   s   i   s   t    
+0000260    t   h   o   s   e       i   n   t   e   r   e   s   t   e   d
+0000300        i   n       h   i   g   h   -   p   e   r   f   o   r   m
+0000320    a   n   c   e   ,       s   c   a   l   a   r   ,       f   l
+0000340    o   a   t   i   n   g       p   o   i   n   t       a   r   i
+0000360    t   h   m   e   t   i   c   .       T   h   e       b   a   s
+0000400    i   c       t   r   i   c   k       i   s       p   e   r   f
+0000420    o   r   m       f   l   o   a   t   i   n   g       p   o   i
+0000440    n   t       a   r   i   t   h   m   e   t   i   c       o   n
+0000460        t   h   e       s   t   a   c   k   ,       u   t   i   l
+0000500    i   z   i   n   g       s   p   e   c   i   a   l       u   n
+0000520    b   o   x   e   d       f   l   o   a   t   i   n   g       p
+0000540    o   i   n   t       o   p   c   o   d   e   s   ,       a   n
+0000560        u   g   l   y       b   u   t       u   s   u   a   l   l
+0000600    y       e   f   f   e   c   t   i   v   e       s   o   l   u
+0000620    t   i   o   n   .       T   h   i   s       m   e   t   h   o
+0000640    d       o   f       e   l   i   m   i   n   a   t   i   n   g
+0000660        f   l   o   a   t   i   n   g       n   u   m   b   e   r
+0000700        b   o   x   e   s       i   s       l   i   k   e   l   y
+0000720        t   o       c   h   a   n   g   e   ,       b   u   t    
+0000740    i   n       t   h   e       i   n   t   e   r   i   m       a
+0000760        c   o   m   b   i   n   a   t   i   o   n       o   f    
+0001000    c   o   m   p   i   l   e   r       d   e   c   l   a   r   a
+0001020    t   i   o   n   s       a   n   d       e   x   p   l   i   c
+0001040    i   t       e   v   o   c   a   t   i   o   n   s       o   f
+0001060        u   n   b   o   x   e   d       o   p   e   r   a   t   i
+0001100    o   n   s   ,       a   s       d   e   s   c   r   i   b   e
+0001120    d       b   e   l   o   w   ,       w   i   l   l       a   l
+0001140    l   o   w       t   h   e       i   n   t   e   r   e   s   t
+0001160    e   d       u   s   e   r       t   o       e   l   i   m   i
+0001200    n   a   t   e       a       h   i   g   h       p   e   r   c
+0001220    e   n   t   a   g   e       o   f       f   l   o   a   t   i
+0001240    n   g       p   o   i   n   t       n   u   m   b   e   r    
+0001260    b   o   x   e   s   .       T   h   i   s       p   a   c   k
+0001300    a   g   e       a   n   d       t   h   e       m   e   t   h
+0001320    o   d   s       d   e   s   c   r   i   b   e   d       a   r
+0001340    e       "   s   a   f   e   "   ,       i   .   e   .   ,    
+0001360    t   h   e       d   e   c   l   a   r   a   t   i   o   n   s
+0001400        w   o   n   '   t       c   a   u   s   e       y   o   u
+0001420    r       p   r   o   g   r   a   m   s       t   o       c   r
+0001440    a   s   h   ,       a   n   d       i   f       i   t       w
+0001460    o   r   k   s       w   i   t   h       t   h   e       d   e
+0001500    c   l   a   r   a   t   i   o   n   s       i   t       w   i
+0001520    l   l       a   l   s   o       w   o   r   k       w   i   t
+0001540    h   o   u   t       t   h   e   m   .  \r   U   n   b   o   x
+0001560    e   d       f   l   o   a   t   i   n   g       p   o   i   n
+0001600    t       t   r   i   c   k   s       h   e   l   p       o   u
+0001620    t       o   n   l   y       1   1   0   8   '   s       w   i
+0001640    t   h       f   l   o   a   t   i   n   g       p   o   i   n
+0001660    t       h   a   r   d   w   a   r   e       o   r       1   1
+0001700    8   6   '   s       w   i   t   h       f   l   o   a   t   i
+0001720    n   g       p   o   i   n   t       m   i   c   r   o   c   o
+0001740    d   e   .       U   n   f   o   r   t   u   n   a   t   e   l
+0001760    y   ,       t   h   e   y       m   a   y       m   a   k   e
+0002000        p   e   r   f   o   r   m   a   n   c   e       e   v   e
+0002020    n       w   o   r   s   e       o   n       1   1   0   8   '
+0002040    s       w   i   t   h   o   u   t       f   l   o   a   t   i
+0002060    n   g       p   o   i   n   t       h   a   r   d   w   a   r
+0002100    e   ,           a   l   t   h   o   u   g   h       t   h   e
+0002120        p   e   r   f   o   r   m   a   n   c   e       d   e   g
+0002140    r   a   d   a   t   i   o   n       i   s       p   r   o   b
+0002160    a   b   l   y       n   o   t       t   o   o       s   e   v
+0002200    e   r   e   .  \r   T   h   e   r   e       e   x   i   s   t
+0002220        o   p   c   o   d   e   s       w   h   i   c   h       p
+0002240    e   r   f   o   r   m       f   l   o   a   t   i   n   g    
+0002260    p   o   i   n   t       a   r   i   t   h   m   e   t   i   c
+0002300        o   n       t   h   e       s   t   a   c   k       (   t
+0002320    h   a   t       i   s       o   n       t   h   e       b   i
+0002340    t   s       o   f       t   h   o   s   e       n   u   m   b
+0002360    e   r   s   ,       r   a   t   h   e   r       t   h   a   n
+0002400        p   o   i   n   t   e   r   s       t   o       t   h   o
+0002420    s   e       b   i   t   s   )   .       T   h   e   s   e    
+0002440    o   p   c   o   d   e   s       a   r   e       o   n   l   y
+0002460        e   m   i   t   t   e   d       b   y       t   h   e    
+0002500    c   o   m   p   i   l   e   r       i   f       a   r   i   t
+0002520    h   m   e   t   i   c       o   c   c   u   r   s       i   n
+0002540        a   n       u   n   b   o   x   e   d       c   o   n   t
+0002560    e   x   t   .       O   n   e       e   x   a   m   p   l   e
+0002600        o   f       a   n       u   n   b   o   x   e   d       c
+0002620    o   n   t   e   x   t       i   s       a   r   i   t   h   m
+0002640    e   t   i   c       o   n       a       r   e   c   o   r   d
+0002660        f   i   e   l   d       d   e   f   i   n   e   d       t
+0002700    o       b   e       o   f       t   y   p   e       F   L   O
+0002720    A   T   P   ,       a   n   o   t   h   e   r       i   s    
+0002740    a   r   i   t   h   m   e   t   i   c       o   n       a    
+0002760    v   a   r   i   a   b   l   e       d   e   c   l   a   r   e
+0003000    d       t   o       b   e       o   f       T   Y   P   E    
+0003020    F   L   O   A   T   P   .       H   o   w   e   v   e   r   ,
+0003040        t   h   e       c   o   m   p   i   l   e   r       w   i
+0003060    l   l       b   o   x       a   c   r   o   s   s       f   u
+0003100    n   c   t   i   o   n       b   o   u   n   d   a   r   i   e
+0003120    s       a   n   d       i   n       a       r   e   t   u   r
+0003140    n       c   o   n   t   e   x   t   .       F   u   r   t   h
+0003160    e   r   m   o   r   e   ,       t   h   e   r   e       e   x
+0003200    i   s   t       m   o   r   e       u   n   b   o   x   e   d
+0003220        o   p   c   o   d   e   s       t   h   a   n       a   r
+0003240    e       u   s   e   d       b   y       t   h   e       c   o
+0003260    m   p   i   l   e   r       (   u   n   b   o   x   e   d    
+0003300    c   o   m   p   a   r   i   s   o   n       s   p   r   i   n
+0003320    g   s       t   o       m   i   n   d   )   .      \r   U   N
+0003340    B   O   X   E   D   O   P   S           d   e   f   i   n   e
+0003360    s       m   a   c   r   o   s   /   f   u   n   c   t   i   o
+0003400    n   s       s   o       t   h   a   t       t   h   e   s   e
+0003420        a   d   d   i   t   i   o   n   a   l       o   p   c   o
+0003440    d   e   s       m   a   y       b   e       e   x   p   l   o
+0003460    i   t   e   d       i   n       a   n       u   n   b   o   x
+0003500    e   d       c   o   n   t   e   x   t   .       T   h   e   s
+0003520    e       m   a   c   r   o   s   /   f   u   n   c   t   i   o
+0003540    n   s       i   n   c   l   u   d   e   :  \r   U   F   A   B
+0003560    S   ,           U   F   E   Q   P   ,           U   F   G   E
+0003600    Q   ,       U   F   G   R   E   A   T   E   R   P   ,       U
+0003620    F   I   X   ,       U   F   L   E   Q   ,       U   F   L   E
+0003640    S   S   P   ,       U   F   M   A   X   ,       U   F   M   I
+0003660    N   ,       U   F   M   I   N   U   S   ,       a   n   d    
+0003700    U   F   R   E   M   A   I   N   D   E   R   ,      \r   w   h
+0003720    i   c   h       b   e   h   a   v   e       i   d   e   n   t
+0003740    i   c   a   l   l   y       t   o       t   h   e   r   e    
+0003760    n   o   n   -   U       n   a   m   e   s   a   k   e   s   ,
+0004000        e   x   c   e   p   t       t   h   a   t       t   h   e
+0004020        o   p   e   r   a   t   i   o   n   s       a   r   e    
+0004040    d   o   n   e       o   n       t   h   e       s   t   a   c
+0004060    k       w   i   t   h   o   u   t       g   e   n   e   r   a
+0004100    t   i   n   g       f   l   o   a   t   i   n   g       p   o
+0004120    i   n   t       b   o   x   e   s   .  \r   F   o   r       t
+0004140    h   o   s   e       u   n   f   a   m   i   l   i   a   r    
+0004160    w   i   t   h       u   n   b   o   x   e   d       c   o   m
+0004200    p   i   l   e   r       d   e   c   l   a   r   a   t   i   o
+0004220    n   s       a       s   h   o   r   t       d   e   s   c   r
+0004240    i   p   t   i   o   n       f   o   l   l   o   w   s   :  \r
+0004260    U   s   i   n   g       (   D   E   C   L   A   R   E       (
+0004300    T   Y   P   E       F   L   O   A   T   I   N   G       x    
+0004320    y       z   )   )       t   o       r   e   d   u   c   e    
+0004340    n   u   m   b   e   r       b   o   x   e   s  \r   C   o   n
+0004360    s   i   d   e   r       t   h   e       s   i   l   l   y    
+0004400    f   u   n   c   t   i   o   n   :  \r  \r   (   D   E   F   I
+0004420    N   E   Q       (   F   I   E           (   N   )      \r  \t
+0004440    (   b   i   n   d       (   S   E   T   Q       X       0   .
+0004460    0   )       (   S   E   T   Q       Y       2   .   0   )    
+0004500    f   o   r       I       f   r   o   m       1       t   o    
+0004520    N      \r  \t  \t   d   o       (   S   E   T   Q       X    
+0004540    (   F   P   L   U   S       X       (   F   T   I   M   E   S
+0004560        Y       Y   )   )   )      \r  \t  \t   f   i   n   a   l
+0004600    l   y       (   R   E   T   U   R   N       X   )   )   )   )
+0004620   \r  \r   (   T   I   M   E   A   L   L       (   F   I   E    
+0004640    1   0   0   )   )  \r  \r   r   e   t   u   r   n   s        
+0004660    a       C   P   U       t   i   m   e       o   f       .   0
+0004700    2   5       a   n   d       r   e   p   o   r   t   s       2
+0004720    0   0       F   L   O   A   T   P       b   o   x   e   s    
+0004740    p   r   o   d   u   c   e   d   .       N   o   w   ,       c
+0004760    o   n   s   i   d   e   r  \r  \r   (   D   E   F   I   N   E
+0005000    Q       (   F   O   O           (   N   )      \r  \t   (   b
+0005020    i   n   d       (   S   E   T   Q       X       0   .   0   )
+0005040        (   S   E   T   Q       Y       2   .   0   )       f   o
+0005060    r       I       f   r   o   m       1       t   o       N  \r
+0005100   \t  \t   d   e   c   l   a   r   e       (   T   Y   P   E    
+0005120    F   L   O   A   T   P       X       Y   )      \r  \t  \t   d
+0005140    o       (   S   E   T   Q       X       (   F   P   L   U   S
+0005160        X       (   F   T   I   M   E   S       Y       Y   )   )
+0005200    )      \r  \t  \t   f   i   n   a   l   l   y       (   R   E
+0005220    T   U   R   N       X   )   )   )   )  \r      \r   (   T   I
+0005240    M   E   A   L   L       (   F   O   O       1   0   0   )   )
+0005260   \r   r   e   t   u   r   n   s       a       C   P   U       t
+0005300    i   m   e       o   f       .   0   0   3       s   e   c   o
+0005320    n   d   s       a   n   d       r   e   p   o   r   t   s    
+0005340    j   u   s   t       o   n   e       f   l   o   a   t   p    
+0005360    b   o   x       p   r   o   d   u   c   e   d   .  \r   E   s
+0005400    s   e   n   t   i   a   l   l   y       t   h   e       (   T
+0005420    Y   P   E       F   L   O   A   T   P       X       Y   )    
+0005440    d   e   c   l   a   r   a   t   i   o   n       i   s       a
+0005460        p   r   o   m   i   s   e       t   o       t   h   e    
+0005500    c   o   m   p   i   l   e   r       t   h   a   t       X    
+0005520    a   n   d       Y       w   i   l   l       h   o   l   d    
+0005540    F   L   O   A   T   P   '   s       ,       s   o       a   r
+0005560    i   t   h   m   e   t   i   c       m   a   y       b   e    
+0005600    d   o   n   e       u   n   b   o   x   e   d       (   t   h
+0005620    a   t       i   s       o   n       t   h   e       v   a   l
+0005640    u   e       i   t   s   e   l   f   ,       i   n   s   t   e
+0005660    a   d       o   f       o   n       a       p   o   i   n   t
+0005700    e   r       t   o       t   h   e       v   a   l   u   e   ,
+0005720        w   h   i   c   h       i   s       t   h   e       u   s
+0005740    u   a   l       c   a   s   e   )       i   f       p   o   s
+0005760    s   i   b   l   e   .       T   h   e       k   e   y       i
+0006000    s   s   u   e       i   s       w   h   a   t       i   s    
+0006020    m   e   a   n   t       b   y       "   i   f       p   o   s
+0006040    s   i   b   l   e   "   .  \r   T   h   e       c   o   m   p
+0006060    i   l   e   r       i   s       c   o   n   s   e   r   v   a
+0006100    t   i   v   e   .       I   t       w   i   l   l       p   e
+0006120    r   f   o   r   m       u   n   b   o   x   e   d       a   r
+0006140    i   t   h   m   e   t   i   c       o   n   l   y       o   n
+0006160        b   u   i   l   t   -   i   n       a   r   i   t   h   m
+0006200    e   t   i   c       f   u   n   c   t   i   o   n   s       (
+0006220    P   L   U   S       ,       T   I   M   E   S   ,       D   I
+0006240    F   F   E   R   E   N   C   E   ,       e   t   c   )   ,    
+0006260    w   h   i   c   h       h   a   v   e       u   n   b   o   x
+0006300    e   d       c   o   u   n   t   e   r       p   a   r   t   s
+0006320    ,       a   n   d       w   i   l   l       o   t   h   e   r
+0006340    w   i   s   e       b   o   x       a   c   r   o   s   s    
+0006360    f   u   n   c   t   i   o   n       b   o   u   n   d   a   r
+0006400    i   e   s       r   e   g   a   r   d   l   e   s   s       o
+0006420    f       c   o   m   p   i   l   e   r       d   e   c   l   a
+0006440    r   a   t   i   o   n   s   .  \r   F   o   r       e   x   a
+0006460    m   p   l   e   :  \r   (   D   E   F   I   N   E   Q       (
+0006500    F   O   O   B   A   R           (   N   )      \r  \t   (   b
+0006520    i   n   d       (   S   E   T   Q       X       0   .   0   )
+0006540        (   S   E   T   Q       Y       2   .   0   )       f   o
+0006560    r       I       f   r   o   m       1       t   o       N  \r
+0006600   \t  \t   d   e   c   l   a   r   e       (   T   Y   P   E    
+0006620    F   L   O   A   T   P       X       Y   )      \r  \t  \t   d
+0006640    o       (   S   E   T   Q       X       (   F   P   L   U   S
+0006660        X       (   L   O   G       Y   )   )   )      \r  \t  \t
+0006700    f   i   n   a   l   l   y       (   R   E   T   U   R   N    
+0006720    X   )   )   )   )  \r   t   h   e   n  \r   (   T   I   M   E
+0006740    A   L   L       (   F   O   O   B   A   R       1   0   0   )
+0006760    )  \r   r   e   t   u   r   n   s       a       C   P   U    
+0007000    t   i   m   e       o   f       .   0   4   9       w   i   t
+0007020    h       6   0   1       F   L   O   A   T   P       b   o   x
+0007040    e   s       p   r   o   d   u   c   e   d       (   s   o   m
+0007060    e       o   f       w   h   i   c   h       c   o   m   e    
+0007100    f   r   o   m       t   h   e       L   O   G       (   f   i
+0007120    v   e       p   e   r       f   u   n   c   t   i   o   n    
+0007140    c   a   l   l   )   )   .  \r   A   l   s   o   ,       t   h
+0007160    e       c   o   m   p   i   l   e   r       w   i   l   l    
+0007200    b   o   x       i   n       a       r   e   t   u   r   n    
+0007220    c   o   n   t   e   x   t   .   F   o   r       e   x   a   m
+0007240    p   l   e  \r   (   D   E   F   I   N   E   Q       (   B   A
+0007260    R           (   N   )      \r  \t   (   b   i   n   d       (
+0007300    S   E   T   Q       X       0   .   0   )       f   o   r    
+0007320    I       f   r   o   m       1       t   o       N  \r  \t  \t
+0007340        d   e   c   l   a   r   e       (   T   Y   P   E       F
+0007360    L   O   A   T   P       X       )      \r  \t  \t       d   o
+0007400        (   S   E   T   Q       X      \r  \t  \t  \t   (   P   R
+0007420    O   G       (   (   Y       2   .   0   )   )      \r  \t  \t
+0007440   \t  \t   (   D   E   C   L   A   R   E       (   T   Y   P   E
+0007460        F   L   O   A   T   P       Y   )   )      \r  \t  \t  \t
+0007500   \t   (   R   E   T   U   R   N       (   F   T   I   M   E   S
+0007520        Y       Y   )   )   )   )      \r  \t  \t   f   i   n   a
+0007540    l   l   y       (   R   E   T   U   R   N       X   )   )   )
+0007560    )  \r  \r   t   h   e   n  \r       (   T   I   M   E   A   L
+0007600    L       (   B   A   R       1   0   0       )   )      \r   r
+0007620    e   t   u   r   n   s       a       C   P   U       t   i   m
+0007640    e       o   f       .   0   2   2       w   i   t   h       3
+0007660    0   1       F   L   O   A   T   P       b   o   x   e   s    
+0007700    p   r   o   d   u   c   e   d       -   -       n   o   t   i
+0007720    c   e       t   h   a   t       B   A   R       s   e   e   m
+0007740    s       l   i   k   e       i   t       s   h   o   u   l   d
+0007760        b   e   h   a   v   e       l   i   k   e       F   O   O
+0010000    .  \r   I   n   d   e   e   d       t   h   a   t       i   s
+0010020        t   h   e       t   h   e       g   r   e   a   t   e   s
+0010040    t       d   r   a   w   b   a   c   k       o   f       t   h
+0010060    e       u   n   b   o   x   e   d       a   r   i   t   h   m
+0010100    e   t   i   c       a   s       i   t       s   t   a   n   d
+0010120    s       n   o   w       -   -       i   t       i   s       n
+0010140    o   t       a   l   w   a   y   s       e   a   s   y       t
+0010160    o       p   r   e   d   i   c   t       w   h   a   t       i
+0010200    s       g   o   i   n   g       t   o       h   a   p   p   e
+0010220    n       -   -       t   h   e   r   e       a   r   e       e
+0010240    v   e   n       t   r   a   p   s       w   h   e   r   e    
+0010260    i   n   d   i   s   c   r   i   m   i   n   a   t   e       u
+0010300    s   e   s       o   f       T   Y   P   E       F   L   O   A
+0010320    T   P       d   e   c   l   a   r   a   t   i   o   n   s    
+0010340    w   i   l   l       a   c   t   u   a   l   l   y       p   r
+0010360    o   d   u   c   e       M   O   R   E       b   o   x   e   s
+0010400        t   h   a   n       w   i   t   h   o   u   t       t   h
+0010420    e   m   .       T   h   i   s       i   s       t   h   e    
+0010440    c   a   s   e       i   f   ,       f   o   r       e   x   a
+0010460    m   p   l   e   ,       y   o   u       u   s   e       c   o
+0010500    m   p   a   r   i   s   o   n       o   p   e   r   a   t   o
+0010520    r   s       (   G   R   E   A   T   E   R   P   ,       e   t
+0010540    c   )       s   i   n   c   e       t   h   e       c   o   m
+0010560    p   i   l   e   r       b   o   x   e   s       e   a   c   h
+0010600        o   p   e   r   a   n   d       b   e   f   o   r   e    
+0010620    i   n   v   o   k   i   n   g       t   h   e   m   .  \r   T
+0010640    h   e       B   A   R       e   x   a   m   p   l   e       m
+0010660    a   y       b   e       f   i   x   e   d       u   p       a
+0010700    s       f   o   l   l   o   w   s   :  \r   (   D   E   F   I
+0010720    N   E   Q       (   B   A   R           (   N   )      \r  \t
+0010740    (   b   i   n   d       (   S   E   T   Q       X       0   .
+0010760    0   )       f   o   r       I       f   r   o   m       1    
+0011000    t   o       N  \r  \t  \t       d   e   c   l   a   r   e    
+0011020    (   T   Y   P   E       F   L   O   A   T   P       X       )
+0011040       \r  \t  \t       d   o       (   S   E   T   Q       X    
+0011060   \r  \t  \t  \t   (   P   R   O   G       (   (   Y       2   .
+0011100    0   )       R   E   S   U   L   T   )      \r  \t  \t  \t  \t
+0011120    (   D   E   C   L   A   R   E       (   T   Y   P   E       F
+0011140    L   O   A   T   P       Y       R   E   S   U   L   T   )   )
+0011160       \r  \t  \t  \t  \t   (   R   E   T   U   R   N       (   S
+0011200    E   T   Q       R   E   S   U   L   T       (   F   T   I   M
+0011220    E   S       Y       Y   )   )   )   )      \r  \t  \t   f   i
+0011240    n   a   l   l   y       (   R   E   T   U   R   N       X   )
+0011260    )   )  \r  \r   t   h   e   n  \r   (   T   I   M   E   A   L
+0011300    L       (   B   A   R       1   0   0   )   )  \r   r   e   t
+0011320    u   r   n   s       a       C   P   U       t   i   m   e    
+0011340    o   f       .   0   0   8       w   i   t   h       1   0   1
+0011360        F   L   O   A   T   P       b   o   x   e   s       p   r
+0011400    o   d   u   c   e   d   .       N   o   t   e       t   h   a
+0011420    t       t   h   e       c   o   m   p   i   l   e   r       s
+0011440    t   i   l   l       b   o   x   e   s       t   h   e       r
+0011460    e   s   u   l   t       r   e   t   u   r   n   e   d       b
+0011500    y       t   h   e       P   R   O   G   .  \r   T   h   e    
+0011520    b   e   s   t       w   a   y       t   o       f   i   n   d
+0011540        o   u   t       w   h   a   t       i   s       h   a   p
+0011560    p   e   n   i   n   g       i   s       t   o       u   s   e
+0011600        a       c   o   m   b   i   n   a   t   i   o   n       o
+0011620    f       T   I   M   E   A   L   L       a   n   d       I   N
+0011640    S   P   E   C   T   C   O   D   E       .       U   n   a   n
+0011660    t   i   c   i   p   a   t   e   d       b   o   x   i   n   g
+0011700        b   e   h   a   v   i   o   r       w   i   l   l       s
+0011720    h   o   w       u   p       a   s       B   O   X       o   p
+0011740    c   o   d   e   s       -   -       i   f       y   o   u    
+0011760    f   i   n   d       a       s   e   q   u   e   n   c   e    
+0012000    o   f       o   p   c   o   d   e   s       U   N   B   O   X
+0012020        ,       B   O   X       ,       f   u   n   c   t   i   o
+0012040    n       c   a   l   l   ,       U   N   B   O   X       ,    
+0012060    t   h   e   n       y   o   u       k   n   o   w       y   o
+0012100    u       a   r   e       i   n       t   r   o   u   b   l   e
+0012120    .       T   I   M   E   A   L   L       w   i   l   l       r
+0012140    e   p   o   r   t       t   h   e       t   o   t   a   l    
+0012160    n   u   m   b   e   r       o   f       b   o   x   e   s    
+0012200    p   r   o   d   u   c   e   d   .  \r   B   a   s   i   c   a
+0012220    l   l   y       T   Y   P   E       F   L   O   A   T   P    
+0012240    d   e   c   l   a   r   a   t   i   o   n   s       a   r   e
+0012260        b   e   s   t       u   s   e   d       i   n       t   i
+0012300    g   h   t       i   n   n   e   r       l   o   o   p   s    
+0012320    o   f       t   h   e       s   o   r   t       i   l   l   u
+0012340    s   t   r   a   t   e   d       i   n       F   O   O   .    
+0012360   \r   W   i   t   h       a   l   l       t   h   e   s   e    
+0012400    c   a   v   e   a   t   s   ,       I       t   h   i   n   k
+0012420        i   t       i   s       o   n   l   y       f   a   i   r
+0012440        t   o       s   a   y       t   h   a   t       c   o   n
+0012460    s   i   d   e   r   a   b   l   e       p   e   r   f   o   r
+0012500    m   a   n   c   e       i   n   p   r   o   v   e   m   e   n
+0012520    t   s       c   a   n       b   e       r   e   a   l   i   z
+0012540    e   d       w   i   t   h       j   u   d   i   c   i   o   u
+0012560    s       u   s   e       o   f       t   h   e       T   Y   P
+0012600    E       F   L   O   A   T   P       d   e   c   l   a   r   a
+0012620    t   i   o   n   s   ;       m   y       m   e   a   s   u   r
+0012640    e   m   e   n   t   s       i   n   d   i   c   a   t   e    
+0012660    a       f   a   c   t   o   r       o   f       t   e   n   .
+0012700   \r   A   d   d   i   t   i   o   n   a   l       n   o   t   e
+0012720    :       T   Y   P   E       F   L   O   A   T   P       v   a
+0012740    r   s       a   r   e       b   y       n   e   c   e   s   s
+0012760    i   t   y       L   O   C   A   L   V   A   R   S   .  \r  \r
+0013000   \0  \0  \0  \0  \0 003   (   L   I   S   T       (   (   P   A
+0013020    G   E       N   I   L       (   P   A   P   E   R   S   I   Z
+0013040    E       L   e   t   t   e   r       F   O   L   I   O   I   N
+0013060    F   O       (   A   R   A   B   I   C   )       S   T   A   R
+0013100    T   I   N   G   P   A   G   E   #       1   )       (   0    
+0013120    0       6   1   2       7   9   2   )       (   (   F   O   L
+0013140    I   O       N   I   L       (   P   A   R   A   L   O   O   K
+0013160    S       (   Q   U   A   D       C   E   N   T   E   R   E   D
+0013200    )       C   H   A   R   L   O   O   K   S       (   S   U   P
+0013220    E   R   S   C   R   I   P   T       0       I   N   V   I   S
+0013240    I   B   L   E       O   F   F       S   E   L   E   C   T   P
+0013260    O   I   N   T       O   F   F       P   R   O   T   E   C   T
+0013300    E   D       O   F   F       S   I   Z   E       1   0       F
+0013320    A   M   I   L   Y       M   O   D   E   R   N       O   V   E
+0013340    R   L   I   N   E       O   F   F       S   T   R   I   K   E
+0013360    O   U   T       O   F   F       U   N   D   E   R   L   I   N
+0013400    E       O   F   F       E   X   P   A   N   S   I   O   N    
+0013420    R   E   G   U   L   A   R       S   L   O   P   E       R   E
+0013440    G   U   L   A   R       W   E   I   G   H   T       M   E   D
+0013460    I   U   M       I   N   V   E   R   T   E   D       O   F   F
+0013500        U   S   E   R   I   N   F   O       N   I   L       S   T
+0013520    Y   L   E       N   I   L   )       F   O   R   M   A   T   I
+0013540    N   F   O       (   A   R   A   B   I   C   )   )       (   1
+0013560    7   4       3   6       2   8   8       3   6   )       N   I
+0013600    L   )       (   H   E   A   D   I   N   G       N   I   L    
+0013620    (   H   E   A   D   I   N   G   T   Y   P   E       R   U   N
+0013640    N   I   N   G   H   E   A   D   )       (   8   4       7   4
+0013660    4       5   2   8       3   6   )       N   I   L   )       (
+0013700    T   E   X   T       N   I   L       N   I   L       (   8   4
+0013720        9   6       4   5   6       6   0   0   )       N   I   L
+0013740    )   )   )       (   P   A   G   E       N   I   L       (   P
+0013760    A   P   E   R   S   I   Z   E       L   e   t   t   e   r    
+0014000    F   O   L   I   O   I   N   F   O       (   A   R   A   B   I
+0014020    C   )       S   T   A   R   T   I   N   G   P   A   G   E   #
+0014040        N   I   L   )       (   0       0       6   1   2       7
+0014060    9   2   )       (   (   F   O   L   I   O       N   I   L    
+0014100    (   P   A   R   A   L   O   O   K   S       (   Q   U   A   D
+0014120        C   E   N   T   E   R   E   D   )       C   H   A   R   L
+0014140    O   O   K   S       (   S   U   P   E   R   S   C   R   I   P
+0014160    T       0       I   N   V   I   S   I   B   L   E       O   F
+0014200    F       S   E   L   E   C   T   P   O   I   N   T       O   F
+0014220    F       P   R   O   T   E   C   T   E   D       O   F   F    
+0014240    S   I   Z   E       1   0       F   A   M   I   L   Y       M
+0014260    O   D   E   R   N       O   V   E   R   L   I   N   E       O
+0014300    F   F       S   T   R   I   K   E   O   U   T       O   F   F
+0014320        U   N   D   E   R   L   I   N   E       O   F   F       E
+0014340    X   P   A   N   S   I   O   N       R   E   G   U   L   A   R
+0014360        S   L   O   P   E       R   E   G   U   L   A   R       W
+0014400    E   I   G   H   T       M   E   D   I   U   M       I   N   V
+0014420    E   R   T   E   D       O   F   F       U   S   E   R   I   N
+0014440    F   O       N   I   L       S   T   Y   L   E       N   I   L
+0014460    )       F   O   R   M   A   T   I   N   F   O       (   A   R
+0014500    A   B   I   C   )   )       (   1   7   4       3   6       2
+0014520    8   8       3   6   )       N   I   L   )       (   H   E   A
+0014540    D   I   N   G       N   I   L       (   H   E   A   D   I   N
+0014560    G   T   Y   P   E       R   U   N   N   I   N   G   H   E   A
+0014600    D   )       (   8   4       7   4   4       5   2   8       3
+0014620    6   )       N   I   L   )       (   T   E   X   T       N   I
+0014640    L       N   I   L       (   8   4       9   6       4   5   6
+0014660        6   0   0   )       N   I   L   )   )   )       (   P   A
+0014700    G   E       N   I   L       (   P   A   P   E   R   S   I   Z
+0014720    E       L   e   t   t   e   r       F   O   L   I   O   I   N
+0014740    F   O       (   A   R   A   B   I   C   )       S   T   A   R
+0014760    T   I   N   G   P   A   G   E   #       N   I   L   )       (
+0015000    0       0       6   1   2       7   9   2   )       (   (   F
+0015020    O   L   I   O       N   I   L       (   P   A   R   A   L   O
+0015040    O   K   S       (   Q   U   A   D       C   E   N   T   E   R
+0015060    E   D   )       C   H   A   R   L   O   O   K   S       (   S
+0015100    U   P   E   R   S   C   R   I   P   T       0       I   N   V
+0015120    I   S   I   B   L   E       O   F   F       S   E   L   E   C
+0015140    T   P   O   I   N   T       O   F   F       P   R   O   T   E
+0015160    C   T   E   D       O   F   F       S   I   Z   E       1   0
+0015200        F   A   M   I   L   Y       M   O   D   E   R   N       O
+0015220    V   E   R   L   I   N   E       O   F   F       S   T   R   I
+0015240    K   E   O   U   T       O   F   F       U   N   D   E   R   L
+0015260    I   N   E       O   F   F       E   X   P   A   N   S   I   O
+0015300    N       R   E   G   U   L   A   R       S   L   O   P   E    
+0015320    R   E   G   U   L   A   R       W   E   I   G   H   T       M
+0015340    E   D   I   U   M       I   N   V   E   R   T   E   D       O
+0015360    F   F       U   S   E   R   I   N   F   O       N   I   L    
+0015400    S   T   Y   L   E       N   I   L   )       F   O   R   M   A
+0015420    T   I   N   F   O       (   A   R   A   B   I   C   )   )    
+0015440    (   1   7   4       3   6       2   8   8       3   6   )    
+0015460    N   I   L   )       (   H   E   A   D   I   N   G       N   I
+0015500    L       (   H   E   A   D   I   N   G   T   Y   P   E       R
+0015520    U   N   N   I   N   G   H   E   A   D   )       (   8   4    
+0015540    7   4   4       5   2   8       3   6   )       N   I   L   )
+0015560        (   T   E   X   T       N   I   L       N   I   L       (
+0015600    8   4       9   6       4   5   6       6   0   0   )       N
+0015620    I   L   )   )   )   )   )  \0  \0  \0  \0  \0 005  \0  \a  \0
+0015640    7  \0  \0  \0  \0 001 310  \0  \0  \0  \0  \0 004 003 004  \0
+0015660   \0 004  \0   0  \0  \0   `  \0  \0 220  \0  \0 300  \0  \0  \0
+0015700   \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0
+0015720   \0  \0  \0  \0  \0  \0  \0   (  \0  \0  \0  \0 001 310  \0 021
+0015740   \0  \0  \0 004 002 003  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0
+0015760   \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0   (
+0016000   \0 212  \0 212 001   8  \0 006  \0  \0  \0 004 002 003  \0  \0
+0016020   \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0
+0016040   \0  \0  \0  \0  \0  \0  \0   (  \0 212  \0 212 001   8  \0  \0
+0016060   \0  \0  \0 004 002 004  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0
+0016100   \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0   D
+0016120   \0  \0  \0  \0 001 310  \0  \0  \0  \0  \0  \0 003 004  \0  \0
+0016140  001 001 310 001  \0  \0  \0  \0  \0  \0  \0  \v   P   A   G   E
+0016160    H   E   A   D   I   N   G  \0  \v   R   U   N   N   I   N   G
+0016200    H   E   A   D  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0
+0016220   \0  \0  \0   1  \0  \0  \0  \0 001 310  \0  \v  \0  \0  \0 004
+0016240  003 004  \0  \0 002 001 274 001 001 310 001  \0  \0  \0  \0  \0
+0016260   \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0
+0016300   \0  \0  \0  \0   (  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0
+0016320   \0 002 001  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0
+0016340   \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0
+0016360  004  \0  \b  \0 026  \0  \b   T   E   R   M   I   N   A   L  \0
+0016400   \n  \0  \0  \0  \0  \0  \0 002  \0  \0 026  \0  \b   T   E   R
+0016420    M   I   N   A   L  \0  \n  \0  \0  \0  \0  \0  \0  \0  \0  \0
+0016440  024  \0 006   M   O   D   E   R   N  \0  \n  \0  \0  \0  \0  \0
+0016460   \0 002  \0  \0 024  \0 006   M   O   D   E   R   N  \0  \f  \0
+0016500   \0  \0  \0  \0  \0 002  \0  \0 024  \0 006   M   O   D   E   R
+0016520    N  \0 006  \0  \0  \0  \0  \0  \0  \0  \0  \0 022  \0 004   L
+0016540    O   G   O  \0 030  \0  \0  \0  \0  \0  \0  \0  \0  \0 024  \0
+0016560  006   M   O   D   E   R   N  \0  \n  \0  \0  \0  \0  \0  \0  \0
+0016600   \0  \0   ?  \0   1   (   D   E   F   A   U   L   T   F   O   N
+0016620    T       1       (   G   A   C   H   A       1   0   )       (
+0016640    G   A   C   H   A       8   )       (   T   E   R   M   I   N
+0016660    A   L       8   )   )  \0  \n  \0  \0  \0  \0  \0  \0  \0  \0
+0016700   \0  \0  \0  \0  \0 002  \0 005  \0  \0  \0 005  \0  \0  \0  \0
+0016720  006  \0  \0  \0 001  \0  \0  \0  \0 005  \0  \0  \0  \v  \0  \0
+0016740   \0  \0  \a  \0  \0  \0  \0  \0 002  \0 005  \0  \0  \0 002  \0
+0016760  001  \0  \v   H   R   U   L   E   .   G   E   T   F   N 001  \0
+0017000  024  \0 006   M   O   D   E   R   N  \0  \n  \0  \0  \0  \0  \0
+0017020   \0  \0  \0  \0  \0  \0 001  \0  \0  \0  \0  \a  \0  \0  \0  \0
+0017040   \0 002  \0 004  \0  \0  \0 002  \0 001  \0  \v   H   R   U   L
+0017060    E   .   G   E   T   F   N 001  \0 024  \0 006   M   O   D   E
+0017100    R   N  \0  \n  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0 001
+0017120   \0  \0  \0  \0  \a  \0  \0  \0  \0  \0 002  \0 004  \0  \0  \0
+0017140  002  \0 001  \0  \v   H   R   U   L   E   .   G   E   T   F   N
+0017160  001  \0 024  \0 006   M   O   D   E   R   N  \0  \n  \0  \0  \0
+0017200   \0  \0  \0  \0  \0  \0  \0  \0 001  \0  \0  \0  \0  \a  \0  \0
+0017220   \0  \0  \0 002  \0 003  \0  \0  \0  \v  \0  \0  \0  \0 004  \0
+0017240   \0  \0  \0  \0 002  \0 003  \0  \0  \0 002  \0 001  \0  \v   H
+0017260    R   U   L   E   .   G   E   T   F   N 001  \0 024  \0 006   M
+0017300    O   D   E   R   N  \0  \f  \0  \0  \0  \0  \0  \0 002  \0  \0
+0017320   \0  \0 001  \0  \0  \0  \0 004  \0  \0  \0  \0  \0 002  \0 004
+0017340   \0  \0  \0 002  \0 001  \0  \v   H   R   U   L   E   .   G   E
+0017360    T   F   N 001  \0 024  \0 006   M   O   D   E   R   N  \0  \f
+0017400   \0  \0  \0  \0  \0  \0 002  \0  \0  \0  \0 001  \0  \0  \0  \0
+0017420  004  \0  \0  \0  \0  \0 002  \0 002  \0  \0  \0   X  \0  \0  \0
+0017440   \0  \a  \0  \0  \0  \0  \0 002  \0 006  \0  \0  \0  \f  \0  \0
+0017460   \0  \0  \a  \0  \0  \0  \n  \0  \0  \0  \0 003  \0  \0 002 322
+0017500   \0  \0  \0  \0  \a  \0  \0  \0  \0  \0 002  \0 006  \0  \0 001
+0017520  032  \0  \0  \0  \0  \a  \0  \0  \0  \0  \0 002  \0 006  \0  \0
+0017540  002   Y  \0  \0  \0  \0  \a  \0  \0  \0  \0  \0 002  \0 006  \0
+0017560   \0  \0  \n  \0  \0  \0  \0 003  \0  \0  \0 204  \0  \0  \0  \0
+0017600   \a  \0  \0  \0  \0  \0 002  \0 006  \0  \0  \0   b  \0  \0  \0
+0017620   \0  \a  \0  \0  \0  \0  \0 002  \0 006  \0  \0  \0 215  \0  \0
+0017640   \0  \0  \a  \0  \0  \0  \0  \0 002  \0 006  \0  \0  \0   U  \0
+0017660   \0  \0  \0  \a  \0  \0  \0  \0  \0 002  \0 006  \0  \0  \0   <
+0017700   \0  \0  \0  \0 003  \0  \0  \0 001  \0  \0  \0  \0  \a  \0  \0
+0017720   \0  \0  \0 002  \0 006  \0  \0  \0 035  \0  \0  \0  \0  \a  \0
+0017740   \0  \0  \0  \0 002  \0 006  \0  \0  \0 001  \0  \0  \0  \0  \a
+0017760   \0  \0  \0  \0  \0 002  \0 001  \0  \0  \0 024  \0  \0  \0  \0
+0020000  002  \0  \0  \0  \0  \0 002  \0 001  \0  \0  \0 002  \0  \0  \0
+0020020   \0 002  \0  \0  \0 004  \0  \0  \0  \0 001  \0  \0  \0 033  \0
+0020040   \0  \0  \0 002  \0  \0  \0 003  \0  \0  \0  \0 001  \0  \0  \0
+0020060  003  \0  \0  \0  \0 002  \0  \0  \0 004  \0  \0  \0  \0 001  \0
+0020100   \0  \0 003  \0  \0  \0  \0 002  \0  \0  \0 002  \0  \0  \0  \0
+0020120  001  \0  \0  \0 004  \0  \0  \0  \0 002  \0  \0  \0  \0  \0 002
+0020140   \0 001  \0  \0  \0 002  \0  \0  \0  \0 002  \0  \0  \0 002  \0
+0020160   \0  \0  \0 001  \0  \0  \0   "  \0  \0  \0  \0 002  \0  \0  \0
+0020200   \0  \0 002  \0 001  \0  \0  \0 002  \0  \0  \0  \0 002  \0  \0
+0020220   \0  \a  \0  \0  \0  \0 001  \0  \0  \0 017  \0  \0  \0  \0 002
+0020240   \0  \0  \0  \0  \0 002  \0 001  \0  \0  \0 001  \0  \0  \0  \0
+0020260  002  \0  \0  \0  \0  \0 002  \0 001  \0  \0  \0 023  \0  \0  \0
+0020300   \0 002  \0  \0  \0 001  \0  \0  \0  \0  \a  \0  \0  \0  \0  \0
+0020320  002  \0 001  \0  \0  \0 001  \0  \0  \0  \0  \a  \0  \0  \0  \0
+0020340   \0 002  \0 001  \0  \0  \0   Q  \0  \0  \0  \0  \a  \0  \0  \0
+0020360   \0  \0 002  \0 001  \0  \0  \0 001  \0  \0  \0  \0  \a  \0  \0
+0020400   \0  \0  \0 002  \0 001  \0  \0  \0 024  \0  \0  \0  \0 002  \0
+0020420   \0  \0  \0  \0 002  \0 001  \0  \0  \0 002  \0  \0  \0  \0 002
+0020440   \0  \0  \0 004  \0  \0  \0  \0 001  \0  \0  \0 033  \0  \0  \0
+0020460   \0 002  \0  \0  \0 003  \0  \0  \0  \0 001  \0  \0  \0 003  \0
+0020500   \0  \0  \0 002  \0  \0  \0 004  \0  \0  \0  \0 001  \0  \0  \0
+0020520  003  \0  \0  \0  \0 002  \0  \0  \0 002  \0  \0  \0  \0 001  \0
+0020540   \0  \0 003  \0  \0  \0  \0 002  \0  \0  \0  \0  \0 002  \0 001
+0020560   \0  \0  \0 002  \0  \0  \0  \0 002  \0  \0  \0  \a  \0  \0  \0
+0020600   \0 001  \0  \0  \0 024  \0  \0  \0  \0 002  \0  \0  \0  \0  \0
+0020620  002  \0 001  \0  \0  \0 002  \0  \0  \0  \0 002  \0  \0  \0 002
+0020640   \0  \0  \0  \0 001  \0  \0  \0   "  \0  \0  \0  \0 002  \0  \0
+0020660   \0  \0  \0 002  \0 001  \0  \0  \0 002  \0  \0  \0  \0 002  \0
+0020700   \0  \0  \a  \0  \0  \0  \0 001  \0  \0  \0 017  \0  \0  \0  \0
+0020720  002  \0  \0  \0  \0  \0 002  \0 001  \0  \0  \0 002  \0  \0  \0
+0020740   \0 002  \0  \0  \0  \0  \0 002  \0 001  \0  \0  \0 024  \0  \0
+0020760   \0  \0 002  \0  \0  \0  \0  \0 002  \0 006  \0  \0  \0   M  \0
+0021000   \0  \0  \0  \a  \0  \0  \0  \0  \0 002  \0 006  \0  \0 001   *
+0021020   \0  \0  \0  \0  \a  \0  \0  \0  \0  \0 002  \0 006  \0  \0 001
+0021040  001  \0  \0  \0  \0  \a  \0  \0  \0  \0  \0 002  \0 006  \0  \0
+0021060   \0  \r  \0  \0  \0  \0  \a  \0  \0  \0  \0  \0 002  \0 001  \0
+0021100   \0  \0 027  \0  \0  \0  \0 002  \0  \0  \0  \0  \0 002  \0 001
+0021120   \0  \0  \0 002  \0  \0  \0  \0 002  \0  \0  \0 004  \0  \0  \0
+0021140   \0 001  \0  \0  \0 033  \0  \0  \0  \0 002  \0  \0  \0 003  \0
+0021160   \0  \0  \0 001  \0  \0  \0 003  \0  \0  \0  \0 002  \0  \0  \0
+0021200  004  \0  \0  \0  \0 001  \0  \0  \0 003  \0  \0  \0  \0 002  \0
+0021220   \0  \0 002  \0  \0  \0  \0 001  \0  \0  \0 003  \0  \0  \0  \0
+0021240  002  \0  \0  \0  \0  \0 002  \0 001  \0  \0  \0 002  \0  \0  \0
+0021260   \0 002  \0  \0  \0  \a  \0  \0  \0  \0 001  \0  \0  \0 024  \0
+0021300   \0  \0  \0 002  \0  \0  \0  \0  \0 002  \0 001  \0  \0  \0 002
+0021320   \0  \0  \0  \0 002  \0  \0  \0 002  \0  \0  \0  \0 001  \0  \0
+0021340   \0 035  \0  \0  \0  \0 002  \0  \0  \0  \0  \0 002  \0 001  \0
+0021360   \0  \0 002  \0  \0  \0  \0 002  \0  \0  \0  \a  \0  \0  \0  \0
+0021400  001  \0  \0  \0 017  \0  \0  \0  \0 002  \0  \0  \0  \0  \0 002
+0021420   \0 006  \0  \0  \0 004  \0  \0  \0  \0  \a  \0  \0  \0 001  \0
+0021440   \0  \0  \0 002  \0  \0  \0  \0  \0 002  \0 006  \0  \0  \0 026
+0021460   \0  \0  \0  \0 002  \0  \0  \0 001  \0  \0  \0  \0  \a  \0  \0
+0021500   \0  \0  \0 002  \0 006  \0  \0  \0   v  \0  \0  \0  \0  \a  \0
+0021520   \0  \0  \0  \0 002  \0 006  \0  \0  \0   <  \0  \0  \0  \0  \a
+0021540   \0  \0  \0  \0  \0 002  \0 001  \0  \0  \0 024  \0  \0  \0  \0
+0021560  002  \0  \0  \0  \0  \0 002  \0 001  \0  \0  \0 002  \0  \0  \0
+0021600   \0 002  \0  \0  \0 004  \0  \0  \0  \0 001  \0  \0  \0 016  \0
+0021620   \0  \0  \0 002  \0  \0  \0 003  \0  \0  \0  \0 001  \0  \0  \0
+0021640  003  \0  \0  \0  \0 002  \0  \0  \0 004  \0  \0  \0  \0 001  \0
+0021660   \0  \0 003  \0  \0  \0  \0 002  \0  \0  \0 002  \0  \0  \0  \0
+0021700  001  \0  \0  \0 003  \0  \0  \0  \0 002  \0  \0  \0  \0  \0 002
+0021720   \0 001  \0  \0  \0 003  \0  \0  \0  \0 002  \0  \0  \0  \a  \0
+0021740   \0  \0  \0 001  \0  \0  \0 023  \0  \0  \0  \0 002  \0  \0  \0
+0021760   \0  \0 002  \0 001  \0  \0  \0 003  \0  \0  \0  \0 002  \0  \0
+0022000   \0 002  \0  \0  \0  \0 001  \0  \0  \0  \n  \0  \0  \0  \0 002
+0022020   \0  \0  \0  \0  \0 002  \0 001  \0  \0  \0 024  \0  \0  \0  \0
+0022040  002  \0  \0  \0  \0  \0 002  \0 001  \0  \0  \0 037  \0  \0  \0
+0022060   \0 002  \0  \0  \0  \0  \0 002  \0 001  \0  \0  \0 035  \0  \0
+0022100   \0  \0 002  \0  \0  \0  \0  \0 002  \0 001  \0  \0  \0 002  \0
+0022120   \0  \0  \0 002  \0  \0  \0  \a  \0  \0  \0  \0 001  \0  \0  \0
+0022140  016  \0  \0  \0  \0 002  \0  \0  \0 001  \0  \0  \0  \0  \a  \0
+0022160   \0  \0  \0  \0 002  \0 006  \0  \0  \0 001  \0  \0  \0  \0  \a
+0022200   \0  \0  \0  \0  \0 002  \0 006  \0  \0  \0 005  \0  \0  \0  \0
+0022220   \a  \0  \0  \0  \0  \0 002  \0 006  \0  \0  \0 001  \0  \0  \0
+0022240   \0  \a  \0  \0  \0 024  \0  \0  \0  \0 002  \0  \0  \0 002  \0
+0022260   \0  \0  \0  \a  \0  \0  \0  \0  \0 002  \0 006  \0  \0  \0   s
+0022300   \0  \0  \0  \0  \a  \0  \0  \0  \0  \0 002  \0 006  \0  \0 001
+0022320  235  \0  \0  \0  \0  \a  \0  \0  \0  \0  \0 002  \0 006  \0  \0
+0022340   \0   ,  \0  \0  \0  \0  \a  \0  \0  \0  \0  \0 002  \0 001  \0
+0022360   \0  \0 024  \0  \0  \0  \0 002  \0  \0  \0  \0  \0 002  \0 001
+0022400   \0  \0  \0 002  \0  \0  \0  \0 002  \0  \0  \0 004  \0  \0  \0
+0022420   \0 001  \0  \0  \0 016  \0  \0  \0  \0 002  \0  \0  \0 003  \0
+0022440   \0  \0  \0 001  \0  \0  \0 003  \0  \0  \0  \0 002  \0  \0  \0
+0022460  004  \0  \0  \0  \0 001  \0  \0  \0 003  \0  \0  \0  \0 002  \0
+0022500   \0  \0 002  \0  \0  \0  \0 001  \0  \0  \0 003  \0  \0  \0  \0
+0022520  002  \0  \0  \0  \0  \0 002  \0 001  \0  \0  \0 003  \0  \0  \0
+0022540   \0 002  \0  \0  \0  \a  \0  \0  \0  \0 001  \0  \0  \0 023  \0
+0022560   \0  \0  \0 002  \0  \0  \0  \0  \0 002  \0 001  \0  \0  \0 003
+0022600   \0  \0  \0  \0 002  \0  \0  \0 002  \0  \0  \0  \0 001  \0  \0
+0022620   \0  \n  \0  \0  \0  \0 002  \0  \0  \0  \0  \0 002  \0 001  \0
+0022640   \0  \0 033  \0  \0  \0  \0 002  \0  \0  \0  \0  \0 002  \0 001
+0022660   \0  \0  \0   &  \0  \0  \0  \0 002  \0  \0  \0  \0  \0 002  \0
+0022700  001  \0  \0  \0   *  \0  \0  \0  \0 002  \0  \0  \0  \0  \0 002
+0022720   \0 001  \0  \0  \0 002  \0  \0  \0  \0 002  \0  \0  \0  \a  \0
+0022740   \0  \0  \0 001  \0  \0  \0 016  \0  \0  \0  \0 002  \0  \0  \0
+0022760   \0  \0 002  \0 006  \0  \0  \0 001  \0  \0  \0  \0  \a  \0  \0
+0023000   \0  \0  \0 002  \0 006  \0  \0  \0 004  \0  \0  \0  \0  \a  \0
+0023020   \0  \0 001  \0  \0  \0  \0 002  \0  \0  \0  \0  \0 002  \0 006
+0023040   \0  \0  \0 023  \0  \0  \0  \0 002  \0  \0  \0 001  \0  \0  \0
+0023060   \0  \a  \0  \0  \0  \0  \0 002  \0 006  \0  \0  \0 177  \0  \0
+0023100   \0  \0  \a  \0  \0  \0  \0  \0 002  \0 006  \0  \0 001   >  \0
+0023120   \0  \0  \0  \a  \0  \0  \0  \0  \0 002  \0 006  \0  \0  \0   g
+0023140   \0  \0  \0  \0  \a  \0  \0  \0  \0  \0 002  \0 006  \0  \0  \0
+0023160  320  \0  \0  \0  \0  \a  \0  \0  \0  \0  \0 002  \0 006  \0  \0
+0023200   \0   >  \0  \0  \0  \0  \a  \0  \0  \0  \0  \0 002  \0  \a  \0
+0023220   \0  \0 001  \0  \0  \0  \0  \b  \0  \0  \0  \0  \0 002  \0  \a
+0023240   \0  \0 026  \0  \0 365   z 272                                
+0023250
+</pre>
+  </body>
+</html>

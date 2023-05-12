@@ -1,0 +1,11 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [phylum]&lt;LispARs>00218.AR!5</title>
+  </head>
+  <body>
+    <pre>
+Number: 218Date: 21-Mar-84 12':12':08Submitter: Sannella.PASource: Stansbury.paSubject: NSCREATEDIRECTORY creates wrong directory if intermediate dirs don''t existAssigned To: Cooper.paAttn: Status: ClosedIn/By: HarmonyProblem Type: BugImpact: ModerateDifficulty: ModerateFrequency: IntermittentPriority: PerhapsSystem: CommunicationsSubsystem: NS ProtocolsMachine: 1100Disk: Lisp Version: 14-Mar-84Source Files: Microcode Version: Memory Size: File Server: Server Software Version: Disposition: '["Sannella.PA" "16-Aug-84 10':03':58" Attn': Status':(Fixed-&gt;Closed) In/By':]'["Sannella.PA" "16-Aug-84 10':05':19" Subject': Attn': Status':(Fixed-&gt;Closed) In/By': Disposition': Edit-Date':]'["Sannella.PA" "16-Aug-84 10':05':36" Subject': Attn': Status':(Fixed-&gt;Closed) In/By': Disposition': Edit-Date':]Description: 'Date': 19 Mar 84 18':49 PST'From': Stansbury.pa'Subject': Lisp': NSCREATEDIRECTORY creating wrong directory'To': LispSupport.pa'Lisp-System-Date': 14-Mar-84 10':16':58'Machine-Type': Dolphin''If you have a directory on an NS fileserver  foo': called lisp, but no directory called lisp&gt;fugue.n, then NSCREATEDIRECTORY({foo':}&lt;lisp&gt;fugue.n&gt;sources&gt;) creates a directory called lisp&gt;sources.''Should either first create lisp&gt;fugue.n&gt; and then create lisp&gt;fugue.n&gt;sources&gt;, or else at least raise an exception.  ''Current behavior is pretty seriously wrong. ''-- Tayloe.''-----''Date':  3 Apr 84 17':27 PST'From': Cooper.pa'Subject': fixed ARs 218 and 219 (NSCREATEDIRECTORY)'In-reply-to': LispSupprt.pa''s message of 21 Mar 84 12':13':29 PST (Wednesday)'To': LispSupport.pa''The latest version of NSFILING fixes these two bugs. Attempts to create a directory some of whose intermediate directories do not exist, and attempts to create a directory that already exists, generate BAD FILE NAME errors.'Workaround: Test Case: Edit-By: Sannella.PAEdit-Date: 16-Aug-84 10':05':38</pre>
+  </body>
+</html>

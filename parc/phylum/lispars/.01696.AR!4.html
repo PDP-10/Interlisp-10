@@ -1,0 +1,11 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [phylum]&lt;LispARs>01696.AR!4</title>
+  </head>
+  <body>
+    <pre>
+Number: 1696Date: 24-Jul-84 10':32':21Submitter: Sannella.PASource: Dietterich.paSubject: RECOMPILE breaks w/ FILE NOT OPEN when told to forget about compiling itAssigned To: MasinterAttn: Status: ClosedIn/By: HarmonyProblem Type: BugImpact: SeriousDifficulty: Frequency: EverytimePriority: HopefullySystem: Language SupportSubsystem: Compiler, Code FormatMachine: Disk: Lisp Version: Source Files: Microcode Version: Memory Size: File Server: Server Software Version: Disposition: '["Sannella" "20-Aug-84 18':11':19" Status':(Fixed-&gt;Closed) In/By':]Description: 'Date': 23 Jul 84 17':50 PDT'From': Dietterich.pa'Subject': Lisp': RECOMPILE breaks w/ FILE NOT OPEN when told to forget about compiling it'To': LispSupport.pa'cc': Dietterich.pa''Lisp System Date': 22-Jul-84 00':27':49'Machine': Dorado (LeParc)'Microcode version': 24,4'Memory size': 10000'Frequency': ALways'Impact': Minor''If I invoke CLEANUP() for a file that has no .DCOM file, the file package nicely asks':''"X.DCOM not found, shall I TCOMPL X.;1 instead ?" to which I answer "n".  It then asks''"Shall I just forget about compiling (X.;1) ?" to which I answer "y" also.  Then it goes into a break in CLOSEF complaining that X.;1 is not open (FILE NOT OPEN).  My workaround is just to RETFROM the CLOSEF, and everything works just fine.''--Tom''Workaround: Test Case: Edit-By: SannellaEdit-Date: 20-Aug-84 18':11':19</pre>
+  </body>
+</html>

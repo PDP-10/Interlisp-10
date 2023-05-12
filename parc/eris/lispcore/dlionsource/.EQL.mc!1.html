@@ -1,0 +1,11 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [eris]&lt;LispCore>DLionSource>EQL.mc!1</title>
+  </head>
+  <body>
+    <pre>
+{File : EQL.mcAuthor : Gwan SantosaDate :    8-Nov-85 15:50:57EQUAL is opcode 364(octal), EQL is opcode 72(octal).They operate identically: return T if args are EQ.Otherwise, return NIL if 	either arg is a symbol (high word 0)or	both args are smallpOtherwise, call UFN}@EQLOP:	MAR &larr; [rhS, S - 1], GOTO[EQMG0],		c1, opcode[72'b];@EQAOP:	MAR &larr; [rhS, S - 1], GOTO[EQMG0],		c1, opcode[364'b];EQMG0:	CANCELBR[$, 2],					c2;	TT &larr; MD,					c3;		MAR &larr; [rhS, S + 0],				c1;	Ybus &larr; TOSH xor TT, ZeroBr,			c2; {Compare high words of args}	Rx &larr; MD, BRANCH[NEQ1, $],			c3;	Ybus &larr; TOS xor Rx, ZeroBr,			c1; {Compare low word of args}	BRANCH[NEQ2, $],				c2;	TOS &larr; KTval, GOTO[EQFN2],			c3; {If EQ return T}	NEQ2:	Ybus &larr; TOSH xor smallpl, ZeroBr,		c3; {Otherwise check if smallpl}	Ybus &larr; TOSH, ZeroBr, BRANCH[ANSP0, ASP0],	c1; {Check if an atom}ASP0:	TOSH &larr; 0, CANCELBR[$],				c2; {If not EQ, but smallpl, return NIL}	TOS &larr; 0,					c3;		S &larr; S - 2, GOTO[IB.pc1],			c1;			NEQ1:	Ybus &larr; TOSH, ZeroBr,			c1; {Check if arg is an atom}ANSP0:	Ybus &larr; TT, ZeroBr, BRANCH[ANAT0, AAT0],	c2; {Check if arg is an atom}ANAT0:	BRANCH[ANAT1, AAT1],			c3;AAT0:	CANCELBR[EQFN1],			c3;ANAT1:	GOTO[ufnX2],				c1;AAT1:	TOS &larr; 0, GOTO[EQFN3],			c1;EQFN2:	GOTO[EQFN3],				c1;	EQFN1:	TOS &larr; 0,				c1;EQFN3:	TOSH &larr; 0,				c2;EQFN4:	S &larr; S - 2, 				c3;		GOTO[IB.pc1],				c1; {Go to exit point for Bank 1}</pre>
+  </body>
+</html>

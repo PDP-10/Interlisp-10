@@ -1,0 +1,49 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>[eris]&lt;LispUsers>TRAJECTORY-FOLLOWER.bravo!1</title>
+  </head>
+  <body>
+    <div style="width: 442pt; margin-left: 84pt; margin-top: 8pt; text-align: justify">
+<span style="font: bold 10pt serif">TRAJECTORY-FOLLOWER documentation</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 8pt; text-align: justify">
+<span style="font: 10pt serif">D. Austin Henderson, Jr.<br>Initially released: April 23, 1983<br>Last revised: April 23, 1983</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 20pt; text-align: justify">
+<span style="font: bold 10pt serif">&lt;LISPUSERS&gt;TRAJECTORY-FOLLOWER</span><span style="font: 10pt serif"> (and </span><span style="font: bold 10pt serif">.DCOM</span><span style="font: 10pt serif">) provides a function which causes a "snake" to crawl along a trajectory. Comments on both interface and functionality are welcomed.</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 18pt; text-align: justify">
+<span style="font: bold 10pt serif">TRAJECTORY.FOLLOW (KNOTS CLOSED N DELAY BITMAP WINDOW)</span><span style="font: 10pt serif"> The trajectory is specified by KNOTS (a set of knots) and CLOSED (a flag indicating whether it is an open or closed curve). N is the length of the snake in points along the curve. DELAY is the time (in milliseconds) between each move along the curve; DELAY = 0 or NIL means go as fast as you can. BITMAP is the brush to be used at each point in creating the snake. WINDOW is the window in whose coordinate system the knots are given and in which the snake is to be drawn; if NIL, then the SCREEN bitmap is used. The snake is moved by INVERTing the bitmap at the points along the curve, and then INVERTing the bitmap back out again.</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 18pt; text-align: justify">
+<span style="font: 10pt serif">A demonstration function is also provided with the package:</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 18pt; text-align: justify">
+<span style="font: bold 10pt serif">TRAJECTORY.FOLLOWER.TEST ( )</span><span style="font: 10pt serif"> Interacts with the user through prompting in the promptwindow to gather up arguments for TRAJECTORY.FOLLOW and then carries it out. Closed curves are snaked around repeatedly until the left shift key is depress when it reaches the curve&rsquo;s starting point.</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 18pt; text-align: justify">
+<span style="font: 10pt serif">The internal functions used by this package are also available for use. They are:</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 18pt; text-align: justify">
+<span style="font: bold 10pt serif">TRAJECTORY.FOLLOWER.SETUP (WINDOW N DELAY BITMAP)</span><span style="font: 10pt serif"> Initializes drawing variables.</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 18pt; text-align: justify">
+<span style="font: bold 10pt serif">TRAJECTORY.FOLLOWER.POINT (X Y WINDOW)</span><span style="font: 10pt serif"> Defines the next point on the curve. Note that the argument structure of this function is appropriate for use as a BRUSH with the curve drawing functions DRAWCURVE, DRAWCIRCLE, and DRAWELLIPSE. (For an example, see the demonstration function TRAJECTORY.FOLLOWER.TEST.)</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 18pt; text-align: justify">
+<span style="font: bold 10pt serif">TRAJECTORY.FOLLOWER.WRAPUP ( )</span><span style="font: 10pt serif"> Finishes the job after all the points have been defined.</span></div>
+<script>function do_tabs() { // unit = px
+  var tabs = document.getElementsByClassName("tab");
+  for (var i = 0; i < tabs.length; ++i) {
+    var span = tabs[i];
+    var val = span.getAttribute("val");
+    if (val == null) console.log("Couldn't get val");
+    var rect = span.getBoundingClientRect();
+    var tabstop;
+    if (val > 0) tabstop = Math.ceil(rect.left / val) * val;
+    else tabstop = -val;
+    console.log("do_tabs", val, tabstop)
+    if (tabstop > 0) {
+      var width = tabstop - rect.left;
+      span.style.display = "inline-block";
+      span.style.width = width + "px";
+    }
+  }
+}
+do_tabs();
+</script>
+  </body>
+</html>

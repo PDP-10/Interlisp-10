@@ -1,0 +1,68 @@
+Customers will continue to report problems via phone or 1100Support.pasa. Lisp users at Xerox will continue to submit bug reports to LispSupport/1100Support or AR tools in FULL.SYSOUT. Any "urgent" problems should first have an AR, and then a message with AR number in Subject (so that any subsequent discussion can be appended to the AR).All visible changes to Interlisp-D should be reflected in an AR. Submit an AR with Status: Fixed if necessary.Pasadena will handle 1100Support mail, assign AR numbers and send message back to whomever with AR number. (Possibly could submit AR while on phone to give immediate feedback.) Palo Alto will handle LispSupport mail similarly. We will encourage all customers and non-PARC users to send mail to 1100Support.LispSupport.PA will no longer contain LispCore^. A new mailbox, LISPAR.Auto,  has been created and added to LispSupport.The following will be done every day, by someone (rotating assignment):> Retrieve all LispAR.Auto mail, save on {Eris}<LispCore>Internal>Mail>LispSupport.mail.> Enter bug reports into AR system, modify status/disposition fields of old AR's as appropriate.> Forward requests for service, manuals, information, etc. to the appropriate person.> run the AR.UPDATE program daily to update database, weekly to create new printed summaries.LispCore^ members are expected to respond to all ARs: review categories and modify or reassign; and for high priority tasks, either reject them, alter their priority, or fix the problem. Identify "workaround" by AR number.Until Pasadena classification is more stable, we will also, every day, review the classification of bug reports by 1100Support staff, sending them feedback on classification. Design discussions to LispCore^, not LispSupport.- - - - - - - - - - - - - - - - -Design of lisp based AR tools:Field names are in Bold. Field types, categories are in Normal. Comments are in [brackets]..Number:	   	Numeric			[AR number. Automatically generated]			Date:			Date&Time			[date submitted. Automatically generated]Submitter:		ShortString			[Who entered AR? Automatically generated]Source:		String			[Name  & (Electronic) address of  original customer or internal Xerox users reporting problem. Customers should be identified by "Liason (Customer name)", e.g., Raim.pasa (Bill White @ Teknowledge) ]Subject: 		ShortString			[very terse summary of problem, enough to identify it uniquely among all bug reports. "FOO doesn't work" or "Floppy problem" is not good. The Subject is all that shows up in the summaries. "Attempt to write file when Floppy door open causes awful noise". Think newspaper headline. Edit the subject if the nature of the problem is discovered to be different]Lisp Version: 	ShortString			[Either customer release name (Fugue.1, Carol, Harmony) or Makesysdate for problems reported by internal users]Description: 	String			[complete description of problem, including any subsequent discussion. Generally complete messages appended to this mailbox. Edit relevant info into the beginning of the Description, not the end, e.g., if the original hypothesis of the problem changes.] Workaround:	String			[known procedure to work around problem until fixed; generaly a short perscription]Test Case:	String				[pointer to files needed to recreate problem. A recipe for reproducing the problem should be in the Description. ]Edit-By:		ShortString			[person who edit this AR last. Automatically generated]Edit-Date:		Date&Time			[date when this AR was last edited. Automatically generated]Assigned To:	ShortString			[developer who 'took care' of this AR, either by fixing it or declining it. Set only after AR is fixed.]Attn:			ShortString		[developer(s) who should look at this AR; appear]In/By:		ShortString		[What version of Interlisp-D has this problem fixed? Set by release master]Disposition:	String				[Brief notes explaining changes to status, plus automatically generated description of who changed status when] Source Files:	ShortString			[not used] System: {}  Subsystem: {}Communications <vanMelle.pa>		NS Protocols (SPP, COURIER, LLNS, NSFILING) 		PUP Protocols (PUP, BSP, LLETHER, ETHERRECORDS, CHAT, LEAF			DPUPFTP, FTPSERVER, GRAPEVINE, MTP, MAILCLIENT, RPC, LUPINE) 			RS232 (RS232, RS232CHAT, RS232FTP, RS232COMMANDSERVICE, RS232EXEC, 			RS232LOGIN) <JonL.pa>		VAX Server (VAX-DEI-10MB, VAX-DEI-3MB, VAX-ACC) 			 <PYoung.pasa>		Lisp Servers (GATEWAY, TIMESERVE, MINISERVE, MAKEDIR, EVALSERVER, 			 REMEVALSERVER, REMEVALCLIENT, PUPIDSERVER) <vanMelle.pa>		TCP/IP [ARPA DoD protocols.] <Cooper.pa>		Other		Nil	  Windows and Graphics <Burton.pa>		Window System (IMAGEIO, WINDOW, MENU, ADISPLAY, HLDISPLAY, 			LLDISPLAY) <Burton.pa>		Library (MENUEDWINDOW, ICONW, ATTACHEDWINDOW, BROWSER			READNUMBER, EDITBITMAP, DSPVTS, GRAPHER, GRAPHZOOM,			LATTICER, INMENU, HISTOGRAM, MULTIW, MULTIW-DEMO, NOTEPAD			ODOMETER, PAGEFULLCTRL, PAGEHOLD, MOUSECONFIRM, DRAWFILE,			CROCK, BITMAPFNS, BIG, BANNER) <*Burton.pa>		Fonts (FONT, AFONT, *.STRIKE) <Nuyens.pa>		Printing (PRESS, INTERPRESS, LANDPRESS) <Kaplan.pa>		Color (COLOR, HLCOLOR, LLCOLOR, READAIS, COLORUTILITIES) <Burton.pa>		Demos (WINK, PEANO, POLYGONS, COLORPOLYGONS, COLORDEMO, 			UTILPROC, LOGOCLOCK, HANOI, KINETIC, KAL,			IMAGEDEMO, FACEINVADER, SOLITAIRE, NQUEENS, MAZE,			PACMAN) <*Masinter.pa>		Other		Nil	Operating System <Masinter.pa>		Virtual Memory (LLFAULT, COREHAX) <vanMelle.pa>		Generic File Operations (FILEIO, COREIO, PMAP, DFILE, DEXEC, 			FILEBROWSER, FILEBANGER, BSEARCH) <Kaplan.pa, Masinter.pa>		DLion Disk (DISKDLION, DLIONFS, RENAMEVOL) <*Nuyens.pa>		DLion Floppy (FLOPPY) <Roach.pa>		Dolphin/Dorado Disk (LLBFS, ADIR, MOD44IO) <vanMelle.pa>		Processes (PROC, EXEC) <vanMelle.pa>		Keyboard (LLKEY)		Other (PASSWORDS, SAMEDIR, PRINTER, FXPRINTER, DUMPLOAD) 		Nil	Language Support <Masinter.pa>		Arithmetic (LLARITH, AARITH, LLFLOAT, ADDARITH, TRANSCEND, MATHFNS,			ARITHMAC, MODARITH) <*vanMelle.pa, *JonL.pa>		Compiler, Code Format (BYTECOMPILER, DLAP, LLFCOMPILE, 			MACROS, MACROAUX, LLCODE, ACODE) <Masinter.pa>		Microcode			DLion (?.dm) <Charnley.pa, Purcell.pa>			Dolphin (Lisp0mc.dm) <vanMelle.pa>			Dorado (LispDMC.dm) <JonL.pa>			Lisp BCPL (LispBCPL.dm) <vanMelle.pa>		Storage Formats/Mgt (LLGC, GCHAX, LLNEW, LLBASIC, 			LLARRAYELT, CMLARRAY, LLCHAR, LLDATATYPE, DTDECLARE, 				IOCHAR) <vanMelle.pa, Kaplan.pa, JonL.pa>		Read and Print (LLREAD, ATERM, ATBL, AOFD, APRINT, HPRINT, CIRCLPRINT,			IOCHAR ) <Kaplan.pa, Masinter.pa>		Stack and Interpreter (LLSTK, LLINTERP, EVALHOOK, ASTACK, 			LAMBDATRAN) <Masinter.pa, vanMelle.pa>		Bootstrapping and Teleraid (TRSERVER, VMEM, READSYS, RDSYS,			REMOTEVMEM, APUTDQ,  POSTLOADUP, RENAMEFNS, FILESETS, ABC, 			RENAMEMACROS, MAKEINIT, DLFIXINIT ) <Masinter.pa, vanMelle.pa>		Diagnostics (MICROTEST, MACROTEST) <Masinter.pa>		Other (LLSUBRS, ABASIC, AERROR, AINTERRUPT, CMLSPECIALFORMS, 			 BQUOTE, DECL) <Masinter.pa, JonL.pa>		Nil	Programming Environment		Break Package (HELPDL, BREAK, WBREAK) <Burton.pa>		Code Editor (EDIT, WEDIT, DEDIT, DSPRINTDEF, NEWPRINTDEF) <Sheil.pa>		DWIM (CLISP, DWIMIFY, CLISPIFY, WTFIX, DWIM, SPELL, CLISPENG) 			<Masinter.pa, Kaplan.pa>		File Package (FILEPKG, COMPILE, COMPILEBANG, CHECKSET, LOADFNS, 			PRETTY, PQUOTE, SINGLEFILEINDEX, COMMENT, 			FNWHEREIS) <Kaplan.pa, Masinter.pa>		History (HIST, UNDO) <Masinter.pa>		Masterscope (MSANALYZE, MASTERSCOPE, MSPARSE,			DATABASEFNS, MAKEDATABASE, BROWSER) <Masinter.pa>		Record Package (RECORD, COMPMODEREC) <Masinter.pa, Kaplan.pa>		Performance Tools (BRKDWN, APS, PCALLSTATS, 			UPCSTATS, DISPLAYSTATS) <vanMelle.pa, Masinter.pa>   		Other (MISC, BOOTSTRAP,  MACHINEINDEPENDENADVISE, INSPECT, 			ASSIST, MATCH, DMISC, misc) <Masinter.pa,  Burton.pa>		Nil	Text		TEdit (TEXTOFD, TEDITABBREV, TEDITLOOKS, IMAGEOBJ, BITMAPOBJ,			TEDITHCPY, TEDITFIND, TFBRAVO, TEDIT, TEDITMENU) <Sybalsky.pa, 			Nuyens.pa>		TTYIN (TTYIN) <vanMelle.pa> 		Lafite (LAFITE, DMSG, MSGLAFITE, MAINTAIN) <vanMelle.pa>		Other		Nil	Documentation <Sannella.pa>		Tools (IMNAME, IMTEDIT, IMCOMPARE, IMTRAN)		1108 Users Guide		Primer 		Product Descr/Tech Summary		Programmers Introduction		Interlisp Reference Manual		Internal System Documentation		Other		Nil	Other software		Installation Utility  <JFung.pasa>		Release Procedure <Raim.pasa>		Other		Nil		Machine: {} [Should be "Nil" if true on all machines, or irrelevant]	1100, 1108, 1132Disk: {} [only need to fill in Disk if relevant to AR]	1108    	SA1000 (10MB)			SA4000 (29MB)			Q2040 (43MB)				Q2080 (80MB)			T80 (80MB)			T300 (300MB)			Other			Nil	1132	T80 (80 MB)			Century315			Other			NilMicrocode Version: (automatically generated, delete if known to be irrelevant)			[if 1100 or 1132, this can be the date of the .EB file			if 1108, should identify 4K or 12K]Memory Size: (automatically generated. Delete if known to be irrelevant) File Server: 	8037		[Xerox product file server] 	IFS	VAX/VMS - 3Mb	VAX/VMS - 10Mb     		VAX/UNIX	Other	NilServer Software Version: [as appropriate for the server, e.g. 4.2 BSD Unix Stanford Version 3.2]	Difficulty: {} 	[difficulty of fixing problem]	Easy			[< 1 week to fix]	Moderate		[< 1 month to fix]	Hard			[< 6 months to fix]	Very Hard	[> 6 months to fix]	Impossible	[can't be fixed]	Nil	Frequency: {} 	[how often does the problem occur, leave Nil if irrelevant]	Everytime   	[reproducible every time]	Intermittent 	[doesn't always happen]	Once		[saw it happen once]	Nil		Impact: {}	Fatal     		[causes system crash, loss of work, etc.]	Serious		[can be worked around but seriously interferes with work]	Moderate		[tolerable but clearly wrong ]	Annoying		[annoying as seen by some person]	Minor    		[may not need to be fixed]		NilPriority: {}		Absolutely		[Must be fixed by next release]	Hopefully		[hopefully to be included in the release]	Perhaps		[perhaps will be included in the release]	Unlikely		[unlikely to be included in the release]	Nil	Status: {}		New			[AR just submitted]	Open    		[All fields are filled in & has been assigned]	Fixed    		[problem fixed]	Closed		[System with fix in it has been tested & released]	Declined		[AR declined by responsible person]	Superseded  	[later AR includes problem in this one]	Obsolete		[e.g., module in which problem reported is no longer supported]	Incomplete  	[information submitted are incomplete to take action]	Wish   		[a wish item to be considered]	Nil	Problem Type: {}	Bug			[System does not work as advertised]	Design - Impl		[A flaw in the internal esign implementation flaw]	Design - UI		[The design of the user interface is wrong]	Documentation	[Documentation error]	Performance		[System performs too slowly doing some operation]	Nil  E   GACHA 
+              GACHA 
+          G   GACHA 
+              GACHA 
+          7   GACHA 
+              GACHA 
+          9   GACHA 
+           
+   GACHA 
+          :   GACHA 
+              GACHA 
+          Ó   GACHA 
+              GACHA 
+         w   GACHA 
+              GACHA 
+          €   GACHA 
+              GACHA 
+            GACHA 
+              GACHA 
+          ^   GACHA 
+              GACHA 
+          }   GACHA 
+           
+   GACHA 
+          F   GACHA 
+           
+   GACHA 
+          K   GACHA 
+              GACHA 
+          x   GACHA 
+              GACHA 
+          B   GACHA 
+              GACHA 
+          [   GACHA 
+              GACHA 
+          |   GACHA 
+              GACHA 
+             GACHA 
+              GACHA 
+             GACHA 
+           
+   GACHA 
+            GACHA 
+           	   GACHA 
+          N   GACHA 
+              GACHA 
+          Ù   GACHA 
+              GACHA 
+          ž   GACHA 
+              GACHA 
+          >   GACHA 
+              GACHA 
+          d   GACHA 
+              GACHA 
+          J   GACHA 
+              GACHA 
+          »   GACHA 
+              GACHA 
+          ´   GACHA 
+              GACHA 
+            GACHA 
+           	   GACHA 
+          ×   GACHA 
+              GACHA 
+         Õ   GACHA 
+              GACHA 
+            GACHA 
+          *i ?z¸

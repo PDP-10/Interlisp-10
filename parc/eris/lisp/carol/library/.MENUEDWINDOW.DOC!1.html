@@ -1,0 +1,89 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>[eris]&lt;Lisp>Carol>LIBRARY>MENUEDWINDOW.DOC!1</title>
+  </head>
+  <body>
+    <div style="width: 442pt; margin-left: 84pt; margin-top: 0pt; text-align: left">
+<span style="font: 10pt serif">                               </span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 0pt; text-align: left">
+</div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 0pt; text-align: center">
+<span style="font: bold 10pt serif">MENUEDWINDOW</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 0pt; text-align: center">
+<span style="font: 10pt serif"><br><br>An </span><span style="font: italic 10pt serif">INTERLISP</span><span style="font: 10pt serif"> package for manipulating windows with attached menues.<br><br><br></span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 0pt; text-align: left">
+<span style="font: 10pt serif">Written by: Steve Gadol<br></span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 0pt; text-align: center">
+</div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 0pt; text-align: left">
+<span style="font: bold 10pt serif">General Comments</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 0pt; text-align: center">
+<span style="font: 10pt serif"><br></span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 0pt; text-align: justify">
+<span style="font: italic 10pt serif">MENUEDWINDOW</span><span style="font: 10pt serif"> is a package designed to make it easy to manipulate a window and an associated menu as a unit.  Standard operations like MOVE, RESHAPE,   OPEN and CLOSE are done in a way that it appears to the user  as if  the window and its menu are a single entity. This kind of facility is especially useful  for applications based on browsers and editing. A generalization of the browser window in Lafite was the in fact the primary motivation for creating the package.</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 0pt; text-align: left">
+<span style="font: 10pt serif"><br><br><br></span><span style="font: bold 10pt serif">Operation</span><span style="font: 10pt serif"><br><br></span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 0pt; text-align: justify">
+<span style="font: italic 10pt serif">MENUEDWINDOW</span><span style="font: 10pt serif">  is found on {Phylum}&lt;LispUsers&gt;MENUEDWINDOW.DCOM<br>This file is complete and does not load any other code.</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 0pt; text-align: left">
+<span style="font: 10pt serif"><br>The  entry point to the facility is the function MAKEMENUEDWINDOW. Its parameters are described below in calling sequence.<br><br></span></div>
+<div style="width: 340pt; margin-left: 129pt; margin-top: 0pt; text-align: justify">
+<span style="font: 10pt serif">MENU: An existing menu may be passed in. Or the items to appear in the menu can be specified as a simple list where each element is a label, or each element can itself be a list in which the CAR is the label  to appear in the menu.</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 0pt; text-align: left">
+</div>
+<div style="width: 340pt; margin-left: 129pt; margin-top: 0pt; text-align: justify">
+<span style="font: 10pt serif">WINDOWTITLE: The title for the main window is specified as a string.  A value of NIL is allowed. If an existing window is passed as the value of WINDOWSPEC, the title of the that window  will be  preserved when WINDOWTITLE is NIL.</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 0pt; text-align: left">
+</div>
+<div style="width: 340pt; margin-left: 129pt; margin-top: 0pt; text-align: justify">
+<span style="font: 10pt serif">LOCATION: The position of the menu relative to the main window may be specified as TOP, BOTTOM, RIGHT or LEFT. </span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 0pt; text-align: left">
+</div>
+<div style="width: 340pt; margin-left: 129pt; margin-top: 0pt; text-align: justify">
+<span style="font: 10pt serif">WINDOWSPEC:  If this parameter is NIL  the user will be prompted  to specify a region for the  menued window. The caller may, however, supply either a region or an existing window in this position.</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 0pt; text-align: left">
+</div>
+<div style="width: 340pt; margin-left: 129pt; margin-top: 0pt; text-align: justify">
+<span style="font: 10pt serif">MENUWINDOWTITLE: A separate title for the menu window may be supplied as a string.  For menus at the left or right of the main window  doing this produces something that looks reasonable. In the case  where the menu is in this position and  no title is supplied , the title bar from the main window is extened into the menu area.  It isn&rsquo;t recommended that a title be supplied for  menus across the top or bottom of the main window though. </span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 0pt; text-align: left">
+</div>
+<div style="width: 340pt; margin-left: 129pt; margin-top: 0pt; text-align: justify">
+<span style="font: 10pt serif">FONT: The caller may specify a font  to be used in making the menu. The default font is HELVETICA 10 in BOLD face.</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 0pt; text-align: left">
+<span style="font: 10pt serif"><br></span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 0pt; text-align: justify">
+<span style="font: 10pt serif">MAKEMENUEDWINOW contains heuristics that  constrain the size and shape of the both main and menu windows so that the titles and menu items will fit.  Thus the caller need not be concerned that a region or existing window will be too small, or that the user may specify something that is not useable.</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 0pt; text-align: left">
+</div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 0pt; text-align: justify">
+<span style="font: 10pt serif">This function  returns the main window  of the pair.  The binding between the  window and the menu is done with WINDOWPROPS  as described next.</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 0pt; text-align: justify">
+<span style="font: 10pt serif"><br><br></span><span style="font: bold 10pt serif">Notes</span><span style="font: 10pt serif"><br><br>The  main and  menu windows are bound togeter by WINDOWPROPS. The menu is stored under the WINDOWMENU property of the main window, and  the window containing the menu is under the MENUWINDOW property. Given the menu window you can get to the main window by retrieving  its MAINWINDOW property. </span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 0pt; text-align: left">
+</div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 0pt; text-align: justify">
+<span style="font: 10pt serif">The main window has other properties that are used by the remaining function in the package.  The  minimum width for the menu and reletive position of the menu window are saved under the menu window&rsquo;s MINWIDTH and MENUPOSITION properties.  The properties AFTERMOVEFN, RESHAPEFN, CLOSEFN, OPENFN, SHRINKFN, and EXPANDFN contain code  that implements the corresponding window manipulation functions. Care should be used in modifying  or replacing these properties.</span></div>
+<script>function do_tabs() { // unit = px
+  var tabs = document.getElementsByClassName("tab");
+  for (var i = 0; i < tabs.length; ++i) {
+    var span = tabs[i];
+    var val = span.getAttribute("val");
+    if (val == null) console.log("Couldn't get val");
+    var rect = span.getBoundingClientRect();
+    var tabstop;
+    if (val > 0) tabstop = Math.ceil(rect.left / val) * val;
+    else tabstop = -val;
+    console.log("do_tabs", val, tabstop)
+    if (tabstop > 0) {
+      var width = tabstop - rect.left;
+      span.style.display = "inline-block";
+      span.style.width = width + "px";
+    }
+  }
+}
+do_tabs();
+</script>
+  </body>
+</html>

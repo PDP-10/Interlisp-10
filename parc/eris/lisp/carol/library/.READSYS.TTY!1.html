@@ -1,0 +1,11 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [eris]&lt;Lisp>Carol>LIBRARY>READSYS.TTY!1</title>
+  </head>
+  <body>
+    <pre>
+Remote RAIDInterlisp-D has facilities for looking at sysout files and machinesacross the network. This is a rudimentary documentation of how todo it. The procedure rests on the notion of a "remote" virtual memory. points the package at a remote virtual memory, and then onecan execute various functions which work in V-space ratherthan normal space.To point at a remote system, sayREADSYS(sysoutname)		to look at a sysoutorREADSYS((machinename))		to look at another machine. The other				machine must be in RAID; while sitting				in RAID every machine listens for				TeleRAID protocol packets."machinename" can be a pup name or address, e.g.READSYS((3#23#))Once having pointed at a system, you can do raid like things bycallingVRAID(radix). 		Radix defaults to 8, but VRAID(16) is			interesting if you like Hex. Note that			radix affects input as well as output			for most commands. Implements a good			subset of stuff that looks like RAID.			type ? for list.VEVALV(variable)VBROKENDEF(fn)	causes a "llbreak" to be inserted into FN, i.e.,		FN will subsequently go into RAID before returning.VGETPROPLIST(atom)(a few more; look at RDSYS and READSYS).This needs more documentation &amp; extensions, but can be useful.</pre>
+  </body>
+</html>

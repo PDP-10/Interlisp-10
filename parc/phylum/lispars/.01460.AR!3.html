@@ -1,0 +1,11 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [phylum]&lt;LispARs>01460.AR!3</title>
+  </head>
+  <body>
+    <pre>
+Number: 1460Date: 19-Jun-84 16':22':23Submitter: Le.pasaSource: Wogulis.pasaSubject: DLIONFS': lisps on diff. vols making files on {DSK} get confused.Lisp Version: Carol 8-Jun-84Description: On an 1108 with two or more Lisp partitions and a local DSK partition, each Lisp seems to have its own idea of what is on {DSK}.''Workaround: Test Case: Edit-By: Sannella.PAEdit-Date: 17-Aug-84 12':36':39Attn: Assigned To: StanburyIn/By: CarolDisposition: 'On a 29 or 43 Mbyte disk , with a {DSK} partition, from Lisp do a copyfile of {host}&lt;dir&gt;FOO to {DSK}FOO. DIR {DSK} shows FOO.'Logout and get into Lisp2 partition (one that has already been used and recognizes {DSK} as the local disk.) Do a DIR {DSK} and FOO does not show up. 'If you then install a new sysout on Lisp2, and do DIR {DSK} FOO will show up.'Also doing a DELFILE from Lisp1 of a file that both partitions recognize, and then try to see that file from Lisp2, you get a break with shouldn''t happen "Key not found".'Each different Lisp has its own idea of what should be on {DSK} when they sould really be consistent with each other.''System: Operating SystemSubsystem: DLion DiskMachine: 1108Disk: Microcode Version: Memory Size: File Server: Server Software Version: Difficulty: ModerateFrequency: EverytimeImpact: SeriousPriority: AbsolutelyStatus: ClosedProblem Type: BugSource Files: </pre>
+  </body>
+</html>

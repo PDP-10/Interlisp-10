@@ -1,0 +1,11 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [phylum]&lt;LispARs>00545.AR!3</title>
+  </head>
+  <body>
+    <pre>
+Number: 545Date:  6-Apr-84 13':02':53Submitter: Sannella.PASource: JONL.PASubject: ACCESSFNS should enforce return of NEWVALUE in replaceLisp Version: Description: 'Date':  5 APR 84 22':04 PST'From': JONL.PA'Subject': Bug in REPLACE when fieldname is a complex accessfn'To':   LispSupport''[RECORD MUMBLEBAR (A B)'  (ACCESSFNS MUMBLEBAR '    ((C (LIST (FETCH (MUMBLEBAR A) OF DATUM)  (FETCH (MUMBLEBAR B) OF DATUM))'        (PROGN (REPLACE (MUMBLEBAR A) OF DATUM WITH (FETCH (MUMBLEBAR A) OF NEWVALUE))'               (REPLACE (MUMBLEBAR A) OF DATUM WITH (FETCH (MUMBLEBAR A) OF NEWVALUE]'''(REPLACE (MUMBLEBAR C) OF ''(1 2) WITH ''(3 4))''fails to return (3 4).'Workaround: '[RECORD MUMBLEBAR (A B)'  (ACCESSFNS MUMBLEBAR '    ((C (LIST (FETCH (MUMBLEBAR A) OF DATUM)  (FETCH (MUMBLEBAR B) OF DATUM))'        (PROGN (REPLACE (MUMBLEBAR A) OF DATUM WITH (FETCH (MUMBLEBAR A) OF NEWVALUE))'               (REPLACE (MUMBLEBAR A) OF DATUM WITH (FETCH (MUMBLEBAR A) OF NEWVALUE))'	       	NEWVALUE]'		'insteadTest Case: Edit-By: Masinter.PAEdit-Date: 20-Apr-84 14':06':28Attn: Masinter.paAssigned To: In/By: Disposition: [lmm': changed Subject, Problem type to reflect Documentation]System: Programming EnvironmentSubsystem: Record PackageMachine: Disk: Microcode Version: Memory Size: File Server: Server Software Version: Difficulty: EasyFrequency: EverytimeImpact: ModeratePriority: PerhapsStatus: OpenProblem Type: Design - UISource Files: </pre>
+  </body>
+</html>

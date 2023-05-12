@@ -1,0 +1,11 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [phylum]&lt;LispARs>01572.AR!1</title>
+  </head>
+  <body>
+    <pre>
+Number: 1572Date: 29-Jun-84 11':27':48Submitter: Sannella.PASource: Sannella.PASubject: Remove all directories info from APUTDQLisp Version: Description: 'from conversation with Ron':''The problem is that when the INIT.SYSOUT is started, before any chars from the Rem.cm are read, a number of "boot expressions" are executed which load files (using LOADUP?), so LOADUPDIRECTORIES needs to be loaded at that time.  Of course, these files COULD be loaded during the MAKEINIT, but that would be too slow.''Ideally, MAKEINIT should be modified to take a LOADUPDIRECTORIES argument, so it would use MKI.RPAQQ to assign the atom LOADUPDIRECTORIES to the right value.  The call to MAKEINIT is in the .cm, so that is where the directories could be specified.Workaround: Test Case: Edit-By: Edit-Date: Attn: Sannella.paAssigned To: In/By: Disposition: System: Other SoftwareSubsystem: OtherMachine: Disk: Microcode Version: Memory Size: File Server: Server Software Version: Difficulty: ModerateFrequency: EverytimeImpact: AnnoyingPriority: PerhapsStatus: OpenProblem Type: Design - ImplSource Files: </pre>
+  </body>
+</html>

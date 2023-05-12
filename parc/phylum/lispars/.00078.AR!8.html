@@ -1,0 +1,11 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [phylum]&lt;LispARs>00078.AR!8</title>
+  </head>
+  <body>
+    <pre>
+Number: 78Date: 17-Mar-84  0':09':02Submitter: roach.PASource: Subject: DSPXPOSITION doesn''t work w/ Interpress streamsAssigned To: Attn: Kaplan.paStatus: OpenIn/By: Problem Type: BugImpact: SeriousDifficulty: HardFrequency: EverytimePriority: HopefullySystem: Windows and GraphicsSubsystem: PrintingMachine: Disk: Lisp Version: Source Files: INTERPRESSMicrocode Version: Memory Size: File Server: Server Software Version: Disposition: '["Masinter.pa" "26-Aug-84 16':33':59" Impact':(Serious-&gt;Moderate)]'["Kaplan" " 6-Sep-84 18':06':24" Status':(Open-&gt;Fixed)]'[ROACH 6-SEP-84 STATUS &larr; OPEN]'["Roach" " 6-Sep-84 19':31':39" Status':(Fixed-&gt;Open) Disposition': Description':]'["Sannella.PA" "11-Sep-84 12':26':59" Impact':(Moderate-&gt;Serious) Description':]Description: 'Date': 26 FEB 84 19':30 PST'From': ROACH.PA'Subject': INTERPRESS PROBLEMS'To':   KAPLAN'cc':   ROACH''Ron,'     I''ve been working on converting PRESS files to IP files again.  I'seem to be having some problems DSPXPOSITIONing Interpress streams.'There seems to be some unbuffering problem--things you print are'affected by things you print later on--which I think I worked around'with calls to SHOW.IP and some problem possibly having something to do'with font widths.''[ROACH 6-SEP-84'     Still doesn''t work.]''-----''I tried changing'     (* (DSPXPOSITION P IPSTREAM) *)'     (SETXY.IP IPSTREAM P'               (FETCH (INTERPRESSDATA IPYPOS)'                OF INTERPRESSDATA))'     (SHOW.IP IPSTREAM)'back to'     (DSPXPOSITION P IPSTREAM)'     (* (SETXY.IP IPSTREAM P'                  (FETCH (INTERPRESSDATA IPYPOS)'                   OF INTERPRESSDATA))'        (SHOW.IP IPSTREAM) *)'in my PRESSTOIP package.  The latter still doesn''t work,  whereas the former does.  My text just runs off the edge of the page after the first 1-3 lines depending on how short the first few lines are.  DSPXPOSITION seems to be acting as a NOOP.'Workaround: Test Case: Edit-By: Sannella.PAEdit-Date: 11-Sep-84 12':26':59</pre>
+  </body>
+</html>

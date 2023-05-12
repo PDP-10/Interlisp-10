@@ -1,0 +1,31 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>[eris]&lt;Lisp>JCAI>BASICS>LISP0MC.DM!1>AltoOccupied.mc</title>
+  </head>
+  <body>
+    <div style="width: 442pt; margin-left: 84pt; margin-top: 0pt; text-align: left">
+<span style="font: 10pt serif">:TITLE[AltoOccupied];<br><br>* Modification of MicOverlayOccupied.mc July 6, 1982  1:37 PM<br><br>*Reserve locations on pages shared between Alto and Lisp so that<br>*Lisp will not overwrite the main program unintentionally.<br><br>*Allow only unused TimerTable entries and locations reserved in Timer.Mc to<br>*be used by MicOverlay.<br>Set[TTOffset,And[TimerTable,377]];<br>Set[TTEnd,Add[TTOffset,22]];<br>IMReserve[TimerPage,0,TTOffset];</span><span class="tab" val="67"></span><span class="tab" val="67"></span><span style="font: 10pt serif">*Locations before TimerTable<br>IMReserve[TimerPage,TTOffset,1];</span><span class="tab" val="67"></span><span class="tab" val="67"></span><span style="font: 10pt serif">*Refresh timer<br></span><span style="font: 12pt serif">:IF[With10MB]; ***************************************<br></span><span style="font: 10pt serif">IMReserve[TimerPage,Add[TTOffset,</span><span style="font: 12pt serif">Xor[enxTask,17]</span><span style="font: 10pt serif">],1];</span><span class="tab" val="67"></span><span style="font: 10pt serif">*10mb Ethernet output timer<br></span><span style="font: 12pt serif">:ENDIF; **********************************************<br>:IF[With3MB]; ***************************************<br></span><span style="font: 10pt serif">IMReserve[TimerPage,Add[TTOffset,</span><span style="font: 12pt serif">Xor[</span><span style="font: 10pt serif">eoTask</span><span style="font: 12pt serif">,17]</span><span style="font: 10pt serif">],1];</span><span class="tab" val="67"></span><span style="font: 10pt serif">*Ethernet output timer<br></span><span style="font: 12pt serif">:ENDIF; **********************************************<br></span><span style="font: 10pt serif">IMReserve[TimerPage,TTEnd,Sub[400,TTEnd]];</span><span class="tab" val="67"></span><span style="font: 10pt serif">*Locations after TimerTable+21<br><br>*IMReserve[15,0,253];</span><span class="tab" val="67"></span><span style="font: 10pt serif">*space for AMesa<br>*IMReserve[15,364,1];</span><span class="tab" val="67"></span><span style="font: 10pt serif">*For DOInt in Initialize.Mc<br><br>:IF[WithMidas]; *****************************<br>* this is KernelOccupied.mc<br><br>*IMReserve[16,1,14];</span><span class="tab" val="67"></span><span style="font: 10pt serif">*No Kernel timer task reserve needed since<br></span><span class="tab" val="67"></span><span class="tab" val="67"></span><span class="tab" val="67"></span><span style="font: 10pt serif">*AMesa timer task is now running in its place.<br><br>IMReserve[16,1,14];</span><span class="tab" val="67"></span><span style="font: 10pt serif">*Only these are needed after Kernel is running<br><br>*Locations reserved on page 17B<br>IMReserve[17,0,1];</span><span class="tab" val="67"></span><span style="font: 10pt serif">*7400 not needed after init<br>IMReserve[17,3,1];</span><span class="tab" val="67"></span><span style="font: 10pt serif">*7403 not needed after init<br>IMReserve[17,1,2];<br>IMReserve[17,4,74];<br>IMReserve[17,120,1];<br>IMReserve[17,100,20];</span><span class="tab" val="67"></span><span style="font: 10pt serif">*space for Midas overlays (7500-7517)<br>:ENDIF; *************************************<br><br>:IF[And[With10MB, With3MB]];<br>IMreserve[eePage, 0, 222];</span><span class="tab" val="67"></span><span style="font: 10pt serif">* reserve space for 3mb ether<br>:ENDIF;<br><br>*IFE[DoIntLoc,Add[LShift[15,10],364],,ER[Fixup.needed.for.DoIntLoc]];<br><br>:END[MicOverlayOccupied];<br><br></span></div>
+<script>function do_tabs() { // unit = px
+  var tabs = document.getElementsByClassName("tab");
+  for (var i = 0; i < tabs.length; ++i) {
+    var span = tabs[i];
+    var val = span.getAttribute("val");
+    if (val == null) console.log("Couldn't get val");
+    var rect = span.getBoundingClientRect();
+    var tabstop;
+    if (val > 0) tabstop = Math.ceil(rect.left / val) * val;
+    else tabstop = -val;
+    console.log("do_tabs", val, tabstop)
+    if (tabstop > 0) {
+      var width = tabstop - rect.left;
+      span.style.display = "inline-block";
+      span.style.width = width + "px";
+    }
+  }
+}
+do_tabs();
+</script>
+  </body>
+</html>

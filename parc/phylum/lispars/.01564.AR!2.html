@@ -1,0 +1,11 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [phylum]&lt;LispARs>01564.AR!2</title>
+  </head>
+  <body>
+    <pre>
+Number: 1564Date: 28-Jun-84 15':16':02Submitter: Sannella.PASource: vanMelle.paSubject: Sort MAKEFILE options so COMPILE is always done before LISTAssigned To: Attn: Status: DeclinedIn/By: Problem Type: DocumentationImpact: ModerateDifficulty: EasyFrequency: EverytimePriority: PerhapsSystem: Programming EnvironmentSubsystem: File PackageMachine: Disk: Lisp Version: Source Files: Microcode Version: Memory Size: File Server: Server Software Version: Disposition: This is a bug in SINGLEFILEINDEX. It is reasonable that MAKEFILE process the options in the order given.'["masinter" "27-Aug-84 22':23':47" Attn': Status':(Open-&gt;Declined) Disposition':]Description: 'Date': 17 Jun 84 18':10 PDT'From': vanMelle.pa'Subject': Interaction between new SINGLEFILEINDEX and CLEANUPOPTIONS'To': JonL'cc': LispCore&uarr;, LispSupport.pa''I haven''t seen any warning messages on this; perhaps you want to send one to LispFriends&uarr; and include it in the documentation':''If you have SINGLEFILEINDEX loaded and your CLEANUPOPTIONS contain LIST before the compiler specification, rather than after, you will die a horrid death as the listing process and the recompile compete for the source file (death = at best a file not open error; at worst, a bad Leaf handle).  Fix is to make your options be, say, (RC ST LIST) rather than (LIST RC ST).''	Bill''-----''Date': 17 Jun 84 23':12 PDT'From': JonL.pa'Subject': Re': Interaction between new SINGLEFILEINDEX and CLEANUPOPTIONS'In-reply-to': vanMelle.pa''s message of 17 Jun 84 18':10 PDT'To': vanMelle.pa'cc': JonL.pa, LispCore&uarr;.pa, LispSupport.pa''Right, Henry Thompson and I discovered this one yesterday  -- yet another manifestation of the Only One Stream On a File limitation.''In lieu of any expectations for multiple-streams, I guess that documenting the limitation is the best we can do.''-- JonL --''Workaround: Test Case: Edit-By: masinterEdit-Date: 27-Aug-84 22':23':49</pre>
+  </body>
+</html>

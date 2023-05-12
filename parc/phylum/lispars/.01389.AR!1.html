@@ -1,0 +1,11 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [phylum]&lt;LispARs>01389.AR!1</title>
+  </head>
+  <body>
+    <pre>
+Number: 1389Date: 11-Jun-84 13':42':55Submitter: vanMelleSource: vanMelleSubject: Answer command should preserve entire addressLisp Version: 20-May-84 12':26':28Description: 'Date':  8 Jun 84 09':13 PDT'From': Feuerman.pasa'Subject': Lafite': Answering a message'Lafite-System-Date': 28-Feb-84 13':10':33'Lisp-System-Date': 20-May-84 12':26':28''A small bug, but a bug nonetheless':''Whenever "Answer"ing a message in Lafite, if one of the names on the To': or cc': fields contains something in parentheses, the parentheses and the word from within are left out.  Thus, something that was sent with (Ken)Feuerman.pasa in those fields will be replied with Feuerman.pasa [  "(Ken)" left out].  The problem here is that we have an address down here called PasaMail.pasa, where everyone who isn''t on the grapevine will get their messages via hardcopy.  In order to send mail to someone there, it gets addressed (Murray Schwartz)PasaMail.pasa.  Could I ask that the parentheses be left in the names for future releases?''--Ken.''-------'Date':  8 Jun 84 21':56 PDT'From': vanMelle.pa''Actually, I think the more "standard" form nowadays is to put the real address in angle brackets, so that it would be something like "Fred Flintstone &lt;PasaMail.pasa&gt;".  Unfortunately, Lafite''s Answer command doesn''t do the right thing with that, either.  I agree it should handle both properly, preserving as much of the original address as possible.  Just hairs up the parser a bit, since it has to keep the entire original string, yet know what part of it is the real address, in case it needs to stick in a defaulted registry.'Workaround: Test Case: Edit-By: Edit-Date: 11-Jun-84 13':42':55Attn: vanMelleAssigned To: In/By: Disposition: System: TextSubsystem: LafiteMachine: Disk: Microcode Version: Memory Size: File Server: Server Software Version: Difficulty: ModerateFrequency: Impact: ModeratePriority: PerhapsStatus: OpenProblem Type: BugSource Files: </pre>
+  </body>
+</html>

@@ -1,0 +1,11 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [phylum]&lt;LISPUSERS>koto>READDATATYPE!1</title>
+  </head>
+  <body>
+    <pre>
+(FILECREATED "14-Jan-87 17:56:56" {MCS:MCS:STANFORD}&lt;LANE&gt;READDATATYPE.LSP;5              changes to:  (FNS READDATATYPE)      previous date: "13-Aug-86 14:41:03" {MCS:MCS:STANFORD}&lt;LANE&gt;READDATATYPE.LSP;2)(* Copyright (c) 1986, 1987 by Stanford University. All rights reserved.)(PRETTYCOMPRINT READDATATYPECOMS)(RPAQQ READDATATYPECOMS ((FNS READDATATYPE)			   (P (SETSYNTAX '@					 '(MACRO FIRST READDATATYPE)					 T))))(DEFINEQ(READDATATYPE  [LAMBDA (FILE RDTBL)                                       (* cdl "14-Jan-87 12:41")    (if (EQ '{		(PEEKC FILE))	then (PROG (TYPE START LOC FLG (DATUM (READ FILE RDTBL)))		       [SETQ TYPE (SUBATOM DATUM [ADD1 (SETQ START							       (OR (STRPOS '{									       DATUM)								     (RETURN]					       (SUB1 (SETQ START (OR (STRPOS '}										     DATUM START)									   (RETURN]		       [SETQ START (ADD1 (OR (STRPOS '#							     DATUM START)						   (RETURN]		       [SETQ LOC (CONS (if (SETQ FLG (STRPOS ',								       DATUM START))					       then (PACK* (SUBATOM DATUM START (SUB1 FLG))							       'Q)					     else 0)					   (PACK* (SUBATOM DATUM (if FLG									 then (ADD1 FLG)								       else START))						    'Q]		       (if [EQ TYPE (TYPENAME (SETQ DATUM (VAG LOC]			   then (RETURN DATUM)))      else '@]))(SETSYNTAX '@	   '(MACRO FIRST READDATATYPE)	   T)(PUTPROPS READDATATYPE.LSP COPYRIGHT ("Stanford University" 1986 1987))STOP</pre>
+  </body>
+</html>

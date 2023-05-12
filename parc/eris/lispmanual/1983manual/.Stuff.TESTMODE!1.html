@@ -1,0 +1,11 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [eris]&lt;LispManual>1983Manual>Stuff.TESTMODE!1</title>
+  </head>
+  <body>
+    <pre>
+{begin comment Section on TESTMODE deleted, per instructions from lmm}, or go into {index TESTMODE}{fn TESTMODE} as described next.{Begin SubSec TESTMODE}{Title TESTMODE}{TextBecause of efficiency considerations, the user may not want certain functions undoable after his program becomes operational.However, while debugging he may find it desirable to protect himself against a program running wild, by making primitive destructive operations undoable.The function {index TESTMODE}{fn TESTMODE} provides this capability by temporarily making everything undoable.{FnDef {FnName TESTMODE} {FnArgs FLG}{Text{lisp (TESTMODE T)} redefines all primitive destructive functions{foot i.e., the "slash" functions; see footnote on {PageRef L!46}.}{comment endfootnote}with their corresponding undoable versions and sets {index TESTMODEFLG  PAV}{var TESTMODEFLG} to {lisp T}.{lisp (TESTMODE)} restores the original definitions, and sets {var TESTMODEFLG} to {lisp NIL}.{foot {index TESTMODE}{fn TESTMODE} will have no effect on compiled {fn MAPCONC}'s, since they compile open with {fn FRPLACD}'s.}{comment endfootnote}}}Note that {fn SETQ}'s are {it not} undoable, even in {fn TESTMODE}.To make the corresponding operation undoable in {fn TESTMODE}, {fn SET} or {fn RPLACA} should be used.}{End SubSec TESTMODE}{End Comment Section on TESTMODE deleted, per instructions from lmm}</pre>
+  </body>
+</html>

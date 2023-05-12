@@ -1,0 +1,11 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [phylum]&lt;LispARs>00782.AR!4</title>
+  </head>
+  <body>
+    <pre>
+Number: 782Date: 20-Apr-84 14':41':36Submitter: Masinter.PASource: Masinter.PASubject: Return from BCPL causes KEYHANDLER to runAssigned To: Attn: JonL, vanMelleStatus: OpenIn/By: Problem Type: BugImpact: AnnoyingDifficulty: HardFrequency: IntermittentPriority: UnlikelySystem: Language SupportSubsystem: MicrocodeMachine: 1132Disk: Lisp Version: Source Files: Microcode Version: Memory Size: File Server: Server Software Version: Disposition: Description: '[lmm': I don''t remember this part of the microcode very well, but we can go over it when I get back and I''ll try to recollect what was going on there. The handoff between one kind of a context switch and another was complicated and I am not sure I ever got it right.''In fact, the SPY DID show too much time in \3MBDRIVER.''This one would go away if we got rid of all the BCPL, but I couldn''t find an AR for that]''----------------------------------------------------------------'Date': 19 Apr 84 18':08 PST'From': vanMelle.pa'Subject': SPY bias'To': Masinter'cc': vanMelle.pa''There is one slight problem': the keyboard context does not run exactly n times per second (n=77 normally).  There is a bug in the Dorado and probably also Dolphin microcode that causes the keyboard context to run whenever control returns from Bcpl.  This means the spy as written will show disproportionate amount of time inside any function that calls a subr.  The only subrs called frequently these days are the pup level 0 subrs, so SPY will tend to show a disproportionate amount of time spent inside \3MBWATCHER.''	Bill''----------------------------------------------------------------'Workaround: Test Case: Edit-By: vanMelleEdit-Date: 12-Jul-84 14':50':54</pre>
+  </body>
+</html>

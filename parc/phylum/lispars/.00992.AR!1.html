@@ -1,0 +1,11 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [phylum]&lt;LispARs>00992.AR!1</title>
+  </head>
+  <body>
+    <pre>
+Number: 992Date:  7-May-84  8':30':40Submitter: JonL.paSource: JonL.paSubject: Storage lies about # litatom pages left -- should give # litatoms left?Lisp Version: 25-Apr-84 20':38':55Description: When \AtomFrLst was such that there were only 384 atoms left, STORAGE said that there were "7 pages" of atom space left.  Given 128 atoms per "page", it should have said  "3 pages".   I''d prefer, however, that the litatom "space" description simply told how many atoms were left (i.e., how many more litatoms you can  create before falling into raid death).Workaround: Test Case: (PROGN  (until (IGEQ \AtomFrLst 32384) do (GENSYM))  (STORAGE)) Edit-By: Edit-Date:  7-May-84  8':30':40Attn: Masinter,  JonLAssigned To: In/By: Disposition: System: Language SupportSubsystem: Storage Formats/MgtMachine: 1100Disk: Microcode Version: 5121Memory Size: 3584File Server: Server Software Version: Difficulty: EasyFrequency: EverytimeImpact: MinorPriority: PerhapsStatus: OpenProblem Type: BugSource Files: </pre>
+  </body>
+</html>

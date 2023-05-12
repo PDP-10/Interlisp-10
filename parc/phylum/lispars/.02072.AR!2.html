@@ -1,0 +1,11 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [phylum]&lt;LispARs>02072.AR!2</title>
+  </head>
+  <body>
+    <pre>
+Number: 2072Date:  6-Sep-84 09':36':31Submitter: MasinterSource: Burton, MasinterSubject: (BREAK QUOTE) and others cause system crashAssigned To: Attn: Burton, MasinterStatus: OpenIn/By: Problem Type: BugImpact: FatalDifficulty: ModerateFrequency: IntermittentPriority: HopefullySystem: Programming EnvironmentSubsystem: Break PackageMachine: Disk: Lisp Version:  5-Sep-84 16':37':47Source Files: Microcode Version: Memory Size: File Server: Server Software Version: Disposition: '["Masinter" "10-Sep-84 18':09':31" Status':(New-&gt;Open) Difficulty':(Easy-&gt;Moderate) Priority':(-&gt;Hopefully)]Description: From': burton.pa'Subject': Problem with Break'To': LispSupport''(BREAK QUOTE) sends the system into an infinite loop.   It is also reported that (BREAK ASSOC) does also.''QUOTE is a major hassle to fix because the loop is caused by trying to evaluate the  BRKEXP.  The broken definition of QUOTE is (NLAMBDA N (BREAK1 ...  brkexp=(BKAPPLY (QUOTE QUOTEA00034) X (QUOTE somethingelse))) ...)).   'Workaround: Test Case: Edit-By: MasinterEdit-Date: 10-Sep-84 18':09':33</pre>
+  </body>
+</html>

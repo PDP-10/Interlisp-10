@@ -1,0 +1,11 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [eris]&lt;LispCore>bcpl>LispSysBRs.dm!1>Time.d</title>
+  </head>
+  <body>
+    <pre>
+// Time.d -- definitions for time conversion package// Copyright Xerox Corporation 1979//	Last modified December 31, 1977  4:05 PM//----------------------------------------------------------------------------structure UTV:	// Unpacked Time Vector//----------------------------------------------------------------------------[year word		// Actual year (e.g., 1977)month word		// Month (January = 0)day word		// Day (first day = 1)hour word		// Hour of day (midnight = 0)minute word		// Minutesecond word		// Secondword6 word =   [   daylight bit 1	// True if Daylight Savings Time in effect   weekday bit 3	// Day of week (Monday = 0, Sunday = 6)   blank bit 1   zone:		// Local time zone      [      sign bit 1	// Zero if west of Greenwich, one if east      hour bit 4	// Hours from Greenwich      minute bit 6	// Additional minutes      ]   ]]manifest[lenUTV = size UTV/16// Indices for error return from PACKDTiYear = offset UTV.year/16 +1iMonth = offset UTV.month/16 +1iDay = offset UTV.day/16 +1iHour = offset UTV.hour/16 +1iMinute = offset UTV.minute/16 +1iSecond = offset UTV.second/16 +1]//----------------------------------------------------------------------------// structure LTP:	// Local Time Parameters -- now defined in AltoDefs.d//----------------------------------------------------------------------------// [// sign bit 1		// Zero if west of Greenwich, one if east// zoneH bit 4		// Local time zone in hours from Greenwich// blank bit 2// beginDST bit 9	// Day of year on or before which DST starts// blank bit 1// zoneM bit 6		// Additional minutes of local time zone// endDST bit 9		// Day of year on or before which DST ends// ]</pre>
+  </body>
+</html>

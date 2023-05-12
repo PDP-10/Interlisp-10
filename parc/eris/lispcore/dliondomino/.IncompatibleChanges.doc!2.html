@@ -1,0 +1,11 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [eris]&lt;LispCore>DLionDomino>IncompatibleChanges.doc!2</title>
+  </head>
+  <body>
+    <pre>
+Incompatible Domino Changes for Lisp.filed as [Phylum]&lt;Lichtenberg.wbst&gt;Domino&gt;IncompatibleChanges.docThe following documents the differences between Domino (the IOP control program) for Interlisp-D and that of Mesa/Tajo versions 10 and 11:The files FloppyDefs.asm and FloppyTask.asm were changed to cause 58x series of maintenance panel errors to be returned via a bit in the result status word, rather than causing the IOP to hang.  These errors were too trivial and occured much too often (for reasons yet to be understood) to warrant such drastic IOP action.  A change was also made to the "Common" program that actually displays the flashing MP codes to allow (under some circumstances) for the IOP to be Re-booted by depressing the Alt-Boot button on the Maintenance panel.  This restart feature is NEVER guaranteed to work, but it is available.To rebuild NewDomino.bin, you must make the following:A Tajo environment with at least 3000 free pages for elbowroom.You must be on LispCore&uarr;.paGet into your Tajo environment and retrieve the following file:	[Phylum]&lt;Lichtenberg.wbst&gt;GetNewDomino.cm	Run this file to retrieve all files necessary to build the new DominoEdit the sources that have to be changed.  Be sure to add comments and put entries in the log at the start of the file.Type @AssembleNewDomino to re-assemble the sources.  If there are errors in your changes, correct them, then use the command ASM8085 &lt;FILENAME&gt; to re-assemble the file in error.  When all files  assemble correctly, bind them with @BindNewDomino.  Assuming the bind was completed successfully, you should have the file NewDomino.bin on your local disk, ready to put into the microcode loadup.Good Luck!/Mitch Lichtenberg.</pre>
+  </body>
+</html>

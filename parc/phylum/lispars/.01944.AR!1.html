@@ -1,0 +1,11 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [phylum]&lt;LispARs>01944.AR!1</title>
+  </head>
+  <body>
+    <pre>
+Number: 1944Date: 23-Aug-84 18':45':00Submitter: RoachSource: RoachSubject: AREDIT race condition -- error "AR form munged!!" if Tedit init is slowAssigned To: Attn: SannellaStatus: OpenIn/By: Problem Type: BugImpact: ModerateDifficulty: Frequency: EverytimePriority: PerhapsSystem: TextSubsystem: OtherMachine: 1108Disk: Lisp Version: 22-Aug-84 00':45':52Source Files: Microcode Version: 5124Memory Size: 3071File Server: Server Software Version: Disposition: Description: AREDIT.DCOM;25 doesn''t work either.  Prints "AR form munged!! --- Close this AR window and create another" everytime.  Again rolled back to version 22.''-------''Subject': AREDIT problems'To': Roach'cc': Sannella.pa''I poked at your system after you left to talk to Beau, and I found the problem.  It was a race condition, where AREDIT was trying to access one of the Tedit window streams before it was initialized.  In your case, the EMACS modifications you have loaded slow down Tedit initialization enough so that when AREDIT tries to initialize the form by doing "New", the form isn''t ready yet.''Of course, I will fix the problem in AREDIT, but in the meantime it is safe for you to simply press "New" after the "munged" error message, and use the AREDIT form to edit ARs.''Thank you for reporting this problem.'Workaround: Test Case: Edit-By: Edit-Date: </pre>
+  </body>
+</html>

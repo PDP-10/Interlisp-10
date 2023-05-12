@@ -1,0 +1,11 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [phylum]&lt;LispARs>02126.AR!3</title>
+  </head>
+  <body>
+    <pre>
+Number: 2126Date: 11-Sep-84 02':05':15Submitter: JonL.paSource: JonL.paSubject: Compiler emits spurious "value of comment used" warningsAssigned To: Attn: MasinterStatus: OpenIn/By: Problem Type: BugImpact: AnnoyingDifficulty: ModerateFrequency: EverytimePriority: PerhapsSystem: Language SupportSubsystem: Compiler, Code FormatMachine: Disk: Lisp Version:  7-Sep-84 23':54':06Source Files: Microcode Version: 5124Memory Size: 6144File Server: Server Software Version: Disposition: '["Sannella.PA" "11-Sep-84 13':17':22" Status':(New-&gt;Open) Priority':(-&gt;Perhaps)]'["masinter" "13-Sep-84 14':33':22" Difficulty':(-&gt;Moderate) Machine':(1132-&gt;) Description':]Description: (PROG () (RESETLST ... (* Here''s a comment))) is a case where the value of the RESETLST isn''t being used; but this information is not conveyed to the sub-recursive compilation call on the gensymmed function for the RESETLST form.''[lmm': Problem is that RESETLST macro has a (SETQ val lastthing). Should pass "compile.context" down somehow, but can''t really easlily do so]Workaround: Test Case: Edit-By: masinterEdit-Date: 13-Sep-84 14':33':22</pre>
+  </body>
+</html>

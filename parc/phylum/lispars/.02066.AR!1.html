@@ -1,0 +1,11 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [phylum]&lt;LispARs>02066.AR!1</title>
+  </head>
+  <body>
+    <pre>
+Number: 2066Date:  5-Sep-84 17':52':41Submitter: MasinterSource: vanMelleSubject: compiler not always emitting RPLCONS opcodeAssigned To: Attn: MasinterStatus: OpenIn/By: Problem Type: PerformanceImpact: MinorDifficulty: EasyFrequency: IntermittentPriority: UnlikelySystem: Language SupportSubsystem: Compiler, Code FormatMachine: Disk: Lisp Version: 2 JUN 1982 1616-PDTSource Files: Microcode Version: Memory Size: File Server: Server Software Version: Disposition: Description: 'Date':  2 JUN 1982 1616-PDT'From': VANMELLE'Subject': compiler nits'To':   Masinter'cc':   vanMelle''Some anomalies in RPLCONS':''&larr;C (CDR (FRPLACD X (CONS)))''   *DUMMY-COMPILED-FUNCTION*()     LAMBDA'      &lt;X&gt; COPY [CONS 0] [RPLACD] POP [CDR] RETURN''   *DUMMY-COMPILED-FUNCTION*'   name table':'   (F 0 X)'   code length':  argtype': 0'   (FVAR 0) COPY ''NIL ''NIL CONS RPLACD POP CDR RETURN -X-'''&larr;C (CDR (FRPLACD X (CONS NIL]''   *DUMMY-COMPILED-FUNCTION*()     LAMBDA'      &lt;X&gt; COPY ''NIL [\RPLCONS] POP [CDR] RETURN''   *DUMMY-COMPILED-FUNCTION*'   name table':'   (F 0 X)'   code length':  argtype': 0'   (FVAR 0) COPY ''NIL RPLCONS POP CDR RETURN -X-'''Besides, shouldn''t this just compile as':''&lt;X&gt; ''NIL [\RPLCONS] [CDR] RETURN    ?''	Bill''Workaround: Test Case: Edit-By: Edit-Date: </pre>
+  </body>
+</html>

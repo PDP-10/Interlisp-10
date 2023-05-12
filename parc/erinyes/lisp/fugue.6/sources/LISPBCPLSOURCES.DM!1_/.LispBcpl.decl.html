@@ -1,0 +1,11 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [Erinyes]&lt;LISP>FUGUE.6>SOURCES>LISPBCPLSOURCES.DM!1>LispBcpl.decl</title>
+  </head>
+  <body>
+    <pre>
+// LispBcpl.decl. Declarations file for InterLisp-D Bcpl code// Fugue change May 24, 1983  11:35 PM by Bill van Melle// Fugue change April 5, 1983  4:52 PM by Bill van Melle// Chorus change January 19, 1983  4:49 PM by Bill van Melle// Wind change March 18, 1982  12:14 PM by Bill van Melle// subr renumbering January 5, 1982  2:50 PM by van Melle, Masinter at kbd// MDS table change December 30, 1981  11:38 PM by Bill van Melle// ConBrio change December 24, 1981  5:18 PM by Bill van Melle// Allegro change October 12, 1981  11:13 PM by Bill van Melle// Allegro change August 4, 1981  4:21 PM by Beau Sheilmanifest WindFlg = trueget "LispBcpl.params"		// Definitions from Lispmanifest	[ BcplVersion    = #21400		// 43,0          MinRamForBcpl  = #10400		// 21,0          MinLispForBcpl = #107400		// 217,0	]compileif (BcplVersion ls MinBcplVersion) % (LispVersion ls MinLispForBcpl)     then [ Error("Lisp/Bcpl compile version mismatch") ]manifest [				// miscellaneous	StackEnd = #335			// checked by GetFrame	Dolphin = 4			// Dolphins are Alto IV's	Dorado = 5			// Dorados are Alto V's	PagesPerSegment = 256	WordsPerPage = 256	]structure [ HiByte byte; LoByte byte ]	// for extracting bytes from wordsstructure VA:				// 24-bit virtual address in 2 words   [	vahi word = [ blank byte; segment byte ]	valo word = [ pageN byte; wordN byte ]   ]structure VP:				// virtual page   [	segment byte; page byte ]manifest InterfacePageVP = INTERFACEspace lshift 8 + INTERFACEbase rshift 8</pre>
+  </body>
+</html>

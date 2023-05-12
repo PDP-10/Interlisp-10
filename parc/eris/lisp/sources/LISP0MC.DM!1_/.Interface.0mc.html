@@ -1,0 +1,11 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [eris]&lt;Lisp>SOURCES>LISP0MC.DM!1>Interface.0mc</title>
+  </head>
+  <body>
+    <pre>
+:TITLE[Interface.0mc...July 23, 1982  10:45 PM, van Melle];* insert[LispDefs.0mc];imreserve[0, 340, 4];lLispInst:	loadpageExternal[pgLisp0], at[IO1Tab,16]; * 67400, Lisp ops;	lspInstFlag &larr; (InBcplState), gotoExternal[LispInstLoc];onpage[FaultPage];lspMapFaultPunt:	loadpageExternal[pgLisp0];	gotoExternal[MapFaultPuntLoc];:IF[WithPilotBitBlt]; ************onpage[pgLisp0];AltoTrap:	LoadPage[nePage], GoToP[xoUnIm], at[lTrapLoc];	* = lBBBitBltLoc:ELSE;onpage[bbPage];BBMDone:	loadpageExternal[pgLisp0];	gotoExternal[BBMDoneLoc];onpage[bbPage];BBMesaInt:	loadpageExternal[pgLisp0];	gotoExternal[BBMesaIntLoc];lbbBitBlt:	loadpage[bbPage], at[lBBBitBltLoc];	gotop[BBBitBlt], at[lBBBitBltLoc1];lBitBltDone:	T &larr; T, loadpage[nePage], at[lBitBltDoneLoc];	* Make sure T bypass works	PFetch4[PCB, IBuf], gotop[JmpFin], at[lBitBltDoneLoc1];:ENDIF; ************lStartNova:	loadpage[neStartPage], at[lStartNovaLoc];	gotop[StartNova], at[lStartNovaLoc1];lneTask1st:	gotop[neTask1st], at[lneTask1stLoc];lneTaskSkp:	gotop[neTaskSkp], at[lneTaskSkpLoc];	:END[Interface];</pre>
+  </body>
+</html>

@@ -1,0 +1,11 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [eris]&lt;LispCore>bcpl>LispSysBRs.dm!1>PupRoute.decl</title>
+  </head>
+  <body>
+    <pre>
+// PupRoute.decl -- Internal definitions for PupRoute module// Copyright Xerox Corporation 1979// Last modified May 26, 1979  3:35 PM by Taft//----------------------------------------------------------------------------structure RT:	// Routing Table//----------------------------------------------------------------------------[@HTP		// Hash Table Preamble (more appropriately called Dictionary)head word	// Queue of RTQIstail word// Miscellaneous stuff used during routing table maintenanceprobeCount word	// Nonzero to cause routing information probes to be generatedprobeTimer word	// Times interval between routing probeschanged word	// True if routing table changed since last checked]manifest lenRT = size RT/16//----------------------------------------------------------------------------structure RTQI:	// Routing Table Queue Item//----------------------------------------------------------------------------[next word	// -&gt; next RTQIrte @RTE	// routing table entry]manifest lenRTQI = size RTQI/16manifest[rtTimeoutInterval = 9000	//age RTE's after 1.5 minutes				//purge them after 3 minutes// routing info protocol definitionspsRouteInfo = 2ptRouteRequest = 200bptRouteReply = 201b]</pre>
+  </body>
+</html>

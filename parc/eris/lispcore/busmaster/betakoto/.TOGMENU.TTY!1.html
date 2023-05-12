@@ -1,0 +1,11 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [eris]&lt;LispCore>busmaster>BETAKOTO>TOGMENU.TTY!1</title>
+  </head>
+  <body>
+    <pre>
+TOGMENUThis is a facility for building single-region menus which cycle through a sequence of options as you left-button.  It can be used for start/stop buttons, or for parameter setting with a permanent display of the value selected.Call MakeTogMenu(list-of-items) to create one, and (TogMenu tm ...various other args...) to show it.An item is of the form (name valSet outFn explainString hidden), or just a non-list which is both name and valSet.  Listp name/valSet is evaluated for display/value respectively.  Otherwise used as is, with NIL valSet defaulting to name.OutFn is called as you leave a setting, useful for Start/Stop sorts of things.  Items with non-NIL hidden do not appear as you cycle with left button, but will appear in pop-up menu.Drive it with left button - middle button makes an ordinary pop-up menu of it - selecting in this sets you in that state.  The outFn of the state you thereby leave is NOT called.Use TogMenuReset(menu &amp;optional item) to reset a menu to item/initial state.Use TogMenuValue(menu) to get the current value.  Use it with no argument as the name of an item to make an item which shows its value.For example as items (One 1) displays the word "One" and has value 1, ((TogMenuValue)(RAND 1 100) NIL "A random number") has as value a random number, which is displayed, (Start NIL (DoIt) "Start running") will display Start, and call (DoIt) when you left-button it, and finally, ((TogMenuValue)(RESETFORM (TTYDISPLAYSTREAM someWindow)(READ))NIL "Input a value" Other) will not appear as you cycle thru, but will show up as an item labelled "Other" if you middle-button, and if selected will read a value which will also be displayed.</pre>
+  </body>
+</html>

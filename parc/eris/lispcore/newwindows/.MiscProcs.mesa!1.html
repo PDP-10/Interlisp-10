@@ -1,0 +1,11 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [eris]&lt;LispCore>NEWWINDOWS>MiscProcs.mesa!1</title>
+  </head>
+  <body>
+    <pre>
+--MiscProcs.mesa--Frank 	6-Jun-84 18:20:59--Lu	19-Dec-84 15:39:07DIRECTORY  Heap,  String;MiscProcs: PROGRAM IMPORTS Heap, String =  BEGIN  ArraySize: CARDINAL = 12;  A: ARRAY [0..ArraySize] OF CARDINAL &larr; ALL[0];  Node: TYPE = RECORD [str: LONG STRING &larr; NIL, next: NodePtr &larr; NIL];  NodePtr: TYPE = LONG POINTER TO Node;  headNode: NodePtr &larr; NIL;  z: UNCOUNTED ZONE = Heap.Create[initial: 1];  Interchange: PROC [thisOne, thatOne: CARDINAL] =    BEGIN    --interchange the two elements whose address in array are "thisOne" &amp; "thatOne"    temp: CARDINAL &larr; A[thisOne];    A[thisOne] &larr; A[thatOne];    A[thatOne] &larr; temp;    END;  Factorial: PROC [number: CARDINAL] RETURNS [j: CARDINAL] =    BEGIN    factorialOfZero: CARDINAL = 1;    inputTooBig: CARDINAL = 0;    SELECT number FROM      0 =&gt; RETURN[factorialOfZero];      IN [1..12] =&gt; RETURN[number * Factorial[number - 1]];      ENDCASE =&gt; RETURN[inputTooBig];    END;  MakeLinkedList: PROC [howManyNodes: CARDINAL] =    BEGIN    ptr1, ptr2: NodePtr;    char: CHAR &larr; 'A;    FreeOldNodes[@headNode];  --destroy old linked list    FOR i: CARDINAL IN [0..howManyNodes) DO      ptr1 &larr; z.NEW[Node &larr; [str: String.MakeString[z: z, maxlength: 1]]];      String.AppendChar[ptr1.str, char];  --Store char in record (ptr1&uarr;)      char &larr; SUCC[char];  --If char = 'A THEN char &larr; 'B, etc.      ptr2 &larr; headNode;      headNode &larr; ptr1;      headNode.next &larr; ptr2;      ptr1 &larr; NIL;      ENDLOOP;    END;  FreeOldNodes: PROC [node: LONG POINTER TO NodePtr] =    BEGIN    IF node&uarr; = NIL THEN RETURN;    IF node.next = NIL THEN z.FREE[node] ELSE FreeOldNodes[@node.next];    END;  END.</pre>
+  </body>
+</html>

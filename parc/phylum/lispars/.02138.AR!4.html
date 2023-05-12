@@ -1,0 +1,11 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [phylum]&lt;LispARs>02138.AR!4</title>
+  </head>
+  <body>
+    <pre>
+Number: 2138Date: 11-Sep-84 11':37':01Submitter: Sannella.PASource: Kaplan.paSubject: NS printer watchdog displays job as': "PARC on print':PARC"Assigned To: Attn: Status: FixedIn/By: Problem Type: BugImpact: AnnoyingDifficulty: Frequency: Priority: PerhapsSystem: Windows and GraphicsSubsystem: PrintingMachine: Disk: Lisp Version:  8-Sep-84 01':22':25Source Files: Microcode Version: 5124Memory Size: 4096File Server: Server Software Version: Disposition: '["Sybalsky" "12-Sep-84 13':34':38" Attn': System':(Windows% and% Graphics-&gt;Communications) Subsystem':(Printing-&gt;NS% Protocols)]'["Masinter" "18-Sep-84 21':41':58" Attn': System':(Communications-&gt;Windows% and% Graphics) Subsystem':(NS% Protocols-&gt;Printing)]''John': this is a problem that the print job didn''t specify a document name, and NSPRINT guessed, incorrectly. The correct fix is to supply a document name.'["Masinter" "18-Sep-84 21':43':07" Attn': Status':(Open-&gt;Fixed) System':(Communications-&gt;Windows% and% Graphics) Subsystem':(NS% Protocols-&gt;Printing) Machine':(1132-&gt;) Disposition': Edit-By':]Description: 'Date':  7 Sep 84 23':49 PDT'From': Kaplan.pa'Subject': NS printer watchdog process bug?'To': Lispsupport''I created an Interpress file on {LPT}LISPPRINT':PARC, which meant that it was sent to the printer immediately after being closed.  It printed OK, but the watchdog process identified the printing job as'   PARC on print':PARC'in the promptwindow.''Seems odd to me.  I don''t know whether this is a problem in NSPRINT, or in the LPT closing thing, or what.  Could it be that (FILENAMEFIELD x ''NAME) is being used to figure out how to identify the thing, and that gives PARC, since LISPPRINT': according to FILENAMEFIELD is a DEVICE or somesuch.''The printerdevice CLOSEF function I know does it''s own STRPOS''s so as not to get confused by the colon.  But maybe someone else down the line is getting confused?''--Ron'Workaround: Test Case: Edit-By: Masinter</pre>
+  </body>
+</html>

@@ -1,0 +1,11 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [eris]&lt;LispCore>DEMO>SPLINEWINDOW!1</title>
+  </head>
+  <body>
+    <pre>
+(FILECREATED "28-JUL-82 19:29:44" {PHYLUM}&lt;AAAI&gt;XEROX&gt;SPLINEWINDOW.;3 1674         changes to:  (FNS SPLINEWINDOW)      previous date: "28-JUL-82 19:24:28" {PHYLUM}&lt;AAAI&gt;XEROX&gt;SPLINEWINDOW.;2)(PRETTYCOMPRINT SPLINEWINDOWCOMS)(RPAQQ SPLINEWINDOWCOMS ((FNS * SPLINEWINDOWFNS)			 (VARS (SPLINEWINDOW)			       (SPLINEKNOTS))			 (BITMAPS SPLINEBM)))(RPAQQ SPLINEWINDOWFNS (SPLINEWINDOW WFN))(DEFINEQ(SPLINEWINDOW  [LAMBDA NIL                                                (* edited: "28-JUL-82 19:28")    (PROG NIL          (SETQ SPLINEKNOTS)          (if (NOT (TYPENAMEP SPLINEWINDOW (QUOTE WINDOW)))	      then (SETQ SPLINEWINDOW (CREATEW))		   (WINDOWPROP SPLINEWINDOW (QUOTE BUTTONEVENTFN)			       (FUNCTION WFN))	    else (CLEARW SPLINEWINDOW))          (OR (ACTIVEWP SPLINEWINDOW)	      (OPENW SPLINEWINDOW))          (until (PEEKC T) do NIL)          (AND SPLINEKNOTS (DRAWCURVE (DREVERSE SPLINEKNOTS)				      NIL				      (QUOTE (SQUARE 2))				      NIL SPLINEWINDOW))          (SETQ SPLINEKNOTS])(WFN  [LAMBDA (SPLINEWINDOW)                                     (* edited: "28-JUL-82 19:24")    (PROG (KNOT)          (AND (MOUSESTATE (ONLY LEFT))	       [push SPLINEKNOTS (SETQ KNOT (CONS (LASTMOUSEX SPLINEWINDOW)						  (LASTMOUSEY SPLINEWINDOW]	       (BITBLT SPLINEBM 0 0 SPLINEWINDOW (LASTMOUSEX SPLINEWINDOW)		       (LASTMOUSEY SPLINEWINDOW)		       NIL NIL (QUOTE INPUT)		       (QUOTE REPLACE)))          (RETURN KNOT]))(RPAQQ SPLINEWINDOW NIL)(RPAQQ SPLINEKNOTS NIL)(RPAQ SPLINEBM (READBITMAP))(3 3"J@@@""D@@@""J@@@")(DECLARE: DONTCOPY  (FILEMAP (NIL (414 1538 (SPLINEWINDOW 424 . 1077) (WFN 1079 . 1536)))))STOP</pre>
+  </body>
+</html>

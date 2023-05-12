@@ -1,0 +1,11 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [phylum]&lt;LispARs>01781.AR!1</title>
+  </head>
+  <body>
+    <pre>
+Number: 1781Date:  9-Aug-84 15':11':21Submitter: Sannella.PASource: JonL.paSubject: Document bad interaction between CLEANUPOPTIONS (LIST RC ST) and SINGLEFILEINDEXLisp Version: Description: 'Date':  3 Jul 84 00':21 PST'From': JonL.pa'Subject': CLEANUPOPTIONS list, and use of SINGLEFILEINDEX'To': LispUsers&uarr;.pa'Reply-to': JonL.pa''The new SINGLEFILEINDEX facility will run as a background process, freeing up your EXEC process for other mundane tasks;  however, there still is an important lacuna in Interlisp which may trip one up ocasionally.  ''Since two different process which want to access the same file will actually share one i/o stream over that file, then compiling and listing of the file at the same time won''t actually work -- one process will, for example, close the file before the other one is finished with it.  Somewhere on the development queue is the plan to introduce multiple streams into Interlisp, but for now one must simply be aware of the gap.''This means that if you want the LIST option to be part of CLEANUPOPTIONS, you must have it after at the end of the list; e.g.'    (RC ST LIST)'rather than '    (LIST RC ST)''-- JonL --'Workaround: Test Case: Edit-By: Edit-Date: Attn: jonl, SannellaAssigned To: In/By: Disposition: System: Operating SystemSubsystem: ProcessesMachine: Disk: Microcode Version: Memory Size: File Server: Server Software Version: Difficulty: Frequency: Impact: ModeratePriority: HopefullyStatus: OpenProblem Type: DocumentationSource Files: </pre>
+  </body>
+</html>

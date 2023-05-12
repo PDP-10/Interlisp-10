@@ -1,0 +1,11 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [phylum]&lt;LispARs>01291.AR!2</title>
+  </head>
+  <body>
+    <pre>
+Number: 1291Date:  1-Jun-84 12':57':53Submitter: Sannella.PASource: JonL.paSubject: LOG is trashing its argument when it is a floatpAssigned To: Attn: Status: ClosedIn/By: CarolProblem Type: BugImpact: SeriousDifficulty: EasyFrequency: EverytimePriority: HopefullySystem: Language SupportSubsystem: ArithmeticMachine: 1132Disk: Lisp Version: Source Files: Microcode Version: Memory Size: File Server: Server Software Version: Disposition: '["Sannella.PA" "20-Aug-84 17':09':41" Status':(Fixed-&gt;Closed) In/By':]Description: Date': 18 May 84 01':21 PDT'From': JonL.pa'Subject': Arithmetic SHOWSTOPPER!!'To': Sannella, Raim.pasa'cc': Sheil,JonL, vanMelle, LispSupport''Three horrible bugs have come to my attention in the past two days, whose combined weight almost force a new loadup for Carol.  Focus is in LLFLOAT and AARITH files.''2) LOG trashes it''s argument -- random RPLACD strikes again; now fixed in new version of AARITH.''...'''2) LOG is trashing its argument when it is a floatp.  Apparently, this one has been around since January, but it will have very serious  consequences, and will be extremely hard for customers to find; thus my feeling that this one, alone, is a showstopper.  The problem stems from trying to copy a floatp by doing (FPLUS X 0.0) -- the compiler "optimizes" this out to a call to FLOAT, which just returns X without copying it.  This actually is a reasonable optimization, but there is no documented way to get a copy of a floatp; after talking this over with Larry, we decided to put a new "function" in the system -- \FLOAT.BOX -- which will open-compile into the shortest way to copy a floatp.  This won''t be available until the next loadup, so tentatively I changed the FPLUS to a PLUS, which *currently* does cause a copying.  [Thanks to Kelly, who helped Kris track this one to the case of EXPT on two floatps]''Workaround: Test Case: Edit-By: Sannella.PAEdit-Date: 20-Aug-84 17':09':44</pre>
+  </body>
+</html>

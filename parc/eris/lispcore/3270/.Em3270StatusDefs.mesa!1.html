@@ -1,0 +1,11 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [eris]&lt;LispCore>3270>Em3270StatusDefs.mesa!1</title>
+  </head>
+  <body>
+    <pre>
+-- Em3270StatusDefs-- Status window display for 3270 emulator-- Last edit by:	Weissman	12-Apr-82 14:09:34-- Owner: WeissmanDIRECTORY  Em3270PrivDefs USING [LptStatusdata],  RgnDefs USING [Srt],  SchemaDefs USING [Lschema, Schrt],  StandardDefs USING [Bv, Cv];Em3270StatusDefs: DEFINITIONS =BEGIN OPEN StandardDefs, SchemaDefs;-- PUBLIC TYPESCode: TYPE = {Ready3276, Ready3274, onlineA, onlineB, myJob, systemOperator, unowned, test, time, systemLock, machineCheck, communicationCheck, programCheck, what, minusFunction, securityKey, printerNotWorking, printerBusy, printerVeryBusy, operatorUnauthorized, goElsewhere, moreThan, nonNumeric, whatNumber, questionableCard, minusSymbol, messageReceived, communicationReminder, reserved, numeric, upshift, insert, printerAssignment, whatPrinter, printerPrinting, printerFailure, assignPrinter, accentPlusWhat};Accent: TYPE = {none, acute, grave, circumflex, umlaut, cedilla};-- PUBLIC CONSTANTShtStatusArea: READONLY Cv;-- PUBLIC PROCEDURESInitInstance: PROC RETURNS [Em3270PrivDefs.LptStatusdata];-- set up per-instance status area dataDestroyInstance: PROC [lptstatusdata: Em3270PrivDefs.LptStatusdata];-- free storage for per-instance status area dataSetSrt: PROC [lschema: Lschema, srt: RgnDefs.Srt];-- Sets the srt in the StatusdataDisplayCode: PROC [lschema: Lschema, code: Code, bvOn: Bv &larr; TRUE, accent: Accent &larr; none];-- display a status code in lschema's status area.  If bvOn, then turn on the indicator, else turn it off.  If code = accentPlusWhat, then accent must be in [acute..cedilla], otherwise accent is ignored.ClearStatusArea: PROC [lschema: Lschema];-- turn off all indicators in the status windowRepaintStatusArea: PROC [lschema: Lschema, schrt: Schrt];-- repaints the status area, including the horizontal line separating text from status area.  To be called only by the repaint procedure for the lschema3270.Em3270StatusPack: PRIVATE PROGRAM;END.LOG19-Feb-82	Weissman	Created12-Apr-82	Weissman	Add per-instance data stuff</pre>
+  </body>
+</html>

@@ -1,0 +1,11 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [phylum]&lt;LispARs>00160.AR!2</title>
+  </head>
+  <body>
+    <pre>
+Number: 160Date: 18-Mar-84 14':50':51Submitter: Sannella.PASource: Kaplan.paSubject: Document bitmap symbolic representationLisp Version: Description: 'Date': 16 Mar 84 17':39 PST'From': Kaplan.pa'Subject': Re': Bitmaps'In-reply-to': Raim.pasa''s message of Thu, 15 Mar 84 17':06 PST'To': Raim.pasa'cc': Lispsupport, Burton.PA, VanOrden.pasa''I don''t think there is a written description of the symbolic representation of a bitmap, so I will try to describe it here.''LISPSUPPORT':  This should probably generate an AR for the implementors guide.''A bitmap is represented symbolicly as a list of the form'  (width height line1 line2 line3 ... lineheight)'where width and height are integers indicating the number of pixels in the bitmap, and line1 ... linen are strings (each enclosed in double quotes) of characters representing the width bits in each line.''The characters in the line strings each encode 4 bits of the line, with the 4 bits encoded by a character c determined by taking subtracting the character code of @ from the character code of c.  Thus, @ encodes 0000, A encodes 0001, B encodes 0010, etc. up to O.  We did it with this half-dense encoding so as to avoid characters with any special properties on lisp symbolic files.''An example':''(8 2 "@B" "CF")''These s-expression representations are simply printed on the file by PRINTBITMAP and the bitmaps command, and read and converted back to a real bitmaps by READBITMAP.''Hope this helps.''Ron'Workaround: Test Case: Edit-By: Sannella.PAEdit-Date: 14-Jun-84 15':09':27Attn: Burton.paAssigned To: In/By: Disposition: System: Windows and GraphicsSubsystem: Window SystemMachine: Disk: Microcode Version: Memory Size: File Server: Server Software Version: Difficulty: ModerateFrequency: Impact: AnnoyingPriority: PerhapsStatus: OpenProblem Type: DocumentationSource Files: </pre>
+  </body>
+</html>

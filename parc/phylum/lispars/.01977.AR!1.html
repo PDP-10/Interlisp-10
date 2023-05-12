@@ -1,0 +1,11 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [phylum]&lt;LispARs>01977.AR!1</title>
+  </head>
+  <body>
+    <pre>
+Number: 1977Date: 28-Aug-84 11':55':39Submitter: Sannella.PASource: MASINTER.PASubject: Document SYSTEM records vs USER records (need to disambiguate references)Assigned To: Attn: MASINTERStatus: OpenIn/By: Problem Type: DocumentationImpact: ModerateDifficulty: Frequency: Priority: PerhapsSystem: Programming EnvironmentSubsystem: Record PackageMachine: 1132Disk: Lisp Version: 27-Aug-84 21':14':00Source Files: Microcode Version: 5124Memory Size: 4096File Server: Server Software Version: Disposition: Description: 'Date': 24 Aug 84 08':05 PDT'From': newman.pasa'Subject': Lisp': Fetch LEFT is acting wierd'To': LispSupport.pa'cc': newman.pasa'Lisp-System-Date': 21-Jun-84 10':50':28'Machine-Type': Dandelion''  When I try to (fetch LEFT of SOMETHING) I am getting the BOTTOM field of SOMETHING rather than the LEFT field. Moreover, fetching BOTTOM, WIDTH or HEIGHT all work correctly. What is the problem here ??? Has anyone else had this problem, or am I alone? ''I would appreciate a quick response since this is pretty vital to what I am doing.''-----''Date': 25 AUG 84 00':45 PDT'From': MASINTER.PA'Subject': LEFT'To':   newman.pasa'cc':   lispsupport''try (SHOWDEF ''LEFT ''FIELDS) to see how LEFT is defined as a field. It is likely that you have some other record which defines LEFT, and since REGION is a "system" record, fetch LEFT defaults to user-defined fields.''You should probably disambiguate':''(fetch (REGION LEFT) of X)''[to LispSupport': AR on documentation I am sure that the stuff about SYSTEM records vs USER records is not in the manual!]''Workaround: Test Case: Edit-By: Edit-Date: </pre>
+  </body>
+</html>

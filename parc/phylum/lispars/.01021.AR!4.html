@@ -1,0 +1,11 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [phylum]&lt;LispARs>01021.AR!4</title>
+  </head>
+  <body>
+    <pre>
+Number: 1021Date:  8-May-84  9':58':10Submitter: JonL.paSource: JonL.paSubject: DIRECTORY pattern oddity':   *.  versus  *.;Lisp Version:  7-May-84 21':48':06Description: (FILDIR ''&lt;LISP&gt;SOURCES&gt;*.) returns only filesnames with no extension; but (FILDIR ''&lt;LISP&gt;SOURCES&gt;*.;) seems to return all file names.  I would have expected that the latter not only excluded name with non-null extensions, but would also exclude all but the highest version number.''-------'Date': 29 Jun 84 12':28 PDT'From': vanMelle.pa''I think I finally have this all straightened out.  Including a field delimeter in the pattern overrides the default of * for the next field.  That is how you specify a null extension or null version.  Null version is interpreted as "highest".  Thus':''DIR * = DIR *.* = DIR *.*;* enumerates everything.'DIR *.	enumerates only files with null extension.'DIR *.*;	enumerates highest version of everything.'DIR *.;*	enumerates highest version of files with null extension.''There are some hosts/devices that do not fully support "highest version" in enumeration; in fact, I believe only IFS''s do it properly right now.  Maxc apparently ignores the "Version = 0" specification.  DSK doesn''t support it because its directory isn''t sorted, though it could fake it at some expense.  NS file servers, of course, don''t do anything right, though they may get better with Services 8.0 when the Version attribute is supported.''	Bill'Workaround: Test Case: Edit-By: Sannella.PAEdit-Date: 17-Aug-84 10':06':23Attn: Assigned To: vanMelleIn/By: HarmonyDisposition: System: Operating SystemSubsystem: Generic File OperationsMachine: 1132Disk: Microcode Version: 5124Memory Size: 4096File Server: Server Software Version: Difficulty: Frequency: EverytimeImpact: ModeratePriority: HopefullyStatus: ClosedProblem Type: Design - UISource Files: </pre>
+  </body>
+</html>

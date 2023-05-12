@@ -1,0 +1,11 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [eris]&lt;LispCore>dlion>MakeLisp.cm!5</title>
+  </head>
+  <body>
+    <pre>
+// MakeLisp.cm// last edit by charnley   17-Sep-84 13:32:46// build all the large CS files// build bank0 files@TriLisp12B0.cm// build bank1 files@Lisp12B1.cm// build bank2 files@Lisp12B2.cm// build the small CS file@Lisp4K.cm// Create bank .DB files// needs doing only once!!//MakeDlionMicroBoot 2Bank.db &larr; ExtraBanksKernel.fb ExtraBanksPatch.bin Bank2.binMakeDlionMicroBoot Bank2.db &larr; Bank2.fb Bank1.bin  MakeDlionMicroBoot Bank1.db &larr; Bank1.fb Bank0.bin  MakeDlionMicroBoot Bank0.db &larr; Bank0.fb NewDomino.bin// this is the 12K microcodeMakeDlionMicroBoot dMLispDominoY.db &larr; 2Bank.db Bank2.db Bank1.db Bank0.db// this is the 4K microcodeMakeDlionMicroBoot SMLispDominoY.db &larr; Lisp4K.fb newDomino.binMakeDlionMicroBoot Temp.db &larr; SMLispDominoY.db dMLispDominoY.dbMakeDlionMicroBoot D.db &larr; Temp.db// End of assembly.  File is on D.db</pre>
+  </body>
+</html>

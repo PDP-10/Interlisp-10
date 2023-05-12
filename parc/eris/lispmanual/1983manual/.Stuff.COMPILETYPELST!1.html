@@ -1,0 +1,11 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [eris]&lt;LispManual>1983Manual>Stuff.COMPILETYPELST!1</title>
+  </head>
+  <body>
+    <pre>
+{Begin SubSec COMPILETYPELST}{Title COMPILETYPELST}{Text{Label L!COMPILETYPELST}{index COMPILETYPELST CV}{index compiling by datatype}Most of the compiler's mechanism deals with how to handle forms (lists) and variables (literal atoms).  The user can affect the compiler's behaviour with respect to lists and literal atoms in a number of ways, e.g. compiler macros, declarations, {var COMPILEUSERFN}, etc.  {var COMPILETYPELST} allows the user to tell the compiler what to do when it encounters a data type {it other} than a list or an atom.  It is the facility in the compiler that corresponds to {fn DEFEVAL} ({SectionRef FnDef DEFEVAL}) for the interpreter.{var COMPILETYPELST} is a list of elements of the form{lisp ({arg TYPE-NAME} . {arg FUNCTION})}.Whenever the compiler encounters a datum that is not a list and not an atom (or a number) in a context where the datum is being evaluated, the type-name of the datum is looked up on {var COMPILETYPELST}, i.e.{lisp (ASSOC (TYPENAME {arg DATUM}) COMPILETYPELST)} is performed.If an entry appears {fn CAR} of which is equal to the typename, {fn CDR} of that entry is applied to the datum.  If the value returned by this application is {it not} {fn EQ} to the datum, then that value is compiled instead.If the value {it is} {fn EQ} to the datum, or if there is no entry on {var COMPILETYPELST} for this typename, the compiler simply compiles the datum as {lisp (QUOTE {arg DATUM})}.}{End SubSec COMPILETYPELST}</pre>
+  </body>
+</html>

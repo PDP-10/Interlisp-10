@@ -1,0 +1,1174 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [eris]&lt;LispManual>IDperformance.im!3</title>
+  </head>
+  <body>
+    <pre>
+$ od -c -N 50000 [eris]&lt;LispManual>IDperformance.im!3
+0000000   \r   {   B   e   g   i   n       S   u   b   S   e   c       P
+0000020    e   r   f   o   r   m   a   n   c   e       C   o   n   s   i
+0000040    d   e   r   a   t   i   o   n   s   }  \r   {   T   i   t   l
+0000060    e       P   e   r   f   o   r   m   a   n   c   e       C   o
+0000100    n   s   i   d   e   r   a   t   i   o   n   s   }  \r   {   T
+0000120    e   x   t  \r  \r  \r   M   o   s   t       I   n   t   e   r
+0000140    l   i   s   p   -   D       u   s   e   r   s       w   i   l
+0000160    l       h   a   v   e       e   x   p   e   r   i   e   n   c
+0000200    e       u   s   i   n   g       I   n   t   e   r   l   i   s
+0000220    p   -   1   0   .           A   l   t   h   o   u   g   h    
+0000240    I   n   t   e   r   l   i   s   p   -   D       i   s       c
+0000260    o   m   p   l   e   t   e   l   y       u   p   w   a   r   d
+0000300        c   o   m   p   a   t   i   b   l   e       w   i   t   h
+0000320        I   n   t   e   r   l   i   s   p   -   1   0   ,       t
+0000340    h   e   r   e       a   r   e       d   i   f   f   e   r   e
+0000360    n   c   e   s       i   n       t   h   e       e   x   a   c
+0000400    t       i   m   p   l   e   m   e   n   t   a   t   i   o   n
+0000420        w   h   i   c   h       m   a   y       i   n   f   l   u
+0000440    e   n   c   e       t   h   e       p   e   r   f   o   r   m
+0000460    a   n   c   e       o   f       a   p   p   l   i   c   a   t
+0000500    i   o   n   s       p   r   o   g   r   a   m   s   .        
+0000520    T   h   i   s       c   h   a   p   t   e   r       c   o   n
+0000540    t   a   i   n   s       a       c   o   l   l   e   c   t   i
+0000560    o   n       o   f       n   o   t   e   s       w   h   i   c
+0000600    h       m   a   y       h   e   l   p       t   h   e       u
+0000620    s   e   r       i   m   p   r   o   v   e       t   h   e    
+0000640    p   e   r   f   o   r   m   a   n   c   e       o   f       I
+0000660    n   t   e   r   l   i   s   p   -   D       p   r   o   g   r
+0000700    a   m   s   .  \r  \r  \r   {   B   e   g   i   n       S   u
+0000720    b   S   e   c       V   a   r   i   a   b   l   e       B   i
+0000740    n   d   i   n   g   s   }  \r   {   T   i   t   l   e       V
+0000760    a   r   i   a   b   l   e       B   i   n   d   i   n   g   s
+0001000    }  \r   {   T   e   x   t  \r  \r   {   T   a   g       G   l
+0001020    o   b   a   l   v   a   r   s   P   e   r   f   o   r   m   a
+0001040    n   c   e   }  \r  \r  \r   A       m   a   j   o   r       d
+0001060    i   f   f   e   r   e   n   c   e       b   e   t   w   e   e
+0001100    n       I   n   t   e   r   l   i   s   p   -   1   0       a
+0001120    n   d       I   n   t   e   r   l   i   s   p   -   D       i
+0001140    s       t   h   e       m   e   t   h   o   d       o   f    
+0001160    a   c   c   e   s   s   i   n   g       f   r   e   e       v
+0001200    a   r   i   a   b   l   e   s   .           I   n   t   e   r
+0001220    l   i   s   p   -   1   0       u   s   e   s       w   h   a
+0001240    t       i   s       c   a   l   l   e   d       "   s   h   a
+0001260    l   l   o   w   "       b   i   n   d   i   n   g   .        
+0001300        I   n   t   e   r   l   i   s   p   -   D       u   s   e
+0001320    s       w   h   a   t       i   s       c   a   l   l   e   d
+0001340        "   d   e   e   p   "       b   i   n   d   i   n   g   .
+0001360   \r  \r   T   h   e       b   i   n   d   i   n   g       o   f
+0001400        v   a   r   i   a   b   l   e   s       o   c   c   u   r
+0001420    s       w   h   e   n       a       f   u   n   c   t   i   o
+0001440    n       o   r       a       {   f   n       P   R   O   G   }
+0001460        i   s       e   n   t   e   r   e   d   .           F   o
+0001500    r       e   x   a   m   p   l   e   ,       i   f       t   h
+0001520    e       f   u   n   c   t   i   o   n       {   l   i   s   p
+0001540        F   O   O   }       h   a   s       t   h   e       d   e
+0001560    f   i   n   i   t   i   o   n       {   l   i   s   p       (
+0001600    L   A   M   B   D   A       (   A       B   )       {   a   r
+0001620    g       B   O   D   Y   }   )   }   ,       t   h   e       v
+0001640    a   r   i   a   b   l   e   s       {   l   i   s   p       A
+0001660    }       a   n   d       {   l   i   s   p       B   }       a
+0001700    r   e       b   o   u   n   d       s   o       t   h   a   t
+0001720        a   n   y       r   e   f   e   r   e   n   c   e       t
+0001740    o       {   l   i   s   p       A   }       o   r       {   l
+0001760    i   s   p       B   }       f   r   o   m       {   a   r   g
+0002000        B   O   D   Y   }       o   r       a   n   y       f   u
+0002020    n   c   t   i   o   n       c   a   l   l   e   d       f   r
+0002040    o   m       {   a   r   g       B   O   D   Y   }       w   i
+0002060    l   l       r   e   f   e   r       t   o       t   h   e    
+0002100    a   r   g   u   m   e   n   t   s       t   o       t   h   e
+0002120        f   u   n   c   t   i   o   n       {   l   i   s   p    
+0002140    F   O   O   }       a   n   d       n   o   t       t   o    
+0002160    t   h   e       v   a   l   u   e       o   f       {   l   i
+0002200    s   p       A   }       o   r       {   l   i   s   p       B
+0002220    }       f   r   o   m       a       h   i   g   h   e   r    
+0002240    l   e   v   e   l       f   u   n   c   t   i   o   n   .    
+0002260        A   l   l       v   a   r   i   a   b   l   e       n   a
+0002300    m   e   s       (   a   t   o   m   s   )       h   a   v   e
+0002320        a       t   o   p       l   e   v   e   l       v   a   l
+0002340    u   e       c   e   l   l       w   h   i   c   h       i   s
+0002360        u   s   e   d       i   f       t   h   e       v   a   r
+0002400    i   a   b   l   e       h   a   s       n   o   t       b   e
+0002420    e   n       b   o   u   n   d       i   n       a   n   y    
+0002440    f   u   n   c   t   i   o   n   .               I   n       d
+0002460    i   s   c   u   s   s   i   o   n   s       o   f       v   a
+0002500    r   i   a   b   l   e       a   c   c   e   s   s   ,       i
+0002520    t       i   s       u   s   e   f   u   l       t   o       d
+0002540    i   s   t   i   n   q   u   i   s   h       b   e   t   w   e
+0002560    e   n       t   h   r   e   e       t   y   p   e   s       o
+0002600    f       v   a   r   i   a   b   l   e       a   c   c   e   s
+0002620    s   :       l   o   c   a   l   ,       s   p   e   c   i   a
+0002640    l       a   n   d       g   l   o   b   a   l   .           L
+0002660    o   c   a   l       v   a   r   i   a   b   l   e       a   c
+0002700    c   e   s   s       i   s       t   h   e       u   s   e    
+0002720    o   f       a       v   a   r   i   a   b   l   e       t   h
+0002740    a   t       i   s       b   o   u   n   d       w   i   t   h
+0002760    i   n       t   h   e       f   u   n   c   t   i   o   n    
+0003000    f   r   o   m       w   h   i   c   h       i   t       i   s
+0003020        u   s   e   d   .           S   p   e   c   i   a   l    
+0003040    v   a   r   i   a   b   l   e       a   c   c   e   s   s    
+0003060    i   s       t   h   e       u   s   e       o   f       a    
+0003100    v   a   r   i   a   b   l   e       t   h   a   t       i   s
+0003120        b   o   u   n   d       b   y       a   n   o   t   h   e
+0003140    r       f   u   n   c   t   i   o   n   .           G   l   o
+0003160    b   a   l       v   a   r   i   a   b   l   e       a   c   c
+0003200    e   s   s       i   s       t   h   e       u   s   e       o
+0003220    f       a       v   a   r   i   a   b   l   e       t   h   a
+0003240    t       h   a   s       n   o   t       b   e   e   n       b
+0003260    o   u   n   d       i   n       a   n   y       f   u   n   c
+0003300    t   i   o   n   .           W   e       w   i   l   l       o
+0003320    f   t   e   n       r   e   f   e   r       t   o       a    
+0003340    v   a   r   i   a   b   l   e       a   l   l       o   f    
+0003360    w   h   o   s   e       a   c   c   e   s   s   e   s       a
+0003400    r   e       l   o   c   a   l       a   s       a       "   l
+0003420    o   c   a   l       v   a   r   i   a   b   l   e   .   "    
+0003440        S   i   m   i   l   a   r   l   y   ,       a       v   a
+0003460    r   i   a   b   l   e       a   l   l       o   f       w   h
+0003500    o   s   e       a   c   c   e   s   s   e   s       a   r   e
+0003520        g   l   o   b   a   l       w   e       c   a   l   l    
+0003540    a       "   g   l   o   b   a   l       v   a   r   i   a   b
+0003560    l   e   .   "  \r  \r   I   n       a       "   d   e   e   p
+0003600    "       b   o   u   n   d       s   y   s   t   e   m   ,    
+0003620    a       v   a   r   i   a   b   l   e       i   s       b   o
+0003640    u   n   d       b   y       s   a   v   i   n   g       o   n
+0003660        t   h   e       s   t   a   c   k       t   h   e       v
+0003700    a   r   i   a   b   l   e   '   s       n   a   m   e       t
+0003720    o   g   e   t   h   e   r       w   i   t   h       a       v
+0003740    a   l   u   e       c   e   l   l       w   h   i   c   h    
+0003760    c   o   n   t   a   i   n   s       t   h   a   t       v   a
+0004000    r   i   a   b   l   e   '   s       n   e   w       v   a   l
+0004020    u   e   .           W   h   e   n       a       v   a   r   i
+0004040    a   b   l   e       i   s       a   c   c   e   s   s   e   d
+0004060    ,       i   t   s       v   a   l   u   e       i   s       f
+0004100    o   u   n   d       b   y       s   e   a   r   c   h   i   n
+0004120    g       t   h   e       s   t   a   c   k       f   o   r    
+0004140    t   h   e       m   o   s   t       r   e   c   e   n   t    
+0004160    b   i   n   d   i   n   g       (   o   c   c   u   r   r   e
+0004200    n   c   e   )       a   n   d       r   e   t   r   i   e   v
+0004220    i   n   g       t   h   e       v   a   l   u   e       s   t
+0004240    o   r   e   d       t   h   e   r   e   .           I   f    
+0004260    t   h   e       v   a   r   i   a   b   l   e       i   s    
+0004300    n   o   t       f   o   u   n   d       o   n       t   h   e
+0004320        s   t   a   c   k   ,       t   h   e       v   a   r   i
+0004340    a   b   l   e   '   s       t   o   p       l   e   v   e   l
+0004360        v   a   l   u   e       c   e   l   l       i   s       u
+0004400    s   e   d   .  \r  \r   I   n       a       "   s   h   a   l
+0004420    l   o   w   "       b   o   u   n   d       s   y   s   t   e
+0004440    m   ,       a       v   a   r   i   a   b   l   e       i   s
+0004460        b   o   u   n   d       b   y       s   a   v   i   n   g
+0004500        o   n       t   h   e       s   t   a   c   k       t   h
+0004520    e       v   a   r   i   a   b   l   e       n   a   m   e    
+0004540    a   n   d       t   h   e       v   a   r   i   a   b   l   e
+0004560    '   s       o   l   d       v   a   l   u   e       a   n   d
+0004600        p   u   t   t   i   n   g       t   h   e       n   e   w
+0004620        v   a   l   u   e       i   n       t   h   e       v   a
+0004640    r   i   a   b   l   e   '   s       t   o   p       l   e   v
+0004660    e   l       v   a   l   u   e       c   e   l   l   .        
+0004700    W   h   e   n       a       v   a   r   i   a   b   l   e    
+0004720    i   s       a   c   c   e   s   s   e   d   ,       i   t   s
+0004740        v   a   l   u   e       i   s       a   l   w   a   y   s
+0004760        f   o   u   n   d       i   n       i   t   s       t   o
+0005000    p       l   e   v   e   l       v   a   l   u   e       c   e
+0005020    l   l   .  \r  \r   T   h   e       d   e   e   p       b   i
+0005040    n   d   i   n   g       s   c   h   e   m   e       h   a   s
+0005060        o   n   e       d   i   s   a   d   v   a   n   t   a   g
+0005100    e   :       t   h   e       a   m   o   u   n   t       o   f
+0005120        c   p   u       t   i   m   e       r   e   q   u   i   r
+0005140    e   d       t   o       f   e   t   c   h       t   h   e    
+0005160    v   a   l   u   e       o   f       a       v   a   r   i   a
+0005200    b   l   e       d   e   p   e   n   d   s       o   n       t
+0005220    h   e       s   t   a   c   k       d   i   s   t   a   n   c
+0005240    e       b   e   t   w   e   e   n       i   t   s       u   s
+0005260    e       a   n   d       i   t   s       b   i   n   d   i   n
+0005300    g   .           T   h   e       c   o   m   p   i   l   e   r
+0005320        c   a   n       d   e   t   e   r   m   i   n   e       l
+0005340    o   c   a   l       v   a   r   i   a   b   l   e       a   c
+0005360    c   e   s   s   e   s       a   n   d       c   o   m   p   i
+0005400    l   e   s       t   h   e   m       a   s       f   e   t   c
+0005420    h   e   s       d   i   r   e   c   t   l   y       f   r   o
+0005440    m       t   h   e       s   t   a   c   k   .           T   h
+0005460    u   s       t   h   i   s       c   o   m   p   u   t   a   t
+0005500    i   o   n       c   o   s   t       o   n   l   y       a   r
+0005520    i   s   e   s       i   n       t   h   e       u   s   e    
+0005540    o   f       v   a   r   i   a   b   l   e       n   o   t    
+0005560    b   o   u   n   d       i   n       t   h   e       l   o   c
+0005600    a   l       f   r   a   m   e       (   "   f   r   e   e   "
+0005620        v   a   r   i   a   b   l   e   s   )   .           T   h
+0005640    e       p   r   o   c   e   s   s       o   f       f   i   n
+0005660    d   i   n   g       t   h   e       v   a   l   u   e       o
+0005700    f       a       f   r   e   e       v   a   r   i   a   b   l
+0005720    e       i   s       c   a   l   l   e   d       f   r   e   e
+0005740        v   a   r   i   a   b   l   e       l   o   o   k   u   p
+0005760    .  \r  \r   I   n       a       s   h   a   l   l   o   w    
+0006000    b   o   u   n   d       s   y   s   t   e   m   ,       t   h
+0006020    e       a   m   o   u   n   t       o   f       c   p   u    
+0006040    t   i   m   e       r   e   q   u   i   r   e   d       t   o
+0006060        f   e   t   c   h       t   h   e       v   a   l   u   e
+0006100        o   f       a       v   a   r   i   a   b   l   e       i
+0006120    s       c   o   n   s   t   a   n   t       r   e   g   a   r
+0006140    d   l   e   s   s       o   f       w   h   e   t   h   e   r
+0006160        t   h   e       v   a   r   i   a   b   l   e       i   s
+0006200        l   o   c   a   l   ,       s   p   e   c   i   a   l    
+0006220    o   r       g   l   o   b   a   l   .           T   h   e    
+0006240    d   i   s   a   d   v   a   n   t   a   g   e   s       o   f
+0006260        t   h   i   s       s   c   h   e   m   e       a   r   e
+0006300        t   h   a   t       t   h   e       a   c   t   u   a   l
+0006320        b   i   n   d   i   n   g       o   f       a       v   a
+0006340    r   i   a   b   l   e       t   a   k   e   s       l   o   n
+0006360    g   e   r       (   t   h   u   s       s   l   o   w   i   n
+0006400    g       d   o   w   n       f   u   n   c   t   i   o   n    
+0006420    c   a   l   l   )   ,       t   h   e       c   e   l   l   s
+0006440        t   h   a   t       c   o   n   t   a   i   n       t   h
+0006460    e       c   u   r   r   e   n   t       i   n       u   s   e
+0006500        v   a   l   u   e   s       a   r   e       s   p   r   e
+0006520    a   d       t   h   r   o   u   g   h   o   u   t       t   h
+0006540    e       s   p   a   c   e       o   f       a   l   l       a
+0006560    t   o   m       v   a   l   u   e       c   e   l   l   s    
+0006600    (   t   h   u   s       i   n   c   r   e   a   s   i   n   g
+0006620        t   h   e       w   o   r   k   i   n   g       s   e   t
+0006640        s   i   z   e       o   f       f   u   n   c   t   i   o
+0006660    n   s   )       a   n   d       c   o   n   t   e   x   t    
+0006700    s   w   i   t   c   h   i   n   g       b   e   t   w   e   e
+0006720    n       p   r   o   c   e   s   s   e   s       r   e   q   u
+0006740    i   r   e   s       u   n   w   i   n   d   i   n   g       a
+0006760    n   d       r   e   w   i   n   d   i   n   g       t   h   e
+0007000        s   t   a   c   k       (   t   h   u   s       e   f   f
+0007020    e   c   t   i   v   e   l   y       p   r   o   h   i   b   i
+0007040    t   i   n   g       t   h   e       u   s   e       o   f    
+0007060    c   o   n   t   e   x   t       s   w   i   t   c   h   i   n
+0007100    g       f   o   r       m   a   n   y       a   p   p   l   i
+0007120    c   a   t   i   o   n   s   )   .  \r  \r   A       d   e   e
+0007140    p       b   i   n   d   i   n   g       s   c   h   e   m   e
+0007160        w   a   s       c   h   o   o   s   e   n       f   o   r
+0007200        I   n   t   e   r   l   i   s   p   -   D       b   e   c
+0007220    a   u   s   e       o   f       t   h   e       w   o   r   k
+0007240    i   n   g       s   e   t       c   o   n   s   i   d   e   r
+0007260    a   t   i   o   n   s       a   n   d       t   h   e       s
+0007300    p   e   e   d       o   f       c   o   n   t   e   x   t    
+0007320    s   w   i   t   c   h   i   n   g   ,       w   h   i   c   h
+0007340        w   e       e   x   p   e   c   t   e   d       t   o    
+0007360    u   s   e       h   e   a   v   i   l   y       w   h   e   n
+0007400        p   r   o   c   e   s   s   e   s       w   e   r   e    
+0007420    a   d   d   e   d   .           T   h   e       f   r   e   e
+0007440        v   a   r   i   a   b   l   e       l   o   o   k   u   p
+0007460        r   o   u   t   i   n   e       w   a   s       m   i   c
+0007500    r   o   c   o   d   e   d   ,       t   h   u   s       g   r
+0007520    e   a   t   l   y       r   e   d   u   c   i   n   g       t
+0007540    h   e       s   e   a   r   c   h       t   i   m   e   .    
+0007560        I   n       t   h   e       b   e   n   c   h   m   a   r
+0007600    k   s       w   e       p   e   r   f   o   r   m   e   d   ,
+0007620        t   h   e       l   a   r   g   e   s   t       p   e   r
+0007640    c   e   n   t   a   g   e       o   f       f   r   e   e    
+0007660    v   a   r   i   a   b   l   e       l   o   o   k   u   p    
+0007700    t   i   m   e       w   a   s       2   0       p   e   r   c
+0007720    e   n   t       o   f       t   h   e       t   o   t   a   l
+0007740        e   l   l   a   p   s   e   d       t   i   m   e   ;    
+0007760    t   h   e       n   o   r   m   a   l       t   i   m   e    
+0010000    w   a   s       b   e   t   w   e   e   n       5       a   n
+0010020    d       1   0       p   e   r   c   e   n   t   .  \r  \r   O
+0010040    n   e       c   o   n   s   e   q   u   e   n   c   e       o
+0010060    f       I   n   t   e   r   l   i   s   p   -   D   '   s    
+0010100    d   e   e   p       b   i   n   d   i   n   g       s   c   h
+0010120    e   m   e       i   s       t   h   a   t       u   s   e   r
+0010140    s       m   a   y       s   i   g   n   i   f   i   c   a   n
+0010160    t   l   y       i   m   p   r   o   v   e       p   e   r   f
+0010200    o   r   m   a   n   c   e       b   y       d   e   c   l   a
+0010220    r   i   n   g       g   l   o   b   a   l       v   a   r   i
+0010240    a   b   l   e   s       i   n       c   e   r   t   a   i   n
+0010260        s   i   t   u   a   t   i   o   n   s   .           I   f
+0010300        a       v   a   r   i   a   b   l   e       i   s       d
+0010320    e   c   l   a   r   e   d       g   l   o   b   a   l   ,    
+0010340    t   h   e       c   o   m   p   i   l   e   r       w   i   l
+0010360    l       c   o   m   p   i   l   e       a   n       a   c   c
+0010400    e   s   s       t   o       t   h   a   t       v   a   r   i
+0010420    a   b   l   e       a   s       a       r   e   t   r   i   e
+0010440    v   a   l       o   f       i   t   s       t   o   p       l
+0010460    e   v   e   l       v   a   l   u   e   ,       c   o   m   p
+0010500    l   e   t   e   l   y       b   y   p   a   s   s   i   n   g
+0010520        a       s   t   a   c   k       s   e   a   r   c   h   .
+0010540            T   h   i   s       s   h   o   u   l   d       b   e
+0010560        d   o   n   e       o   n   l   y       f   o   r       v
+0010600    a   r   i   a   b   l   e   s       t   h   a   t       a   r
+0010620    e       n   e   v   e   r       b   o   u   n   d       i   n
+0010640        f   u   n   c   t   i   o   n   s       s   u   c   h    
+0010660    a   s       g   l   o   b   a   l       d   a   t   a   b   a
+0010700    s   e   s       a   n   d       f   l   a   g   s   .  \r  \r
+0010720    G   l   o   b   a   l       v   a   r   i   a   b   l   e    
+0010740    d   e   c   l   a   r   a   t   i   o   n   s       s   h   o
+0010760    u   l   d       b   e       d   o   n   e       u   s   i   n
+0011000    g       t   h   e       {   f   i   l   e   c   o   m       G
+0011020    L   O   B   A   L   V   A   R   S   }       f   i   l   e    
+0011040    p   a   c   k   a   g   e       c   o   m   m   a   n   d    
+0011060    (   {   P   a   g   e   R   e   f       F   i   l   e   C   o
+0011100    m       G   L   O   B   A   L   V   A   R   S   }   )   .    
+0011120        I   t   s       f   o   r   m       i   s       {   l   i
+0011140    s   p       (   G   L   O   B   A   L   V   A   R   S        
+0011160    {   a   r   g       V   A   R   {   s   u   b       1   }   }
+0011200        {   e   l   l   i   p   s   i   s   }       {   a   r   g
+0011220        V   A   R   {   s   u   b       N   }   }   )   }   .  \r
+0011240   \r   A   n   o   t   h   e   r       w   a   y       o   f    
+0011260    i   m   p   r   o   v   i   n   g       p   e   r   f   o   r
+0011300    m   a   n   c   e       i   s       t   o       d   e   c   l
+0011320    a   r   e       v   a   r   i   a   b   l   e   s       a   s
+0011340        l   o   c   a   l       w   i   t   h   i   n       a    
+0011360    f   u   n   c   t   i   o   n   .           N   o   r   m   a
+0011400    l   l   y   ,       a   l   l       v   a   r   i   a   b   l
+0011420    e   s       b   o   u   n   d       w   i   t   h   i   n    
+0011440    a       f   u   n   c   t   i   o   n       h   a   v   e    
+0011460    t   h   e   i   r       n   a   m   e   s       p   u   t    
+0011500    o   n       t   h   e       s   t   a   c   k   ,       a   n
+0011520    d       t   h   e   s   e       n   a   m   e   s       a   r
+0011540    e       s   c   a   n   n   e   d       d   u   r   i   n   g
+0011560        f   r   e   e       v   a   r   i   a   b   l   e       l
+0011600    o   o   k   u   p   .           I   f       a       v   a   r
+0011620    i   a   b   l   e       i   s       d   e   c   l   a   r   e
+0011640    d       t   o       b   e       l   o   c   a   l       w   i
+0011660    t   h   i   n       a       f   u   n   c   t   i   o   n   ,
+0011700        i   t   s       n   a   m   e       i   s       n   o   t
+0011720        p   u   t       o   n       t   h   e       s   t   a   c
+0011740    k   ,       s   o       i   t       i   s       n   o   t    
+0011760    s   c   a   n   n   e   d       d   u   r   i   n   g       f
+0012000    r   e   e       v   a   r   i   a   b   l   e       l   o   o
+0012020    k   u   p   ,       w   h   i   c   h       m   a   y       i
+0012040    n   c   r   e   a   s   e       t   h   e       s   p   e   e
+0012060    d       o   f       l   o   o   k   u   p   s   .           T
+0012100    h   e       c   o   m   p   i   l   e   r       c   a   n    
+0012120    a   l   s   o       m   a   k   e       s   o   m   e       o
+0012140    t   h   e   r       o   p   t   i   m   i   z   a   t   i   o
+0012160    n   s       i   f       a       v   a   r   i   a   b   l   e
+0012200        i   s       k   n   o   w   n       t   o       b   e    
+0012220    l   o   c   a   l       t   o       a       f   u   n   c   t
+0012240    i   o   n   .  \r  \r   A       v   a   r   i   a   b   l   e
+0012260        m   a   y       b   e       d   e   c   l   a   r   e   d
+0012300        a   s       l   o   c   a   l       w   i   t   h   i   n
+0012320        a       f   u   n   c   t   i   o   n       b   y       i
+0012340    n   c   l   u   d   i   n   g       t   h   e       f   o   r
+0012360    m  \r   {   l   i   s   p       (   D   E   C   L   A   R   E
+0012400        (   L   O   C   A   L   V   A   R   S       {   a   r   g
+0012420        V   A   R   {   s   u   b       1   }   }       {   e   l
+0012440    l   i   p   s   i   s   }       {   a   r   g       V   A   R
+0012460    {   s   u   b       N   }   }   )   )   }       f   o   l   l
+0012500    o   w   i   n   g       t   h   e       a   r   g   u   m   e
+0012520    n   t       l   i   s   t       i   n       t   h   e       d
+0012540    e   f   i   n   i   t   i   o   n       o   f       t   h   e
+0012560        f   u   n   c   t   i   o   n   .           N   o   t   e
+0012600    :       l   o   c   a   l       v   a   r   i   a   b   l   e
+0012620        d   e   c   l   a   r   a   t   i   o   n   s       o   n
+0012640    l   y       e   f   f   e   c   t       t   h   e       c   o
+0012660    m   p   i   l   a   t   i   o   n       o   f       a       f
+0012700    u   n   c   t   i   o   n   .           I   n   t   e   r   p
+0012720    r   e   t   e   d       f   u   n   c   t   i   o   n   s    
+0012740    p   u   t       a   l   l       o   f       t   h   e   i   r
+0012760        v   a   r   i   a   b   l   e       n   a   m   e   s    
+0013000    o   n       t   h   e       s   t   a   c   k   ,       r   e
+0013020    g   a   r   d   l   e   s   s       o   f       a   n   y    
+0013040    d   e   c   l   a   r   a   t   i   o   n   s   .  \r  \r  \r
+0013060    }   {   E   n   d       S   u   b   S   e   c       V   a   r
+0013100    i   a   b   l   e       B   i   n   d   i   n   g   s   }  \r
+0013120   \r  \r  \r   {   B   e   g   i   n       S   u   b   S   e   c
+0013140        G   a   r   b   a   g   e       C   o   l   l   e   c   t
+0013160    i   o   n   }  \r   {   T   i   t   l   e       G   a   r   b
+0013200    a   g   e       C   o   l   l   e   c   t   i   o   n   }  \r
+0013220    {   T   e   x   t  \r  \r   {   n   o   t   e       I       k
+0013240    n   o   w       t   h   a   t       t   h   i   s       s   t
+0013260    a   r   t   s       a       b   i   t       t   o   o       s
+0013300    i   m   p   l   e       -   -   -       b   u   t       I    
+0013320    w   a   n   t   e   d       t   o       e   m   p   h   a   s
+0013340    i   z   e       t   h   e       p   r   o   b   l   e   m    
+0013360    o   f       d   a   t   a       f   r   a   g   m   e   n   t
+0013400    a   t   i   o   n   ,       s   o       t   h   a   t       I
+0013420        c   o   u   l   d       l   a   t   e   r       p   o   i
+0013440    n   t       o   u   t       t   h   a   t       f   r   e   q
+0013460    u   e   n   t       i   n   c   r   e   m   e   n   t   a   l
+0013500        G   C       w   i   l   l       h   e   l   p       w   i
+0013520    t   h       t   h   i   s       b   y       k   e   e   p   i
+0013540    n   g       t   h   e       w   o   r   k   i   n   g       s
+0013560    e   t       s   m   a   l   l       (   a   n   d       s   o
+0013600        t   h   a   t       I       c   o   u   l   d       p   o
+0013620    i   n   t       o   u   t       t   h   a   t       j   u   s
+0013640    t       h   a   v   i   n   g       a       l   a   r   g   e
+0013660        a   d   d   r   e   s   s       s   p   a   c   e       w
+0013700    o   n   '   t       h   e   l   p       w   i   t   h       t
+0013720    h   i   s       p   r   o   b   l   e   m   )   .           I
+0013740        t   h   i   n   k       t   h   a   t       i   f       t
+0013760    h   i   s       s   e   c   t   i   o   n       i   s       s
+0014000    i   m   p   l   e       a   n   d       c   l   e   a   r    
+0014020    t   h   a   t       i   t       m   i   g   h   t       b   e
+0014040    c   o   m   e       s   o   m   e   t   h   i   n   g       y
+0014060    o   u       c   o   u   l   d       s   h   o   w       c   u
+0014100    s   t   o   m   e   r   s   ,       r   a   t   h   e   r    
+0014120    t   h   a   n       h   a   v   i   n   g       t   o       r
+0014140    e   p   e   a   t   e   d   l   y       m   a   k   e       t
+0014160    h   e       s   a   m   e       a   r   g   u   m   e   n   t
+0014200    s       a   b   o   u   t       r   e   f   e   r   e   n   c
+0014220    e       c   o   u   n   t   i   n   g       v   s   .       m
+0014240    a   r   k   -   a   n   d   -   s   w   e   e   p       G   C
+0014260            -   -   -   m   j   s   }  \r  \r  \r   A   s       a
+0014300    n       I   n   t   e   r   l   i   s   p   -   D       a   p
+0014320    p   l   i   c   a   t   i   o   n   s       p   r   o   g   r
+0014340    a   m       r   u   n   s   ,       i   t       c   r   e   a
+0014360    t   e   s       d   a   t   a       s   t   r   u   c   t   u
+0014400    r   e   s       (   a   l   l   o   c   a   t   e   d       o
+0014420    u   t       o   f       f   r   e   e       s   t   o   r   a
+0014440    g   e       s   p   a   c   e   )   ,       m   a   n   i   p
+0014460    u   l   a   t   e   s       t   h   e   m   ,       a   n   d
+0014500        t   h   e   n       d   i   s   c   a   r   d   s       t
+0014520    h   e   m   .           I   f       t   h   e   r   e       w
+0014540    e   r   e       n   o       w   a   y       o   f       r   e
+0014560    c   l   a   i   m   i   n   g       t   h   i   s       s   p
+0014600    a   c   e   ,       o   v   e   r       t   i   m   e       t
+0014620    h   e       I   n   t   e   r   l   i   s   p   -   D       m
+0014640    e   m   o   r   y       (   b   o   t   h       t   h   e    
+0014660    p   h   y   s   i   c   a   l       m   e   m   o   r   y    
+0014700    i   n       t   h   e       m   a   c   h   i   n   e       a
+0014720    n   d       t   h   e       v   i   r   t   u   a   l       m
+0014740    e   m   o   r   y       s   t   o   r   e   d       o   n    
+0014760    t   h   e       d   i   s   k   )       w   o   u   l   d    
+0015000    g   e   t       f   i   l   l   e   d       u   p   ,       a
+0015020    n   d       t   h   e       c   o   m   p   u   t   a   t   i
+0015040    o   n       w   o   u   l   d       c   o   m   e       t   o
+0015060        a       h   a   l   t   .           A   c   t   u   a   l
+0015100    l   y   ,       l   o   n   g       b   e   f   o   r   e    
+0015120    t   h   i   s       w   o   u   l   d       h   a   p   p   e
+0015140    n       t   h   e       s   y   s   t   e   m       w   o   u
+0015160    l   d       p   r   o   b   a   b   l   y       b   e   c   o
+0015200    m   e       i   n   t   o   l   e   r   a   b   l   y       s
+0015220    l   o   w   ,       d   u   e       t   o       "   d   a   t
+0015240    a       f   r   a   g   m   e   n   t   a   t   i   o   n   "
+0015260    ,       w   h   i   c   h       o   c   c   u   r   s       w
+0015300    h   e   n       t   h   e       d   a   t   a       c   u   r
+0015320    r   e   n   t   l   y       i   n       u   s   e       a   r
+0015340    e       s   p   r   e   a   d       o   v   e   r       m   a
+0015360    n   y       v   i   r   t   u   a   l       m   e   m   o   r
+0015400    y       p   a   g   e   s   ,       s   o       t   h   a   t
+0015420        m   o   s   t       o   f       t   h   e       c   o   m
+0015440    p   u   t   e   r       t   i   m   e       m   u   s   t    
+0015460    b   e       s   p   e   n   t       s   w   a   p   p   i   n
+0015500    g       d   i   s   k       p   a   g   e   s       i   n   t
+0015520    o       p   h   y   s   i   c   a   l       m   e   m   o   r
+0015540    y   .           T   h   i   s       p   r   o   b   l   e   m
+0015560        (   "   f   r   a   g   m   e   n   t   a   t   i   o   n
+0015600    "   )       w   i   l   l       o   c   c   u   r       i   n
+0015620        a   n   y       s   i   t   u   a   t   i   o   n       w
+0015640    h   e   r   e       t   h   e       v   i   r   t   u   a   l
+0015660        m   e   m   o   r   y       i   s       s   i   g   n   i
+0015700    f   i   c   a   n   t   l   y       l   a   r   g   e   r    
+0015720    t   h   a   n       t   h   e       r   e   a   l   ,       p
+0015740    h   y   s   i   c   a   l       m   e   m   o   r   y   .    
+0015760    T   o       r   e   d   u   c   e       s   w   a   p   p   i
+0016000    n   g   ,       i   t       i   s       d   e   s   i   r   a
+0016020    b   l   e       t   o       k   e   e   p       t   h   e    
+0016040    "   w   o   r   k   i   n   g       s   e   t   "       (   t
+0016060    h   e       s   e   t       o   f       p   a   g   e   s    
+0016100    c   o   n   t   a   i   n   i   n   g       a   c   t   i   v
+0016120    e   l   y       r   e   f   e   r   e   n   c   e   d       d
+0016140    a   t   a   )       a   s       s   m   a   l   l       a   s
+0016160        p   o   s   s   i   b   l   e   .  \r  \r   I   t       i
+0016200    s       p   o   s   s   i   b   l   e       t   o       w   r
+0016220    i   t   e       p   r   o   g   r   a   m   s       t   h   a
+0016240    t       d   o   n   '   t       g   e   n   e   r   a   t   e
+0016260        m   u   c   h       "   g   a   r   b   a   g   e   "    
+0016300    d   a   t   a   ,       o   r       w   h   i   c   h       r
+0016320    e   c   y   c   l   e       d   a   t   a   ,       b   u   t
+0016340        s   u   c   h       p   r   o   g   r   a   m   s       t
+0016360    e   n   d       t   o       b   e       o   v   e   r   l   y
+0016400        c   o   m   p   l   i   c   a   t   e   d       a   n   d
+0016420        f   r   o   u   g   h   t       w   i   t   h       p   i
+0016440    t   f   a   l   l   s   .           S   p   e   n   d   i   n
+0016460    g       e   f   f   o   r   t       w   r   i   t   i   n   g
+0016500        s   u   c   h       p   r   o   g   r   a   m   s       d
+0016520    e   f   e   a   t   s       t   h   e       w   h   o   l   e
+0016540        p   o   i   n   t       o   f       u   s   i   n   g    
+0016560    a       s   y   s   t   e   m       w   i   t   h       a   u
+0016600    t   o   m   a   t   i   c       s   t   o   r   a   g   e    
+0016620    a   l   l   o   c   a   t   i   o   n   .           A   n    
+0016640    i   m   p   o   r   t   a   n   t       p   a   r   t       o
+0016660    f       a   n   y       L   i   s   p       i   m   p   l   e
+0016700    m   e   n   t   a   t   i   o   n       i   s       t   h   e
+0016720        "   g   a   r   b   a   g   e       c   o   l   l   e   c
+0016740    t   o   r   "       w   h   i   c   h       i   d   e   n   t
+0016760    i   f   i   e   s       d   i   s   c   a   r   d   e   d    
+0017000    d   a   t   a       a   n   d       r   e   c   l   a   i   m
+0017020    s       i   t   s       s   p   a   c   e   .           T   h
+0017040    e   r   e       a   r   e       s   e   v   e   r   a   l    
+0017060    w   e   l   l   -   k   n   o   w   n       a   p   p   r   o
+0017100    a   c   h   e   s       t   o       g   a   r   b   a   g   e
+0017120        c   o   l   l   e   c   t   i   o   n   .           I   n
+0017140    t   e   r   l   i   s   p   -   1   0       u   s   e   s    
+0017160    t   h   e       t   r   a   d   i   t   i   o   n   a   l    
+0017200    m   a   r   k   -   a   n   d   -   s   w   e   e   p       g
+0017220    a   r   b   a   g   e       c   o   l   l   e   c   t   i   o
+0017240    n       a   l   g   o   r   i   t   h   m   ,       w   h   i
+0017260    c   h       i   d   e   n   t   i   f   i   e   s       "   g
+0017300    a   r   b   a   g   e   "       d   a   t   a       b   y    
+0017320    "   w   a   l   k   i   n   g   "       t   h   r   o   u   g
+0017340    h       a   n   d       "   m   a   r   k   i   n   g   "    
+0017360    a   l   l       a   c   c   e   s   s   i   b   l   e       d
+0017400    a   t   a       s   t   r   u   c   t   u   r   e   s   ,    
+0017420    a   n   d       t   h   e   n       s   w   e   e   p   i   n
+0017440    g       t   h   r   o   u   g   h       t   h   e       d   a
+0017460    t   a       s   p   a   c   e   s       t   o       f   i   n
+0017500    d       a   l   l       u   n   m   a   r   k   e   d       o
+0017520    b   j   e   c   t   s       (   i   .   e   .   ,       n   o
+0017540    t       r   e   f   e   r   e   n   c   e   d       b   y    
+0017560    a   n   y       o   t   h   e   r       o   b   j   e   c   t
+0017600    )   .               A   l   t   h   o   u   g   h       t   h
+0017620    i   s       m   e   t   h   o   d       i   s       g   u   a
+0017640    r   a   n   t   e   e   d       t   o       r   e   c   l   a
+0017660    i   m       a   l   l       g   a   r   b   a   g   e   ,    
+0017700    i   t       t   a   k   e   s       t   i   m   e       p   r
+0017720    o   p   o   r   t   i   o   n   a   l       t   o       t   h
+0017740    e       n   u   m   b   e   r       o   f       a   l   l   o
+0017760    c   a   t   e   d       o   b   j   e   c   t   s   ,       w
+0020000    h   i   c   h       m   a   y       b   e       v   e   r   y
+0020020        l   a   r   g   e   .           (   S   o   m   e       a
+0020040    l   l   o   c   a   t   e   d       o   b   j   e   c   t   s
+0020060        w   i   l   l       h   a   v   e       b   e   e   n    
+0020100    m   a   r   k   e   d       d   u   r   i   n   g       t   h
+0020120    e       "   m   a   r   k   "       p   h   a   s   e   ,    
+0020140    a   n   d       t   h   e       r   e   m   a   i   n   d   e
+0020160    r       w   i   l   l       b   e       c   o   l   l   e   c
+0020200    t   e   d       d   u   r   i   n   g       t   h   e       "
+0020220    s   w   e   e   p   "       p   h   a   s   e   ;       s   o
+0020240        a   l   l       w   i   l   l       h   a   v   e       t
+0020260    o       b   e       t   o   u   c   h   e   d       i   n    
+0020300    s   o   m   e       w   a   y   .   )           A   l   s   o
+0020320    ,       t   h   e       t   i   m   e       t   h   a   t    
+0020340    a       m   a   r   k   -   a   n   d   -   s   w   e   e   p
+0020360        g   a   r   b   a   g   e       c   o   l   l   e   c   t
+0020400    i   o   n       t   a   k   e   s       i   s       i   n   d
+0020420    e   p   e   n   d   e   n   t       o   f       t   h   e    
+0020440    a   m   o   u   n   t       o   f       g   a   r   b   a   g
+0020460    e       c   o   l   l   e   c   t   e   d   ;       i   t    
+0020500    i   s       p   o   s   s   i   b   l   e       t   o       s
+0020520    w   e   e   p       t   h   r   o   u   g   h       t   h   e
+0020540        w   h   o   l   e       v   i   r   t   u   a   l       m
+0020560    e   m   o   r   y   ,       a   n   d       o   n   l   y    
+0020600    r   e   c   o   v   e   r       a       s   m   a   l   l    
+0020620    a   m   o   u   n   t       o   f       g   a   r   b   a   g
+0020640    e   .  \r  \r   F   o   r       i   n   t   e   r   a   c   t
+0020660    i   v   e       a   p   p   l   i   c   a   t   i   o   n   s
+0020700    ,       i   t       i   s       s   i   m   p   l   y       n
+0020720    o   t       a   c   c   e   p   t   a   b   l   e       t   o
+0020740        h   a   v   e       l   o   n   g       i   n   t   e   r
+0020760    r   u   p   t   i   o   n   s       i   n       a       c   o
+0021000    m   p   u   t   a   t   i   o   n       f   o   r       t   h
+0021020    e       p   u   r   p   o   s   e       o   f       g   a   r
+0021040    b   a   g   e       c   o   l   l   e   c   t   i   o   n   .
+0021060            I   n   t   e   r   l   i   s   p   -   D       s   o
+0021100    l   v   e   s       t   h   i   s       p   r   o   b   l   e
+0021120    m       b   y       u   s   i   n   g       a       r   e   f
+0021140    e   r   e   n   c   e   -   c   o   u   n   t   i   n   g    
+0021160    g   a   r   b   a   g   e       c   o   l   l   e   c   t   o
+0021200    r   .           W   i   t   h       t   h   i   s       s   c
+0021220    h   e   m   e   ,       t   h   e   r   e       i   s       a
+0021240        t   a   b   l   e       c   o   n   t   a   i   n   i   n
+0021260    g       c   o   u   n   t   s       o   f       h   o   w    
+0021300    m   a   n   y       t   i   m   e   s       e   a   c   h    
+0021320    o   b   j   e   c   t       i   s       r   e   f   e   r   e
+0021340    n   c   e   d   .           T   h   i   s       t   a   b   l
+0021360    e       i   s       i   n   c   r   e   m   e   n   t   a   l
+0021400    l   y       u   p   d   a   t   e   d       a   s       p   o
+0021420    i   n   t   e   r   s       a   r   e       c   r   e   a   t
+0021440    e   d       a   n   d       d   i   s   c   a   r   d   e   d
+0021460    ,       i   n   c   u   r   r   i   n   g       a       s   m
+0021500    a   l   l       o   v   e   r   h   e   a   d       d   i   s
+0021520    t   r   i   b   u   t   e   d       o   v   e   r       t   h
+0021540    e       c   o   m   p   u   t   a   t   i   o   n       a   s
+0021560        a       w   h   o   l   e   .           (   N   o   t   e
+0021600    :       R   e   f   e   r   e   n   c   e   s       f   r   o
+0021620    m       t   h   e       s   t   a   c   k       a   r   e    
+0021640    n   o   t       c   o   u   n   t   e   d   ,       b   u   t
+0021660        a   r   e       h   a   n   d   l   e   d       s   e   p
+0021700    a   r   a   t   e   l   y       a   t       "   s   w   e   e
+0021720    p   "       t   i   m   e   ;       t   h   u   s       t   h
+0021740    e       v   a   s   t       m   a   j   o   r   i   t   y    
+0021760    o   f       d   a   t   a       m   a   n   i   p   u   l   a
+0022000    t   i   o   n   s       d   o       n   o   t       c   a   u
+0022020    s   e       u   p   d   a   t   e   s       t   o       t   h
+0022040    i   s       t   a   b   l   e   .   )           A   t       o
+0022060    p   p   o   r   t   u   n   e       m   o   m   e   n   t   s
+0022100    ,       t   h   e       g   a   r   b   a   g   e       c   o
+0022120    l   l   e   c   t   o   r       s   c   a   n   s       t   h
+0022140    i   s       t   a   b   l   e   ,       a   n   d       r   e
+0022160    c   l   a   i   m   s       a   l   l       o   b   j   e   c
+0022200    t   s       t   h   a   t       a   r   e       n   o       l
+0022220    o   n   g   e   r       a   c   c   e   s   s   i   b   l   e
+0022240        (   h   a   v   e       a       r   e   f   e   r   e   n
+0022260    c   e       c   o   u   n   t       o   f       z   e   r   o
+0022300    )   .           T   h   e       t   i   m   e       f   o   r
+0022320        s   c   a   n   n   i   n   g       t   h   e       r   e
+0022340    f   e   r   e   n   c   e       c   o   u   n   t       t   a
+0022360    b   l   e   s       i   s       v   e   r   y       n   e   a
+0022400    r   l   y       c   o   n   s   t   a   n   t       (   a   b
+0022420    o   u   t       0   .   2       s   e   c   o   n   d   s    
+0022440    o   n       t   h   e       X   e   r   o   x       1   1   0
+0022460    0   )   ;       t   h   e       s   w   e   e   p       t   i
+0022500    m   e       t   h   e   n       i   s       t   h   i   s    
+0022520    s   m   a   l   l       v   a   l   u   e   ,       p   l   u
+0022540    s       t   i   m   e       p   r   o   p   o   r   t   i   o
+0022560    n   a   l       t   o       t   h   e       a   m   o   u   n
+0022600    t       o   f       g   a   r   b   a   g   e       t   h   a
+0022620    t       h   a   s       t   o       b   e       c   o   l   l
+0022640    e   c   t   e   d       (   t   y   p   i   c   a   l   l   y
+0022660        l   e   s   s       t   h   a   n       a       s   e   c
+0022700    o   n   d   )   .           "   O   p   p   o   r   t   u   n
+0022720    e   "       t   i   m   e   s       o   c   c   u   r       w
+0022740    h   e   n       a       c   e   r   t   a   i   n       n   u
+0022760    m   b   e   r       o   f       c   e   l   l   s       h   a
+0023000    v   e       b   e   e   n       a   l   l   o   c   a   t   e
+0023020    d       o   r       w   h   e   n       t   h   e       s   y
+0023040    s   t   e   m       h   a   s       b   e   e   n       w   a
+0023060    i   t   i   n   g       f   o   r       t   h   e       u   s
+0023100    e   r       t   o       t   y   p   e       s   o   m   e   t
+0023120    h   i   n   g       f   o   r       l   o   n   g       e   n
+0023140    o   u   g   h   .           T   h   e       f   r   e   q   u
+0023160    e   n   c   y       o   f       g   a   r   b   a   g   e    
+0023200    c   o   l   l   e   c   t   i   o   n       i   s       c   o
+0023220    n   t   r   o   l   l   e   d       b   y       t   h   e    
+0023240    f   u   n   c   t   i   o   n   s       a   n   d       v   a
+0023260    r   i   a   b   l   e   s       d   e   s   c   r   i   b   e
+0023300    d       o   n       {   P   a   g   e   R   e   f       F   n
+0023320        R   E   C   L   A   I   M   M   I   N   }   .           F
+0023340    o   r       t   h   e       b   e   s   t       s   y   s   t
+0023360    e   m       p   e   r   f   o   r   m   a   n   c   e   ,    
+0023400    i   t       i   s       d   e   s   i   r   a   b   l   e    
+0023420    t   o       a   d   j   u   s   t       t   h   e   s   e    
+0023440    p   a   r   a   m   e   t   e   r   s       f   o   r       f
+0023460    r   e   q   u   e   n   t   ,       s   h   o   r   t       g
+0023500    a   r   b   a   g   e       c   o   l   l   e   c   t   i   o
+0023520    n   s   ,       w   h   i   c   h       w   i   l   l       n
+0023540    o   t       i   n   t   e   r   r   u   p   t       i   n   t
+0023560    e   r   a   c   t   i   v   e       a   p   p   l   i   c   a
+0023600    t   i   o   n   s       f   o   r       v   e   r   y       l
+0023620    o   n   g   ,       a   n   d       w   h   i   c   h       w
+0023640    i   l   l       h   a   v   e       t   h   e       a   d   d
+0023660    e   d       b   e   n   e   f   i   t       o   f       r   e
+0023700    d   u   c   i   n   g       d   a   t   a       f   r   a   g
+0023720    m   e   n   t   a   t   i   o   n   ,       k   e   e   p   i
+0023740    n   g       t   h   e       w   o   r   k   i   n   g       s
+0023760    e   t       s   m   a   l   l   .  \r  \r   {   n   o   t   e
+0024000   \r                   T   h   e   r   e       s   e   e   m   s
+0024020        t   o       b   e       a       g   r   e   a   t       d
+0024040    e   a   l       o   f       c   o   n   f   u   s   i   o   n
+0024060        a   s       t   o       t   h   e       a   d   v   a   n
+0024100    t   a   g   e   s       o   f       t   h   e       I   n   t
+0024120    e   r   l   i   s   p   -   D       g   a   r   b   a   g   e
+0024140        c   o   l   l   e   c   t   i   o   n       s   c   h   e
+0024160    m   e   .           P   l   e   a   s   e       n   o   t   e
+0024200        t   h   a   t       i   t   '   s       "   s   w   e   e
+0024220    p   "       p   h   a   s   e       i   s       *   *   *    
+0024240    i   s   o   m   o   r   p   h   i   c       *   *   *       t
+0024260    o       t   h   a   t       o   f       t   h   e       s   t
+0024300    a   n   d   a   r   d       m   a   r   k   -   a   n   d   -
+0024320    s   w   e   e   p       a   l   g   o   r   i   t   h   m   ;
+0024340        t   h   e       l   a   t   t   e   r       m   e   r   e
+0024360    l   y       s   c   a   n   s       t   h   e       n   o   n
+0024400    -   z   e   r   o       "   b   i   t       t   a   b   l   e
+0024420    s   "   ,       c   o   l   l   e   c   t   i   n   g       t
+0024440    h   e       u   n   m   a   r   k   e   d       i   t   e   m
+0024460    s   .       T   h   e       "   C   o   l   l   e   c   t   i
+0024500    n   g   "       i   s       o   f       c   o   u   r   s   e
+0024520        e   x   a   c   t   l   y       t   h   e       s   a   m
+0024540    e       i   n       e   a   c   h       s   c   h   e   m   e
+0024560    ;       a   n   d       s   i   n   c   e       t   h   e    
+0024600    I   n   t   e   r   l   i   s   p   -   D       s   c   h   e
+0024620    m   e       r   e   q   u   i   r   e   s       s   c   a   n
+0024640    n   i   n   g       t   h   e       h   a   s   h   t   a   b
+0024660    l   e       *   *   *       w   h   i   c   h       g   r   o
+0024700    w   s       i   n       s   i   z   e       a   s       t   h
+0024720    e       n   u   m   b   e   r       o   f       a   l   l   o
+0024740    c   a   t   e   d       o   b   j   e   c   t   s       g   r
+0024760    o   w   s       *   *   *       t   h   e   n       t   h   i
+0025000    s       i   s       e   n   t   i   r   e   l   y       e   q
+0025020    u   i   v   a   l   e   n   t       t   o       s   c   a   n
+0025040    n   i   n   g       t   h   e       "   b   i   t       t   a
+0025060    b   l   e   s   "       (   o   f   ,       s   a   y   ,    
+0025100    P   D   P   1   0       M   a   c   L   i   s   p       -   -
+0025120        I   '   m       c   o   n   f   i   d   e   n   t       t
+0025140    h   a   t       P   D   P   1   0       I   n   t   e   r   l
+0025160    i   s   p       i   s       d   o   n   e       t   h   e    
+0025200    s   a   m   e       w   a   y   )   .           T   h   e   r
+0025220    e       a   r   e       n   o       "   b   i   t       t   a
+0025240    b   l   e   s   "       a   l   l   o   c   a   t   e   d    
+0025260    f   o   r       v   i   r   t   u   a   l       m   e   m   o
+0025300    r   y       w   h   i   c   h       h   a   s   n   '   t    
+0025320    b   e   e   n       "   c   o   n   s   '   d       i   n   t
+0025340    o   "       y   e   t   !           I   n       f   a   c   t
+0025360    ,       a       t   y   p   i   c   a   l       P   D   P   1
+0025400    0       M   a   c   L   i   s   p       a   p   p   l   i   c
+0025420    a   t   i   o   n       h   a   s       a   b   o   u   t    
+0025440    3   %       o   f       i   t   s       i   n   -   u   s   e
+0025460        a   d   d   r   e   s   s       s   p   a   c   e       d
+0025500    e   v   o   t   e   d       t   o       "   b   i   t       t
+0025520    a   b   l   e   s   "   ;           I   '   v   e       o   b
+0025540    s   e   r   v   e   d       t   h   e       s   a   m   e    
+0025560    f   i   g   u   r   e       f   o   r       t   h   e       s
+0025600    i   z   e       o   f       t   h   e       g   c       h   a
+0025620    s   h   t   a   b   l   e   s       i   n       I   n   t   e
+0025640    r   l   i   s   p   -   D   .  \r                   T   h   u
+0025660    s   ,       t   h   e       r   e   a   l       a   d   v   a
+0025700    n   t   a   g   e       i   s       t   h   e       i   n   c
+0025720    r   e   m   e   n   t   a   l       n   a   t   u   r   e    
+0025740    o   f       "   m   a   r   k   i   n   g   "       -   -    
+0025760    t   h   e       o   n   l   y       t   i   m   e       t   h
+0026000    a   t       I   n   t   e   r   l   i   s   p   -   D       i
+0026020    s       "   c   a   t   a   t   o   n   i   c   "       i   s
+0026040        d   u   r   i   n   g       t   h   e       s   w   e   e
+0026060    p       p   h   a   s   e   ,       w   h   e   r   e   a   s
+0026100        I   n   t   e   r   l   i   s   p   -   1   0       w   i
+0026120    l   l       b   e       "   c   a   t   a   t   o   n   i   c
+0026140    "       d   u   r   i   n   g       t   h   e       e   n   t
+0026160    i   r   e       m   a   r   k   -   a   n   d   -   s   w   e
+0026200    e   p       p   h   a   s   e   ;       a   n   d       i   t
+0026220        i   s       t   h   e       m   a   r   k       p   h   a
+0026240    s   e       t   h   a   t       g   e   n   e   r   a   l   l
+0026260    y       c   o   n   s   u   m   e   s       t   h   e       l
+0026300    i   o   n   '   s       s   h   a   r   e       o   f       G
+0026320    C       t   i   m   e   .  \r                   J   o   n   L
+0026340            8   /   1   0   /   8   3  \r   }  \r  \r   O   n   e
+0026360        p   r   o   b   l   e   m       w   i   t   h       t   h
+0026400    e       I   n   t   e   r   l   i   s   p   -   D       g   a
+0026420    r   b   a   g   e       c   o   l   l   e   c   t   o   r    
+0026440    i   s       t   h   a   t       n   o   t       a   l   l    
+0026460    g   a   r   b   a   g   e       i   s       g   u   a   r   a
+0026500    n   t   e   e   d       t   o       b   e       c   o   l   l
+0026520    e   c   t   e   d   .           C   i   r   c   u   l   a   r
+0026540        d   a   t   a       s   t   r   u   c   t   u   r   e   s
+0026560    ,       w   h   i   c   h       p   o   i   n   t       t   o
+0026600        t   h   e   m   s   e   l   v   e   s       d   i   r   e
+0026620    c   t   l   y       o   r       i   n   d   i   r   e   c   t
+0026640    l   y   ,       a   r   e       n   e   v   e   r       r   e
+0026660    c   l   a   i   m   e   d   ,       s   i   n   c   e       t
+0026700    h   e   i   r       r   e   f   e   r   e   n   c   e       c
+0026720    o   u   n   t   s       a   r   e       a   l   w   a   y   s
+0026740        a   t       l   e   a   s   t       o   n   e   .        
+0026760    W   i   t   h       t   i   m   e   ,       t   h   i   s    
+0027000    u   n   r   e   c   l   a   i   m   a   b   l   e       g   a
+0027020    r   b   a   g   e       m   a   y       i   n   c   r   e   a
+0027040    s   e       t   h   e       w   o   r   k   i   n   g       s
+0027060    e   t       t   o       u   n   a   c   c   e   p   t   a   b
+0027100    l   e       l   e   v   e   l   s   .           S   o   m   e
+0027120        u   s   e   r   s       h   a   v   e       w   o   r   k
+0027140    e   d       w   i   t   h       t   h   e       s   a   m   e
+0027160        I   n   t   e   r   l   i   s   p   -   D       v   i   r
+0027200    t   u   a   l       m   e   m   o   r   y       f   o   r    
+0027220    a       v   e   r   y       l   o   n   g       t   i   m   e
+0027240    ,       b   u   t       i   t       i   s       a       g   o
+0027260    o   d       i   d   e   a       t   o       o   c   c   a   s
+0027300    i   o   n   a   l   l   y       s   a   v   e       a   l   l
+0027320        o   f       y   o   u   r       f   u   n   c   t   i   o
+0027340    n   s       i   n       f   i   l   e   s   ,       r   e   i
+0027360    n   i   t   i   a   l   i   z   e       I   n   t   e   r   l
+0027400    i   s   p   -   D   ,       a   n   d       r   e   b   u   i
+0027420    l   d       y   o   u   r       s   y   s   t   e   m   .    
+0027440        M   a   n   y       u   s   e   r   s       e   n   d    
+0027460    t   h   e   i   r       w   o   r   k   i   n   g       d   a
+0027500    y       b   y       i   s   s   u   i   n   g       a       c
+0027520    o   m   m   a   n   d       t   o       r   e   b   u   i   l
+0027540    d       t   h   e   i   r       s   y   s   t   e   m       a
+0027560    n   d       t   h   e   n       l   e   a   v   i   n   g    
+0027600    t   h   e       m   a   c   h   i   n   e       t   o       p
+0027620    e   r   f   o   r   m       t   h   i   s       t   a   s   k
+0027640        i   n       t   h   e   i   r       a   b   s   e   n   c
+0027660    e   .           I   f       t   h   e       s   y   s   t   e
+0027700    m       s   e   e   m   s       t   o       b   e       s   p
+0027720    e   n   d   i   n   g       t   o   o       m   u   c   h    
+0027740    t   i   m   e       s   w   a   p   p   i   n   g       (   a
+0027760    n       i   n   d   i   c   a   t   i   o   n       o   f    
+0030000    f   r   a   g   m   e   n   t   e   d       w   o   r   k   i
+0030020    n   g       s   e   t   )   ,       t   h   i   s       p   r
+0030040    o   c   e   d   u   r   e       i   s       d   e   f   i   n
+0030060    i   t   e   l   y       r   e   c   o   m   m   e   n   d   e
+0030100    d   .  \r  \r  \r   }   {   E   n   d       S   u   b   S   e
+0030120    c       G   a   r   b   a   g   e       C   o   l   l   e   c
+0030140    t   i   o   n   }  \r  \r  \r  \r   {   B   e   g   i   n    
+0030160    S   u   b   S   e   c       D   a   t   a   t   y   p   e   s
+0030200    }  \r   {   T   i   t   l   e       D   a   t   a   t   y   p
+0030220    e   s   }  \r   {   T   e   x   t  \r  \r   I   f       a   n
+0030240        a   p   p   l   i   c   a   t   i   o   n   s       p   r
+0030260    o   g   r   a   m       u   s   e   s       d   a   t   a    
+0030300    s   t   r   u   c   t   u   r   e   s       t   h   a   t    
+0030320    a   r   e       l   a   r   g   e       (   m   o   r   e    
+0030340    t   h   a   n       8       f   i   e   l   d   s   )       a
+0030360    n   d       t   h   a   t       a   r   e       u   s   e   d
+0030400        a       l   o   t   ,       t   h   e   r   e       a   r
+0030420    e       s   e   v   e   r   a   l       a   d   v   a   n   t
+0030440    a   g   e   s       t   o       r   e   p   r   e   s   e   n
+0030460    t   i   n   g       t   h   e   m       a   s       u   s   e
+0030500    r       {   l   i   s   p       D   A   T   A   T   Y   P   E
+0030520    }   s       r   a   t   h   e   r       t   h   a   n       a
+0030540    s       {   l   i   s   p       R   E   C   O   R   D   }   s
+0030560    .           T   h   e       p   r   i   m   a   r   y       a
+0030600    d   v   a   n   t   a   g   e       i   s       i   n   c   r
+0030620    e   a   s   e   d       s   p   e   e   d   :       a   c   c
+0030640    e   s   s   i   n   g       a   n   d       s   e   t   t   i
+0030660    n   g       t   h   e       f   i   e   l   d   s       o   f
+0030700        a       {   l   i   s   p       D   A   T   A   T   Y   P
+0030720    E   }       c   a   n       b   e       s   i   g   n   i   f
+0030740    i   c   a   n   t   l   y       f   a   s   t   e   r       t
+0030760    h   a   n       w   a   l   k   i   n   g       t   h   r   o
+0031000    u   g   h       a       {   l   i   s   p       R   E   C   O
+0031020    R   D   }       l   i   s   t       w   i   t   h       r   e
+0031040    p   e   a   t   e   d       {   l   i   s   p       C   A   R
+0031060    }   s       a   n   d       {   l   i   s   p       C   D   R
+0031100    }   s   .           A   l   s   o   ,       c   o   m   p   i
+0031120    l   e   d       c   o   d   e       f   o   r       r   e   f
+0031140    e   r   e   n   c   i   n   g       u   s   e   r       {   l
+0031160    i   s   p       D   A   T   A   T   Y   P   E   }   s       i
+0031200    s       u   s   u   a   l   l   y       s   m   a   l   l   e
+0031220    r   .           F   i   n   a   l   l   y   ,       b   y    
+0031240    r   e   d   u   c   i   n   g       t   h   e       n   u   m
+0031260    b   e   r       o   f       o   b   j   e   c   t   s       c
+0031300    r   e   a   t   e   d       (   o   n   e       {   l   i   s
+0031320    p       D   A   T   A   T   Y   P   E   }       o   b   j   e
+0031340    c   t       a   g   a   i   n   s   t       m   a   n   y    
+0031360    {   l   i   s   p       R   E   C   O   R   D   }       l   i
+0031400    s   t       c   e   l   l   s   )   ,       t   h   i   s    
+0031420    c   a   n       r   e   d   u   c   e       t   h   e       e
+0031440    x   p   e   n   s   e       o   f       g   a   r   b   a   g
+0031460    e       c   o   l   l   e   c   t   i   o   n   .  \r  \r   F
+0031500    o   r       c   o   d   e       t   h   a   t       h   a   s
+0031520        b   e   e   n       w   r   i   t   t   e   n       u   s
+0031540    i   n   g       t   h   e       r   e   c   o   r   d       p
+0031560    a   c   k   a   g   e   '   s       {   l   i   s   p       f
+0031600    e   t   c   h   }   ,       {   l   i   s   p       r   e   p
+0031620    l   a   c   e   }   ,       a   n   d       {   l   i   s   p
+0031640        c   r   e   a   t   e   }       o   p   e   r   a   t   i
+0031660    o   n   s   ,       c   h   a   n   g   i   n   g       f   r
+0031700    o   m       {   l   i   s   p       R   E   C   O   R   D   }
+0031720    s       t   o       {   l   i   s   p       D   A   T   A   T
+0031740    Y   P   E   }   s       o   n   l   y       r   e   q   u   i
+0031760    r   e   s       e   d   i   t   i   n   g       t   h   e    
+0032000    r   e   c   o   r   d       d   e   c   l   a   r   a   t   i
+0032020    o   n       (   u   s   i   n   g       {   f   n       E   D
+0032040    I   T   R   E   C   }   )       t   o       r   e   p   l   a
+0032060    c   e       d   e   c   l   a   r   a   t   i   o   n       t
+0032100    y   p   e       {   l   i   s   p       R   E   C   O   R   D
+0032120    }       b   y       {   l   i   s   p       D   A   T   A   T
+0032140    Y   P   E   }   ,       a   n   d       r   e   c   o   m   p
+0032160    i   l   i   n   g   .  \r  \r   {   N   o   t   e       T   h
+0032200    e   r   e       a   r   e       s   o   m   e       m   i   n
+0032220    o   r       d   i   s   a   d   v   a   n   t   a   g   e   s
+0032240        w   i   t   h       u   s   i   n   g       {   l   i   s
+0032260    p       D   A   T   A   T   Y   P   E   }   s   :           F
+0032300    i   r   s   t   ,       t   h   e   r   e       i   s       a
+0032320    n       u   p   p   e   r       l   i   m   i   t       o   n
+0032340        t   h   e       n   u   m   b   e   r       o   f       {
+0032360    l   i   s   p       D   A   T   A   T   Y   P   E   }   s    
+0032400    w   h   i   c   h       c   a   n       e   x   i   s   t   .
+0032420            A   l   s   o   ,       s   p   a   c   e       f   o
+0032440    r       {   l   i   s   p       D   A   T   A   T   Y   P   E
+0032460    }   s       i   s       a   l   l   o   c   a   t   e   d    
+0032500    a       p   a   g   e       a   t       a       t   i   m   e
+0032520    ,       s   o       e   a   c   h       {   l   i   s   p    
+0032540    D   A   T   A   T   Y   P   E   }       h   a   s       a   t
+0032560        l   e   a   s   t       o   n   e       p   a   g   e    
+0032600    a   s   s   i   g   n   e   d       t   o       i   t   ,    
+0032620    w   h   i   c   h       m   a   y       b   e       w   a   s
+0032640    t   e   f   u   l       o   f       s   p   a   c   e       i
+0032660    f       t   h   e   r   e       a   r   e       o   n   l   y
+0032700        a       f   e   w       e   x   a   m   p   l   e   s    
+0032720    o   f       a       g   i   v   e   n       {   l   i   s   p
+0032740        D   A   T   A   T   Y   P   E   }   .           T   h   e
+0032760    s   e       p   r   o   b   l   e   m   s       s   h   o   u
+0033000    l   d       n   o   t       e   f   f   e   c   t       m   o
+0033020    s   t       a   p   p   l   i   c   a   t   i   o   n   s    
+0033040    p   r   o   g   r   a   m   s   .  \r   }  \r  \r   }   {   E
+0033060    n   d       S   u   b   S   e   c       D   a   t   a   t   y
+0033100    p   e   s   }  \r  \r  \r  \r  \r   {   B   e   g   i   n    
+0033120    S   u   b   S   e   c       I   n   c   o   m   p   l   e   t
+0033140    e       F   i   l   e   n   a   m   e   s   }  \r   {   T   i
+0033160    t   l   e       I   n   c   o   m   p   l   e   t   e       F
+0033200    i   l   e   n   a   m   e   s   }  \r   {   T   e   x   t  \r
+0033220   \r   T   h   e   r   e       i   s       a       s   i   g   n
+0033240    i   f   i   c   a   n   t       p   r   o   b   l   e   m    
+0033260    i   n       I   n   t   e   r   l   i   s   p   -   D       (
+0033300    a   n   d       i   n       I   n   t   e   r   l   i   s   p
+0033320    -   1   0   )       w   i   t   h       r   e   s   p   e   c
+0033340    t       t   o       u   s   i   n   g       i   n   c   o   m
+0033360    p   l   e   t   e       f   i   l   e   n   a   m   e   s   .
+0033400            W   h   e   n   e   v   e   r       a   n       I   /
+0033420    O       f   u   n   c   t   i   o   n       i   s       g   i
+0033440    v   e   n       a   n       i   n   c   o   m   p   l   e   t
+0033460    e       f   i   l   e   n   a   m   e       (   o   n   e    
+0033500    w   h   i   c   h       d   o   e   s   n   '   t       h   a
+0033520    v   e       t   h   e       d   e   v   i   c   e   /   h   o
+0033540    s   t   ,       d   i   r   e   c   t   o   r   y   ,       n
+0033560    a   m   e   ,       e   x   t   e   n   s   i   o   n   ,    
+0033600    a   n   d       v   e   r   s   i   o   n       n   u   m   b
+0033620    e   r       a   l   l       s   u   p   p   l   i   e   d   )
+0033640    ,       t   h   e       s   y   s   t   e   m       h   a   s
+0033660        t   o       c   o   n   v   e   r   t       i   t       t
+0033700    o       a       c   o   m   p   l   e   t   e       f   i   l
+0033720    e   n   a   m   e   ,       b   y       s   u   p   p   l   y
+0033740    i   n   g       d   e   f   a   u   l   t   s       a   n   d
+0033760        s   e   a   r   c   h   i   n   g       t   h   r   o   u
+0034000    g   h       d   i   r   e   c   t   o   r   i   e   s       (
+0034020    w   h   i   c   h       m   a   y       b   e       o   n    
+0034040    r   e   m   o   t   e       f   i   l   e       s   e   r   v
+0034060    e   r   s   )   .           C   u   r   r   e   n   t   l   y
+0034100    ,       w   o   r   k       i   s       b   e   i   n   g    
+0034120    d   o   n   e       o   n       s   p   e   e   d   i   n   g
+0034140        u   p       t   h   e       f   i   l   e   n   a   m   e
+0034160    -   c   o   m   p   l   e   t   i   o   n       p   r   o   c
+0034200    e   s   s   ,       b   u   t       i   n       a   n   y    
+0034220    c   a   s   e       i   t       i   s       m   u   c   h    
+0034240    f   a   s   t   e   r       t   o       c   o   n   v   e   r
+0034260    t       a   n       i   n   c   o   m   p   l   e   t   e    
+0034300    f   i   l   e   n   a   m   e       o   n   c   e   ,       a
+0034320    n   d       u   s   e       t   h   e       c   o   m   p   l
+0034340    e   t   e       f   i   l   e   n   a   m   e       f   r   o
+0034360    m       t   h   e   n       o   n   .           F   o   r    
+0034400    e   x   a   m   p   l   e   ,       s   u   p   p   o   s   e
+0034420        a       f   i   l   e       i   s       o   p   e   n   e
+0034440    d       w   i   t   h       {   l   i   s   p       (   S   E
+0034460    T   Q       F   U   L   L   N   A   M   E       (   O   P   E
+0034500    N   F   I   L   E       '   M   Y   N   A   M   E       '   I
+0034520    N   P   U   T   )   )   }   .           A   f   t   e   r    
+0034540    d   o   i   n   g       t   h   i   s   ,       {   l   i   s
+0034560    p       (   R   E   A   D   C       '   M   Y   N   A   M   E
+0034600    )   }       a   n   d       {   l   i   s   p       (   R   E
+0034620    A   D   C       F   U   L   L   N   A   M   E   )   }       w
+0034640    o   u   l   d       b   o   t   h       w   o   r   k   ,    
+0034660    b   u   t       {   l   i   s   p       (   R   E   A   D   C
+0034700        '   M   Y   N   A   M   E   )   }       w   o   u   l   d
+0034720        t   a   k   e       l   o   n   g   e   r       (   s   o
+0034740    m   e   t   i   m   e   s       o   r   d   e   r   s       o
+0034760    f       m   a   g   n   i   t   u   d   e       l   o   n   g
+0035000    e   r   )   .           T   h   i   s       c   o   u   l   d
+0035020        s   e   r   i   o   u   s   l   y       e   f   f   e   c
+0035040    t       t   h   e       p   e   r   f   o   r   m   a   n   c
+0035060    e       i   f       a       p   r   o   g   r   a   m       w
+0035100    h   i   c   h       i   s       d   o   i   n   g       m   a
+0035120    n   y       I   /   O       o   p   e   r   a   t   i   o   n
+0035140    s   .  \r  \r   }   {   E   n   d       S   u   b   S   e   c
+0035160        I   n   c   o   m   p   l   e   t   e       F   i   l   e
+0035200    n   a   m   e   s   }  \r  \r  \r   {   B   e   g   i   n    
+0035220    S   u   b   S   e   c       T   u   r   n   i   n   g       O
+0035240    f   f       t   h   e       D   i   s   p   l   a   y   }  \r
+0035260    {   T   i   t   l   e       T   u   r   n   i   n   g       O
+0035300    f   f       t   h   e       D   i   s   p   l   a   y   }  \r
+0035320    {   T   e   x   t  \r  \r   M   a   i   n   t   a   i   n   i
+0035340    n   g       t   h   e       v   i   d   e   o       i   m   a
+0035360    g   e       o   n       t   h   e       s   c   r   e   e   n
+0035400        u   s   e   s       a   b   o   u   t       3   0   %    
+0035420    o   f       t   h   e       c   p   u       c   y   c   l   e
+0035440    s       (   o   n       t   h   e       X   e   r   o   x    
+0035460    1   1   0   0   )   ,       s   o       t   u   r   n   i   n
+0035500    g       o   f   f       t   h   e       d   i   s   p   l   a
+0035520    y       w   i   l   l       i   m   p   r   o   v   e       t
+0035540    h   e       s   p   e   e   d       o   f       c   o   m   p
+0035560    u   t   e   -   b   o   u   n   d       t   a   s   k   s   .
+0035600            W   h   e   n       t   h   e       d   i   s   p   l
+0035620    a   y       i   s       o   f   f   ,       t   h   e       s
+0035640    c   r   e   e   n       w   i   l   l       b   e       w   h
+0035660    i   t   e       b   u   t       a   n   y       p   r   i   n
+0035700    t   i   n   g       o   r       d   i   s   p   l   a   y   i
+0035720    n   g       t   h   a   t       t   h   e       p   r   o   g
+0035740    r   a   m       d   o   e   s       w   i   l   l       b   e
+0035760        v   i   s   i   b   l   e       w   h   e   n       t   h
+0036000    e       d   i   s   p   l   a   y       i   s       t   u   r
+0036020    n   e   d       b   a   c   k       o   n   .           N   o
+0036040    t   e   :           B   r   e   a   k   s       a   n   d    
+0036060    {   f   n       P   A   G   E   F   U   L   L   F   N   }    
+0036100    w   a   i   t   i   n   g       t   u   r   n       t   h   e
+0036120        d   i   s   p   l   a   y       o   n   ,       b   u   t
+0036140        u   s   e   r   s       s   h   o   u   l   d       b   e
+0036160        a   w   a   r   e       t   h   a   t       i   t       i
+0036200    s       p   o   s   s   i   b   l   e       t   o       h   a
+0036220    v   e       t   h   e       s   y   s   t   e   m       w   a
+0036240    i   t   i   n   g       f   o   r       a       r   e   s   p
+0036260    o   n   s   e       t   o       a       q   u   e   s   t   i
+0036300    o   n       p   r   i   n   t   e   d       o   r       a    
+0036320    m   e   n   u       d   i   s   p   l   a   y   e   d       o
+0036340    n       a       n   o   n   -   v   i   s   i   b   l   e    
+0036360    p   a   r   t       o   f       t   h   e       s   c   r   e
+0036400    e   n   .           T   h   e       f   o   l   l   o   w   i
+0036420    n   g       f   u   n   c   t   i   o   n   s       a   r   e
+0036440        p   r   o   v   i   d   e   d       t   o       t   u   r
+0036460    n       t   h   e       d   i   s   p   l   a   y       o   f
+0036500    f   :  \r  \r   {   F   n   D   e   f       {   N   a   m   e
+0036520        S   E   T   D   I   S   P   L   A   Y   H   E   I   G   H
+0036540    T   }       {   A   r   g   s       N   S   C   A   N   L   I
+0036560    N   E   S   }  \r   {   T   e   x   t  \r   S   e   t   s    
+0036600    t   h   e       d   i   s   p   l   a   y       t   o       o
+0036620    n   l   y       s   h   o   w       t   h   e       t   o   p
+0036640        {   a   r   g       N   S   C   A   N   L   I   N   E   S
+0036660    }       o   f       t   h   e       s   c   r   e   e   n   .
+0036700   \r   I   f       {   a   r   g       N   S   C   A   N   L   I
+0036720    N   E   S   }       i   s       {   l   i   s   p       T   }
+0036740    ,       r   e   s   e   t   s       t   h   e       d   i   s
+0036760    p   l   a   y       t   o       s   h   o   w       t   h   e
+0037000        f   u   l   l       s   c   r   e   e   n   .  \r   R   e
+0037020    t   u   r   n   s       t   h   e       p   r   e   v   i   o
+0037040    u   s       s   e   t   t   i   n   g   .  \r   }   }  \r  \r
+0037060   \r   {   F   n   D   e   f       {   N   a   m   e       D   I
+0037100    S   P   L   A   Y   D   O   W   N   }       {   A   r   g   s
+0037120        F   O   R   M       N   S   C   A   N   L   I   N   E   S
+0037140    }  \r   {   T   e   x   t  \r   E   v   a   l   u   a   t   e
+0037160    s       {   a   r   g       F   O   R   M   }       (   w   i
+0037200    t   h       t   h   e       d   i   s   p   l   a   y       s
+0037220    e   t       t   o       o   n   l   y       s   h   o   w    
+0037240    t   h   e       t   o   p       {   a   r   g       N   S   C
+0037260    A   N   L   I   N   E   S   }       o   f       t   h   e    
+0037300    s   c   r   e   e   n   )   ,       a   n   d       r   e   t
+0037320    u   r   n   s       t   h   e       v   a   l   u   e       o
+0037340    f       {   a   r   g       F   O   R   M   }   .  \r   I   t
+0037360        r   e   s   t   o   r   e   s       t   h   e       s   c
+0037400    r   e   e   n       t   o       i   t   s       p   r   e   v
+0037420    i   o   u   s       s   e   t   t   i   n   g   .  \r   I   f
+0037440        {   a   r   g       N   S   C   A   N   L   I   N   E   S
+0037460    }       i   s       n   o   t       g   i   v   e   n   ,    
+0037500    i   t       d   e   f   a   u   l   t   s       t   o       0
+0037520    .  \r   }   }  \r  \r  \r   {   n   o   t   e  \r   a   d   d
+0037540        i   n   f   o       a   b   o   u   t   :       (   W   I
+0037560    T   H   O   U   T   -   I   N   T   E   R   R   U   P   T   S
+0037600        -   -   -   )   ?  \r  \r   D   a   t   e   :           6
+0037620    -   O   c   t   -   8   2       1   7   :   0   8   :   3   7
+0037640        P   D   T       (   W   e   d   n   e   s   d   a   y   )
+0037660   \r   F   r   o   m   :       M   a   s   i   n   t   e   r   .
+0037700    P   A  \r   I       t   h   i   n   k       W   I   T   H   O
+0037720    U   T   -   I   N   T   E   R   R   U   P   T   S       s   h
+0037740    o   u   l   d       j   u   s   t       g   e   t       s   t
+0037760    r   o   n   g       w   a   r   n   i   n   g   s   :       d
+0040000    o       S   A   V   E   V   M       b   e   f   o   r   e    
+0040020    t   i   m   i   n   g       a   n   y   t   h   i   n   g    
+0040040    b   e   c   a   u   s   e       i   f       i   t       d   o
+0040060    e   s   n   '   t       w   o   r   k   ,       t   h   e    
+0040100    o   n   l   y       w   a   y       o   u   t       i   s    
+0040120    t   o       b   o   o   t   .  \r  \r   D   a   t   e   :    
+0040140        6   -   O   c   t   -   8   2       1   6   :   1   2   :
+0040160    1   6       P   D   T       (   W   e   d   n   e   s   d   a
+0040200    y   )  \r   F   r   o   m   :       v   a   n   M   e   l   l
+0040220    e   .   P   A  \r   W   I   T   H   O   U   T   -   I   N   T
+0040240    E   R   R   U   P   T   S       i   n       i   t   s       c
+0040260    u   r   r   e   n   t       s   t   a   t   e       i   s    
+0040300    f   a   r       t   o   o       d   a   n   g   e   r   o   u
+0040320    s       t   o       d   o   c   u   m   e   n   t   .  \r   }
+0040340   \r  \r   {   B   e   g   i   n       N   o   t   e   }  \r   (
+0040360    W   I   T   H   O   U   T   -   I   N   T   E   R   R   U   P
+0040400    T   S       F   O   R   M   )  \t  \t  \t   [   N   L   A   M
+0040420    B   D   A       f   u   n   c   t   i   o   n   ]  \r   W   I
+0040440    T   H   O   U   T   -   I   N   T   E   R   R   U   P   T   S
+0040460        i   s       a       s   p   e   c   i   a   l       f   o
+0040500    r   m       f   o   r       r   u   n   n   i   n   g       r
+0040520    e   a   l   -   t   i   m   e       c   r   i   t   i   c   a
+0040540    l       s   e   c   t   i   o   n   s       o   f       c   o
+0040560    d   e   ,       o   r       f   o   r       d   o   i   n   g
+0040600        b   e   n   c   h   m   a   r   k   s   ,       s   i   n
+0040620    c   e       i   t       f   i   l   t   e   r   s       o   u
+0040640    t       e   x   t   r   a   n   e   o   u   s       c   o   m
+0040660    p   u   t   a   t   i   o   n   s   .           I   t       e
+0040700    v   a   l   u   a   t   e   s       F   O   R   M       w   i
+0040720    t   h       t   h   e       d   i   s   p   l   a   y       r
+0040740    e   f   r   e   s   h   ,       k   e   y   b   o   a   r   d
+0040760        s   a   m   p   l   i   n   g   ,       e   t   h   e   r
+0041000    n   e   t       p   r   o   c   e   s   s   ,       e   t   c
+0041020    .       a   l   l       t   u   r   n   e   d       o   f   f
+0041040    .       [   N   o   t   e   :       T   h   e   r   e       i
+0041060    s       n   o       w   a   y       o   f       r   e   c   o
+0041100    v   e   r   i   n   g       f   r   o   m       a   n       e
+0041120    r   r   o   r       u   n   d   e   r   n   e   a   t   h    
+0041140    W   I   T   H   O   U   T   -   I   N   T   E   R   R   U   P
+0041160    T   S       e   x   c   e   p   t       b   y       b   o   o
+0041200    t   i   n   g   !   ]  \r   {   E   n   d       N   o   t   e
+0041220    }  \r  \r   }   {   E   n   d       S   u   b   S   e   c    
+0041240    T   u   r   n   i   n   g       O   f   f       t   h   e    
+0041260    D   i   s   p   l   a   y   }  \r  \r  \r  \r   {   B   e   g
+0041300    i   n       S   u   b   S   e   c       G   a   t   h   e   r
+0041320    i   n   g       S   t   a   t   i   s   t   i   c   s   }  \r
+0041340    {   T   i   t   l   e       G   a   t   h   e   r   i   n   g
+0041360        S   t   a   t   i   s   t   i   c   s   }  \r   {   T   e
+0041400    x   t  \r  \r   I   n   t   e   r   l   i   s   p   -   D    
+0041420    h   a   s       a   n       e   x   t   e   n   d   e   d    
+0041440    s   e   t       o   f       s   t   a   t   i   s   t   i   c
+0041460    s   -   g   a   t   h   e   r   i   n   g       t   o   o   l
+0041500    s   .           A   n       e   x   t   e   n   d   e   d    
+0041520    v   e   r   s   i   o   n       o   f       t   h   e       {
+0041540    f   n       T   I   M   E   }       f   u   n   c   t   i   o
+0041560    n       i   s       p   r   o   v   i   d   e   d   :  \r  \r
+0041600    {   F   n   D   e   f       {   F   n   N   a   m   e       T
+0041620    I   M   E   A   L   L   }       {   F   n   A   r   g   s    
+0041640    T   I   M   E   F   O   R   M       #   T   I   M   E   S    
+0041660    T   I   M   E   W   H   A   T       I   N   T   E   R   P   F
+0041700    L   G       {   a   n   o   n   a   r   g   }   }  \r   {   T
+0041720    y   p   e       N   L   A   M   B   D   A   }  \r   {   T   e
+0041740    x   t  \r   L   a   r   g   e   l   y       s   u   b   s   u
+0041760    m   e   s       t   h   e       f   u   n   c   t   i   o   n
+0042000        {   f   n       T   I   M   E   }   .           E   v   a
+0042020    l   u   a   t   e   s       t   h   e       f   o   r   m    
+0042040    {   a   r   g       T   I   M   E   F   O   R   M   }       a
+0042060    n   d       p   r   i   n   t   s       s   t   a   t   i   s
+0042100    t   i   c   s       o   n       t   i   m   e       s   p   e
+0042120    n   t       i   n       v   a   r   i   o   u   s       c   a
+0042140    t   e   g   o   r   i   e   s       (   e   l   a   p   s   e
+0042160    d   ,       k   e   y   b   o   a   r   d       w   a   i   t
+0042200    ,       s   w   a   p   p   i   n   g       t   i   m   e   ,
+0042220        g   c   )       a   n   d       d   a   t   a   t   y   p
+0042240    e       a   l   l   o   c   a   t   i   o   n   .  \r  \r   F
+0042260    o   r       m   o   r   e       a   c   c   u   r   a   t   e
+0042300        m   e   a   s   u   r   e   m   e   n   t       o   n    
+0042320    s   m   a   l   l       c   o   m   p   u   t   a   t   i   o
+0042340    n   s   ,       {   a   r   g       #   T   I   M   E   S   }
+0042360        m   a   y       b   e       s   p   e   c   i   f   i   e
+0042400    d       (   i   t   s       d   e   f   a   u   l   t       i
+0042420    s       1   )       t   o       c   a   u   s   e       {   a
+0042440    r   g       T   I   M   E   F   O   R   M   }       t   o    
+0042460    b   e       e   x   e   c   u   t   e   d       {   a   r   g
+0042500        #   T   I   M   E   S   }       n   u   m   b   e   r    
+0042520    o   f       t   i   m   e   s   .           T   o       i   m
+0042540    p   r   o   v   e       t   h   e       a   c   c   u   r   a
+0042560    c   y       o   f       t   i   m   i   n   g       o   p   e
+0042600    n   -   c   o   d   e   d       o   p   e   r   a   t   i   o
+0042620    n   s       i   n       t   h   i   s       c   a   s   e   ,
+0042640        {   f   n       T   I   M   E   A   L   L   }       c   o
+0042660    m   p   i   l   e   s       a       f   o   r   m       t   o
+0042700        e   x   e   c   u   t   e       {   a   r   g       T   I
+0042720    M   E   F   O   R   M   }       {   a   r   g       #   T   I
+0042740    M   E   S   }       n   u   m   b   e   r       o   f       t
+0042760    i   m   e   s       (   u   n   l   e   s   s       {   a   r
+0043000    g       I   N   T   E   R   P   F   L   G   }       i   s    
+0043020    n   o   n   -   {   l   i   s   p       N   I   L   }   )   ,
+0043040        a   n   d       t   h   e   n       t   i   m   e   s    
+0043060    t   h   e       e   x   e   c   u   t   i   o   n       o   f
+0043100        t   h   e       c   o   m   p   i   l   e   d       f   o
+0043120    r   m   .           T   h   e       c   o   m   p   i   l   a
+0043140    t   i   o   n       i   s       w   i   t   h       o   p   t
+0043160    i   m   i   z   a   t   i   o   n   s       o   f   f       t
+0043200    o       a   v   o   i   d       c   o   n   s   t   a   n   t
+0043220        f   o   l   d   i   n   g   .  \r  \r   {   a   r   g    
+0043240    T   I   M   E   W   H   A   T   }       e   x   i   s   t   s
+0043260        l   a   r   g   e   l   y       f   o   r       c   o   m
+0043300    p   a   t   i   b   i   l   i   t   y       w   i   t   h    
+0043320    {   f   n       T   I   M   E   }   ;       i   t       r   e
+0043340    s   t   r   i   c   t   s       t   h   e       s   t   a   t
+0043360    i   s   t   i   c   s       t   o       s   p   e   c   i   f
+0043400    i   c       c   a   t   e   g   o   r   i   e   s   .        
+0043420    I   t       c   a   n       b   e       a   n       a   t   o
+0043440    m       o   r       l   i   s   t       o   f       d   a   t
+0043460    a   t   y   p   e   s       t   o       m   o   n   i   t   o
+0043500    r   ,       a   n   d   /   o   r       t   h   e       a   t
+0043520    o   m       {   L   i   s   p       T   I   M   E   }       t
+0043540    o       m   o   n   i   t   o   r       t   i   m   e       s
+0043560    p   e   n   t   .           N   o   t   e       t   h   a   t
+0043600        o   r   d   i   n   a   r   i   l   y   ,       {   f   n
+0043620        T   I   M   E   A   L   L   }       m   o   n   i   t   o
+0043640    r   s       a   l   l       t   i   m   e       a   n   d    
+0043660    d   a   t   a   t   y   p   e       u   s   a   g   e   ,    
+0043700    s   o       t   h   i   s       a   r   g   u   m   e   n   t
+0043720        i   s       r   a   r   e   l   y       n   e   e   d   e
+0043740    d   .          \r  \r   T   h   e       v   a   l   u   e    
+0043760    o   f       {   f   n       T   I   M   E   A   L   L   }    
+0044000    i   s       t   h   e       v   a   l   u   e       o   f    
+0044020    t   h   e       l   a   s   t       e   v   a   l   u   a   t
+0044040    i   o   n       o   f       {   a   r   g  \r   T   I   M   E
+0044060    F   O   R   M   }   .  \r   }   }  \r   }   {   E   n   d    
+0044100    S   u   b   S   e   c       P   e   r   f   o   r   m   a   n
+0044120    c   e       C   o   n   s   i   d   e   r   a   t   i   o   n
+0044140    s   }  \r  \r  \0  \0   H   d  \0  \0  \0 005   G   A   C   H
+0044160    A  \0  \n  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0   H   d  \0
+0044200  001   z 270                                                    
+0044203
+</pre>
+  </body>
+</html>

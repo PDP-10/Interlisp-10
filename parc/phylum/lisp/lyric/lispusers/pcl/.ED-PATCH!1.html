@@ -1,0 +1,11 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [phylum]&lt;LISP>Lyric>Lispusers>PCL>ED-PATCH!1</title>
+  </head>
+  <body>
+    <pre>
+(DEFINE-FILE-INFO PACKAGE "PCL" READTABLE "XCL" BASE 10)(il:filecreated " 4-Nov-87 10:53:22" il:{dsk}&lt;lispfiles&gt;ed-patch.\;2 1654         il:|changes| il:|to:|  (methods (ed (method)))      il:|previous| il:|date:| "21-Aug-87 15:44:56" il:{dsk}&lt;lispfiles&gt;ed-patch.\;1); Copyright (c) 1987 by Xerox Corporation.  All rights reserved.(il:prettycomprint il:ed-patchcoms)(il:rpaqq il:ed-patchcoms           ((il:p (make-specializable 'ed :arglist                        '(il:name &amp;optional il:options)))           (methods (ed (method)))           (il:p (eval-when (compile)                        (il:filesload il:sedit-decls)))           (il:functions xcl::get-completion-fn                   xcl::set-completion-fn)))(make-specializable 'ed :arglist '(il:name &amp;optional                                          il:options))(defmethod ed ((web::m method)               &amp;rest web::args)   (let ((web::method-name (full-method-name web::m nil)))        (xcl:ignore-errors         (in-package (package-name (symbol-package                                    (car web::method-name))                            )))        (apply 'ed web::method-name 'method web::args)))(eval-when (compile)       (il:filesload il:sedit-decls))(defun xcl::get-completion-fn (web::context)   (il:fetch (il:|EditContext| il:|CompletionFn|)      il:of web::context))(defun xcl::set-completion-fn (web::context web::form)   (il:replace (il:|EditContext| il:|CompletionFn|)      il:of web::context il:with web::form))(il:putprops il:ed-patch il:copyright ("Xerox Corporation" 1987))(il:declare\: il:dontcopy  (il:filemap (nil)))il:stop</pre>
+  </body>
+</html>

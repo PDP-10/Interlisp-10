@@ -1,0 +1,11 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [phylum]&lt;LispARs>01062.AR!5</title>
+  </head>
+  <body>
+    <pre>
+Number: 1062Date:  9-May-84 15':33':59Submitter: purcell.PASource: Subject: DLion sysout incompatability on DolphinsAssigned To: Attn: LISP, CharnleyStatus: OpenIn/By: Problem Type: Design - ImplImpact: SeriousDifficulty: ModerateFrequency: EverytimePriority: PerhapsSystem: Language SupportSubsystem: Bootstrapping and TeleraidMachine: 1108Disk: Lisp Version: Source Files: Microcode Version: Memory Size: File Server: Server Software Version: Disposition: Description: DLion sysouts are not Dolphin runable because the DLion stack frames are not quad word alligned as required by Dolphin.  Dlion ucode could be changed for about 0.5% speed down or the stack could be worked on at sysout.''Date': 31 May 84 16':16 PDT'From': vanMelle.pa'Subject': Re': AR#1062': make DLion sysout runnable on Dolphin'In-reply-to': Masinter.pa''s message of 31 May 84 15':53 PDT'To': Masinter.pa'cc': Sheil.pa, Purcell.pa, vanMelle.pa, Charnley.pa''I believe we can fake it fairly easily by having Lisp.run look at the MachineType entry in the InterfacePage; if Dandelion, then set a prearranged location in InterfacePage to a prearranged flag value, and start Lisp by doing a context switch to the hardreset context.  After the reset finishes, and the process world gets going, it notices the magic flag, suspends everyone except the exec, tells the exec to run the afterxxx events, then let everyone run.''This is a coordinated change between Lisp.run and PROC, possibly LLFAULT and LLKEY as well, difficulty Moderate.''	Bill'Workaround: Test Case: Edit-By: masinterEdit-Date:  4-Jun-84 14':11':26</pre>
+  </body>
+</html>

@@ -1,0 +1,11 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [Erinyes]&lt;LispManual>Readfile.im!4</title>
+  </head>
+  <body>
+    <pre>
+{Begin SubSec READFILE and WRITEFILE}{Title READFILE and WRITEFILE}{TextFor those applications where the user simply wants to simply read all of the expressions on a file, and not evaluate them, the function {fn READFILE} is available:{FnDef {FnName READFILE} {FnArgs FILE RDTBL ENDTOKEN}{Type NOSPREAD}{TextReads successive expressions from file using {fn READ} (with read table {arg RDTBL}) until the single litatom {arg ENDTOKEN} is read, or an end of file encountered.  Returns a list of these expressions.If {arg RDTBL} is not specified, it defaults to {var FILERDTBL}{index FILERDTBL Var}.  If {arg ENDTOKEN} is not specified, it defaults to the litatom {lisp STOP}.}}{FnDef {FnName WRITEFILE} {FnArgs X FILE}{TextWrites a date expression onto {arg FILE}, followed by successive expressions from {arg X}, using {var FILERDTBL}{index FILERDTBL Var} as a read table.  If {arg X} is atomic, its value is used.  If {arg FILE} is not open, it is opened.  If {arg FILE} is a list, {lisp (CAR {arg FILE})} is used and the file is left opened.  Otherwise, when {arg X} is finished, the litatom {lisp STOP}{index STOP (at the end of a file)} is printed on {arg FILE} and it is closed.  Returns {arg FILE}.{note Why write the date expression into FILE?  This makes it a non-inverse of READFILE.}{note Moby kludge: checking if FILE is a list to determine if the file should be closed (w/ STOP written) or not.  Why not have a third CLOSEFLG argument.  Indeed, with ENDFILE below, why do you even need this option?  How is this normally used?}{Note I agree with both complaints: the date expression makes it a noninverse (and, in fact, has kept me from using WRITEFILE in some of the cases where I might have used it), and the LISTP check is a crock.  WRITEFILE is rarely used, especially now that we have MAKEFILE in all its glory. --bvm}}}{FnDef {FnName ENDFILE} {FnArgs FILE}{TextPrints {lisp STOP}{index STOP (at the end of a file)} on {arg FILE} and closes it.}}}{End SubSec READFILE and WRITEFILE}</pre>
+  </body>
+</html>

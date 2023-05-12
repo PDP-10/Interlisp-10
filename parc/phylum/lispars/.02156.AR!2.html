@@ -1,0 +1,11 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [phylum]&lt;LispARs>02156.AR!2</title>
+  </head>
+  <body>
+    <pre>
+Number: 2156Date: 12-Sep-84 11':28':41Submitter: masinterSource: KaplanSubject: File package gets very confused with file with bogus filemapAssigned To: Attn: MasinterStatus: OpenIn/By: Problem Type: Design - ImplImpact: ModerateDifficulty: ModerateFrequency: IntermittentPriority: PerhapsSystem: Programming EnvironmentSubsystem: File PackageMachine: Disk: Lisp Version: 11-Sep-84 18':48':58Source Files: Microcode Version: Memory Size: File Server: IFSServer Software Version: Disposition: '["Sannella.PA" "12-Sep-84 13':13':31" Status':(New-&gt;Open) Description':]Description: 'From': KAPLAN.pa'Date': 10-Sep-84 23':59':25 PDT'Subject': FILEPKG problems'To': Masinter''Turned out that the INIT.CIS file on {ERIS}&lt;LISP&gt;CURRENT&gt; had a FILEMAP expression on it with value "car of non-list".  So something was wrong with the file that I started working with.  (This is not the most recent one, if you want to look, since I was able to dump my edits).''Anyway, with this problem in the file, I got a break on LOADFROMing inside LOADFNSCAN, I think.  Don''t remember exactly what that break was.''But I returned from there, completed the load, made my edits, and then tried to dump.''This time I got a HELP inside PRETTYDEF, with no message at all.''Finally got things to work by SETPROPLISTing the filename to remove bogus properties.''Just thought I''d let you know.  Could be a screw loose on dumping something without any functions (like the INIT).  And the behavior on loading and dumping wasn''t particularly graceful.''Probably the HELP is a mistake.  It must believe that the situation could never occur, therefore not worth causing an explicit error or at least a HELP with an error message.  But the situation depends on the contents of files that live in a dangerous world and are not invulnerable.  ''--Ron'Workaround: Test Case: Edit-By: Sannella.PAEdit-Date: 12-Sep-84 13':13':31</pre>
+  </body>
+</html>

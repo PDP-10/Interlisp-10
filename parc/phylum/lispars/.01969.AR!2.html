@@ -1,0 +1,11 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [phylum]&lt;LispARs>01969.AR!2</title>
+  </head>
+  <body>
+    <pre>
+Number: 1969Date: 28-Aug-84 09':41':11Submitter: Sannella.PASource: Jeffrey Shulman &lt;SHULMAN@RUTGERS.ARPA&gt;Subject: Databasefns': If source has extension &amp; DB dumped w/ SAVEDBFLG=YES, date on file is OLD dateAssigned To: Shulman@Rutgers, MasinterAttn: ReleaseStatus: FixedIn/By: Problem Type: BugImpact: ModerateDifficulty: Frequency: Priority: PerhapsSystem: Programming EnvironmentSubsystem: File PackageMachine: 1132Disk: Lisp Version: 27-Aug-84 21':14':00Source Files: Microcode Version: 5124Memory Size: 4096File Server: Server Software Version: Disposition: '["masinter" "11-Sep-84 13':32':05" Subject': Assigned% To': Attn': Status':(Open-&gt;Fixed)]Description: 'Return-Path': &lt;SHULMAN@RUTGERS.ARPA&gt;'Received': from RUTGERS.ARPA by Xerox.ARPA ; 18 AUG 84 09':39':55 PDT'Date': 18 Aug 84 12':38':36 EDT'From': Jeffrey Shulman &lt;SHULMAN@RUTGERS.ARPA&gt;'Subject': Databasefns bug'To': lispsupport.pa'cc': SHULMAN@RUTGERS.ARPA''When the data base is dumped during a MAKEFILE (SAVEDBFLG = YES) the'data in the data base file is the date of the OLD file (not the one just'made.)  This means the next LOAD (with LOADDBFLG = YES) will NOT load'the data base file since it thinks it is old.  What has to be done is'first MAKEFILE file file, reLOAD it and then DUMPDB.''In my project we deal with 25+ source files they take over an hour to'analyze if we cannot save this information with SAVEDBFLG = YES.  I am'surprised that this bug hasn''t been encountered before.''							Jeff''P.S. My project and I consider this a pretty serious bug and I would'like the source to fix myself if this will not be fixed in the near'(i.e. this week) future.  Thanks.'Workaround: Test Case: Edit-By: masinterEdit-Date: 11-Sep-84 13':32':08</pre>
+  </body>
+</html>

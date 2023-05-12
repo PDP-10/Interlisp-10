@@ -1,0 +1,11 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [phylum]&lt;Loops>SOURCES>COURSE>VERSIONHACK!1</title>
+  </head>
+  <body>
+    <pre>
+(FILECREATED " 9-AUG-83 01:39:07" {INDIGO}&lt;LOOPS&gt;COURSE&gt;VERSIONHACK.;3 1936         changes to:  (FNS LOADV MAKEFILEV)		   (VARS VERSIONHACKCOMS)      previous date: " 9-AUG-83 00:31:35" {INDIGO}&lt;LOOPS&gt;SOURCES&gt;VERSIONHACK.;1)(PRETTYCOMPRINT VERSIONHACKCOMS)(RPAQQ VERSIONHACKCOMS ((FNS LOADV MAKEFILEV)))(DEFINEQ(LOADV  [LAMBDA (FileName VersionNumber)                           (* mjs: " 9-AUG-83 01:38")                                                             (* Patch version of LOAD for loading a file with a 							     specific version number from FS:.							     For the Leesburg Course.)    (PROG (LongFileName RootCOMS VCOMS)          (OR VersionNumber (SETQ VersionNumber (INTTY "Version: ")))          (SETQ LongFileName (PACK* FileName "-" VersionNumber))          (LOAD LongFileName)                                (* Make Fake Version COMS.)          (SETQ RootCOMS (PACK* FileName (QUOTE COMS)))          (SETQ VCOMS (PACK* LongFileName (QUOTE COMS)))          (SET RootCOMS (EVALV VCOMS))          (RETURN LongFileName])(MAKEFILEV  [LAMBDA (FileName VersionNumber)                           (* mjs: " 9-AUG-83 01:36")                                                             (* Patch fn for doing a MAKEFILE with an explicit 							     version number. Hack to get around Lisp bugs for the 							     Leesburg course.)    (PROG (LongFileName RootCOMS VCOMS)          (OR VersionNumber (SETQ VersionNumber (INTTY "Version: ")))          (SETQ LongFileName (PACK* FileName "-" VersionNumber))                                                             (* Make Fake Version COMS.)          (SETQ RootCOMS (PACK* FileName (QUOTE COMS)))          (SETQ VCOMS (PACK* LongFileName (QUOTE COMS)))          (SET VCOMS (EVALV RootCOMS))          (MAKEFILE LongFileName)          (RETURN LongFileName]))(DECLARE: DONTCOPY  (FILEMAP (NIL (323 1914 (LOADV 333 . 1097) (MAKEFILEV 1099 . 1912)))))STOP</pre>
+  </body>
+</html>

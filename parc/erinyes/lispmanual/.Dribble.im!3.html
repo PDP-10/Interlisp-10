@@ -1,0 +1,11 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [Erinyes]&lt;LispManual>Dribble.im!3</title>
+  </head>
+  <body>
+    <pre>
+{Begin SubSec Dribble Files}{Title Dribble Files}{Text{note {fn DRIBBLE} was written by D. C.  Lewis.}{index *PRIMARY* Dribble files}{index *PRIMARY* Transcript files}A dribble file is a "transcript" of all of the input and output on a terminal.  In Interlisp-D, {fn DRIBBLE} opens a dribble file for the current process, recording the terminal input and output for that process.  Multiple processes can have separate dribble files open at the same time.{FnDef {FnName DRIBBLE} {FnArgs FILE APPENDFLG THAWEDFLG}{TextOpens {arg FILE} and begins recording the typescript.  Returns the old dribble file if any, otherwise {lisp NIL}.  If {arg APPENDFLG}={lisp T}, the typescript will be appended to the end of {arg FILE}.  If {arg THAWEDFLG}={lisp T}, the file will be opened in "thawed" mode, for those implementations that support it.  {lisp (DRIBBLE)} closes the dribble file for the current process.  Only one dribble file can be active for each process at any one time, so {lisp (DRIBBLE {arg FILE1})} followed by {lisp (DRIBBLE {arg FILE2})} will cause {arg FILE1} to be closed.}}{FnDef {FnName DRIBBLEFILE} {FnArgs}{TextReturns the name of the current dribble file for the current process, if any, otherwise {lisp NIL}.}}Terminal input is echoed to the dribble file a line buffer at a time.  Thus, the typescript produced is somewhat neater than that appearing on the user's terminal, because it does {it not} show characters that were erased via control-A or control-Q.  Note that the typescript file is {it not} included in the list of files returned by {lisp (OPENP)}, nor will it be closed by a call to {fn CLOSEALL} or {fn CLOSEF}.  Only {lisp (DRIBBLE)} closes the typescript file.}{End SubSec Dribble Files}</pre>
+  </body>
+</html>

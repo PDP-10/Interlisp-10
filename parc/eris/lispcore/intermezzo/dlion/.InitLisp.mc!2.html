@@ -1,0 +1,11 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [eris]&lt;LispCore>Intermezzo>dlion>InitLisp.mc!2</title>
+  </head>
+  <body>
+    <pre>
+{File name &lt;tajo&gt;xInitLisp.mc;    DandeLion Interlisp Emulator - InitializationAuthor: PurcellLast edited:  8-Feb-84 15:46:41 by don -- moved some stuff to lcsStartLisp}Set[InitVersion, 5];EFCHaveLink:  	at[LispStart],	Q &larr; InitVersion,	c1;	Ybus &larr; Q xor uInitVersion, ZeroBr,	c2;	Q &larr; 0, BRANCH[putMP9099, $],	c3;{change to context Q{fxp}}FXP:	rhTT &larr;  INTERFACEspace,	c1;	TT &larr; INTERFACEbasePage,	c2;	TT &larr; TT LRot8,	c3;FXP1:	Map &larr; [rhTT,TT],	c1;	rhS &larr; nRhS,	c2;	Rx &larr; rhRx &larr; MD,{ XRefBr,}	c3;	TOSH &larr; 0,{sysout returns true}	c1;	TOS &larr; KTval,	c2;	Noop,	c3;FXP2:	MAR&larr; [rhRx, Q + 0],	c1;	rhPV &larr; nRhS,	c2;	PV{FXP} &larr; MD, GOTO[RTN2],	c3;Reset:	Noop, {CANCELBR[$, 0F],}	c1;Reset2:	,	c2;	Q &larr; ResetFXP, GOTO[FXP],	c3;putMP9099:	Q &larr; 99'd, GOTO[sink2],	c1;LMemErr:	{come here if trap}	BRANCH[VirtAddrErr, EmuMemErr, 1],	c1, at[1,4,CSParErr];EmuMemErr:	Q &larr; 5, GOTO[sink3],	c2;VirtAddrErr:	Q &larr; 4, GOTO[sink3],	c2;	{ E N D }</pre>
+  </body>
+</html>

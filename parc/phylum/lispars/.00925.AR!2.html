@@ -1,0 +1,11 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [phylum]&lt;LispARs>00925.AR!2</title>
+  </head>
+  <body>
+    <pre>
+Number: 925Date:  2-May-84 12':34':16Submitter: Sannella.PASource: Masinter.paSubject: (HARDRESET) kills tedit process from background menuAssigned To: Attn: RELEASEStatus: FixedIn/By: Problem Type: BugImpact: AnnoyingDifficulty: ModerateFrequency: EverytimePriority: PerhapsSystem: TextSubsystem: TEditMachine: Disk: Lisp Version: Source Files: Microcode Version: Memory Size: File Server: Server Software Version: Disposition: Description: 'Date': 15 Apr 84 14':19 PST'From': Masinter.pa'Subject': TEdit': Yikes! TEDIT from background menu erases document in progress'To': TEditSupport.pa'cc': Masinter.pa''TEdit System Date': 12-Apr-84 13':52':28'Lisp System Date': 12-Apr-84 16':45':05'Machine': Dorado (Plaza)'Microcode version': 24,4'Memory size': 10000'Frequency': Always'Impact': Serious''I used the background menu to get a TEDIT. I typed in a lot of stuff into that window.''I then did a HARDRESET, which got rid of the edit process but left the text in place.''I then used the background menu again, and, whoops, all of the stuff I typed in disappeared.''I think the logic associated with TEDIT processes is pretty screwy, and that you should revisit the algorithm. Here''s one way of doing it that looks pretty consistent':''If you GET a document, the document comes in "read only" and no process. There is a menu item, visible at the top of the window, which says "Edit". When you button Edit, you can then edit the document. When in that mode, the document stays editable, no matter what the process world does (it either restarts the process whenever you do a hard reset, or more preferably, it restarts the process whenever you button in it. In fact, it seems unreasonable to have more than one TEDIT process ever! Since more than one can''t be active, why waste all of that (precious) stack space just to have dead processes around who''s only job is to capture keystrokes. ????)'''Workaround: Test Case: Edit-By: SybalskyEdit-Date: 22-May-84 10':49':12</pre>
+  </body>
+</html>

@@ -1,0 +1,11 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [eris]&lt;Lisp>Harmony>Library>NEWWHEREIS.TTY!1</title>
+  </head>
+  <body>
+    <pre>
+The modified WHEREIS function will, after searching the in-core COMS of a file,** but not finding the definition there **,  will look for a WHEREISSYNOPSIS property, which contains a synopsis of what is in the non-loaded file's coms.  To generate useful properties, the function MAKE.WHEREISSYNOPSIS takes argumentssimilar to WHEREISNOTICE (but NEWFLG is currently ignored, and the first arg can be either a pattern for DIRECTORY or merely an explicit list of files).  It puts a WHEREISSYNOPSIS property on the rootfilename of each analyzed file and if the 3rd arg is non-null it prepares a "database" file which one can LOAD in at a later time; the global variable ALLSYNOPTICFILES is set to the FULLNAMEs of the analyzed  files.  (loading the "database" file restores the WHEREISSYNOPSIS properties and adds to ALLSYNOPTICFILES)The filepkg types which are "analyzed for the synopsis" are found in the value of the globalvar WHEREIS.SYNOPTIC.TYPES, currently initialized to     (FNSD VARS RECORDS MACROS PROPS)When there are no WHEREISSYNOPSIS properties, the getp call in WHEREIS costs essentially nothing; when there is such a property in addition to the COMS being loaded, then WHEREIS is slowed down by about 30%; but this is an unusual case since the purpose of having a WHEREISSYNOPSIS property is so that the COMSwon't be loaded.</pre>
+  </body>
+</html>

@@ -1,0 +1,11 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [phylum]&lt;LispARs>00277.AR!6</title>
+  </head>
+  <body>
+    <pre>
+Number: 277Date: 23-Mar-84 11':14':40Submitter: Sannella.PASource: Kaplan.paSubject: Compiler confusing constant FOO with argument FOOAssigned To: Masinter.paAttn: Status: ClosedIn/By: HarmonyProblem Type: BugImpact: SeriousDifficulty: EasyFrequency: IntermittentPriority: HopefullySystem: Language SupportSubsystem: Compiler, Code FormatMachine: Disk: Lisp Version: Source Files: Microcode Version: Memory Size: File Server: Server Software Version: Disposition: '["Sannella" "20-Aug-84 18':03':18" Attn': Status':(Fixed-&gt;Closed) In/By':]Description: 'Date': 22 Mar 84 20':15 PST'From': Kaplan.pa'Subject': Lisp': Compiler glitch'To': LispSupport.pa'Lisp-System-Date': 20-Mar-84 18':25':18'Machine-Type': Dorado''I was working on 2 unrelated files at once, with both of them loaded.  One defined FOO as a constant, and the other had a function FUM that had FOO has an argument.''FUM worked correctly interpreted, but not when compiled.  After wasting an hour trying to debug the situation, I discovered that even though FUM had a binding for FOO, that the compiled code had the constant value instead of the the value that was passed in.''The glitch (actually, it is really a bug, given how much energy and time it can waste) is that the compiler doesn''t print out a warning when it discovers this inconsistent use of the name FOO, the way it does when you attempt to bind a global or RESETVARS a non-global.''I think a check for this case should be executed whenever code for binding a variable is compiled.''--Ron''-----''Date':  6 Apr 84 17':51 PST'From': Masinter.pa'Subject': AR#277 Status&larr; Fixed'To': LispSupport'cc': Kaplan'''compiling now checks &amp; warns if you attempt to bind a constant.'''Workaround: Test Case: Edit-By: SannellaEdit-Date: 20-Aug-84 18':03':18</pre>
+  </body>
+</html>

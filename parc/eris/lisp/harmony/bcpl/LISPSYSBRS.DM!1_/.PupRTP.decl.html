@@ -1,0 +1,11 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [eris]&lt;Lisp>Harmony>BCPL>LISPSYSBRS.DM!1>PupRTP.decl</title>
+  </head>
+  <body>
+    <pre>
+// PupRTP.decl -- Public declarations for Rendezvous/Termination Protocol// Copyright Xerox Corporation 1979// Last modified January 17, 1979  6:38 PM by Boggs//----------------------------------------------------------------------------structure RTPSoc:	// Between raw pups and the RTP//----------------------------------------------------------------------------[@PupSocctx word		// context for RTPSocketProcessrtpStatus word =   [   wasListening bit	// port is or was listening   blank bit 7   state byte		// FSM state   ]connID&uarr;1,2 word		// connection IDrtpTimer word		// timer for RTP state changes// entries for communication with higher levels// *** do not change order without consulting PupBSP.decl ***rtpOtherPupProc word	// procedure called for non-RTP pupsrtpOtherTimer word	// timer for higher levelsrtpOtherTimerProc word	// procedure called when timer expires]manifest lenRTPSoc = size RTPSoc/16manifest[// RTP open modesmodeInitAndWait = 0modeInitAndReturn = 1modeListenAndWait = 2modeListenAndReturn = 3modeImmediateOpen = 4// RTP Finite state machine socket statesstateClosed = 0stateRFCOut = 1stateListening = 2stateOpen = 3stateEndIn = 4stateEndOut = 5stateDally = 6stateAbort = 7// Rendezvous/Termination protocoltypeRFC = #10typeAbort = #11typeEnd = #12typeEndReply = #13// Error codesecImproperStateForEvent = 2240]</pre>
+  </body>
+</html>

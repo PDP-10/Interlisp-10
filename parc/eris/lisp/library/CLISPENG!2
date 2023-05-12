@@ -1,0 +1,326 @@
+(FILECREATED "18-AUG-83 11:39:09" {SDCRDCF}</EA/DARREL/APR5>CLISPENG.;1 10809  
+
+      changes to:  (FNS CLISPIFYIS)
+		   (VARS CLISPENGCOMS)
+
+      previous date: "25-FEB-82 21:23:09" 
+{SDCRDCF}</EA/DARREL/SRC/LISPUSERS>CLISPENG.;0)
+
+
+(* Copyright (c) 1982, 1983 by Xerox Corporation)
+
+(PRETTYCOMPRINT CLISPENGCOMS)
+
+(RPAQQ CLISPENGCOMS ((FNS CLISPIFYIS CLISPIFYIS1)
+	(PROP CLISPIFYISPROP ARRAYP ATOM EQUAL FLOATP LISTP NLISTP LITATOM MINUSP 
+	      NUMBERP SMALLP STRINGP TAILP GT LT MEMBER MEMB)
+	(EDITHIST CLISPENG)
+	(SPECVARS FORM LST CLTYP0 OPR0)
+	(GLOBALVARS LCASEFLG CLISPIFYENGLSHFLG)
+	(DECLARE: EVAL@COMPILE DONTCOPY (FILES (LOADCOMP)
+					       CLISPIFY))))
+(DEFINEQ
+
+ (CLISPIFYIS
+  [LAMBDA (FORM PROP)                            (* DJVB "18-AUG-83 11:33")
+    (CLISPIFYENGLSHFLG and OPR0 ~= (QUOTE :) and CLTYP0 ~= (QUOTE IS)
+	and (PROG (MATCHUP PHRASE SUBJ PLURALFLG SEGFLG TEM OuterPrec LocalPrec 
+			   ParensNeeded)
+	          (OuterPrec _ (CLTYP0 or (LISTP CLTYP0): : 1 are numbers))
+	          [LocalPrec _ ((LISTP FORM): 1 is a literal atom
+				and (GETPROP FORM : 1 (QUOTE CLISPTYPE]
+	          (LocalPrec _ (LocalPrec and (LocalPrec or (LISTP LocalPrec): 1 
+							    are numbers)))
+
+          (* Be careful not to let parens be taken off the current expression if it's embedded 
+	  inside a higher priority operation, for example (SETQ X (MEMB Y Z)) has to become 
+	  (X _ (Y is a memb of Z)). This fixes a longstanding CLISPIFY English bug for all operators
+	  with CLISPTYPE -20 in singular case)
+
+
+	          (ParensNeeded _ (OuterPrec and LocalPrec
+				    and OuterPrec is greater than LocalPrec))
+	          (if PROP is a list
+		      then 
+
+          (* For most cases, PROP is an atom, namely the name of the KEY for the is phrase.
+	  but for some, there can be several alternatives. e.g. suppose (A is the last element of B)
+	  translates to (EQ A (CAR (LAST B))) and (A is the first element of B) to 
+	  (EQ A (CAR B)) then EQ will have a CLISPIFYISPROP property of (LAST FIRST))
+
+
+			   [SOME PROP (FUNCTION (LAMBDA (PROP)
+				     (TEM _ (CLISPIFYIS FORM PROP]
+			   (RETURN TEM))
+	          (PROP _ (GETPROP PROP (QUOTE CLISPISFORM)))
+	      LP  (if MATCHUP _ (CLISPIFYMATCHUP PROP : 3 FORM PROP : 1)= NIL
+		      then (if PROP _ PROP : : 3
+			       then (GO LP))
+			   (RETURN NIL))
+	          (PHRASE _ PROP : 2)
+	          (if NEGFLG
+		      then PHRASE _
+			   < PHRASE : 1
+			     ! (if TEM _ (CDDDR (GETPROP PHRASE : 2 (QUOTE 
+								  CLISPISPROP)))
+				   then          (* e.g. negation of HAS is DOESN'T HAVE)
+					< ! TEM ! PHRASE : : 2 >
+				 else
+				  < PHRASE : 2
+				    ! (if (CAR (PHRASE _ PHRASE : : 2))=
+					  (QUOTE NOT)
+					  then 
+                                                 (* E.g. (NOT (NLISTP X)) clispifyies to 
+						 (X IS A LIST) because the dobule negation 
+						 gets removed here.)
+					       PHRASE : : 1
+					else < (QUOTE NOT) ! PHRASE >)
+				    >)
+			     >)
+	      FACTOR
+	          (if CLISPISTATE = NIL or OPR0 = NIL
+			or TAIL ~= CLISPISTATE : TAIL : : 1
+		    elseif PROP = CLISPISTATE : PROP
+			     and NEGFLG = CLISPISTATE : NEGFLG
+			     and MATCHUP : OBJ = CLISPISTATE : MATCHUP : OBJ
+		      then                       (* Factor onrelation (AND 
+						 (NUMBERP X) (NUMBERP Y)))
+
+          (* New SUBJ. Will be clispified at CLISPIFY2a below. Thus if this is the third factoring, 
+	  SUBJ would no be (AND (AND X Y) Z) but this goes to (X and Y and Z) which is what is 
+	  wanted.)
+
+
+			   SUBJ _
+			   < PARENT : 1 CLISPISTATE : MATCHUP : SUBJ MATCHUP : 
+			     SUBJ >
+			   MATCHUP : SUBJ _ SUBJ LST _
+			   < ! CLISPISTATE : LST > 
+
+          (* LST is bound in clipify1. it is the clispified results being assembbled.
+	  Since the previous clause is being incorporated into the curren one, we backup LST to the 
+	  value it had as of the previous is phrase.)
+
+
+			   PLURALFLG _ T         (* For MAPCONC below.)
+			   SEGFLG _ CLISPISTATE : SEGFLG 
+
+          (* Indicates whether it is ok to remove parens or not, i.e. SEGFLG = T means ok.
+	  We cannot remove parens if there was a non-is form before this one, e.g. 
+	  (AND X (NUMBERP Y) (NUMBER Z)) cannot go to (X and Y and Z are nummers) but instead must 
+	  go to (X and (Y and Z are numbers)))
+
+
+			   CLISPISTATE : TAIL _ TAIL 
+
+          (* needed to notice if there were any non-is phrases intervening between last one and this
+	  one, e.g. (AND (NUMBERP X) Y (NUMBERP Z)) mustgo to (X is a number and Y and Z is a 
+	  number))
+
+
+			   CLISPISTATE : MATCHUP _ MATCHUP (GO SKIP)
+		    elseif MATCHUP : SUBJ is equal to CLISPISTATE : MATCHUP : 
+			   SUBJ
+		      then                       (* Factor on subject, e.g. 
+						 (AND (NUMBERP X) (ATOM X)))
+			   CLISPISTATE : MATCHUP _ MATCHUP PHRASE _ PHRASE : : 2 
+                                                 (* Deletes the subject and the is/are word.)
+			   MATCHUP _ MATCHUP : : 1 
+                                                 (* removes the subject so that it isnt 
+						 substituted for in call to clispifyis1 below)
+			   CLISPISTATE : TAIL _ TAIL (GO SKIP))
+	          (CLISPISTATE _
+			       (create CLISPISTATE
+				       PROP _ PROP
+				       NEGFLG _ NEGFLG
+				       LST _ (< ! LST >)
+				       SEGFLG _ (TAIL = (CDR (if CLISPISTATE
+								 then 
+                                                 (* See comment about SEGFLG above.)
+								      CLISPISTATE 
+								      : TAIL
+							       else PARENT)))
+				       TAIL _ TAIL
+				       MATCHUP _ MATCHUP))
+	      SKIP((LCASEFLG or PLURALFLG)
+		     and PHRASE _
+			 (for X in PHRASE
+			    join                 (* Goes through the phrase and replaces the 
+						 canonical form by the aprorpriate expressions
+						 for upper or lower case, singular or plural.)
+				 (if X MEMB PROP : 1 or TEM _
+							(GETPROP X (QUOTE 
+								  CLISPISPROP))
+							is not a list
+				     then < X >
+				   elseif PLURALFLG = NIL
+				     then        (* lowercase singular.)
+					  < TEM : 1 >
+				   elseif TEM : : 1 = NIL
+				     then 
+
+          (* stored on the property list of these words under the CLISPISPROP property is a list of 
+	  the form (lower-sing upper-plural lower-plural) e.g. for ATOM the property is 
+	  (atom ATOMS atoms) If there is no second and third entry, means the singular and plural 
+	  are the same. However, if the second or third entry are NIL, means they are not present 
+	  for plural. E.g. this is how A and AN disappear in plural.)
+
+
+					  < (if LCASEFLG
+						then TEM : 1
+					      else X)
+					    >
+				   elseif TEM _
+					  (if LCASEFLG
+					      then TEM : 3
+					    else TEM : 2)
+				     then < TEM >)))
+	          (NEGFLG _ NIL)                 (* Negation has already been taken care of 
+						 earlier.)
+	          (PROG (LST (CLTYP0 (QUOTE IS))
+			     OPR0)
+		        (PHRASE _
+				(CLISPIFYIS1 (for X in MATCHUP
+						collect
+						 < X : 1
+						   ! (CLISPIFY2A X : : 1)
+						   >)
+					     PHRASE)))
+	          (if OPR0 = NIL
+		      then SEG _ (if CLTYP0 = NIL
+				     then NIL
+				   elseif CLTYP0 = (QUOTE COND)
+				     then T
+				   elseif CLTYP0 is not a list
+				     then (HELP)
+				   elseif TAIL = CLTYP0 : : 1
+					    and
+					     [TAIL : : 1 = NIL
+						     or
+						      (CAR (GETPROP TAIL : 2
+								    (QUOTE 
+								    CLISPWORD)))=
+						      (CAR (GETPROP CLTYP0 : 1
+								    (QUOTE 
+								    CLISPWORD]
+					    and [SOME PHRASE
+						      (FUNCTION (LAMBDA (X)
+							  ((GETPROP X
+								    (QUOTE 
+								    CLISPWORD))
+							   is a list]= NIL
+				     then 
+
+          (* Says there is only one expression there so safe to remove parentehses, e.g. 
+	  (IF A THEN (AND B C) ELSE D) The reason for the SOME is that cant remve parens if any of 
+	  the words in L are also operators, e.g. user writes (WHILE (IGREATERP X COUNT) do --) 
+	  can't remove parens because COUNT is also an operator)
+
+
+					  T)
+		    elseif PLURALFLG = NIL
+		      then                       (* Always safe to remove parens on higher 
+						 priority simple singular phrase.)
+			   (if ParensNeeded
+			       then              (* If we are not going to remove parens, we 
+						 have to packup the operators.)
+				    PHRASE _ (CLISP3A PHRASE)
+			     else SEG _ T)
+		    elseif SEG _ SEGFLG = NIL
+		      then                       (* If we are not going to remove parens, we 
+						 have to packup the operators.)
+			   PHRASE _ (CLISP3A PHRASE))
+	          (RETURN PHRASE])
+
+(CLISPIFYIS1
+
+  [LAMBDA (ALST $EXPR)             (* wt: 13-FEB-76 20 34)
+
+                                   (* essentially an LSUBLIS, except it knows that it is always substituting for 
+
+				   atoms.)
+
+    (PROG (TEM)
+
+          (RETURN (COND
+
+		    ((NULL $EXPR)
+
+		      NIL)
+
+		    ((NLISTP $EXPR)
+
+		      (COND
+
+			((SETQ TEM (FASSOC $EXPR ALST))
+
+			  (CDR TEM))
+
+			(T $EXPR)))
+
+		    [(SETQ TEM (FASSOC (CAR $EXPR)
+
+				       ALST))
+
+		      (APPEND (CDR TEM)
+
+			      (CLISPIFYIS1 ALST (CDR $EXPR]
+
+		    (T (CONS (CLISPIFYIS1 ALST (CAR $EXPR))
+
+			     (CLISPIFYIS1 ALST (CDR $EXPR])
+)
+
+(PUTPROPS ARRAYP CLISPIFYISPROP ARRAY)
+
+(PUTPROPS ATOM CLISPIFYISPROP ATOM)
+
+(PUTPROPS EQUAL CLISPIFYISPROP EQUAL)
+
+(PUTPROPS FLOATP CLISPIFYISPROP FLOATING)
+
+(PUTPROPS LISTP CLISPIFYISPROP LIST)
+
+(PUTPROPS NLISTP CLISPIFYISPROP LIST)
+
+(PUTPROPS LITATOM CLISPIFYISPROP LITERAL)
+
+(PUTPROPS MINUSP CLISPIFYISPROP NEGATIVE)
+
+(PUTPROPS NUMBERP CLISPIFYISPROP NUMBER)
+
+(PUTPROPS SMALLP CLISPIFYISPROP SMALL)
+
+(PUTPROPS STRINGP CLISPIFYISPROP STRING)
+
+(PUTPROPS TAILP CLISPIFYISPROP TAIL)
+
+(PUTPROPS GT CLISPIFYISPROP GREATER)
+
+(PUTPROPS LT CLISPIFYISPROP LESS)
+
+(PUTPROPS MEMBER CLISPIFYISPROP MEMBER)
+
+(PUTPROPS MEMB CLISPIFYISPROP MEMB)
+(DECLARE: DONTCOPY 
+
+(ADDTOVAR EDITHISTALIST (CLISPENG ("18-AUG-83 11:41:30" DJVB 
+					{SDCRDCF}</EA/DARREL/APR5>CLISPENG.;1
+							(CLISPIFYIS))))
+)
+(DECLARE: DOEVAL@COMPILE DONTCOPY
+
+(SPECVARS FORM LST CLTYP0 OPR0)
+)
+(DECLARE: DOEVAL@COMPILE DONTCOPY
+
+(ADDTOVAR GLOBALVARS LCASEFLG CLISPIFYENGLSHFLG)
+)
+(DECLARE: EVAL@COMPILE DONTCOPY 
+(FILESLOAD (LOADCOMP)
+	   CLISPIFY)
+)
+(PUTPROPS CLISPENG COPYRIGHT ("Xerox Corporation" 1982 1983))
+(DECLARE: DONTCOPY
+  (FILEMAP (NIL (678 9645 (CLISPIFYIS 688 . 9015) (CLISPIFYIS1 9017 . 9643)))))
+STOP

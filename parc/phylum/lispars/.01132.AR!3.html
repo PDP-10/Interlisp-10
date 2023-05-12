@@ -1,0 +1,11 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [phylum]&lt;LispARs>01132.AR!3</title>
+  </head>
+  <body>
+    <pre>
+Number: 1132Date: 18-May-84 12':32':32Submitter: JonL.paSource: JonL.paSubject: Race condition on INFILEP?Lisp Version: 14-May-84 21':12':25Description: TEdit was taking a long time to format a press file, so I started up another process to watch for the appearance of the file, and then empress it; something like'    (PROGN (until (INFILEP ''&lt;SOMEDIR&gt;FOO.PRESS)) (LISTFILES FOO.PRESS))'but the INFILEP succeeded while TEDIT still was writing it , and when the LISTFILES started to run, it got a leaf error "file busy in conflicting way".  Waiting a few seconds more "by hand" allowed the next call to LISTFILES to win.''------'Date': 22 May 84 15':26 PDT'From': vanMelle.pa''Declined.  There is no race.  INFILEP does not mean "can I open this file for input?", and the manual even discusses this aspect.  Some file systems (eg. IFS''s, unfortunately) are happy to claim a file exists before someone has closed it.  Perhaps you wanted (until (NLSETQ (OPENFILE &amp; ''INPUT)) --).''-----''Date': 22 May 84 17':45 PDT'From': JonL.pa'Subject': Re': AR#1132': Race condition on INFILEP?'In-reply-to': vanMelle.pa''s message of 22 May 84 15':26 PDT'To': vanMelle.pa'cc': JonL.pa, Masinter.pa, LispSupport.pa''Foo, this is clearly a bug and not one of the cases discussed in the manual, which at best suggests lock-out by other users/writers at the file server (I was locked-out against "myself").''Even if one considers this behaviour a "feature", he would still want a variant of the rejected "can I open this file for input?" primitive; perhaps a good way to achieve this is to permit a NOERROR option to OPENFILE.''-- JonL --''Workaround: Test Case: Edit-By: Sannella.PAEdit-Date: 24-May-84 16':24':31Attn: Assigned To: In/By: Disposition: System: Operating SystemSubsystem: Generic File OperationsMachine: 1132Disk: Microcode Version: 5124Memory Size: 4096File Server: Server Software Version: Difficulty: HardFrequency: IntermittentImpact: SeriousPriority: HopefullyStatus: DeclinedProblem Type: BugSource Files: </pre>
+  </body>
+</html>

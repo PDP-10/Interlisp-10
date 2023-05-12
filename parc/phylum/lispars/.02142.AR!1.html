@@ -1,0 +1,11 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [phylum]&lt;LispARs>02142.AR!1</title>
+  </head>
+  <body>
+    <pre>
+Number: 2142Date: 11-Sep-84 12':14':42Submitter: Sannella.PASource: Ueda.FXSubject: TRANSOR''s PRESCAN function should be recoded to be implementation-independent (uses ASSEMBLE).Assigned To: Attn: LispStatus: OpenIn/By: Problem Type: BugImpact: MinorDifficulty: Frequency: Priority: UnlikelySystem: Other SoftwareSubsystem: OtherMachine: 1132Disk: Lisp Version:  8-Sep-84 01':22':25Source Files: Microcode Version: 5124Memory Size: 4096File Server: Server Software Version: Disposition: Description: 'Date': 11 Sep 84 13':41':58+0900 (Tuesday)'From': Ueda.FX'Subject': TRANSOR'To': LispSupport.PA'cc': Kamibayashi, Ikeo, Ueda''I would like to use TRANSOR to convert UTILISP programs (which run on IBM or FACOM machines) to Interlisp-D programs. But TRANSOR and TSET we have contain a function ASSEMBLE, which I think is the assembler (LAP) for DEC-10. Can they be used in Interlisp-D? Or some modification is needed?''// Yoshihiro Ueda''-----''Subject': Re': TRANSOR'In-reply-to': Ueda.FX''s message of 11 Sep 84 13':41':58+0900 (Tuesday)'To': Ueda.FX'cc': Kamibayashi.FX, Ikeo.FX''I have looked at the files TRANSOR and TSET, and the only place that ASSEMBLE is used is in the function PRESCAN.  This is a function that the user can call to do simple character transformations on his file (see p23.32 of the Reference manual).  As long as you don''t use this function, you should be able to use the rest of TRANSOR from within Interlisp-D.''PRESCAN should be recoded to be implementation-independent.  If you need to use it, it should be relatively easy for you to change it.'Workaround: Test Case: Edit-By: Edit-Date: </pre>
+  </body>
+</html>

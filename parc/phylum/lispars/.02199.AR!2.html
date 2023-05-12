@@ -1,0 +1,11 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [phylum]&lt;LispARs>02199.AR!2</title>
+  </head>
+  <body>
+    <pre>
+Number: 2199Date: 18-Sep-84 21':05':29Submitter: Roach.paSource: Roach.paSubject: LOAD? should handle non-filepackage filesAssigned To: Attn: Kaplan, MasinterStatus: OpenIn/By: Problem Type: BugImpact: AnnoyingDifficulty: Frequency: EverytimePriority: System: Programming EnvironmentSubsystem: File PackageMachine: 1132Disk: Lisp Version: 17-Sep-84 20':17':02Source Files: Microcode Version: 5124Memory Size: 4096File Server: Server Software Version: Disposition: '["Sannella.PA" "19-Sep-84 16':59':37" Subject': Attn': Status':(New-&gt;Open)]Description: It seems reasonable that LOAD &amp; LOAD? should work just as good for non-filepackage source and dcom files as for filepackage files as far as remembering whether a file has already been loaded.  But unfortunately, LOAD? only checks to see if the NAMEFIELD of the file involved has a FILEDATES property.  LOADing a file TEST containing the text'     "(PRINT ''THIS-IS-A-TEST T)'      STOP"'will only add FILE &amp; FILEMAP property''s to atom TEST.  And indeed, you can see by LOAD?ing TEST after the LOAD, the atom THIS-IS-A-TEST still prints in your EXEC window.  LOADing TEST.DCOM, produced by TCOMPLing TEST doesn''t add any properties at all to atom TEST, and therefore doesn''t leave any kind of record for LOAD? to check.'     To fix this problem, it seems that LOAD should always record files it has loaded on the FILEDATES properties of their NAMEFIELDs, even if not filepackage source or dcom files.  E.g., add the value of'     (CONS (OR (GETFILEINFO STREAM ''CREATIONDATE) (GDATE))'           (FULLFILENAME STREAM))'to the FILEDATES property.Workaround: Test Case: Edit-By: Sannella.PAEdit-Date: 19-Sep-84 16':59':38</pre>
+  </body>
+</html>

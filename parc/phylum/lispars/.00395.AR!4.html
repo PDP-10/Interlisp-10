@@ -1,0 +1,11 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [phylum]&lt;LispARs>00395.AR!4</title>
+  </head>
+  <body>
+    <pre>
+Number: 395Date: 30-Mar-84 15':04':23Submitter: Sannella.PASource: Maxwell.paSubject: DWIMIFY translating x-&gt;X unnecessarilyAssigned To: Masinter.paAttn: Status: ClosedIn/By: HarmonyProblem Type: BugImpact: ModerateDifficulty: EasyFrequency: IntermittentPriority: PerhapsSystem: Programming EnvironmentSubsystem: DWIMMachine: Disk: Lisp Version: Source Files: Microcode Version: Memory Size: File Server: Server Software Version: Disposition: '["Sannella.PA" "21-Aug-84 18':09':22" Attn': Status':(Fixed-&gt;Closed) In/By':]Description: 'Date': 29 Mar 84 14':09 PST'From': Maxwell.pa'Subject': Lisp': DWIMIFY &amp; COMPILE'To': LispSupport.pa'Lisp-System-Date':  1-Mar-84 14':24':22'Machine-Type': Dorado''I was running into strange behavior when I compiled code.  The code would run fine uncompiled, but then when I compiled it I would get strange values for parameters on procedure calls.  Martin and I finally tracked it down to DWIMIFY.  If there was an entry of the form ''SCORE'' on SPELLINGS3, then any occurence of ''score'' in my code would get dwimified into ''SCORE''.  This also happened with x and X.  Deleting SCORE and X from SPELLINGS3 fixed things.''Thanks,''John.''-----''Date': 13 Apr 84 11':48 PST'From': Masinter.pa'Subject': AR#395 fixed ...'To': LispSupport'cc': Maxwell''I changed the default behavior of DWIM not to quietly coerce between lower case and upper case. Mark AR#395 as ''Fixed''. On the other hand, I may have broken some other stuff, since now DWIM doesn''t automatically recognize the upper-caseification as a reasonable transformation. Sigh, ...''Larry''Workaround: Test Case: Edit-By: Sannella.PAEdit-Date: 21-Aug-84 18':09':22</pre>
+  </body>
+</html>

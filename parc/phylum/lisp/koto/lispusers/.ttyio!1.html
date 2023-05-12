@@ -1,0 +1,470 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [phylum]&lt;LISP>KOTO>Lispusers>ttyio!1</title>
+  </head>
+  <body>
+    <pre>
+(FILECREATED "20-Jul-85 19:31:33" {SDRVX5}INTERLISP$DISK:&lt;INTERMEZZO.STC&gt;TTYIO.;4 28081        changes to:  (FNS TTYIO/Ask)      previous date: "18-Jul-85 14:47:24" {SDRVX5}INTERLISP$DISK:&lt;INTERMEZZO.STC&gt;TTYIO.;3)(* Copyright (c) 1983, 1984, 1985 by Schlumberger Technology Corporation. All rights reserved.)(PRETTYCOMPRINT TTYIOCOMS)(RPAQQ TTYIOCOMS ((GLOBALVARS EOL TTYIN-COMMAND-LINE TTYIO-TXT-FLG)	(VARS (TTYIN-COMMAND-LINE))	(INITVARS (EOL (CHARACTER (CHARCODE EOL)))		  (TTYIO-TXT-FLG T))	(RECORDS TXTBOX)	(FNS ASKFLE ASKFN ASKINT ASKITEM ASKITEMS ASKPAIR ASKRL ASKYN DISPLAYHELP TTYINC TTYIO/Ask 	     TTYIO/ClearFromError TTYIO/ConfirmCheck TTYIO/FILE/GET-TXT TTYIO/FileCheck 	     TTYIO/FunctionCheck TTYIO/GET-TXT TTYIO/IntegerCheck TTYIO/IntegerErrorHandler 	     TTYIO/PRINT-TXT TTYIO/READ-TXT TTYIO/RealCheck TTYIO/RealErrorHandler TTYIO/SetPrompt 	     TTYOUT TTYOUT1 WRITE WRITE1 WRITEARG)	(P (AND (FGETD (QUOTE TTYIO/PRINT-TXT))		(ADDTOVAR PRETTYPRINTMACROS (; . TTYIO/PRINT-TXT)))	   (AND (FGETD (QUOTE TTYIO/READ-TXT))		(SETSYNTAX (QUOTE ;)			   (QUOTE (INFIX ALONE NOESC TTYIO/READ-TXT))			   FILERDTBL)))	(USERMACROS GET;)	(E (* * The advice to SPRINTT ensures that DISPLAYHELP is called in TTYIN.))	(ADVISE SPRINTT)	(DECLARE: DONTEVAL@LOAD DOEVAL@COMPILE DONTCOPY COMPILERVARS		  (ADDVARS (NLAMA)			   (NLAML)			   (LAMA WRITE1 WRITE TTYOUT1 TTYOUT)))))(DECLARE: DOEVAL@COMPILE DONTCOPY(GLOBALVARS EOL TTYIN-COMMAND-LINE TTYIO-TXT-FLG))(RPAQQ TTYIN-COMMAND-LINE NIL)(RPAQ? EOL (CHARACTER (CHARCODE EOL)))(RPAQ? TTYIO-TXT-FLG T)[DECLARE: EVAL@COMPILE (RECORD TXTBOX (HEAD START OFFSET NCHARS FILE . REST)	       HEAD &larr;(QUOTE ;))](DEFINEQ(ASKFLE
+  (LAMBDA (MODE PROMPT HELP CONFIRMFLG DEFAULT NULFLG FILE)
+                                                             (* rgs: "11-May-84 19:41")
+    (default HELP "Please type the name of a file.")
+    (default PROMPT "File: ")
+    (SETQ MODE (COND
+	(MODE (MKATOM MODE))
+	(T (QUOTE INPUT))))
+    (AND DEFAULT (SETQ DEFAULT (SELECTQ MODE
+					(INPUT (INFILEP DEFAULT))
+					(OUTPUT (OUTFILEP DEFAULT))
+					NIL)))
+    (TTYIO/Ask (QUOTE TTYIO/FileCheck)
+	       PROMPT HELP CONFIRMFLG DEFAULT NULFLG NIL (QUOTE FILE))))(ASKFN
+  (LAMBDA (PROMPT DEFAULT HELP SPLST FN CONFIRMFLG NULFLG)   (* rgs: "12-May-84 23:10")
+
+          (* * ASKFN prompts or a function name with TTYINC. SPLST (if given) is a list of suggested function names.
+	  The user is allowed to type a LAMBDA expression.)
+
+
+    (default PROMPT "Function: ")
+    (OR (FNTYP DEFAULT)
+	(SETQ DEFAULT NIL))
+    (SETQ SPLST (for x in SPLST collect x when (FNTYP x)))
+    (COND
+      ((NOT (OR HELP SPLST))
+	(SETQ HELP "Please enter the name of a function.")))
+    (TTYIO/Ask (COND
+		 (SPLST (CONS (QUOTE *)
+			      SPLST))
+		 (T (QUOTE TTYIO/FunctionCheck)))
+	       PROMPT HELP CONFIRMFLG DEFAULT NULFLG FN (QUOTE (COMMAND STRING READ)))))(ASKINT
+  (LAMBDA (PROMPT DEFAULT HELP LOWERBOUND UPPERBOUND INTEGER CONFIRMFLG NULFLG)
+                                                             (* rgs: "11-May-84 20:38")
+    (default HELP "Please enter an integer.")
+    (default PROMPT "Integer: ")
+    (COND
+      ((NUMBERP LOWERBOUND)
+	(SETQ LOWERBOUND (FIX LOWERBOUND)))
+      (LOWERBOUND (WRITE "WARNING! Invalid lower bound, " LOWERBOUND ", has been reset to -Infinity.")
+		  (SETQ LOWERBOUND NIL)))
+    (COND
+      ((NUMBERP UPPERBOUND)
+	(SETQ UPPERBOUND (FIX UPPERBOUND)))
+      (UPPERBOUND (WRITE "WARNING! Invalid upper bound, " UPPERBOUND ", has been reset to +Infinity.")
+		  (SETQ UPPERBOUND NIL)))
+    (COND
+      ((NUMBERP DEFAULT)
+	(SETQ DEFAULT (FIX DEFAULT))
+	(COND
+	  ((OR (AND (NUMBERP LOWERBOUND)
+		    (ILESSP DEFAULT LOWERBOUND))
+	       (AND (NUMBERP UPPERBOUND)
+		    (IGREATERP DEFAULT UPPERBOUND)))
+	    (SETQ DEFAULT NIL))))
+      (DEFAULT (SETQ DEFAULT NIL)))
+    (TTYIO/Ask (QUOTE TTYIO/IntegerCheck)
+	       PROMPT HELP CONFIRMFLG DEFAULT NULFLG INTEGER NIL (QUOTE TTYIO/IntegerErrorHandler))))(ASKITEM
+  (LAMBDA (RESTRICTION PROMPT HELP CONFIRMFLG DEFAULT NULFLG ITEM SPLST)
+                                                             (* ejs: "30-Jun-84 13:33")
+
+          (* * ASKITEM prompts the user for an item. RESTRICTION is either a list of allowable responses or a function that 
+	  returns the response if it is valid and NIL otherwise. PROMPT is the prompt, HELP is the help message, CONFIRMFLG 
+	  is T if user confirmation is required, DEFAULT is the default, NULFLG is T is a null response is permitted.
+	  If ITEM is given, then it is taken as an item upon which to do the checking--that is, no user interaction is 
+	  expected unless it fails to meet the RESTRICTION requirements. If a restriction list is provided and the first 
+	  element of the list is "*" then new items are also allowed. Otherwise, the item must be in the restriction list.)
+
+
+    (TTYIO/Ask RESTRICTION PROMPT HELP CONFIRMFLG DEFAULT NULFLG ITEM NIL NIL SPLST)))(ASKITEMS
+  (LAMBDA (RESTRICTION PROMPT HELP CONFIRMFLG ITEMS SPLST)   (* Crystal: "11-Oct-84 14:00")
+
+          (* * ASKITEMS prompts the user for a list of items. RESTRICTION is a list of allowable items or a function for 
+	  determining a valid response. (It should return the allowable response if it succeeds, NIL otherwise.) PROMPT is 
+	  the prompt, HELP is the help message, CONFIRMFLG is T if user confirmation is required. If ITEMS is given, it is 
+	  taken to be a list of items to be checked--that is, no user interaction is expected unless an item fails to meet 
+	  the RESTRICTION requirements. See ASKITEM for more detail.)
+
+
+    (default PROMPT "Items: ")
+    (default HELP T)
+    (OR ITEMS (SETQ ITEMS (TTYINC PROMPT (COND
+				    ((FNTYP RESTRICTION)
+				      (OR SPLST USERWORDS))
+				    ((AND (LISTP RESTRICTION)
+					  (EQ (CAR RESTRICTION)
+					      (QUOTE *)))
+				      (CDR RESTRICTION))
+				    ((LISTP RESTRICTION)
+				      RESTRICTION)
+				    (T (OR SPLST USERWORDS)))
+				  HELP
+				  (QUOTE (NORAISE NOFIXSPELL READ)))))
+    (SETQ TTYIN-COMMAND-LINE NIL)
+    (for ITEM in ITEMS collectany (ASKITEM RESTRICTION NIL NIL CONFIRMFLG NIL T ITEM))))(ASKPAIR  (LAMBDA (RESTRICTION PROMPT HELP CONFIRMFLG DEFAULT NULFLG ITEM SPELLINGS)                                                             (* ejs: "17-Jul-85 17:10")          (* * ASKPAIR is like ASKITEM except is deals with dotted pairs. If the value is expected as 	  (A . B), the user should type A B. If a default is supplied, the user can type A alone, and the default B will be 	  supplied.)    (PROG (SPLST SPLST1 FN NEWFLG)          (OR HELP (SETQ HELP T))          (SETQ SPLST (COND	      ((FNTYP RESTRICTION)		NIL)	      ((ATOM RESTRICTION)		NIL)	      ((EQ (CAR RESTRICTION)		   (QUOTE *))		(SETQ NEWFLG T)		(CDR RESTRICTION))	      (T RESTRICTION)))          (SETQ FN (AND (FNTYP RESTRICTION)			RESTRICTION))          (SETQ SPLST1 (COND	      (SPELLINGS)	      ((LISTP (CAR SPLST))		(for pair in SPLST join (LIST (CAR pair)					      (CDR pair))))))          (COND	    (DEFAULT (COND		       (SPLST (OR (MEMBER DEFAULT SPLST)				  (SETQ DEFAULT NIL)))		       (FN (OR (APPLY* FN DEFAULT)			       (SETQ DEFAULT NIL))))))          (SETQ PROMPT (APPEND (MKLIST (OR PROMPT "Item: "))			       (COND				 ((CDR DEFAULT)				   (LIST "[" (CAR DEFAULT)					 " "					 (CDR DEFAULT)					 "] ** "))				 (DEFAULT (LIST "[" (CAR DEFAULT)						"] ** "))				 (T (QUOTE ("** "))))))          (do (OR ITEM (SETQ ITEM (TTYINC PROMPT (OR SPLST1 USERWORDS)					  HELP					  (QUOTE (NORAISE NOFIXSPELL))					  NIL NIL NIL NIL T)))	      (COND		(ITEM (COND			((NOT (CDR ITEM))			  (SETQ ITEM (CONS (CAR ITEM)					   (CDR DEFAULT))))			(T (SETQ ITEM (CONS (CAR ITEM)					    (CADR ITEM))))))		(T (SETQ ITEM DEFAULT)))	     repeatuntil (OR (AND NULFLG (NULL ITEM))			     (PROGN (SETQ ITEM (OR (AND (NULL SPLST)							(NULL FN)							ITEM)						   (CAR (MEMBER ITEM SPLST))						   (AND NEWFLG ITEM)						   (FIXSPELL ITEM 70 SPLST)						   (AND FN (APPLY* FN ITEM))						   (printout T ITEM 						     " is an invalid response. Please try again."							     T)))				    (COND				      ((AND ITEM (OR (NULL CONFIRMFLG)						     (ASKYN (LIST ITEM "OK?")							    T))))				      (T (SETQ ITEM NIL)					 (CLEARBUF)					 (SETQ TTYIN-COMMAND-LINE NIL))))))          (RETURN ITEM))))(ASKRL
+  (LAMBDA (PROMPT DEFAULT HELP LOWERBOUND UPPERBOUND REAL CONFIRMFLG NULFLG)
+                                                             (* rgs: "11-May-84 20:54")
+    (default HELP "Please enter a floating point number.")
+    (default PROMPT "Number: ")
+    (COND
+      ((NUMBERP LOWERBOUND)
+	(SETQ LOWERBOUND (FLOAT LOWERBOUND)))
+      (LOWERBOUND (WRITE "WARNING! Invalid lower bound, " LOWERBOUND ", has been reset to -Infinity.")
+		  (SETQ LOWERBOUND NIL)))
+    (COND
+      ((NUMBERP UPPERBOUND)
+	(SETQ UPPERBOUND (FLOAT UPPERBOUND)))
+      (UPPERBOUND (WRITE "WARNING! Invalid upper bound, " UPPERBOUND ", has been reset to +Infinity.")
+		  (SETQ UPPERBOUND NIL)))
+    (COND
+      ((NUMBERP DEFAULT)
+	(SETQ DEFAULT (FLOAT DEFAULT))
+	(COND
+	  ((OR (AND (NUMBERP LOWERBOUND)
+		    (FLESSP DEFAULT LOWERBOUND))
+	       (AND (NUMBERP UPPERBOUND)
+		    (FGREATERP DEFAULT UPPERBOUND)))
+	    (SETQ DEFAULT NIL))))
+      (DEFAULT (SETQ DEFAULT NIL)))
+    (TTYIO/Ask (QUOTE TTYIO/RealCheck)
+	       PROMPT HELP CONFIRMFLG DEFAULT NULFLG REAL NIL (QUOTE TTYIO/RealErrorHandler))))(ASKYN
+  (LAMBDA (PROMPT DEFAULT HELP RESPONSE)                     (* rgs: "11-May-84 20:14")
+    (default HELP "Please respond with YES or NO.")
+    (default PROMPT "Confirm: ")
+    (SETQ DEFAULT (COND
+	(DEFAULT (QUOTE YES))
+	(T (QUOTE NO))))
+    (COND
+      ((EQ RESPONSE T)
+	(SETQ RESPONSE (QUOTE YES))))
+    (COND
+      ((EQ (TTYIO/Ask (QUOTE (YES NO))
+		      PROMPT HELP NIL DEFAULT NIL RESPONSE (QUOTE (COMMAND STRING)))
+	   (QUOTE YES))
+	T)
+      (T NIL))))(DISPLAYHELP
+  (LAMBDA (KEY)                                              (* rgs: "14-OCT-82 12:19")
+
+          (* * DISPLAYHELP copies to primary output the help blurb indexed by KEY. KEY can either be a comment of the form 
+	  (* * text) (with NORMALCOMMENTSFLG T or NIL) or a string or an atom (T is ignored). DISPLAYHELP returns NIL if 
+	  nothing was printed; T if the entry was found, or user typed &uarr;O.)
+
+
+    (PROG (RESULT)
+          (RETURN (OR (NOT (SETQ RESULT (CTRLO.NLSETQ (COND
+							((LISTP KEY)
+							  (COND
+							    ((EQ (CAR KEY)
+								 (QUOTE ;))
+							      (TTYIO/GET-TXT KEY))
+							    (T (printout NIL .PARA 0 0 KEY T)
+							       T)))
+							((AND KEY (NEQ KEY T))
+							  (printout NIL KEY T)
+							  T)
+							(T NIL)))))
+		      (CAR RESULT))))))(TTYINC
+  (LAMBDA (PROMPT SPLST HELP OPTIONS ECHOTOFILE TABS UNREADBUF RDTBL NOSTOREFLG)
+                                                             (* ejs: "11-MAR-83 15:21")
+
+          (* * TTYINC is used in conjunction with TTYIN to allow the user to type a number of commands ahead to a prompt.
+	  It is typically used with the TTYIN modes COMMAND and STRING. If the global variable TTYIN-COMMAND-LINE is non-NIL
+	  upon entry then it is concatenated with UNREADBUF and a line terminator. TTYIN is then called.
+	  CDR of the line returned by TTYIN is stored back in TTYIN-COMMAND-LINE unless NOSTOREFLG is non-NIL.)
+
+
+    (PROG (LINE)                                             (* the IGNORE check is for read macros)
+          (do (SETQ LINE (COND
+		  (TTYIN-COMMAND-LINE (RESETBUFS (TTYIN PROMPT SPLST HELP OPTIONS ECHOTOFILE TABS
+							(COND
+							  (UNREADBUF (CONCAT TTYIN-COMMAND-LINE 
+									     UNREADBUF EOL))
+							  (T (CONCAT TTYIN-COMMAND-LINE EOL)))
+							RDTBL)))
+		  (T (TTYIN PROMPT SPLST HELP OPTIONS ECHOTOFILE TABS UNREADBUF RDTBL))))
+	     repeatwhile (EQUAL LINE (QUOTE (IGNORE))))
+          (SETQ TTYIN-COMMAND-LINE (COND
+	      (NOSTOREFLG NIL)
+	      (T (CDR LINE))))
+          (RETURN LINE))))(TTYIO/Ask  (LAMBDA (RESTRICTION PROMPT HELP CONFIRMFLG DEFAULT NULFLG RESPONSE OPTIONS ERRORMESSAGE SPLST)                                                             (* rgs: "20-Jul-85 19:28")    (default HELP T)    (default PROMPT "Item: ")    (default OPTIONS (QUOTE (COMMAND STRING NORAISE NOFIXSPELL READ)))    (PROG (RestrictionFn NEWFLG)          (OR SPLST (SETQ SPLST (COND		  ((FNTYP RESTRICTION)		    USERWORDS)		  ((AND (LISTP RESTRICTION)			(EQ (CAR RESTRICTION)			    (QUOTE *)))		    (SETQ NEWFLG T)		    (CDR RESTRICTION))		  ((LISTP RESTRICTION)		    RESTRICTION)		  (T USERWORDS))))          (SETQ RestrictionFn (AND (FNTYP RESTRICTION)				   RESTRICTION))          (COND	    (DEFAULT (COND		       (SPLST (COND				((MEMBER DEFAULT SPLST))				((EQ SPLST USERWORDS))				(T (SETQ DEFAULT NIL))))		       (RestrictionFn (OR (APPLY* RestrictionFn DEFAULT)					  (SETQ DEFAULT NIL))))))          (SETQ PROMPT (TTYIO/SetPrompt PROMPT DEFAULT))     (* Used to be before the NEWFLG clause.							     (CAR (MEMBER RESPONSE SPLST)))          (do (OR RESPONSE (SETQ RESPONSE (OR (CAR (TTYINC PROMPT SPLST HELP OPTIONS))					      DEFAULT)))	     repeatuntil (OR (AND NULFLG (NULL RESPONSE))			     (PROGN (SETQ RESPONSE (OR (AND (NULL SPLST)							    (NULL RestrictionFn)							    RESPONSE)						       (AND NEWFLG RESPONSE)						       (AND (NULL RestrictionFn)							    (EQ SPLST USERWORDS)							    RESPONSE)						       (AND SPLST (NULL RestrictionFn)							    (OR (CAR (MEMBER RESPONSE SPLST))								(FIXSPELL RESPONSE 70 SPLST)))						       (AND RestrictionFn (APPLY* RestrictionFn 										  RESPONSE))						       (TTYIO/ClearFromError ERRORMESSAGE)))				    (AND RESPONSE (OR (NULL CONFIRMFLG)						      (ASKYN (LIST RESPONSE "OK?")							     T)						      (SETQ RESPONSE NIL))))))          (RETURN RESPONSE))))(TTYIO/ClearFromError
+  (LAMBDA (ERRORMESSAGE)                                     (* rgs: "12-May-84 19:56")
+    (COND
+      ((FNTYP ERRORMESSAGE)
+	(APPLY* ERRORMESSAGE))
+      (ERRORMESSAGE (printout NIL ERRORMESSAGE T))
+      (T (printout NIL RESPONSE " is an invalid response. Please try again." T)))
+    (CLEARBUF)
+    (SETQ TTYIN-COMMAND-LINE NIL)))(TTYIO/ConfirmCheck
+  (LAMBDA (RESPONSE)                                         (* rgs: "11-May-84 19:56")
+    (FMEMB RESPONSE (QUOTE (Y N NIL)))))(TTYIO/FILE/GET-TXT
+  (LAMBDA (X DESTFL DEF)                                     (* rgs: "12-May-84 20:30")
+    (PROG (ST NC FL STR TEM)
+          (RETURN (COND
+		    ((AND (OR (NUMBERP (SETQ ST (fetch (TXTBOX START) of X)))
+			      (AND (LISTP ST)
+				   (NUMBERP (CAR ST))
+				   (NUMBERP (CDR ST))
+				   (SETQ ST (IPLUS (ITIMES (CAR ST)
+							   1000)
+						   (CDR ST)))))
+			  (NUMBERP (SETQ NC (fetch (TXTBOX NCHARS) of X)))
+			  (SETQ FL (fetch (TXTBOX FILE) of X))
+			  (NULL (fetch (TXTBOX REST) of X))
+			  (NEQ FL DESTFL)
+			  (NOT (ILESSP ST 0)))
+		      (COND
+			((NOT (OPENP FL (QUOTE INPUT)))
+			  (COND
+			    ((NULL (NLSETQ (SETQ FL (OPENFILE FL (QUOTE INPUT)))))
+			      (COND
+				((NOT (MEMB (SETQQ TEM "can't find file ")
+					    (LISTGET1 LISPXHIST (QUOTE *LISPXPRINT*))))
+				  (LISPXPRIN1 TEM T)
+				  (LISPXPRIN2 (fetch (TXTBOX FILE) of X)
+					      T)
+				  (LISPXPRIN1 " - text items lost
+" T)))
+			      (RETURN X)))
+			  (RESETSAVE NIL (LIST (QUOTE CLOSEF?)
+					       FL))))
+		      (SETFILEPTR FL ST)
+		      (COND
+			((NULL DESTFL)                       (* means read it in. called from GET;
+							     edit macro)
+			  (RESETVARS ((TTYIO-TXT-FLG T))
+				     (RETURN (/RPLNODE2 X (READ FL FILERDTBL)))))
+			(T (COND
+			     (DEF (SETQ STR (AND (COND
+						   ((NEQ DESTFL T)
+						     FONTCHANGEFLG)
+						   (T (EQ FONTCHANGEFLG (QUOTE ALL))))
+						 (CHANGEFONT DEFAULTFONT)))
+                                                             (* Want to be in defaultfont before we space over.)
+				  (ENDLINE1 0 NIL T)
+				  (COND
+				    ((AND STR COMMENTFONT)
+				      (CHANGEFONT COMMENTFONT)))))
+			   (COND
+			     ((AND (NEQ TTYIO-TXT-FLG (QUOTE DONTUPDATE))
+				   (NEQ DESTFL T))
+
+          (* {From the original lisp comment code} i have several times gotten scrwed by being in a sysout in whcih i had 
+	  dumped multiple versions of a file and accidentally deleted the original parent so that the comments were lost and
+	  had to be recovered. this updates the comments to point to the newest file. note you can still lose out if you do 
+	  not edit a particular function (so that it is simply copied in toto) until after you delete the original parent.
+	  of course, you can recover by doing a loadfns and reediting.)
+
+
+
+          (* the TTYIO-TXT-FLG check is so that prettyprint can disable this when necessary, e.g. when printing COMS.
+	  otherwise when it goes to print a text item in a coms, it has already been updated and all that gets put out is 
+	  the text item box.)
+
+
+			       (replace (TXTBOX START) of X with (CONS (IQUOTIENT (GETFILEPTR DESTFL)
+										  1000)
+								       (IREMAINDER (GETFILEPTR DESTFL)
+										   1000)))
+			       (replace (TXTBOX FILE) of X with DESTFL)))
+			   (COPYBYTES FL DESTFL ST (IPLUS ST NC))
+			   (COND
+			     (STR (CHANGEFONT STR)))
+			   NIL)))
+		    (T X))))))(TTYIO/FileCheck
+  (LAMBDA (FILE)                                             (* rgs: "11-May-84 19:39")
+    (SELECTQ MODE
+	     (INPUT (INFILEP FILE))
+	     (OUTPUT (OUTFILEP (PACKFILENAME (QUOTE VERSION)
+					     NIL
+					     (QUOTE BODY)
+					     FILE)))
+	     NIL)))(TTYIO/FunctionCheck
+  (LAMBDA (RESPONSE)                                         (* rgs: "12-May-84 19:53")
+    (AND (FNTYP RESPONSE)
+	 RESPONSE)))(TTYIO/GET-TXT
+  (LAMBDA (X)                                                (* rgs: "17-MAY-83 09:04")
+
+          (* * TTYIO/GET-TXT is a variant on the system function GETCOMMENT. It only prints to the primary output.
+	  It also assumes the comment is of the form (; (18 . 518) 4 17 {20#211#}DISKC:&lt;DOLPHIN&gt;TTYIO.;12) and strips the 
+	  leading paren and semi-colon and the trailing paren)
+
+
+    (PROG (ST NC FL TEM)
+          (RETURN (COND
+		    ((AND (OR (NUMBERP (SETQ ST (fetch (TXTBOX START) of X)))
+			      (AND (LISTP ST)
+				   (NUMBERP (CAR ST))
+				   (NUMBERP (CDR ST))
+				   (SETQ ST (IPLUS (ITIMES (CAR ST)
+							   1000)
+						   (CDR ST)))))
+			  (NUMBERP (SETQ NC (fetch (TXTBOX NCHARS) of X)))
+			  (SETQ FL (fetch (TXTBOX FILE) of X))
+			  (NULL (fetch (TXTBOX REST) of X))
+			  (NOT (ILESSP ST 0)))
+		      (COND
+			((NOT (OPENP FL (QUOTE INPUT)))
+			  (COND
+			    ((NULL (NLSETQ (SETQ FL (OPENFILE FL (QUOTE INPUT)))))
+			      (RETURN NIL)))
+			  (RESETSAVE NIL (LIST (QUOTE CLOSEF?)
+					       FL))))
+		      (SETFILEPTR FL ST)
+
+          (* Assume that txt items are of the form (; (19 . 391) 4 12 {20#211#}DISKC:&lt;DOLPHIN&gt;TTYIO.;12) so we strip the 
+	  leading characters and the trailing characters)
+
+
+		      (COPYBYTES FL NIL (IPLUS ST (fetch (TXTBOX OFFSET) of X))
+				 (IPLUS ST NC -2))
+		      (TERPRI)
+		      T)
+		    (T (WRITE (CDR X))
+		       T))))))(TTYIO/IntegerCheck
+  (LAMBDA (RESPONSE)                                         (* rgs: "11-May-84 20:35")
+    (AND (NUMBERP RESPONSE)
+	 (AND (OR (FIXP RESPONSE)
+		  (PROGN (WRITE "Truncated to integer: " (SETQ RESPONSE (FIX RESPONSE)))
+			 T))
+	      (OR (NOT (NUMBERP LOWERBOUND))
+		  (IGEQ RESPONSE LOWERBOUND))
+	      (OR (NOT (NUMBERP UPPERBOUND))
+		  (ILEQ RESPONSE UPPERBOUND)))
+	 RESPONSE)))(TTYIO/IntegerErrorHandler
+  (LAMBDA NIL                                                (* rgs: "11-May-84 20:44")
+    (WRITE RESPONSE (COND
+	     ((NOT (NUMBERP RESPONSE))
+	       " is NOT an Integer. ")
+	     ((AND (FIXP LOWERBOUND)
+		   (FIXP UPPERBOUND))
+	       (LIST " is NOT within the range [" LOWERBOUND " .. " UPPERBOUND "]. "))
+	     ((FIXP LOWERBOUND)
+	       (LIST " is NOT within the range [" LOWERBOUND " to Infinity]. "))
+	     (T (LIST " is NOT within the range [-Infinity to " UPPERBOUND "]. ")))
+	   "Please try again.")))(TTYIO/PRINT-TXT
+  (LAMBDA (X)                                                (* rgs: " 6-Apr-82 10:07")
+                                                             (* DEF is bound in prettyprint block)
+    (TTYIO/FILE/GET-TXT X (OUTPUT)
+			DEF)))(TTYIO/READ-TXT
+  (LAMBDA (FL RDTBL LST)                                     (* rgs: " 6-Apr-82 10:04")
+    (PROG (X START END NCHARS POS TEM FL1 N STRINGSTART)
+          (COND
+	    ((OR (NULL LST)
+		 (CAR LST)
+		 (EQ FL T)
+		 (EQ TTYIO-TXT-FLG T)
+		 (NOT (RANDACCESSP FL)))                     (* the ; appears interior to a lit.)
+	      (RETURN (TCONC LST (QUOTE ;)))))
+          (SETQ N (POSITION FL))
+          (SETQ POS (GETFILEPTR FL))
+          (COND
+	    ((SELECTQ (SETQ TEM (RATOM FL RDTBL))
+		      ((%( %) %[ %] ' %. DECLARATIONS: E)
+			T)
+		      (%" (SETQ STRINGSTART (GETFILEPTR FL))
+			  NIL)
+		      (COND
+			((NUMBERP TEM)
+			  T)
+			((EQ TEM (QUOTE ;))
+			  NIL)
+			((AND CLISPFLG CLISPCHARRAY (STRPOSL CLISPCHARRAY TEM))
+			  T)
+			(T (SELECTQ (PEEKC FL)
+				    ((%) %] &larr;)
+				      T)
+				    NIL))))
+
+          (* an attempt to distinguish text items from non text items. if ; is followed by list, or only one thing, then 
+	  assume not a text item. The numberp check is in case user has done a makefile fast and actually written out a text
+	  item in abbreviated form.)
+
+
+	      (GO NO)))
+          (OR (NUMBERP STRINGSTART)
+	      (SETQ STRINGSTART (ADD1 POS)))
+          (SETFILEPTR FL (SETQ START (IPLUS POS -2)))
+          (COND
+	    ((EQ N 2)
+
+          (* problem is that a terpri preceded the ;. this can happen for text items that werent prettyprinted, e.g. were 
+	  part of data structures. in this case, to get back to the %(, must back up another two characters, 
+	  (one for the ;, two for c.r./l.f., and one for paren))
+
+
+	      (SETFILEPTR FL (SETQ START (IPLUS START -2)))))
+                                                             (* Backup two , skipping over the ;
+							     and the "(")
+          (COND
+	    ((EQ (SKREAD FL)
+		 (QUOTE %]))
+
+          (* text item ends in %] means that it is not in a function, and better not use abbreviated form because when 
+	  recopied the %] would be recopied, but prettyprint wouldnt know about it and print anther.)
+
+
+	      (SETFILEPTR FL POS)
+	      (RETURN (TCONC LST (QUOTE ;)))))
+          (SETQ NCHARS (IDIFFERENCE (SETQ END (GETFILEPTR FL))
+				    START))
+          (SETFILEPTR FL (SUB1 END))
+
+          (* READ had previously seen a left-paren before the ; read macro was invoked. This backs up over the closing RIGHT
+	  paren so that the read will terminate this list.)
+
+
+          (RETURN (LCONC LST (create TXTBOX
+				     START &larr;(CONS (IQUOTIENT START 1000)
+						  (IREMAINDER START 1000))
+				     OFFSET &larr;(IDIFFERENCE STRINGSTART START)
+				     NCHARS &larr; NCHARS
+				     FILE &larr;(OR FL (INPUT)))))
+      NO  (SETFILEPTR FL POS)
+          (RETURN (TCONC LST (QUOTE ;))))))(TTYIO/RealCheck
+  (LAMBDA (RESPONSE)                                         (* rgs: "11-May-84 20:52")
+    (AND (NUMBERP RESPONSE)
+	 (NOT (AND (NUMBERP LOWERBOUND)
+		   (FLESSP RESPONSE LOWERBOUND)))
+	 (NOT (AND (NUMBERP UPPERBOUND)
+		   (FGREATERP RESPONSE UPPERBOUND)))
+	 (FLOAT RESPONSE))))(TTYIO/RealErrorHandler
+  (LAMBDA NIL                                                (* rly "25-MAY-84 15:40")
+    (WRITE RESPONSE (COND
+	     ((NOT (NUMBERP RESPONSE))
+	       " is NOT a Number. ")
+	     ((AND (NUMBERP LOWERBOUND)
+		   (NUMBERP UPPERBOUND))
+	       (LIST " is NOT within the range [" LOWERBOUND " .. " UPPERBOUND "]. "))
+	     ((NUMBERP LOWERBOUND)
+	       (LIST " is NOT within the range [" LOWERBOUND " to Infinity]. "))
+	     (T (LIST " is NOT within the range [-Infinity to " UPPERBOUND "]. ")))
+	   "Please try again.")))(TTYIO/SetPrompt
+  (LAMBDA (PROMPT DEFAULT)                                   (* rgs: "11-May-84 18:37")
+    (APPEND (MKLIST PROMPT)
+	    (COND
+	      (DEFAULT (LIST "[" DEFAULT "] ** "))
+	      (T (QUOTE ("** ")))))))(TTYOUT
+  (LAMBDA N                                                  (* bvm: "18-JAN-78 23:38")
+                                                             (* WRITE to tty)
+    (for I from 1 to N do (WRITEARG (ARG N I)
+				    T))
+    (TERPRI T)))(TTYOUT1
+  (LAMBDA N                                                  (* bvm: "18-JAN-78 23:38")
+                                                             (* WRITE1 to tty)
+    (for I from 1 to N do (WRITEARG (ARG N I)
+				    T))))(WRITE
+  (LAMBDA N                                                  (* rgs: "12-FEB-82 12:41")
+                                                             (* WRITE PRIN1's its arguments to primary output file, 
+							     followed by EOL)
+    (for I from 1 to N do (WRITEARG (ARG N I)))
+    (TERPRI)))(WRITE1
+  (LAMBDA N                                                  (* rgs: "12-FEB-82 12:43")
+                                                             (* WRITE PRIN1's its arguments to primary output file, 
+							     followed by EOL)
+    (for I from 1 to N do (WRITEARG (ARG N I)))))(WRITEARG
+  (LAMBDA (X FILE)                                           (* bvm: "22-JAN-78 23:27")
+    (COND
+      ((NLISTP X)
+	(PRIN1 X FILE))
+      (T (MAPRINT X FILE))))))(AND (FGETD (QUOTE TTYIO/PRINT-TXT))     (ADDTOVAR PRETTYPRINTMACROS (; . TTYIO/PRINT-TXT)))(AND (FGETD (QUOTE TTYIO/READ-TXT))     (SETSYNTAX (QUOTE ;)		(QUOTE (INFIX ALONE NOESC TTYIO/READ-TXT))		FILERDTBL))(ADDTOVAR USERMACROS (GET; NIL (BIND (IF (NEQ (SETQ #1 (TTYIO/FILE/GET-TXT (##)))					      (##))					 ((I : #1)					  1)					 NIL))))(PUTPROPS SPRINTT READVICE (NIL (AROUND NIL (PROG ((X (EVALV (CAR (ARGLIST (QUOTE SPRINTT))))))						  (RETURN (COND ((AND (LISTP X)								      (EQ (CAR X)									  (QUOTE ;)))								 (DISPLAYHELP X))								(T *)))))))(READVISE SPRINTT)(DECLARE: DONTEVAL@LOAD DOEVAL@COMPILE DONTCOPY COMPILERVARS (ADDTOVAR NLAMA )(ADDTOVAR NLAML )(ADDTOVAR LAMA WRITE1 WRITE TTYOUT1 TTYOUT))(PUTPROPS TTYIO COPYRIGHT ("Schlumberger Technology Corporation" 1983 1984 1985))(DECLARE: DONTCOPY  (FILEMAP (NIL (1728 27206 (ASKFLE 1738 . 2299) (ASKFN 2301 . 3039) (ASKINT 3041 . 4175) (ASKITEM 4177 . 5183) (ASKITEMS 5185 . 6444) (ASKPAIR 6446 . 9077) (ASKRL 9079 . 10218) (ASKYN 10220 . 10721) (DISPLAYHELP 10723 . 11562) (TTYINC 11564 . 12855) (TTYIO/Ask 12857 . 15033) (TTYIO/ClearFromError 15035 . 15414) (TTYIO/ConfirmCheck 15416 . 15574) (TTYIO/FILE/GET-TXT 15576 . 18635) (TTYIO/FileCheck 18637 . 18926) (TTYIO/FunctionCheck 18928 . 19087) (TTYIO/GET-TXT 19089 . 20590) (TTYIO/IntegerCheck 20592 . 21014) (TTYIO/IntegerErrorHandler 21016 . 21580) (TTYIO/PRINT-TXT 21582 . 21850) (TTYIO/READ-TXT 21852 . 24664) (TTYIO/RealCheck 24666 . 24976) (TTYIO/RealErrorHandler 24978 . 25545) (TTYIO/SetPrompt 25547 . 25778) (TTYOUT 25780 . 26065) (TTYOUT1 26067 . 26338) (WRITE 26340 . 26684) (WRITE1 26686 . 27017) (WRITEARG 27019 . 27204)))))STOP</pre>
+  </body>
+</html>

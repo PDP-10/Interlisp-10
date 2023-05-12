@@ -1,0 +1,69 @@
+Speech demo scriptIntroWelcome to the Xerox booth. We are showing our new expanded processor with floating point hardware, expanded control store, and array processor library running on larger memory.  Attached to the processor is an expansion unit for controlling industry standard peripheral cards -- in this case, IBM PC compatible peripherals.Canned demoTo demonstrate this new power, we have chosen a speech application, the processing of digitized speech and the computing of the spectogram display that you see in the center of the screen.  I would like to emphasize the vertical integration, the bringing together for the first time of an array processor with a highly productive software environment and excellent user interfaces. Point out spectrogram, scroll about.    I'll talk a bit later about this wave form, but first let's go behind the scenes and see some of the Lisp programs that make this happen.Select sample speech wave.  First, in the upper left hand corner is a picture of 25 milliseconds of digitized speech.  We sample the speech 10,000 times a second, every hundred microseconds, and if we plot those values of air pressure across 256 samples, we will see in the window 25 milliseconds of speech.  It's very hard to see the structure of the speech from this plot.  The primary structure that we want to display is the frequency content of this segment of speech.To do that we are going to treat this segment of speech as a repeating periodic wave form.  To do that accurately means that the left-hand side of the wave should meet the right-hand side, and it really doesn't.  We have discontinuities because the frequency content is always changing.  But for purpose of analysis, we're asking our algorithms to pretend that the frequency content of the speech is holding still across 25 milliseconds.  So what we want to is de-emphasize the beginning and end of this segment and concentrate mostly on the center of the window.Select hamming curve plot.  So we are going to introduce this "hamming" function that's being plotted in the window now. If we multiply the sample values by this function, we effectively turn the volume down at the beginning and the end of the segment and turn the volume up in the center.  Let's look at this function HAMMING in a little more detail to illustrate some of the primitives for harnessing the power of the array processor.Type DF HAMMING.  We are going to enter our display editor on the function HAMMING.   The function computes the curve shown in the upper left-hand window.  In the lower right-hand window is the same formula in more familiar mathematical notation.  On the right-hand side, all these symbols are constants, except the small n, which ranges from 0 to large N, in this case, 256.  The corresponding Lisp source code is shown in the window that I'm pointing to.The extension we've made to Lisp is the ability to perform arithmetic on arrays of numbers in addition to simply operating on scalar quantities.  The meaning we give the operators is the pointwise operation on the elements of the arrays.A key function in the body of this procedure is this generate vector function, GENVEC.  If I evaluate this expression (do so), the result is an array (select Edit).  Generate vector generates an array whose values run from one to some maximum index N, for us, 256.  Here in an inspector window with the values of the array, ranging, as you can see, from 1 to 256.  The demo-giver must be aware that all 256 values have to be computed and it takes a little while.  Alternatively, set MAXINSPECTARRAYLEVEL to 50 or so before starting the demo.Now if I select a little larger expression, and evaluate the cosine of 2 pi n over N and ask to plot that (select PlotIt), we see a graphical plot of this array.  Now, evaluating one expression gives me an entire array of results, and when I plot that array, I'm getting the general shape that I want.  I still need to scale and offset this function.  If I select the largest expression inside this hamming function and plot it, I produce the result of the entire function.These are the tools we use for debugging programs like this and turning a simple formula into a straight-forward expression and a routine to return such a value.To refresh your memory, we wanted this value so we could multiply it by the original wave (show the wave again).  Now in the typescript window, I'll show the expression for multiplying the speech wave times the hamming wave (select multiply).  The variable WAVESAMPLE refers to an array of values and (HAMMING 256) refers to the weighting function.  I use the Interlisp function TIMES to multiply and then I plot that array.Thus here's the original speech with the volume turned down at the beginning and the end.  Now I'm ready to perform the fourier transform of the speech.  This speech as it stands is a graph of intensity vertically with respect to time horizontally.  Now I want to see energy as a function of frequency, not of time.  So I perform a fast fourier transform.  Select Plot one, then display log magnitude.  I display in the upper window a plot of the log magnitude of the transform, energy vertically against frequency horizontally.  The high point comes two-thirds to the right.  The horizontal axis frequency runs from 0 Hz up to half of our sampling rate, 5 KHz.  It seems to peak somewhere around 3 or 3 l/2 KHz.  That says there was energy of that frequency in our 25 millisecond sample.I have another way to display this information.  In the middle window is the same information in a vertical stripe.  I've turned the frequency axis vertical, and rather than use the other axis for intensity, I've used half-toning techniques to plot intensity.  This one stripe of the speech is a picture of the frequency content within just 25 milliseconds, some one-fortieth of one second.  I'd like to compute this a hundred times a second.  I'd like to move down the speech wave form and compute the frequencies 10 milliseconds later, and 10 milliseconds after that and so on.  Select Redisplay.  I've programmed the window manager's Redisplay command to compute just thatstripes at 10 msec intervals.  I'm actually computing these stripes as they are being displayed (something that has to be emphasized if there is no real-time demo).  Each vertical stripe requires some 10,000 floating point operations.Here you can see some of the structure of speechthe horizontal stripes you see are harmonics of the vocal cords' fundamental frequency.  You see them particularly in the first KHz range, the bottom 20% of the scale.  There you see the structure of vowels.  This is a recognized form of printing speech that is used in speech research, in speech therapy, and a lot of speech disciplines.This demo is not meant to be a polished speech workbenchit's a sample of what can be done with the floating point performance of this machine.  Just to remind you, every vertical stripe required some 10,000 floating point operations.  To do this kind of speech work requires about a million floating point operations per second of speech, something that the DandeTiger, the 1108X, is able to do in real time.  It's worth speaking about the potential applications that this technology enables.  For the first time, one can combine sophisticated Interlisp programs, expert systems as well as numerical front ends and number crunching to build intelligent signal-processing applications.Real-time speech demo.Our next new product is our expansion unit where we can drive industry standard peripherals, in this case, IBM PC cards.  We will be demonstrating the analog to digital conversion of speech in this chassis.  We can manipulate almost any peripheral using Lisp functions for reading a single address of the remote bus or writing a single address of the remote bus.  We also have block transfer primitives to transfer blocks of data between remote memory and local memory at bus bandwidth.  The bus master control is capable of running four DMA channels for driving high-speed devices.We will be reading a speech sample every 100 microseconds, transferring it into the remote memory by means of the DMA channel.  Periodically we will be transferring blocks of data from the remote memory to the local memory, using the block transfer.  This will be integrated with the continuous real time display of the speech spectrogram.  The peripheral expansion chassis is motivated by the desire to open more peripherals to our customers than we provide in our product line.  We have the means for customers to create their own peripherals or add some of the hundreds or thousands of existing peripherals, and integrate them from Lisp.  This way we can add color displays, special communications equipment, data acquisition kinds of things, even video disk controllers, optical memory.  Perform (RTSDINIT), then (RTSD 5).Now, as I speak into the microphone, you see the picture of my voice appearing on the screen.  It's a lot of noise.  The structure is a little more clear if I were to whistle (do so).  As the sound goes up, you see the plot go up, and as the sound drops, you will see the plot line drop.  If I were to sing, you will see a more structured version of music.That wraps up our demonstration.Notes: the argument to RTSD is the sampling frequency.  5 is actually only half the frequency used in the canned demo, so the top of the graph is only 2.5 KHz.N.B.  After performing (RTSDINIT) you can no longer run the canned demo.         Ô           NIL NIL              
+TIMESROMAN                 Ô           NIL NIL              
+TIMESROMAN                 Ô           NIL NIL              
+TIMESROMAN          *   
+TIMESROMAN                  Ô           NIL NIL              
+TIMESROMAN                 Ô           NIL NIL             
+TIMESROMAN                  Ô           NIL NIL           $   
+TIMESROMAN           Ž   
+TIMESROMAN                  Ô           NIL NIL              
+TIMESROMAN          ”   
+TIMESROMAN            	   
+TIMESROMAN        €   $   
+TIMESROMAN                  Ô           NIL NIL          4   
+TIMESROMAN                  Ô           NIL NIL              
+TIMESROMAN          #   
+TIMESROMAN               GACHA            o   
+TIMESROMAN                  Ô           NIL NIL              
+TIMESROMAN           9   
+TIMESROMAN               GACHA           w   
+TIMESROMAN                  Ô           NIL NIL           î   
+TIMESROMAN                  Ô           NIL NIL           O   
+TIMESROMAN               GACHA            "   
+TIMESROMAN               
+TIMESROMAN              
+TIMESROMAN               
+TIMESROMAN           Ë   
+TIMESROMAN            °   
+TIMESROMAN              
+TIMESROMAN                  Ô           NIL NIL           k   
+TIMESROMAN               
+TIMESROMAN          b   
+TIMESROMAN                  Ô           NIL NIL           ¢   
+TIMESROMAN                  Ô           NIL NIL           [   
+TIMESROMAN               
+TIMESROMAN           s   
+TIMESROMAN               
+TIMESROMAN              
+TIMESROMAN            
+   GACHA            "   
+TIMESROMAN               GACHA            A   
+TIMESROMAN               GACHA            )   
+TIMESROMAN                  Ô           NIL NIL          e   
+TIMESROMAN            .   
+TIMESROMAN          ‚   
+TIMESROMAN                  Ô           NIL NIL          E   
+TIMESROMAN               
+TIMESROMAN           ­   
+TIMESROMAN            B   
+TIMESROMAN           H   
+TIMESROMAN                  Ô           NIL NIL          „   
+TIMESROMAN                  Ô           NIL NIL          ®   
+TIMESROMAN                  Ô           NIL NIL              
+TIMESROMAN                 Ô           NIL NIL          G   
+TIMESROMAN                  Ô           NIL NIL             
+TIMESROMAN                  Ô           NIL NIL              
+TIMESROMAN           
+   GACHA               
+TIMESROMAN              
+TIMESROMAN               GACHA               
+TIMESROMAN                  Ô           NIL NIL           °   
+TIMESROMAN               
+TIMESROMAN           °   
+TIMESROMAN                  Ô           NIL NIL           !   
+TIMESROMAN                  Ô           NIL NIL              
+TIMESROMAN              GACHA            …   
+TIMESROMAN                 Ô           NIL NIL              
+TIMESROMAN           
+   GACHA            '   
+TIMESROMAN          %6 fz¸

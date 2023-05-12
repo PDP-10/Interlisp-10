@@ -1,0 +1,428 @@
+Draft Harmony Release Message=============================contents:NS CommunicationsCHATPUP CommunicationsRS232PackagesDlion (1108) SpecificsInspectorAttached WindowsPrintingWindow SystemInput/OutputFloppyProcessesArithmeticCompilerStorage & Data TypesStack & InterpreterBreak PackageDeditNS Communications========AR 14: * "SPP Retransmit Queue out of order" errors solved The SPP retransmit strategy has been completely revised, so this intermittent problem should disappear.AR 240: * Multiple concurrent NSPRINTs now permittedMultiple concurrent HARCOPYWs no longer confuse each other.  No more breaks with "not an open NS socket".AR 1283: * SETTIME now broadcasts for both PUP and NS time servers.SETTIME used to just try for a PUP time server.AR 218: AR 219: * NSCREATEDIRECTORY will not create duplicate or wrong directoriesPreviously, if the directory {Phylex:}<lisp>fugue> existed, than (NSCREATEDIRECTORY '{Phylex:}<lisp>fugue>) would create another directory with the same name.  Also, if the directory {Phylex:}<lisp> existed, but not {Phylex:}<lisp>fugue>, then (NSCREATEDIRECTORY '{Phylex:}<lisp>fugue>sources>) would create the directory {Phylex:}<lisp>sources>.  Now, attempting to create a directory some of whose intermediate directories do not exist, or attempting to create a directory that already exists, generate BAD FILE NAME errors.<<<CHECK! what is name of function: NSCREATEDIRECTORY is not defined>>>AR 608: * (FULLNAME <file> 'NEW) now works for NS file servers.Used to return NIL.CHAT=====AR 844: * Reshaping Chat window will not change terminal typePreviously, reshaping a Chat window caused Chat to reassert the terminal type specified when the connection was first opened.  If the user in the meantime has told the remote host that the terminal type is different, then this would set it back.AR 611: * Chat grabs TTY as soon as it starts to reconnectPreviously, the "reconnect" menu button didn't switch the tty to the chat process until the connection was reestablished.AR 789: * Chat ignores the "padding char" DELAR 799: * Chat will not turn off interrupt characters until AFTER creating the Chat windowThis allows the user to abort the call to Chat by typing control-E while specifying the Chat window region.AR 1256: AR 349: * Chat EMACS-mode: cursor positioning no longer off by 1 characterNewer versions of EMACS perform character insertion by a bizarre sequence which Chat was not emulating correctly.AR 1261: * Chat EMACS-mode: inserting into line with text to right of cursor displays correctlyAR 1221: * Chat displays the EMACS mode state in the window titleWhen Chat EMACS-mode is on, "EMACS ON" is printed in the Chat window title.PUP Communications==========AR 458: * COPYFILE to protected directory succeeds after password givenPreviously, COPYFILE to a protected directory didn't work: Lisp would ask for the connect password, and then break with a "FILE WON'T OPEN" error.  This problem only occurred with COPYFILE: you could MAKEFILE to a protected directory (after giving the password).AR 772: * GETPUPSTRING now returns the null string if passed a blank pupPreviously, (GETPUPSTRING (ALLOCATE.PUP)) gave the error "ILLEGAL ARG -22".AR 485: * Interlisp no longer hangs on a Dolphin (Xerox 1100) without a 3MHz ethernet cardRS232=====AR 1320: * RS232CHAT now reinitializes the UART correctly over LOGOUT, power-offThe problem was that turning the machine off and on again while "logged out" reset the UART; the re-entry function was modified to alway re-do the initialization.  This used to give the error "Shouldn't happen!  Over 20 consecutive interrupts"AR 1393: * RS232 now ignores timeouts when trying to logout.Previously, one could get into a situation where you could not logout because RS232MODEMCONTROL would break under LOGOUT, waiting for the TTYPort to timeout.Packages========AR 1659: * FTPSERVER: (OPENFILE <file> 'OUTPUT ...) now works for a file on a machine running FTPSERVER.AR 237: * LOGOCLOCK process restarts after HARDRESETAR 256: * COLOR: LOGOUT no longer crashes if color display onAR 526: * COLOR: (COLORDISPLAY T) no longer breaks with "Illegal arg - NOBIND"AR 126: * WHEREIS package: changed to search for file on WHEREIS.HASHPreviously, the WHEREIS package used the value of the variable WHEREIS.HASH as the complete name of the WHEREIS hash file database.  Now, WHEREIS calls FINDFILE to search for this file on the directories in LISPUSERSDIRECTORIES.  WHEREIS.HASH is initialized to the atom WHEREIS.HASH.  The variables WHEREIS.HASH and LISPUSERSDIRECTORIES should be set in the site's INIT.LISP file.Dlion (1108) Specifics=======================AR 182: * Starting Interlisp on standalone DLions much fasterPreviously, a standalone DLion would spend a lot of time during initialization trying to access time servers, name servers, etc.  Now, Dlions can "hear themselves", and know not to wait.<<<what does "hear themselves" mean??>>>Inspector=========AR 31: * Using SET to set inspector values no longer creates many TTY windowsThe default SET routine uses GETPROMPTWINDOW to create an attached prompt window on top of the inspect window.  This is where the user is prompted to type the new field value.AR 435: * Variable INSPECTPRINTLEVEL used for printing inspector valuesWhen the inspector prints field values, PRINTLEVEL is reset to the value of INSPECTPRINTLEVEL, initially (2 . 5).AR 142: * New inspect window commands: "IT_datum", "IT_selection"The values displayed in an inspect window can be accessed by commands on the menu brought up by pressing the MIDDLE button in the title of the window.  The command "IT_datum" sets the variable IT to the object being inspected in this window.  The command "IT_selection" sets the variable IT to the current property name or value selected in the inspect window.AR 640: * Inspector calls INSPECTCODE to inspect compiled code objectsAttached Windows================AR 1767: * The ATTACHEDWINDOW package has been added to the standard Interlisp loadup.Many system tools now use attached windows for displaying prompts.AR 1637: * New fn: DETACHALLWINDOWS(DETACHALLWINDOWS MAINWINDOW) detaches and closes all windows attached to MAINWINDOW.AR 46: AR 942: * BURY now buries all attached windows correctlyPreviously, only the main window was buried; attached windows were left unburied.* New function MAINWINDOW for getting mainwindow from an attached window(MAINWINDOW WINDOW RECURSEFLG)If WINDOW is not a window, it generates an error.  If WINDOW is closed, or if it is NOT attached to another window, it is returned.  If RECURSEFLG is NIL and WINDOW is attached to a window, it returns that window.  If RECURSEFLG is T, it returns the first window up the "main window" chain starting at WINDOW that is not attached to any other window.This function is the preferred way to access the main window of an attached window, rather than using the MAINWINDOW window property.AR 356: * Attached windows can be closed without closing main windowIf the WINDOWCOMACTION argument to ATTACHWINDOW is the atom LOCALCLOSE, the DOWINDOWCOMFN of WINDOWTOATTACH is set to DOATTACHEDWINDOWCOM2.  This function interprets Close by closing and detaching the attached window, without closing the main window.AR 923: AR 896: AR 1511: * New: Attached Prompt WindowsMany packages have a need to display status information or prompt for small amounts of user input in a place outside their standard window.  A convenient way to do this is to attach a small window to the top of the program's main window.  The following functions do so in a uniform way that can be depended on among diverse applications:(GETPROMPTWINDOW MAINWINDOW #LINES FONT DONTCREATE)Returns the attached prompt window associated with MAINWINDOW, creating it if necessary.  The window is always attached to the top of MAINWINDOW, has DSPSCROLL set to T, and has a PAGEFULLFN of NILL to inhibit page holding.  The window is at least #LINES lines high (default 1); if a pre-existing prompt window is shorter than that, it is reshaped to make it large enough.  FONT is the font to give the prompt window (defaults to the font of MAINWINDOW), and applies only when the window is first created.  The prompt window is created with WINDOWCOMACTION = 'LOCALCLOSE, so it can be closed without closing the main window.  If DONTCREATE is non-NIL, GETPROMPTWINDOW returns the window if it exists, otherwise returns NIL without creating any prompt window.(REMOVEPROMPTWINDOW MAINWINDOW)Detaches the attached prompt window, if any, associated with MAINWINDOW, and closes it.Printing========AR 1163: * Can generate hardcopy of full screen on Xerox 8044 printerUse HARDCOPYW or the HARDCOPY command in the Background menu.Window System=============AR 637: AR 682: * New Background Button Event FunctionsThe variables BACKGROUNDBUTTONEVENTFN, BACKGROUNDCURSORINFN, BACKGROUNDCURSOROUTFN and BACKGROUNDCURSORMOVEDFN provide a way of taking action when there is cursor action when the cursor is in the background.  If set to the name of a function, that function will be called, respectively, whenever the cursor is in the background and a button changes, when the cursor moves into the background from a window, when the cursor moved out of the background into a window, and when the cursor moves from one place in the background to another.  These are analogous to the window properties BUTTONEVENTFN, CURSORINFN, CURSOROUTFN, and CURSORMOVEDFN.AR 1053: * New window prop: NOSCROLLBARSIf a window's NOSCROLLBARS property is non-NIL, scroll bars will not be brought up for the window, even if it has both EXTENT and SCROLLFN properties.  This allows the creation of windows that can scroll ONLY under program control.AR 1054: AR 1148: AR 1354: * New: WINDOWTITLESHADE allows setting shade used in window title bar.If a window's WINDOWTITLESHADE property is non-NIL, it should be a texture which is used as the "backgound texture" for the title bar on the top of the window.  If this property is NIL, then the value of the variable WINDOWTITLESHADE is used, initially black.  Note that black is always used as the background of the title printed in the title bar, so that the letters can be read -- the remaining space is painted with the "title shade".AR 1613: * RESHAPEBYREPAINTFN uses new strategy to determine window contents after reshapePreviously, RESHAPEBYREPAINTFN (the default reshaping function) always copied the old image to the lower-left corner of the new window, adding any new image to the top and left.  This produced unintuitive results in the case where the lower left corner was grabbed and moved out.  The new behavior will display the part of the object in the direction of the expansion (if the opposite side is not moved) and only display white space beyond the extent if the extent is fully visible.This change required that a forth argument be passed to the RESHAPEFN of a window: OLDSCREENREGION, the region that the window occupied before being reshaped.  This allows RESHAPEBYREPAINTFN to determine which edges of the window have been moved.  Note: in some situations, RESHAPEBYREPAINTFN may call a window's REPAINTFN as many as four times.AR 1578: * If LEFT button down, GETREGION calls NEWREGIONFN with MOVINGPOINT = NILPreviously, if GETREGION was called when one of the mouse buttons is already down (LEFT), the first call to NEWREGIONFN did not have MOVINGPOINT = NILAR 1746: AR 121: * Can move icons with LEFT button, expand with MIDDLE buttonPressing the LEFT button on a shrinken icon allows you to move it.  Pressing the MIDDLE button expands it.AR 1588: * EXPANDW no longer fails if called on expanded windowAR 242: * CURSORINFN and CURSOROUTFN window properties extendedThe CURSORINFN and CURSOROUTFN window properties can now be lists of functions as well as single functions.  All functions on the list are called.AR 1322: * (WINDOWPROP ... 'HEIGHT) now correct for titled windowsPreviously, could return a little more than the total height of the window.  Now returns the interior height, as documented.  This caused bugs in many tools, such as Chat.AR 302: * (DSPCREATE <bad-arg>) signals "ILLEGAL ARG" error, instead of going into RAIDAR 1614: * DRAWCURVE no longer goes into raid if dashing is non-NILAR 522: * ADDMENU/DELETEMENU will not modify the menu for subsequent useAR 1848: * Changes to WFROMDS reduce empty tty windowsWFROMDS has a new arg, DONTCREATE.  If DONTCREATE is non-NIL, WFROMDS will never create a window, and return NIL if DISPLAYSTREAM does not have an associated window.TTYDISPLAYSTREAM calls WFROMDS with DONTCREATE = T, so it will not create a window unnecessarily.  Also, if WFROMDS does create a window, it calls CREATEW with NOOPENFLG = T.  These changes fix many of the empty tty windows that used to appear.AR 319: * HARDCOPY in the background menu will not reposition the cursorAR 449: * Textures can be BITMAPs up to 16 by 16 bitsTEXTUREP, BITBLT, DSPTEXTURE, DSPFILL, etc. accept bitmaps up to 16 bits wide by 16 bits high as textures.  When a region is being filled with a bitmap texture, the texture is treated as if it were 16 bits wide (if less, the rest is filled with white space).AR 511: * Fixed: Caret didn't flash after LOGOUT/restartSometimes, the caret would not flash after doing LOGOUT and restarting Interlisp.  This could be fixed by typing (CARET), so it was not a major problem, but it was annoying.AR 544: * Many changes to caret behaviorThere is now one caret per process.  This fixes problems of carets being left on the screen and of windows being created just to take the caret down.  The caret in the current process is always visible; if it is hidden by another window, its window is brought to the top.  The function CARET has been changed, and the function CARETRATE, which changes the caret rate of the current process has been added:(CARET NEWCARET)Sets the shape that blinks at the location of the next output to the current process.  NEWCARET is either (1) NIL - no changes, returns a CURSOR representing the current caret, (2) OFF - turns the caret off, (3) a CURSOR which gives the new caret shape or (4) T - reset the caret to the default which is the value of the variable DEFAULTCARET.  DEFAULTCARET can be set to change the initial caret for new processes.  The hotspot of NEWCARET indicates which point in the new caret bitmap should be located at the current output position.  The previous caret is returned.  Note: the bitmap for the caret is not limited to the dimensions CURSORWIDTH by CURSORHEIGHT.<<<what does last sentence mean??>>>(CARETRATE NMILLISECONDS)Sets the rate at which the caret for the current process will flash.  The caret will be visible for NMILLISECONDS milliseconds, then not visible for NMILLISECONDS  milliseconds.   If NMILLISECONDS is T, the rate is set to the value of the variable DEFAULTCARETRATE.  The previous value of CARETRATE is returned.  If the caret is off, CARETRATE return NIL.AR 681: * Caret flashing doesn't bring window to top while buttoning or shift-select<<<why "while buttoning"???>>>The caret code has been changed so that it doesn't bring the flashing caret's window to the top if the user is buttoning or has a shift key down.  This prevents the destination window (which has the tty and caret flashing) from interfering with the window one is trying to select text to copy from.AR 741: * New BURYW behavior -- only takes down windows overlapping sunk windowBURYW has been changed to only take down the windows overlapping the window to be buried, then reopening them in the right order.  Previously, BURYW took down ALL windows on the screen.  This changes bury from order N^2 to order N.AR 775: * New function DECODE.WINDOW.ARG: coerces window specs to window(DECODE.WINDOW.ARG WHERESPEC WIDTH HEIGHT TITLE BORDER NOOPENFLG)This is a useful function for function that create windows, specified as one of their arguments.  WHERESPEC can be a WINDOW, a REGION, a POSITION, or NIL.  If WHERESPEC is a WINDOW, it is returned.  In all other cases, CREATEW is called with the arguments TITLE, BORDER, and NOOPENFLG.  The REGION argument to CREATEW is determined from WHERESPEC as follows:If WHERESPEC is a REGION, it is adjusted to be on the screen, then passed to CREATEW.  If WIDTH and HEIGHT are not numbers, CREATEW is given NIL as a REGION argument.If WIDTH and HEIGHT are numbers and WHERESPEC is a POSITION, the region whose lower left corner is WHERESPEC, whose width is WIDTH and whose height is HEIGHT is adjusted to be on the screen, then passed to CREATEW.If WIDTH and HEIGHT are numbers and WHERESPEC is not a POSITION, then GETBOXREGION is called to prompt the user for the position of a region that is WIDTH by HEIGHT.If WIDTH and HEIGHT are used, they are used as interior dimensions for the window.AR 775: * New function MAKEWITHINREGION: moves region within another region(MAKEWITHINREGION REGION LIMITREGION)Changes (destructively modifies) the left and bottom of region REGION so that it is within the region LIMITREGION, if possible. If the dimension of REGION are larger than LIMITREGION, REGION is moved to the lower left of LIMITREGION.  If LIMITREGION is NIL, the value of the variable WHOLEDISPLAY (the screen region) is used.MAKEWITHINREGION returns REGION.AR 854: * control-D during EDITSHADE will now close the windowAR 1315: * (BITMAPHEIGHT <texture>) now gives an error for non-bitmap texturesAR 698: * Bottom of scrollbar always hits bottom when last line above bottom of windowPreviously, there were some cases where the scrollbar would not hit the bottom unless the bottom of the extent was a small distance above the bottom of the window.AR 1151: * INSIDEP now accepts a window as its REGION argIf the REGION arg to INSIDEP is a window, its clipping region is used.AR 893: * REGIONP now true for regions whose componants are floating point numbers.Previously, only integers were allowed as componants of a region.AR 674: * EXPANDBITMAP works without the color package loadedEXPANDBITMAP uses the function \FAST4BIT, which was only defined in the color package.  \FAST4BIT has been added to the standard Interlisp loadup.AR 769: * EDITBM does not reposition cursor to the center of the screenPreviously, EDITBM would move the cursor to the center of screen before allowing the user to specify where the bitmap editor window should be positioned.  Now, it leaves it alone.Input/Output============AR 243: * new function OPENSTRINGSTREAM: access strings like files The Interlisp input functions (READ, etc.) will take a string as the file argument, and read the characters of the string.  However, there are many I/O functions which do not work on strings, such as the output functions, GETFILEPTR, etc.  In order to make accessing strings more consistant with other I/O operations, the following function has been created:(OPENSTRINGSTREAM STR ACCESS)Returns a stream which can be used to access the characters of the string STR.  ACCESS may be either INPUT, OUTPUT, BOTH, or NIL (same as INPUT).  The stream returned may be used exactly like a file opened with the same access, except that output operations may not extend past the end of the original string.  Also, string streams will not appear in the value of (OPENP).Note:  At some point in the future, an incompatible change may be made to Interlisp, so that input functions will no longer read directly from strings.  This facility has always been more bother than it was worth.  OPENSTRINGSTREAM is the preferred way to access strings like files.AR 826: * "The infamous PEEKC bug" has been fixed: can backspace over PEEKC-ed charsThis was a longstanding bug in the Interlisp-D keyboard reader such that following (PEEKC T), the user couldn't backspace over the character that was peeked.  This affected a number of functions, such as FILES? and COMPILE, which peek at the first character of the user's typein.AR 1021: AR 1087: * FILDIR pattern interpretation improvedPreviously, there were some cases where FILDIR returned nonintuitive results.  For example, (FILDIR '*.) would return only filenames with no extension; but (FILDIR '*.;) would return all file names.  This has been straightened out.  Including a field delimeter in the pattern overrides the default of * for the next field.  That is how to specify a null extension or null version.  Null version is interpreted as "highest".  Thus:DIR * = DIR *.* = DIR *.*;* enumerates everything.DIR *.	enumerates only files with null extension.DIR *.*;	enumerates highest version of everything.DIR *.;*	enumerates highest version of files with null extension.Note: Currently, some hosts/devices that do not fully support "highest version" in enumeration.AR 1144: AR 1145: * COPYFILE to core device or local disk copies file creation datePreviously, when copying a file to a core device or the local disk, COPYFILE would assign the current date and time as the new file's creation date.  COPYFILE to a remote file server has always copied the creation date correctly.AR 1302: * COPYFILE now uses FTP protocol when copying large filesPreviously, COPYFILE used the Leaf protocol when copying from/to file servers which implemented this protocol.  Using the FTP protocol for simple file transfers is much more efficient.AR 561: * COPYFILE infers file type when source file has noneCOPYFILE opens the new file using the same file type as the original file.  If the original file does not have a file type, the value of DEFAULTFILETYPE is used (initially TEXT).AR 192: * (CLOSEF <display-stream>) is a no-op AR 151: * New function COPYCHARS for copying with EOL convention(COPYCHARS SRCFIL DSTFIL START END)This is like COPYBYTES, except that it performs the proper conversion if the EOL conventions of SRCFIL and DSTFIL are not the same.  START and END are interpreted as byte specifications in SRCFIL.  The number of bytes actually output to DSTFIL might be more or less than the number of bytes specified by START and END, depending on what the EOL conventions are.  In the case where the EOL conventions happen to be the same, COPYCHARS simply calls COPYBYTESAR 227: * Doc correction: METASHIFT arg has to be TThe reference manual is incorrect when it says that the FLG argument to METASHIFT can be any non-NIL value.  To work correctly, FLG must be T: (METASHIFT T).  Other non-NIL values are passed as the ACTIONS argument to KEYACTION.  The reason for this is that if someone has set Blank-bottom to some random behavior, then (RESETFORM (METASHIFT T) --) will correctly restore that random behavior.AR 751: * GETRAISE causes error if given bad terminal table argumentPreviously, this caused a call to RAID.AR 1794: * CLEARBUF works correctly after PEEKCPreviously, in (PROGN (PEEKC T) (CLEARBUF T) (PEEKC T)), the buffer wasn't always cleared between the first and 2nd calls to PEEKC.Floppy======AR 823: * Warning: do (FLOPPY.FORMAT NIL NIL T) on new floppies before doing SYSOUT[{FLOPPY}]There have been some cases where SYSOUT[{FLOPPY}] produced an incomplete sysout, when floppies that had never been formated before were used.AR 1461: * Floppy state flushed over LOGOUTPreviously, if a floppy was left in a drive during LOGOUT and a new floppy was inserted before Interlisp was restarted, it was possible that Interlisp would use the old floppy directory information, which could destroy information on the new floppy.  Now, floppy directory information is refetched the first time the floppy is used after Interlisp is restarted.AR 1446: * FLOPPY.COMPACT accepts "No" as answer to confirmationAR 8: * Floppy errors are now regular file system errorsAR 452: * Sysout to write-protected floppy prints reasonable error messageAR 996: * (COPYFILE xx '{FLOPPY}) in PILOT mode gives error messagePreviously, copying to {FLOPPY} giving a null file name could damage the information on the floppy.  Now it just gives an error message.AR 217: * Bad error msg "ARG NOT LP: NIL" changedThis obscure error message occurred when trying to read a Pilot floppy file when FLOPPY.MODE was set to SYSOUT.  The appropriate work around was to execute (FLOPPY.MODE 'PILOT), and trying again.AR 628: * FLOPPY now supports file typesAR 1495: AR 1575: * Floppy error msgs are printed be in typescript window, rather than the prompt windowAR 1515: * Trying to access FLOPPY on non-Dlion no longer hangsTrying to access the floppy drive when running Interlisp on a machine other than the Dlion (1108) will now print "Floppy: No floppy drive on this machine" before generating the system error "FILE WON'T OPEN".  Other operations, such as DIR {FLOPPY}* will continue to not generate an error, but instead make {FLOPPY} look like it has an empty directory so that file searches work correctly when {FLOPPY} is on the search path.Processes=========AR 193: * RESTART.PROCESS will not hang machinePreviously, if RESTART.PROCESS was called on a process which has been created with SUSPEND=T and never started, this would hangs the machine (hard reset required.)AR 101: * PROCESSPROP can remove last user-defined property from a processPreviously, only the last property value, not both the name and value, would get removed from the list.AR 194: * ADD.PROCESS property arguments interpreted correctlyPreviously, some combinations of arguments to ADD.PROCESS would be interpreted incorrectly.  For example, (ADD.PROCESS <form> 'SUSPEND T) would create a (non-suspended) process with the name SUSPEND.AR 289: * WAIT.FOR.TTY calls SPAWN.MOUSEThis is useful in case WAIT.FOR.TTY gets called under the mouse process.AR 566: * New process property: RESTARTFORMIf the process property RESTARTFORM is non-NIL, it is the form used if the process is restarted (instead of the original form given to ADD.PROCESS).  Of course, the process must also have a non-nil RESTARTABLE prop for this to have any effect.Arithmetic==========AR 56: * FPLUS, FTIMES call microcode when interpretedPreviously, the functions FPLUS and FTIMES, when called from the interpreter, didn't go thru the microcoded opcodes but always executed the lisp macrocode.AR 1581: * (EXPT 3 -1) returns .333333333 instead of 0The manual clearly states that EXPT(x y) is integer iff x is integer and y is non-negative integer.AR 1081: * (TIMES (QUOTIENT MIN.INTEGER 8) 8) won't cause overflow if (OVERFLOW T)AR 317: * WARNING: (ZEROP 0.0) -> NILCurrently, (ZEROP X) is defined as (EQ X 0).  Some users have complained that this is inconsistant with other lisp dialects.  This may be changed in the future, but for now, users should explicitely use (EQP X 0) if X might be a floating point number.<<<find out if ZEROP is going to be changed??>>>Compiler========AR 277: * Compiler prints warning if user code attempts to bind a constant variableAR 800: AR 1176: * LOADTIMECONSTANT works in interpreted codeAR 423: * STore-and-Forget option on COMPILE no longer leaves EXPRs on property listAR 1670: * Imcompatible change: default RECOMPILEDEFAULT = CHANGESPreviously, the default value of RECOMPILEDEFAULT was EXPRS (of course, users can set it back if they wish).  The effect of this change is to reduce the number of functions that get recompiled unnecessarily.  With RECOMPILEDEFAULT = EXPRS, doing a recompile after loading the source file (rather than the DCOM file) would compile all of the functions in the file.  With RECOMPILEDEFAULT = CHANGES, only the functions which had been edited would be recompiled.<<<CHECK!!!!>>>AR 1673: * Imcompatible change: compiling with mode=ST or STF will redefine, even if DFNFLG=PROPPreviously, when the compiler "redefined" a function, it respected the value of DFNFLG.  If DFNFLG=PROP, the compiler put the new definition on the CODE property instead of in the definition cell of the function.The new behavior is that as functions are compiled, they really ARE "stored and redefined"; the new compiled definition is placed in the definition cell, even though DFNFLG=PROP.  The new behavior is less confusing, but if you are used to the old behavior, watch out.  If you run with DFNFLG=PROP to completely avoid inadvertantly redefining something in your running system, you MUST compile mode F, not ST.Storage & Data Types====================AR 1381: * Changes to ARRAY: default array type is POINTER, FLOATP is stored unboxedIf NIL is given as the TYPE argument to ARRAY, the default array type is POINTER, not DOUBLEPOINTER.  If anyone uses the DOUBLEPOINTER mechanism, they should change any instances of (ARRAY x) => (ARRAY x 'DOUBLEPOINTER).Arrays of type FLOATP are now stored unboxed.  This increases the space and time efficiency of FLOATP arrays.  If the user wants to use boxed floating point numbers, they should use an array of type POINTER instead of FLOATP.An ALIGN argument has been added to ARRAY, for specifying the alignment of the array block.  This is mainly of interest to systems programmers.<<<document this??>>>AR 63: AR 1815: * STORAGE changes: new arguments; prints free list infoThe function STORAGE in Interlisp-D now takes two optional arguments for filtering the amount of information presented:(STORAGE TYPES PAGETHRESHOLD)If TYPES is given, STORAGE only lists statistics for those types.  TYPES is an atom or list of types.  If PAGETHRESHOLD is given, then STORAGE only lists statistics for types that have at least PAGETHRESHOLD pages allocated to them.Note:  These optional arguments are different from the optional arguments to STORAGE in Interlisp-10.STORAGE now prints out some more information about the size of the entries on the array free list, including a breakdown of the free block sizes. The block sizes are broken down by the value of the variable STORAGE.ARRAYSIZES, initially (4 10 100 1000 4000 NIL), which yields a printout of the form: variable-datum free list: le 4            11 items;       44 cells.le 10           34 items;      240 cells.le 100          39 items;     1619 cells.le 1000         25 items;     7856 cells.le 4000          2 items;     2449 cells.others           0 items;        0 cells.This information can be useful in determining if the variable-length data space is fragmented.  If most of the free space is composed of small items, then the allocator may not be able to find room for large items, and will extend the variable datum space.  If this is extended too much, this could cause an ARRAYS FULL error, even if there is lots of space left in little chunks.  This information is primarily of use to system programmers.AR 866: * MKATOM no longer loops forever when the atom hash table is fullPreviously, running out of atoms (the limit is currently ~32K) would cause an infinite loop.  Now, Interlisp will cause a storage full error when there are about 7 "pages" of atom space left, and will fall into RAID when there will be no more atoms left.AR 915: AR 916: AR 924: * The atoms NIL and T now have property listsAR 1096: * Hash arrays have been totally reimplemented -- better interfaceThe hash array facility has been totally reimplemented, to provide more rational user functions.  All of the old hash array functions will still work, but not as efficiently as the new ones.<<< insert info on Kaplan's/Jellinek's New HARRAY package >>>AR 1411: * (APPEND '(A . B)) now runs correctly when compiledPreviously, (APPEND '(A . B)) gave (A . B) when interpreted, (A) compiled.  Now, it gives (A . B) always.AR 900: * New CASEARRAY arg for STRPOS, ALPHORDERSTRPOS and ALPHORDER have been extended to take a new argument CASEARRAY.  If non-NIL, this should be a casearray like that given to FILEPOS.  The casearray is used to map the string characters before comparing them to the search string (for STRPOS), or to map the characters in the two objects to be sorted (for ALPHORDER).  See the documentation for FILEPOS, CASEARRAY, etc. in the reference manual.AR 900: * New BACKWARDSFLG arg for STRPOS, STRPOSLIf non-NIL, this argument specifies that the search should be done backwards from the end of the string.Stack & Interpreter===================AR 1168: AR 1769: AR 777: * New function: EVALHOOK(EVALHOOK FORM EVALHOOKFN)EVALHOOK evaluates the expression FORM, and returns its value.  While evaluating FORM, EVAL behaves in a special way.  Whenever a list is to be evaluated (except for FORM itself), whether implicitly or via an explicit call to EVAL, EVALHOOKFN is invoked (it should be a function), and passed the form to be evaluated as its argument.  EVALHOOKFN is then responsible for evaluating the form; whatever is returned is assumed to be the result of evaluating the form.  During the execution of EVALHOOKFN, this special evaluation is turned off.  (Note that EVALHOOK does not effect the evaluations of variables, only of lists).Here is an example of a simple tracing routine that uses the EVALHOOK feature:_(DEFINEQ (PRINTHOOK (FORM) 	(printout T "eval: " FORM T) 	(EVALHOOK FORM (FUNCTION PRINTHOOK](PRINTHOOK)_(EVALHOOK '(LIST (CONS 1 2) (CONS 3 4)) 'PRINTHOOK)eval: (CONS 1 2)eval: (CONS 3 4)((1 . 2) (3 . 4))AR 1807: * Internal arithmetic functions changed to have the "right" frame nameWhen arithmetic function calls are compiled, the compiler actually generates calls to internal arithmetic functions.  If an error occurs in these functions, the error message contains the internal function name.  For instance, if a compiled PLUS was passed non-numbers, the break message might be "ILLEGAL ARG in \SLOWPLUS2".  This has been changed so that the frame names of internal arithmetic functions are the appropriate user functions, and the example would break with "ILLEGAL ARG in PLUS".<<<check!!>>>AR 1678: * (APPLY*) now gives "UNDEFINED FUNCTION: NIL" errorAR 191: * EVALV has new argument RELFLG: release-stack-ptr flagMost of the stack evaluation functions (ENVEVAL, etc.) have             fa flag argument which determines whether the stack pointer will be automatically released.  To be consistant, EVALV now has a RELFLG argument, even though it doesn't strictly need it (EVALV is guaranteed to return, unlike the other functions).Break Package=============AR 11: * ERRORTYPELST is now a SPECVARIt makes sense for users to change the global value of ERRORTYPELST, but programs that rebind it clearly want changed behavior only in their own stack context.  It is only looked up under error conditions, so it shouldn't cause a performance problem.AR 1309: * Break windows will not be opened on "STORAGE FULL" errors.This is simalar to the treatment of "ARRAYS FULL" erros.  In either case, allocating storage for a break window would cause the error to occur repeatedly.AR 493: * (HELP <num> --) now prints correctlyPreviously, if the first argument to HELP was a number, it was interpreted as an error number.  Thus, for example, (HELP 5 "FOO") printed HARD DISK ERROR / "FOO".AR 512: * Can now REVERT to any frame on the stack.Previously, there were restrictions on reverting to internal "DUMMY" frames, because it could cause the system to crash.  Now, REVERT has been fixed so that it is safe to revert to any frame on the stack.<<Check!!>>>AR 520: * Typing control-B in a break window no longer gives "Break within Break" errorAR 734: * AUTOBACKTRACEFLG extended: can cause BT for NON-error breaksPreviously, if AUTOBACKTRACEFLG was non-NIL, then on error breaks the command BT would be executed automatically.  It has been extended as follows:  If AUTOBACKTRACEFLG is NIL (the default), no bactrace is brought up.  If its value is T, then on error breaks the BT menu is brought up.  If its value is BT!, then on error breaks the BT! menu is brought up.  If its value is ALWAYS, then on any break the BT menu is brought up.  If its value is ALWAYS!, then on any break the BT! menu is brought up.AR 162: * Editor called from display break package in broken processInspecting a function in the display frame window now calls the editor in the broken process.  Thus variables evaluated in the editor will be in the broken process.AR 162: * Break package more careful about aborting process on closing windowClosing a break window now only aborts the associated process if it was in tty wait and the closed window was the tty window.  This should stop many unwanted aborting.Dedit=====AR 850: AR 959: * "BREAK" or "()" of top-level expression no longer causes stack overflowAR 636: * Process switch from DEDIT to TEDIT won't cause it to ignore tabsAR 675: * Warning: Dedit caches fonts; use (RESETDEDIT) when font set is redefined<<<Check!! is this still true, or has FONTSET been redefined to flush the Dedit cache?>>>AR 254: * DEDIT REPAINTFN redisplays selection highlightingAR 15: * "?=" command in Dedit works for fns of no argumentsUsed to give "xxx not a function" error message.AR 188: * Buttoning in the Dedit Edit Buffer switches the current process.Previously, you had to button in the main Dedit window.AR 228: * Dedit supports the COPY key on the DLion keyboardShift select supports both the COPY and the right shift keys.AR 359: * EditOps menu follows when the main Dedit window is movedAR 400: * Inserting huge piece of code no longer causes bad screen extent.Previously, after inserting a huge piece of code into a function, Dedit could lose track of the size of the function, so the user could not scroll up enough to see the last part of the inserted code.                        NIL NIL           \   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           	   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           
+   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           	   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           
+   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           	   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL          A   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL          
+“   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           F   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL          }   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL          +   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           °   GACHA 
+                                NIL NIL           ¼   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           B   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL          i   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           G   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL             GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL          _   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           ‡   GACHA 
+                                NIL NIL           E   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL          4   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL          R   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           4   GACHA 
+                                NIL NIL          ÷   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL               GACHA 
+                                NIL NIL           X   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           
+   GACHA 
+                                NIL NIL           	   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           …   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           W   GACHA 
+          €   GACHA 
+      PAPERWORKS.STYLEFN      Ì   GACHA 
+                                NIL NIL           S   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           æ   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           k   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL          Y   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           ¬   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           X   GACHA 
+                                NIL NIL           Ç   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           ¦   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           õ   GACHA 
+                                NIL NIL           J   GACHA 
+                                NIL NIL           7   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL          ­   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL          ©   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           @   GACHA 
+                                NIL NIL          »   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL          ²   GACHA 
+              GACHA 
+      EDITMARK.STYLEFN          GACHA 
+              GACHA 
+      EDITMARK.STYLEFN          GACHA 
+                                NIL NIL              GACHA 
+      EDITMARK.STYLEFN          GACHA 
+           {   GACHA 
+      EDITMARK.STYLEFN          GACHA 
+              GACHA 
+      EDITMARK.STYLEFN          GACHA 
+              GACHA 
+      EDITMARK.STYLEFN       	   GACHA 
+           K   GACHA 
+      EDITMARK.STYLEFN                            NIL NIL              GACHA 
+      EDITMARK.STYLEFN                            NIL NIL              GACHA 
+      EDITMARK.STYLEFN          GACHA 
+              GACHA 
+      EDITMARK.STYLEFN                            NIL NIL              GACHA 
+      EDITMARK.STYLEFN                            NIL NIL           ×   GACHA 
+      EDITMARK.STYLEFN                            NIL NIL              GACHA 
+      EDITMARK.STYLEFN                            NIL NIL           ¦   GACHA 
+      EDITMARK.STYLEFN                            NIL NIL              GACHA 
+                                NIL NIL           R   GACHA 
+      EDITMARK.STYLEFN          GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           M   GACHA 
+                                NIL NIL              GACHA 
+              GACHA 
+      EDITMARK.STYLEFN          GACHA 
+              GACHA 
+      EDITMARK.STYLEFN          GACHA 
+                                NIL NIL           %   GACHA 
+              GACHA 
+      EDITMARK.STYLEFN          GACHA 
+           	   GACHA 
+      EDITMARK.STYLEFN          GACHA 
+              GACHA 
+      EDITMARK.STYLEFN          GACHA 
+              GACHA 
+      EDITMARK.STYLEFN          GACHA 
+           Æ   GACHA 
+      EDITMARK.STYLEFN          GACHA 
+                                NIL NIL              GACHA 
+      EDITMARK.STYLEFN          GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           ?   GACHA 
+                                NIL NIL           P   GACHA 
+                                NIL NIL           Y   GACHA 
+                                NIL NIL           ¤   GACHA 
+                                NIL NIL           Ø   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           ”   GACHA 
+                                NIL NIL           ý   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           E   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL          g   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL          u   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL             GACHA 
+                                NIL NIL           W   GACHA 
+                                NIL NIL          T   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL          A   GACHA 
+                                NIL NIL           æ   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           ý   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           ò   GACHA 
+                                NIL NIL           2   GACHA 
+                                NIL NIL           A   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           $   GACHA 
+                                NIL NIL          É   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           4   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL          Š   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           E   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           (   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           0   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           „   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           ^   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           Ž   GACHA 
+                                NIL NIL           .   GACHA 
+                                NIL NIL          ­   GACHA 
+                                NIL NIL           :   GACHA 
+                                NIL NIL           L   GACHA 
+                                NIL NIL           D   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           ¼   GACHA 
+                                NIL NIL           Å   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL             GACHA 
+                                NIL NIL           
+   GACHA 
+                                NIL NIL           
+   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           Õ   GACHA 
+                                NIL NIL           L   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           ¨   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           È   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           t   GACHA 
+                                NIL NIL          "   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           8   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           œ   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           7   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           d   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           S   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           &   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           ü   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           1   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           	   GACHA 
+                                NIL NIL           	   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           T   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           >   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           U   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           C   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL          Ì   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           a   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           Õ   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           µ   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           å   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           U   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           Ý   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           â   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           H   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           x   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           é   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           f   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL          ,   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           *   GACHA 
+                                NIL NIL           *   GACHA 
+                                NIL NIL           *   GACHA 
+                                NIL NIL           *   GACHA 
+                                NIL NIL           *   GACHA 
+                                NIL NIL           *   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL          º   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           J   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           ÿ   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           F   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           K   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           ¿   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           >   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           >   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           j   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           2   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL          ’   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           3   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           i   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           3   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL          o   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           O   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           %   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           5   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           P   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL          ò   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           >   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           @   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL          =   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           '   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           û   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           F   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           ›   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           /   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           £   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           4   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           Í   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           X   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           G   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL          ó   GACHA 
+                                NIL NIL              GACHA 
+                               NIL NIL           E   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           ¥   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           N   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           ¨   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           Z   GACHA 
+                                NIL NIL              GACHA 
+                               NIL NIL           K   GACHA 
+                               NIL NIL              GACHA 
+                               NIL NIL           S   GACHA 
+                               NIL NIL              GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           Z   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           <   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           =   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           1   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           K   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           8   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           <   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           >   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           C   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           K   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           È   GACHA 
+                                NIL NIL              GACHA 
+          “…*z¸

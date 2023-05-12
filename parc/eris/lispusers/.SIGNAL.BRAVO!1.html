@@ -1,0 +1,81 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>[eris]&lt;LispUsers>SIGNAL.BRAVO!1</title>
+  </head>
+  <body>
+    <div style="width: 442pt; margin-left: 84pt; margin-top: 0pt; text-align: center">
+<span style="font: bold 10pt serif">The </span><span style="font: bold 12pt serif">S</span><span style="font: bold 10pt serif">IGNAL package</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 12pt; text-align: center">
+<span style="font: 10pt serif">Henry Thompson</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 12pt; text-align: left">
+<span style="font: 8pt serif">File:</span><span class="tab" val="24"></span><span style="font: 8pt serif">{ivy}&lt;hthompson&gt;lisp&gt;rpc&gt;signal.bravo, .press<br>Revised:</span><span class="tab" val="24"></span><span style="font: 8pt serif">January 22, 1983  2:13 PM</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 12pt; text-align: justify">
+<span style="font: 10pt serif">The file S</span><span style="font: 8pt serif">IGNAL.DCOM</span><span style="font: 10pt serif"> implements a first pass at the C</span><span style="font: 8pt serif">EDAR/MESA</span><span style="font: 10pt serif"> signal mechanism.  It allows signals to be raised, caught, examined, and resumed or exited.  Catch phrases are introduced with the clisp-word </span><span style="font: bold 10pt serif">enable</span><span style="font: 10pt serif">; signals are raised with the function Signal.<br><br>(Signal type arg)</span></div>
+<div style="width: 405pt; margin-left: 121pt; margin-top: 12pt; text-align: justify">
+<span style="font: 10pt serif">Raises a signal of type </span><span style="font: italic 10pt serif">type</span><span style="font: 10pt serif">.  If the signal is resumed, will return with the argument to </span><span style="font: bold 10pt serif">sresume</span><span style="font: 10pt serif">, - see below.  Otherwise will not return.</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 24pt; text-align: justify">
+<span style="font: 10pt serif">(</span><span style="font: bold 10pt serif">enable</span><span style="font: 10pt serif"><br>   s1 =&gt; a1 a2 a3 ...<br></span><span class="tab" val="24"></span><span style="font: 10pt serif">  . . .<br>   sn =&gt; n1 n2 n3 ...<br> form<br>   l1 -&gt; la1 la2 ...<br>    . . .<br>   ln -&gt; ln1 ln2 ...)</span></div>
+<div style="width: 405pt; margin-left: 121pt; margin-top: 12pt; text-align: justify">
+<span style="font: 10pt serif">The double arrow lines above are called </span><span style="font: italic 10pt serif">catch phrases</span><span style="font: 10pt serif">, the single arrow lines are called </span><span style="font: italic 10pt serif">finish phrases</span><span style="font: 10pt serif">.  Evaluates </span><span style="font: italic 10pt serif">form</span><span style="font: 10pt serif"> so as to catch signals </span><span style="font: italic 10pt serif">s1, ... sn</span><span style="font: 10pt serif"> if they are raised during its evaluation.  If e.g. </span><span style="font: italic 10pt serif">s1</span><span style="font: 10pt serif"> is raised, the forms a1 ... an<br>(the </span><span style="font: italic 10pt serif">catch phrase</span><span style="font: 10pt serif"> for s1) will be evaluated in the context of the call to Signal which raised </span><span style="font: italic 10pt serif">s1</span><span style="font: 10pt serif">, with the addition of the fact that the variables type</span><span style="font: italic 10pt serif"> </span><span style="font: 10pt serif">and arg will be locally bound to </span><span style="font: italic 10pt serif">type</span><span style="font: 10pt serif"> and </span><span style="font: italic 10pt serif">arg</span><span style="font: 10pt serif">.  For a catch phrase to be well formed, all control paths through it must end with one of the following four </span><span style="font: italic 10pt serif">quit forms</span><span style="font: 10pt serif">:</span></div>
+<div style="width: 405pt; margin-left: 121pt; margin-top: 12pt; text-align: justify">
+<span style="font: 10pt serif">(</span><span style="font: bold 10pt serif">exit</span><span style="font: 10pt serif">)</span></div>
+<div style="width: 369pt; margin-left: 157pt; margin-top: 12pt; text-align: justify">
+<span style="font: 10pt serif">Causes the stack to unwind back through the enclosing enable form, which is exited with value NIL.</span></div>
+<div style="width: 405pt; margin-left: 121pt; margin-top: 12pt; text-align: justify">
+<span style="font: 10pt serif">(</span><span style="font: bold 10pt serif">sresume</span><span style="font: 10pt serif"> form)</span></div>
+<div style="width: 369pt; margin-left: 157pt; margin-top: 12pt; text-align: justify">
+<span style="font: 10pt serif">Returns from the call to Signal with the value of form as the value of that call.</span></div>
+<div style="width: 405pt; margin-left: 121pt; margin-top: 12pt; text-align: justify">
+<span style="font: 10pt serif">(</span><span style="font: bold 10pt serif">goto</span><span style="font: 10pt serif"> label)</span></div>
+<div style="width: 369pt; margin-left: 157pt; margin-top: 12pt; text-align: justify">
+<span style="font: 10pt serif">Causes the stack to unwind back to the enclosing enable form, where the </span><span style="font: italic 10pt serif">finish phrase</span><span style="font: 10pt serif"> for label is evaluated.  The value of the last form in the phrase is the value of the enable.  The variables $SignalType$, $SignalArg$, and $Exit$ will be bound to </span><span style="font: italic 10pt serif">type</span><span style="font: 10pt serif"> and </span><span style="font: italic 10pt serif">arg</span><span style="font: 10pt serif"> of the original call to Signal and </span><span style="font: italic 10pt serif">label</span><span style="font: 10pt serif"> respectively, but otherwise the environment of the call to Signal is lost.</span></div>
+<div style="width: 405pt; margin-left: 121pt; margin-top: 12pt; text-align: justify">
+<span style="font: 10pt serif">(</span><span style="font: bold 10pt serif">reject</span><span style="font: 10pt serif">)</span></div>
+<div style="width: 369pt; margin-left: 157pt; margin-top: 12pt; text-align: justify">
+<span style="font: 10pt serif">Causes the signal handling process to act as if the catch phrase had not been there at all.</span></div>
+<div style="width: 405pt; margin-left: 121pt; margin-top: 24pt; text-align: justify">
+<span style="font: 10pt serif">When a signal is raised the stack is scanned upwards for a catch phrase for that signal.  If none is found (or if all those found are </span><span style="font: bold 10pt serif">reject</span><span style="font: 10pt serif">ed) an Uncaught Signal break will occur.  Otherwise the one of the three other options listed above will occur.</span></div>
+<div style="width: 405pt; margin-left: 121pt; margin-top: 12pt; text-align: justify">
+<span style="font: 10pt serif">There is one signal name which receives special interpretation.  A catch phrase with the name </span><span style="font: bold 10pt serif">any</span><span style="font: 10pt serif"> will catch any signal not explicitly caught elsewhere in the enable.</span></div>
+<div style="width: 405pt; margin-left: 121pt; margin-top: 12pt; text-align: justify">
+<span style="font: 10pt serif">There is a special label whose name is </span><span style="font: bold 10pt serif">unwind</span><span style="font: 10pt serif">, which cannot be gone to and has a special meaning.  The finish clause for the </span><span style="font: bold 10pt serif">unwind</span><span style="font: 10pt serif"> label will be evaluated as the stack unwinds upwards from a call to Signal to the enable clause which caught it (or to the UserExec if ERROR! is envoked).</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 24pt; text-align: justify">
+<span style="font: 10pt serif">At the moment the package does use ERROR! and NLSETQ itself to implement the stack unwinding.  This means the package interacts correctly with RESETSAVE, but has the unfortunate consequence that interleaving on the stack of calls to ERRORSET in any of its forms and enable clauses has consequences which are confusing at best.</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 12pt; text-align: justify">
+<span style="font: 10pt serif">As there are many ways in which the semantics of signals and catchers are much cleaner than those of errors and errorsets, it is hoped that at some point a more sophisticated implementation of the signal mechanism undoing the resetsaves directly and redefining ERRORSET in terms of enable will be made available.</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 12pt; text-align: justify">
+<span style="font: 10pt serif">As an interim measure however, a mechanism for turning errors into signals has been provided.  The function (MakeErrorsSignals) will arrange that all errors will be converted into a signal with name LispError and argument an instance of the following record:</span></div>
+<div style="width: 405pt; margin-left: 121pt; margin-top: 12pt; text-align: justify">
+<span style="font: 10pt serif">(RECORD LispError (eMess eFn eType . ePos))</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 12pt; text-align: justify">
+<span style="font: 10pt serif">where eMess is the standard error message pair (for printing with ERRORMESS), eFn the name of the function which the old package would have broken, eType its type, and ePos a stack pointer to its frame.  If you catch this signal, you should free the stack pointer.  If you don&rsquo;t catch it (or catch and reject it), a break </span><span style="font: italic 10pt serif">will happen</span><span style="font: 10pt serif">, regardless of HELPDEPTH, ERRORSETs, etc.  That is, BREAKCHECK is </span><span style="font: italic 10pt serif">not</span><span style="font: 10pt serif"> called or paid attention to.  This is the interim price of having the other benefits of the signal package, and in practice seems to work quite well.  Things from the old package that </span><span style="font: italic 10pt serif">do</span><span style="font: 10pt serif"> still work are ERRORTYPELST, user interrupts, and the various other funnies to do with hash arrays and EOFs which the error code handles.</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 12pt; text-align: justify">
+<span style="font: 10pt serif">To go back to the old way of life, use (MakeErrorsErrorsAgain).</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 12pt; text-align: justify">
+<span style="font: 10pt serif">There follows on the next page an toy example of the use of the package, which is in fact included in the file itself - enjoy!</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 24pt; text-align: justify">
+<span style="font: 10pt serif">(ST<br>  [LAMBDA NIL                                                (* ht: "20-JAN-83 21:40")<br>    (</span><span style="font: bold 10pt serif">enable</span><span style="font: 10pt serif"><br>         </span><span style="font: bold italic 10pt serif">s1</span><span style="font: 10pt serif"> </span><span style="font: bold 10pt serif">=&gt;</span><span style="font: 10pt serif"> (PRINT "s1 caught" T)<br></span><span class="tab" val="24"></span><span style="font: 10pt serif">       (</span><span style="font: bold 10pt serif">goto</span><span style="font: 10pt serif"> s1)<br>         </span><span style="font: bold italic 10pt serif">s2</span><span style="font: 10pt serif"> </span><span style="font: bold 10pt serif">=&gt;</span><span style="font: 10pt serif"> (PRINT "s2 caught")<br></span><span class="tab" val="24"></span><span style="font: 10pt serif">       (</span><span style="font: bold 10pt serif">sresume</span><span style="font: 10pt serif"> 37)<br>         </span><span style="font: bold italic 10pt serif">s3</span><span style="font: 10pt serif"> </span><span style="font: bold 10pt serif">=&gt;</span><span style="font: 10pt serif"> (PRINT "s3 caught")<br></span><span class="tab" val="24"></span><span style="font: 10pt serif">       (</span><span style="font: bold 10pt serif">reject</span><span style="font: 10pt serif">)<br>         </span><span style="font: bold italic 10pt serif">s4</span><span style="font: 10pt serif"> </span><span style="font: bold 10pt serif">=&gt;</span><span style="font: 10pt serif"> (PRINT "s4 caught")<br></span><span class="tab" val="24"></span><span style="font: 10pt serif">       (</span><span style="font: bold 10pt serif">exit</span><span style="font: 10pt serif">)<br>         </span><span style="font: bold italic 10pt serif">any</span><span style="font: bold 10pt serif"> =&gt;</span><span style="font: 10pt serif"> (</span><span style="font: bold 10pt serif">printout </span><span style="font: 10pt serif">T type " caught by any" T)<br></span><span class="tab" val="24"></span><span style="font: 10pt serif">       (</span><span style="font: bold 10pt serif">exit</span><span style="font: 10pt serif">)<br>       (TestSignals)<br>         </span><span style="font: bold italic 10pt serif">s1</span><span style="font: 10pt serif"> </span><span style="font: bold 10pt serif">-&gt;</span><span style="font: 10pt serif"> (PRINT "s1 unwound")<br>         </span><span style="font: bold italic 10pt serif">unwind</span><span style="font: 10pt serif"> </span><span style="font: bold 10pt serif">-&gt;</span><span style="font: 10pt serif"> (PRINT "unwinding"))])<br><br>(TestSignals<br>  [LAMBDA NIL                                                (* ht: "18-JAN-83 16:39")<br>    (</span><span style="font: bold 10pt serif">printout</span><span style="font: 10pt serif"> T T<br></span><span class="tab" val="24"></span><span class="tab" val="24"></span><span style="font: 10pt serif">(SELECTQ (PROGN (</span><span style="font: bold 10pt serif">printout</span><span style="font: 10pt serif"> T T "&gt;")<br></span><span class="tab" val="24"></span><span class="tab" val="24"></span><span class="tab" val="24"></span><span class="tab" val="24"></span><span style="font: 10pt serif"> </span><span class="tab" val="24"></span><span class="tab" val="24"></span><span class="tab" val="24"></span><span class="tab" val="24"></span><span class="tab" val="24"></span><span style="font: 10pt serif">  (READ))<br></span><span class="tab" val="24"></span><span class="tab" val="24"></span><span class="tab" val="24"></span><span style="font: 10pt serif">   (1 (Signal &rsquo;s1 1))<br></span><span class="tab" val="24"></span><span class="tab" val="24"></span><span class="tab" val="24"></span><span style="font: 10pt serif">   (2 (Signal &rsquo;s2 2))<br></span><span class="tab" val="24"></span><span class="tab" val="24"></span><span class="tab" val="24"></span><span style="font: 10pt serif">   (3 (Signal &rsquo;s3 3))<br></span><span class="tab" val="24"></span><span class="tab" val="24"></span><span class="tab" val="24"></span><span style="font: 10pt serif">   (4 (Signal &rsquo;s4 4))<br></span><span class="tab" val="24"></span><span class="tab" val="24"></span><span class="tab" val="24"></span><span style="font: 10pt serif">   (5 (Signal &rsquo;foo 5))<br></span><span class="tab" val="24"></span><span class="tab" val="24"></span><span class="tab" val="24"></span><span style="font: 10pt serif">   6)<br></span><span class="tab" val="24"></span><span style="font: 10pt serif">   &rsquo;&larr;])</span></div>
+<script>function do_tabs() { // unit = px
+  var tabs = document.getElementsByClassName("tab");
+  for (var i = 0; i < tabs.length; ++i) {
+    var span = tabs[i];
+    var val = span.getAttribute("val");
+    if (val == null) console.log("Couldn't get val");
+    var rect = span.getBoundingClientRect();
+    var tabstop;
+    if (val > 0) tabstop = Math.ceil(rect.left / val) * val;
+    else tabstop = -val;
+    console.log("do_tabs", val, tabstop)
+    if (tabstop > 0) {
+      var width = tabstop - rect.left;
+      span.style.display = "inline-block";
+      span.style.width = width + "px";
+    }
+  }
+}
+do_tabs();
+</script>
+  </body>
+</html>

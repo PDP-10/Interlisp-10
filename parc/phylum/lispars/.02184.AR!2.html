@@ -1,0 +1,11 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [phylum]&lt;LispARs>02184.AR!2</title>
+  </head>
+  <body>
+    <pre>
+Number: 2184Date: 16-Sep-84 13':41':06Submitter: RoachSource: RoachSubject: error "{LINEDESCRIPTOR}#6,65000 - NON-NUMERIC ARG" in \TEDIT.FIXCHANGEDPARTAssigned To: Attn: SybalskyStatus: OpenIn/By: Problem Type: BugImpact: ModerateDifficulty: Frequency: IntermittentPriority: PerhapsSystem: TextSubsystem: TEditMachine: 1132Disk: Lisp Version: 15-Sep-84 03':48':38Source Files: Microcode Version: 5124Memory Size: 4096File Server: Server Software Version: Disposition: '["Sannella.PA" "18-Sep-84 12':24':02" Subject': Attn': Status':(New-&gt;Open) Priority':(-&gt;Perhaps)]Description: I''ve seen this a few times recently.  I get an error such as "{LINEDESCRIPTOR}#6,65000 - NON-NUMERIC ARG".  Checking the most recent occurrence, I see the stack'     \LISPERROR'     IDIFFERENCE'     \TEDIT.FIXCHANGEDPART'     TEDIT.UPDATE.SCREEN'     \TEDIT.DELTE'     TEDIT.DELETE'     ...my fns...'     \TEDIT.COMMAND.LOOP'The \TEDIT.FIXCHANGEDPART frame has'     TEXTOBJ = {TEXTOBJ}#6,20000'     STARTINGLINE = NIL'     WINDOW = {WINDOW}#5,65310'     LINES = {LINEDESCRIPTOR}#6,52550'     YBOT = 364'     TEXTLEN = 9281'     THISLINE = {THISLINE}#4,53512'     WHEIGHT = 376'     all others = NIL'and the IDIFFERENCE frame has'     X = {LINEDESCRIPTOR}#6,65000'     Y = 12'Possibly, TEDIT could be reacting badly to some other newly introduced problems with CTRL-shift deletion and Substitution which I will indicate in following ARs.Workaround: Test Case: Edit-By: Sannella.PAEdit-Date: 18-Sep-84 12':24':03</pre>
+  </body>
+</html>

@@ -1,0 +1,11 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [phylum]&lt;LispARs>01194.AR!3</title>
+  </head>
+  <body>
+    <pre>
+Number: 1194Date: 21-May-84 19':54':08Submitter: Sannella.PASource: Jellinek.paSubject: DIRPRINTNAME dies when listing &lt;file&gt;;10 if lowest version is &lt;file&gt;;1 Lisp Version: Description: 'Date': 17 May 84 17':48 PDT'From': Jellinek.pa'Subject': Lisp': DIRPRINTNAME dies'To': LispSupport.pa, vanMelle'cc': Jellinek.pa''Lisp System Date': 17-May-84 15':42':07'Machine': Dorado (Plaza)'Microcode version': 24,4'Memory size': 10000'Frequency': Always'Impact': Serious''When connected to {Phylum}&lt;LispCore&gt;REDUCE&gt; I asked for a directory listing by saying''&larr;DIR STLISP*''and got DIRPRINTNAME broken - non-numeric arg NIL when it was trying to list version 10 of the file STLISP.''I can reproduce this.''		H'''-----''Date': 17 May 84 22':15 PDT'From': vanMelle.pa'Subject': Re': Lisp': DIRPRINTNAME dies'In-reply-to': Jellinek.pa''s message of 17 May 84 17':48 PDT'To': Jellinek.pa'cc': LispSupport.pa, vanMelle.pa''Ja, I found this one today, a silly mistake.  Happens whenever the versions of a file include a version whose decimal representation is the digits ij, where version i is the lowest version.  Will fix.''	Bill'Workaround: Test Case: Edit-By: Sannella.PAEdit-Date: 17-Aug-84 10':08':22Attn: Assigned To: vanMelleIn/By: Disposition: System: Operating SystemSubsystem: Generic File OperationsMachine: Disk: Microcode Version: Memory Size: File Server: Server Software Version: Difficulty: EasyFrequency: EverytimeImpact: ModeratePriority: HopefullyStatus: ClosedProblem Type: BugSource Files: </pre>
+  </body>
+</html>

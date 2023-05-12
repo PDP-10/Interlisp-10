@@ -1,0 +1,22 @@
+(FILECREATED " 6-Mar-86 09:02:06" {GENIE}LISP:<LISPLIBRARY.KOTO>CMLCLISP.;5 2078         changes to:  (PROPS (cl:unless CLISPWORD))      previous date: " 6-Mar-86 01:25:42" {GENIE}LISP:<LISPLIBRARY.KOTO>CMLCLISP.;4)(* Copyright (c) 1986 by IntelliCorp. All rights reserved.)(PRETTYCOMPRINT CMLCLISPCOMS)(RPAQQ CMLCLISPCOMS [(PROP CLISPWORD CL:IF CL:UNLESS CL:WHEN cl:if cl:unless cl:when)		       (FNS CML-CLISP-TRAN)		       (P (for SYM in (QUOTE (CL:IF CL:UNLESS CL:WHEN cl:if cl:unless cl:when))			       do			       (REMPROP SYM (QUOTE MACRO))			       (REMPROP SYM (QUOTE DMACRO])(PUTPROPS CL:IF CLISPWORD (CML-CLISP-TRAN . cl:if))(PUTPROPS CL:UNLESS CLISPWORD (CML-CLISP-TRAN . cl:unless))(PUTPROPS CL:WHEN CLISPWORD (CML-CLISP-TRAN . cl:when))(PUTPROPS cl:if CLISPWORD (CML-CLISP-TRAN . cl:if))(PUTPROPS cl:unless CLISPWORD (CML-CLISP-TRAN . cl:unless))(PUTPROPS cl:when CLISPWORD (CML-CLISP-TRAN . cl:when))(DEFINEQ(CML-CLISP-TRAN
+  [LAMBDA (EXPRESSION)                                    (* edited: " 6-Mar-86 01:11")
+    (RPLACA EXPRESSION (L-CASE (CAR EXPRESSION)))
+    (SELECTQ (CAR EXPRESSION)
+	       ((CL:UNLESS cl:unless)
+		 [CLISPTRAN EXPRESSION (BQUOTE (COND
+						     ((NOT (\, (CADR EXPRESSION)))
+						       (\,@ (CDDR EXPRESSION]
+		 T)
+	       ((CL:WHEN cl:when)
+		 [CLISPTRAN EXPRESSION (BQUOTE (COND
+						     ((\, (CADR EXPRESSION))
+						       (\,@ (CDDR EXPRESSION]
+		 T)
+	       ((CL:IF cl:if)
+		 [CLISPTRAN EXPRESSION (BQUOTE (COND
+						     ((\, (CADR EXPRESSION))
+						       (\, (CADDR EXPRESSION)))
+						     (T (\,@ (CDDDR EXPRESSION]
+		 T)
+	       (PROGN (ERROR "Bad CML expression: " EXPRESSION)
+			NIL]))(for SYM in (QUOTE (CL:IF CL:UNLESS CL:WHEN cl:if cl:unless cl:when))     do     (REMPROP SYM (QUOTE MACRO))     (REMPROP SYM (QUOTE DMACRO)))(PUTPROPS CMLCLISP COPYRIGHT ("IntelliCorp" 1986))(DECLARE: DONTCOPY  (FILEMAP (NIL (978 1859 (CML-CLISP-TRAN 988 . 1857)))))STOP

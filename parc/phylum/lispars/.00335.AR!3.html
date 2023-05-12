@@ -1,0 +1,11 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [phylum]&lt;LispARs>00335.AR!3</title>
+  </head>
+  <body>
+    <pre>
+Number: 335Date: 28-Mar-84  9':09':01Submitter: Sannella.PASource: Raim.pasa (White@Teknowledge)Subject: &uarr;B in TeleRaid sometimes can''t cause break, gets into troubleAssigned To: Attn: Status: OpenIn/By: Problem Type: BugImpact: ModerateDifficulty: Very HardFrequency: IntermittentPriority: HopefullySystem: Language SupportSubsystem: Bootstrapping and TeleraidMachine: Disk: Lisp Version: Source Files: Microcode Version: Memory Size: File Server: Server Software Version: Disposition: '["masinter" " 4-Sep-84 14':48':15" Source': Subject': Attn': Impact':(Annoying-&gt;Moderate) Priority':(Unlikely-&gt;Hopefully) Description':]Description: 'Date': Wed, 21 Mar 84 13':51 PST'From': Raim.pasa'Subject': Teknowledge bug'To': LE'cc': 1100Support, Raim''Bill White at Teknowledge reports the following':''System': Fugue.5'Machine':  1108''The question he asks is': "Why does TeleRaid break with Invalid Address?"  Here is the scenario':''Bill was loading files, copying corresponding sources to {core}, and ended up in 9016.''Hit UNDO and got Teleraid cursor''Hit &uarr;B  ''Instead of break, fell into 9004.''Hit UNDO and got Teleraid cursor''Went to another 1108, loaded Teleraid''Typed (TELERAID 201Q)''Got Virtual Raid and @-prompt':''Typed L''Displayed 1':    and then went into break': "Invalid address"''ERRORSET'\EVAL'...'REMOTEMAP'VMAPPAGE'VGETBASEPTR0'V\BACKTRACE'VRAIDCOMMAND'ERRORSET'VRAID'TELERAID' '-----''[lmm': &uarr;B inside TeleRaid is NOT guaranteed to work. It is better if you can possibly go to another machine and TeleRaid BEFORE trying the &uarr;B. In this case, it didn''t work, and what happened is that the stack of the machine got into a bad state.]'Workaround: Test Case: Edit-By: masinterEdit-Date:  4-Sep-84 14':48':18</pre>
+  </body>
+</html>

@@ -1,0 +1,347 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [phylum]&lt;LISP>KOTO>Lispusers>sprint!1</title>
+  </head>
+  <body>
+    <pre>
+(FILECREATED "20-Sep-85 06:58:40" {EPSVX7}C$10:&lt;LANGLEY.REID&gt;SPRINT.;5 28322        changes to:  (FNS SPRINT1)      previous date: "16-Apr-85 07:48:54" {EPSVX7}C$10:&lt;LANGLEY.REID&gt;SPRINT.;3)(* Copyright (c) 1984, 1900, 1985 by Schlumberger Technology Corporation. All rights reserved.)(PRETTYCOMPRINT SPRINTCOMS)(RPAQQ SPRINTCOMS ((* * SPRINT contains an updated version of bvm's MYCIN SPRINT package for 		      formatted printing. See the documentation with each function.)		   (GLOBALVARS IRREGULAR.PLURALS SCRIPTFILE EOL)		   (FNS A/AN DSPRINTT PLURALIZE? SCHANGEFONT SPRINT SPRINTTERPRI SMULTIFONTP 			SPRINTOUT STAB SPRINT1 SPRINTLINELENGTH SPRINTOPEN SPRINTSEPR SPRINTX)		   (INITVARS IRREGULAR.PLURALS SCRIPTFILE (EOL (CHARACTER 13)))		   (P (COND ((OR (NULL (FNTYP 'SPRINTT))				 (EQ (FNTYP 'SPRINTT)				     'EXPR))			     (COND ((FMEMB (QUOTE SPRINTT)					   ADVISEDFNS)				    (UNADVISE SPRINTT)				    (MOVD (QUOTE DSPRINTT)					  (QUOTE SPRINTT))				    (READVISE SPRINTT))				   (T (MOVD 'DSPRINTT 'SPRINTT))))))))(* * SPRINT contains an updated version of bvm's MYCIN SPRINT package for formatted printing. See the documentation with each function.)(DECLARE: DOEVAL@COMPILE DONTCOPY(GLOBALVARS IRREGULAR.PLURALS SCRIPTFILE EOL))(DEFINEQ(A/AN
+  (LAMBDA (LST)                                              (* rgs: "14-JUN-84 14:25")
+
+          (* * A/AN conses "a" or "an" on front of LST, depending on its initial letter. The case of the initial letter in 
+	  LST is ignored.)
+
+
+    (SETQ LST (MKLIST LST))
+    (CONS (SELECTQ (CHARACTER (CHCON1 (CAR LST)))
+		   ((a e i o u)
+		     (QUOTE an))
+		   ((A E I O U)
+		     (QUOTE an))
+		   (QUOTE a))
+	  LST)))(DSPRINTT  (LAMBDA (X)                                                (* rgs: "15-Apr-85 11:00")    (SPRINT X)    (SPRINTTERPRI)))(PLURALIZE?
+  (LAMBDA (WORD LST)                                         (* rgs: "14-JUN-84 14:21")
+
+          (* * PLURALIZE? pluralizes WORD if LST is a list of more than one element, or a number not equal to 1.0 Returns 
+	  WORD with an "s" or "es" tacked on the end; otherwise just WORD. Knows about the exceptions that are on the alist 
+	  IRREGULAR.PLURALS.)
+
+
+    (COND
+      ((COND
+	  ((NUMBERP LST)
+	    (NEQ LST 1))
+	  (T (CDR LST)))
+	(OR (GETASSOC (MKATOM WORD)
+		      IRREGULAR.PLURALS)
+	    (CONCAT WORD (SELECTQ (NTHCHAR WORD -1)
+				  ((s z x)
+				    "es")
+				  (QUOTE s)))))
+      (T WORD))))(SCHANGEFONT  (LAMBDA (FONTCLASS FILE)                                   (* rgs: "16-Apr-85 07:48")          (* * SCHANGEFONT changes to FONTCLASS in FILE.)    (AND SCRIPTFILE (CHANGEFONT FONTCLASS SCRIPTFILE))    (CHANGEFONT FONTCLASS FILE)))(SPRINT  (LAMBDA (LST DSP PMAR LMAR INDENT LEN LEVEL SEPR INDICATE)                                                             (* rgs: "16-Apr-85 07:48")          (* * SPRINT prints LST to the stream DSP, initially spacing INDENT spaces. LEN is the length of a line, defaults to 	  the LINELENGTH of DSP. Paragraphs (caused by $L) are indented PMAR spaces. New lines forced by line length are 	  indented LMAR spaces. LMAR defaults to PMAR defaults to INDENT defaults to zero. INDENT=T means start a new line at 	  the paragraph indentation; a negative INDENT means start a new line if not there already. If LST is not a list, it 	  is treated as a one-element list. LST may contain strings, in which case they are broken at spaces and hyphens as 	  needed. Sprint treats punctuation atoms (parentheses, brackets, period, comma, etc.) specially, not spacing before 	  closing punctuation (e.g., comma) or after opening punc (e.g.,' ('). It also does this for strings beginning or 	  ending with punctuation chars, except for one-character strings (this provides a way of overriding the normal 	  handling of punctuation). LEVEL is a printlevel parameter--lists at depth greater than LEVEL are printed as &amp; 	  (default is 100). SEPR is a string or atom to PRIN1 between elements of LST. Default is blank.	  T means comma, which will not be printed after the words "and" and "or." INDICATE is used to make SPRINT look like 	  PRINT: if LST is a list, outer parens will appear, and strings in LST will be enclosed in quotes.	  Special functions are indicated by the following atoms in the input: $L: causes a paragraph break, i.e., start a new	  line at the PMAR indentation. The EOL char (the value of the atom EOL) will also do this. $I: Indent what follows, 	  i.e., starts a new paragraph at the previous indentation + 3.0 $O: Outdent; undoes a $I. $N: No space.	  Suppresses the space normally appearing between words.))          (* * rgs ("20-Jan-85 11:28:53") added font switching capabilities: Use $DEFAULT, $BOLD, $BIG, $LITTLE, or 	  $FONT&lt;number&gt; (1-7) (similar idea to printout). SPRINT always resets DSPFONT and DSPLINEFEED to their entering 	  values.)    (PROG (ENDWITH LSTWORD N PAREN SEPRFLG SEPRLEN Font LineFeed)          (* * If the stream is a file, DSPFONT and DSPLINEFEED break!!)          (COND	    ((SMULTIFONTP DSP)	      (SETQ Font (DSPFONT NIL DSP))	      (SETQ LineFeed (DSPLINEFEED NIL DSP))))          (SETQ SEPRLEN (SELECTQ SEPR				 (T                          (* T means ", ")				    2)				 (NIL                        (* NIL means Space)				      1)				 (NCHARS SEPR)))          (RESETLST (COND		      (Font (AND SCRIPTFILE (SMULTIFONTP SCRIPTFILE)				 (RESETSAVE NIL (LIST (QUOTE DSPFONT)						      Font SCRIPTFILE)))			    (RESETSAVE NIL (LIST (QUOTE DSPFONT)						 Font DSP))))		    (COND		      (LineFeed (AND SCRIPTFILE (SMULTIFONTP SCRIPTFILE)				     (RESETSAVE NIL (LIST (QUOTE DSPLINEFEED)							  LineFeed SCRIPTFILE)))				(RESETSAVE NIL (LIST (QUOTE DSPLINEFEED)						     LineFeed DSP))))		    (OR (ARRAYP (GETATOMVAL (QUOTE SYS.BITTABLE)))			(SETQ SYS.BITTABLE (MAKEBITTABLE (LIST 32 45 (CHCON1 EOL)))))                                                             (* (space, dash, eol), for finding separator chars in 							     strings)		    (COND		      ((NOT INDENT)			(SETQ INDENT 0))		      ((ZEROP INDENT))		      ((EQ INDENT T)			(SPRINTOUT EOL DSP)                  (* means start new line, at paragraph indentation)			(COND			  ((NUMBERP PMAR)                    (* 0 was NIL in original)			    (STAB PMAR 0 DSP))			  (T (SETQ PMAR 0))))		      ((MINUSP INDENT)                       (* means begin on new line, unless already there)                                                             (* had changed to (TAB PMAR 0 DSP))			(STAB (OR (NUMBERP PMAR)				  (SETQ PMAR 0))			      0 DSP))		      ((ILEQ (SETQ N (IPLUS INDENT (POSITION DSP)))			     (SPRINTLINELENGTH DSP))         (* 0 was NIL in original)			(STAB N 0 DSP))		      (T                                     (* Too far over to space any, so start new line at 							     appropriate indentation)			 (STAB (OR (NUMBERP LMAR)				   (NUMBERP PMAR)				   0)			       0 DSP)))		    (OR (NUMBERP PMAR)			(SETQ PMAR INDENT))		    (OR (NUMBERP LMAR)			(SETQ LMAR PMAR))		    (OR LEVEL (SETQ LEVEL 100))		    (COND		      ((NLISTP LST)                          (* treat non-list as one-element list)			(SPRINT1 (CONS LST)				 NIL DSP))		      (T (COND			   ((EQ (CAR LST)				(QUOTE $I))                  (* ignore initial indents)			     (SETQ LST (CDR LST))))			 (COND			   (INDICATE                         (* Show this is a list)				     (SETQ PAREN (QUOTE %())				     (SETQ ENDWITH (QUOTE %)))))			 (SPRINT1 LST LEVEL DSP)			 (COND			   (PAREN (SPRINTOUT PAREN DSP)))			 (COND			   (ENDWITH (SPRINTOUT ENDWITH DSP)))))))))(SPRINTTERPRI  (LAMBDA (DSP)                                              (* rgs: "16-Apr-85 07:48")    (AND SCRIPTFILE (TERPRI SCRIPTFILE))    (TERPRI DSP)))(SMULTIFONTP
+  (LAMBDA (FILE)                                             (* rgs: "21-Feb-85 08:33")
+
+          (* * SMULTIFONTP returns non-NIL if FILE can accept DSPFONT and DSPLINEFEED calls.)
+
+
+
+          (* * This is temporary until IMAGESTREAMP is fixed to coerce to a stream.)
+
+
+    (OR FILE (SETQ FILE (OUTPUT)))
+    (COND
+      ((EQ FILE T)
+	(SETQ FILE (TTYDISPLAYSTREAM)))
+      ((WINDOWP FILE)
+	(SETQ FILE (WINDOWPROP FILE (QUOTE DSP)))))
+    (OR (DISPLAYSTREAMP FILE)
+	(IMAGESTREAMP FILE))))(SPRINTOUT  (LAMBDA (X DSP)                                            (* rgs: "16-Apr-85 07:48")    (AND SCRIPTFILE (PRIN1 X SCRIPTFILE))    (PRIN1 X DSP)))(STAB  (LAMBDA (POS MINSPACES FILE)                               (* rgs: "16-Apr-85 07:48")    (AND SCRIPTFILE (NEQ SCRIPTFILE FILE)	 (TAB POS MINSPACES SCRIPTFILE))    (TAB POS MINSPACES FILE)))(SPRINT1  (LAMBDA (LST LEVEL DSP)                                    (* rll "20-Sep-85 06:58")          (* * SPRINT1 is a recursive subfn of SPRINT which prints LST (recurring for any elements which are themselves lists 	  and not in excess of LEVEL arg). Dispatches to other subfns according to each element of LST.)    (DECLARE (GLOBALVARS null))    (DECLARE (USEDFREE LSTWORD LMAR SEPRFLG PMAR INDICATE))    (PROG (WORD OPENQUOTE)      TOP (SETQ WORD (CAR LST))          (SETQ LST (CDR LST))      SEL (COND	    ((AND (STRINGP WORD)		  (NEQ WORD null))                           (* Print string, splitting as necessary)	      (SPRINTX WORD INDICATE DSP))	    ((LITATOM WORD)                                  (* litatom: all sorts of cases to check)	      (SELECTQ WORD		       (($L %)                                                            (* $L or tab)                                                             (* End of line, possibly bare EOL)			 (COND			   ((NEQ (CAR LST)				 (QUOTE $O))                 (* End of line indicator can be ignored if followed by 							     an outdent)			     (SPRINTSEPR PMAR NIL DSP))))		       (($DEFAULT $FONT1)                    (* switch to default font)			 (SCHANGEFONT DEFAULTFONT DSP))		       (($BOLD $FONT2)                       (* switch to bold font)			 (SCHANGEFONT BOLDFONT DSP))		       (($LITTLE $FONT3)                     (* switch to small font)			 (SCHANGEFONT LITTLEFONT DSP))		       (($BIG $FONT4)                        (* switch to big font)			 (SCHANGEFONT BIGFONT DSP))		       ($FONT5                               (* switch to numbered font)			       (SCHANGEFONT FONT5 DSP))		       ($FONT6                               (* switch to numbered font)			       (SCHANGEFONT FONT6 DSP))		       ($FONT7                               (* switch to numbered font)			       (SCHANGEFONT FONT7 DSP))		       ($FONT                                (* switch to a font described by a font descriptor 							     following $FONT)			      (SCHANGEFONT (CAR LST)					   DSP)			      (SETQ LST (CDR LST)))		       ($PPV                                 (* .PPV from printout)			     (PRINTDEF (CAR LST)				       (POSITION DSP)				       NIL NIL NIL DSP)			     (SETQ LST (CDR LST)))		       ($PPVTL                               (* .PPVTL from printout)			       (PRINTDEF (CAR LST)					 (POSITION DSP)					 NIL T NIL DSP)			       (SETQ LST (CDR LST)))		       ($I                                   (* new paragraph, indented further)			   (SPRINTSEPR (SETQ PMAR (IPLUS PMAR 3))				       T DSP)			   (SETQ LMAR (IPLUS LMAR 3)))		       ($O                                   (* outdent; ignore if final)			   (COND			     (LST (SPRINTSEPR (SETQ PMAR (IDIFFERENCE PMAR 3))					      T DSP)				  (SETQ LMAR (IDIFFERENCE LMAR 3)))))		       ($N                                   (* No space, even if we might otherwise have done so)			   (SETQ SEPRFLG NIL))		       (('S 's s)                            (* treat as "closing" punctuation)			 (SETQ SEPRFLG NIL)			 (SPRINTX WORD NIL DSP))		       ((%( %[ ~ { &lt;)                        (* "Opening" punctuation)			 (SPRINTOPEN WORD DSP))		       (%"                                   (* Figure out matching quotes)			   (SETQ OPENQUOTE (COND			       (OPENQUOTE (SETQ SEPRFLG NIL)					  (SPRINTX WORD NIL DSP)					  NIL)			       (T (SPRINTOPEN WORD DSP)				  T))))		       (SPRINTX WORD NIL DSP)))	    ((LISTP WORD)                                    (* Do lists recursively)	      (COND		((IGREATERP LEVEL 1)		  (SPRINTOPEN (QUOTE %()			      DSP)		  (SPRINT1 WORD (SUB1 LEVEL)			   DSP)		  (SPRINTX (QUOTE %))			   NIL DSP))		(T (SPRINTX (QUOTE ...)			    NIL DSP)))                       (* Enable separator printing as necessary.)	      (SETQ SEPRFLG T))	    (T                                               (* Non-atom/string/list requires no special treatment.							     Print here if it fits, else skip to new line 							     (e.g., numbers))	       (COND		 ((IGREATERP (IPLUS (POSITION DSP)				    (NCHARS WORD)				    2)			     (SPRINTLINELENGTH DSP))		   (SPRINTSEPR LMAR NIL DSP))		 (T (SPRINTSEPR NIL NIL DSP)))	       (SPRINTOUT WORD DSP)                          (* Enable separator printing as necessary.)	       (SETQ SEPRFLG T)))          (SETQ LSTWORD WORD)                                (* LSTWORD is the last word printed.)          (COND	    ((NOT LST)	      (RETURN))	    ((NLISTP LST)                                    (* We just printed car of a dotted pair)	      (SPRINTSEPR NIL NIL DSP)	      (SPRINTX (QUOTE %.)		       NIL DSP)                              (* Enable separator printing as necessary.							     (Otherwise, the "." will be taken as an end of 							     sentence.))	      (SETQ SEPRFLG T)	      (SETQ WORD LST)	      (SETQ LST NIL)	      (GO SEL))	    (T (GO TOP))))))(SPRINTLINELENGTH
+  (LAMBDA (DSP)                                              (* rgs: "20-Feb-85 09:21")
+
+          (* * If LEN is given (as an argument to SPRINT) then it is taken as the length of a line in DSP.
+	  Otherwise, the current line length is computed.)
+
+
+    (DECLARE (USEDFREE LEN))
+    (OR (NUMBERP LEN)
+	(LINELENGTH NIL DSP))))(SPRINTOPEN
+  (LAMBDA (CHAR DSP)                                         (* rgs: "10-Feb-85 11:13")
+
+          (* * SPRINTOPEN is called to print an "open  paren" type of character. Doesn't actually print it, but saves it to 
+	  print right before the next thing we print. This avoids printing isolated paren at the end of a line.)
+
+
+    (DECLARE (USEDFREE PAREN))
+    (COND
+      (PAREN                                                 (* Old paren to clean up first)
+	     (SPRINTSEPR NIL NIL DSP)))
+    (SETQ PAREN CHAR)))(SPRINTSEPR
+  (LAMBDA (NEWLINE DONTFORCE DSP)                            (* rgs: "20-Feb-85 09:20")
+
+          (* * SPRINTSEPR first prints the separator characters specified by SEPR (see SPRINT for defaults) according to 
+	  SEPRFLG. It then deals with EOL characters and tabbing to a new margin according to NEWLINE and DONTFORCE.)
+
+
+
+          (* * SPRINTSEPR prints backed-up parentheses according to PAREN.)
+
+
+
+          (* * SEPRFLG = T means "print SEPR as appropriate." SEPRFLG = NIL means don't print SEPR.)
+
+
+
+          (* * NEWLINE is set if want new line after separator)
+
+
+
+          (* * DONTFORCE = NIL means print an EOL when a new line is called for and tab to the NEWLINE specified margin.
+	  DONTFORCE = T means simply tab to the NEWLINE specified margin.)
+
+
+    (DECLARE (USEDFREE LSTWORD PAREN SEPRFLG SEPR))
+    (SELECTQ SEPRFLG
+	     (%                                              (* SEPRFLG = Space)
+                                                             (* Last thing printed was a period, so space twice)
+		 (OR NEWLINE (SPRINTOUT "  " DSP)))
+	     (NIL)
+	     (SELECTQ SEPR
+		      (NIL                                   (* SEPR = Space)
+                                                             (* Omit Space at end of line)
+                                                             (* (OR NEWLINE (PRIN1 (QUOTE % ) DSP) in original))
+			   (OR (AND NEWLINE (NOT DONTFORCE))
+			       (SPRINTOUT (QUOTE % )
+					  DSP)))
+		      (T                                     (* SEPR = "," Don't print after conjunctions, don't 
+							     space at EOL)
+			 (COND
+			   ((FMEMB LSTWORD (QUOTE (and or)))
+			     (OR NEWLINE (SPRINTOUT (QUOTE % )
+						    DSP)))
+			   (NEWLINE (SPRINTOUT (QUOTE ,)
+					       DSP))
+			   (T (SPRINTOUT ", " DSP))))
+		      (SPRINTOUT SEPR DSP)))
+    (COND
+      ((NOT NEWLINE)                                         (* just printed the sepr)
+	)
+      (DONTFORCE                                             (* this is mainly for indents;
+							     don't go to newline if there's room here)
+                                                             (* T was NIL in original)
+		 (STAB NEWLINE T DSP))
+      (T (SPRINTOUT EOL DSP)
+	 (STAB NEWLINE 0 DSP)))
+    (COND
+      (PAREN                                                 (* print any backed-up paren)
+	     (SPRINTOUT PAREN DSP)
+	     (SETQ PAREN NIL)))                              (* Just printed separator--clear flag)
+    (SETQ SEPRFLG NIL)))(SPRINTX
+  (LAMBDA (VAL SHOWQUOTE DSP)                                (* rgs: "21-Feb-85 10:40")
+
+          (* * SPRINTX is the major subfn of SPRINT which prints ordinary atoms or strings. SHOWQUOTE is true if the quotes 
+	  surrounding VAL should be printed as well. Gauges the space available on the current line, and starts a new one 
+	  and/or splits up VAL as necessary. If VAL starts with a "close punctuation", e.g. comma or right paren, space is 
+	  suppressed before it; similarly, if it ends in open punctuation, space is suppressed after it.
+	  If VAL is a one-character string (rather than atom), the special punctuation treatment is suppressed -- this 
+	  allows you to print, e.g. "&lt;" as a less-than symbol instead of angle bracket, or "." as a lisp dotted pair symbol 
+	  instead of period.)
+
+
+    (DECLARE (USEDFREE PMAR LMAR SEPRLEN SEPRFLG PAREN))
+    (PROG ((STRING? (STRINGP VAL))
+	   (QFLG SHOWQUOTE)
+	   (#CHARS (NCHARS VAL))
+	   (FIRSTIME T)
+	   (STRPTR (CONSTANT (CONCAT)))
+	   #SPACES SINGLECHAR BRKPOS CH NEWMAR (Length (SPRINTLINELENGTH DSP)))
+          (COND
+	    ((ZEROP Length)                                  (* Window is too small for printing.)
+	      (RETURN)))
+          (SETQ #SPACES (IDIFFERENCE Length (IPLUS (POSITION DSP)
+						   (COND
+						     (PAREN 1)
+						     (T 0))
+						   (COND
+						     (SHOWQUOTE 2)
+						     (T 0)))))
+          (COND
+	    ((EQ #CHARS 1)
+
+          (* This is so we don't do needless NTHCHAR on tiny atoms. Note this also means that single-character strings are 
+	  NOT treated as punctuation; this provides a way of escaping the special treatment accorded below to atoms of 
+	  punctuation and strings so beginning or ending.)
+
+
+	      (SETQ SINGLECHAR VAL)))
+          (COND
+	    ((AND (NOT SHOWQUOTE)
+		  (NOT PAREN)
+		  (SELECTQ (SETQ CH (OR SINGLECHAR (NTHCHAR VAL 1)))
+			   ((, %) %] ; } ? !)
+			     T)
+			   (%.                               (* Dot is period unless followed by digit, in which case
+							     it is decimal point.)
+			       (OR SINGLECHAR (NOT (FIXP (NTHCHAR VAL 2)))))
+			   (:                                (* added to handle variables with names like :x.
+							     No separator for space, eol, or tab following.)
+			      (OR SINGLECHAR (FMEMB (NTHCHAR VAL 2)
+						    (QUOTE (% EOL %	)))))
+			   (&gt; (OR SINGLECHAR (NEQ (NTHCHAR VAL 2)
+						  (QUOTE =))))
+			   NIL)
+		  (NEQ #SPACES 0))                           (* String starts with punctuation that wants to be 
+							     preceded with no spaces)
+	      (COND
+		(SINGLECHAR (SPRINTOUT CH DSP)               (* We always have room for single punctuation mark, 
+							     unless no spaces at all (#SPACES=0))
+			    (GO DONE))
+		((AND (ILEQ (IPLUS #CHARS 2)
+			    #SPACES)
+		      (NOT (STRPOS EOL VAL)))                (* it fits, so just print it)
+		  (SPRINTOUT VAL DSP)
+		  (GO DONE))
+		(T (SPRINTOUT CH DSP)                        (* print the punctuation now, lest the string splitter 
+							     guess wrong)
+		   (SETQ VAL (SUBSTRING VAL 2 NIL STRPTR))
+		   (SUB1VAR #CHARS)                          (* deduct from string count and space count)
+		   (SUB1VAR #SPACES)
+		   (SETQ SEPRFLG NIL)))))
+
+          (* * Also deduct for the separating space/whatever we need to print. The extra 2 we deduct is to make sure we 
+	  always have room for a couple of punctuation chars)
+
+
+          (SETQ #SPACES (IDIFFERENCE #SPACES (IPLUS (SELECTQ SEPRFLG
+							     (%  2)
+							     (NIL 0)
+							     SEPRLEN)
+						    2)))
+          (while (OR (IGEQ #CHARS #SPACES)
+		     (AND STRING? (STRPOS EOL VAL)))
+	     do (COND
+		  ((IGREATERP #CHARS 1)
+		    (bind (N &larr; 0) while (AND (SETQ N (STRPOSL SYS.BITTABLE VAL (ADD1VAR N)))
+					     (ILEQ N #SPACES))
+		       unless (AND (EQ (SETQ CH (NTHCHAR VAL N))
+				       (QUOTE -))
+				   (OR (ILESSP N 3)
+				       (IGREATERP (IPLUS N 2)
+						  #CHARS)
+				       (FMEMB (NTHCHAR VAL (ADD1 N))
+					      (QUOTE (0 1 2 3 4 5 6 7 8 9 %.)))))
+		       do 
+
+          (* Set BRKPOS to be the last space before linelength runs out, or where EOL appears. #CHARS check assures that we 
+	  don't break a short hyphenated atom over a line, e.g. CULTURE-1)
+
+
+			  (SETQ BRKPOS N)
+		       repeatwhile (NEQ CH EOL))))
+		(SETQ NEWMAR LMAR)                           (* Ordinarily next line starts at normal margin)
+                                                             (* BRKPOS = 1 is not really a break)
+		(COND
+		  (BRKPOS (COND
+			    ((NEQ BRKPOS 1)                  (* a real line break)
+			      (SPRINTSEPR NIL NIL DSP)
+			      (COND
+				(QFLG                        (* Must indicate quotes)
+				      (SPRINTOUT (QUOTE %")
+						 DSP)
+				      (SETQ QFLG NIL)))      (* print the first line; the SUB1 is to prevent the 
+							     space or eol that caused the break from being printed.)
+                                                             (* Scratch string, so we don't eat up too many string 
+							     pointers)
+			      (SPRINTOUT (SUBSTRING VAL 1 (COND
+						      ((EQ CH (QUOTE -))
+							BRKPOS)
+						      (T (SUB1 BRKPOS)))
+						    (CONSTANT (CONCAT)))
+					 DSP)))
+			  (COND
+			    ((EQ CH (QUOTE -))               (* we broke at a dash--skip over it by increasing 
+							     BRKPOS)
+			      (ADD1VAR BRKPOS))
+			    ((EQ CH EOL)                     (* Broke at EOL. Treat it as a space unless this is a 
+							     paragraph break.)
+			      (COND
+				((OR (EQ (SETQ CH (NTHCHAR VAL (ADD1VAR BRKPOS)))
+					 (QUOTE %	))
+				     (EQ CH EOL))            (* if we break at EOL, skip past the EOL 
+							     (by increasing BRKPOS))
+                                                             (* Paragraph break. Start new line at PMAR)
+				  (SETQ NEWMAR PMAR)
+				  (COND
+				    ((EQ CH EOL)             (* Two eol's is a blank line, so do it)
+				      (SPRINTOUT EOL DSP))))
+				(T                           (* Just random eol, so try to fit more on the line)
+				   (COND
+				     ((ILEQ (SETQ #CHARS (ADD1 (IDIFFERENCE #CHARS BRKPOS)))
+					    0)               (* The EOL ended the string)
+				       (RETURN))
+				     (T (SETQ #SPACES (ADD1 (IDIFFERENCE #SPACES BRKPOS)))
+					(SETQ SEPRFLG (COND
+					    ((EQ (NTHCHAR VAL (IDIFFERENCE BRKPOS 2))
+						 (QUOTE %.))
+                                                             (* Line ended in period, so do two spaces)
+					      (SUB1VAR #SPACES)
+					      (QUOTE % ))
+					    (T T)))          (* Indicate space needed to replace the EOL;
+							     don't print it now, but wait til we know we can fit more
+							     on the line)
+					(SETQ VAL (SUBSTRING VAL BRKPOS NIL STRPTR))
+                                                             (* Reduce string, and go back and try again)
+					(SETQ BRKPOS NIL)
+					(GO $$ITERATE))))))))
+		  (T                                         (* this branch for string in which no dash, space, or 
+							     eol was found)
+		     (SETQ BRKPOS 1)))                       (* strip leading spaces and tabs from new piece)
+		(bind (N &larr;(SUB1 BRKPOS)) while (FMEMB (SETQ CH (NTHCHAR VAL (ADD1VAR N)))
+						      (QUOTE (%  %	)))
+		   do (ADD1VAR BRKPOS))
+		(COND
+		  ((EQ CH EOL)
+		    (COND
+		      ((EQ (SETQ CH (NTHCHAR VAL (ADD1VAR BRKPOS)))
+			   (QUOTE %	))                       (* Oops, we broke right before an &lt;eol&gt;&lt;tab&gt; paragraph 
+							     break)
+			(ADD1VAR BRKPOS)
+			(SETQ NEWMAR PMAR)))))
+		(COND
+		  ((EQ BRKPOS 1)                             (* BRKPOS = 1 means no break)
+		    T)
+		  ((ILEQ (SETQ #CHARS (ADD1 (IDIFFERENCE #CHARS BRKPOS)))
+			 0)                                  (* if this is wrong, we lose characters at the end of 
+							     the string)
+		    (RETURN))
+		  (T                                         (* if this is wrong, we lose characters at beginning of 
+							     broken lines.)
+		     (SETQ VAL (SUBSTRING VAL BRKPOS NIL STRPTR))))
+		(SPRINTSEPR NEWMAR NIL DSP)
+		(SETQ #SPACES (IDIFFERENCE (IDIFFERENCE Length NEWMAR)
+					   2))               (* This is new value of #SPACES)
+		(COND
+		  (SHOWQUOTE (SUB1VAR #SPACES)))
+		(SETQ BRKPOS #SPACES)                        (* Set BRKPOS to this in case there isn't a place to 
+							     break)
+                                                             (* end of while loop)
+		)
+          (COND
+	    ((OR QFLG (NOT (ZEROP #CHARS)))
+	      (SPRINTSEPR NIL NIL DSP)
+	      (COND
+		(QFLG (SPRINTOUT (QUOTE %")
+				 DSP)))
+	      (SPRINTOUT VAL DSP)))
+      DONE(COND
+	    (SHOWQUOTE (SPRINTOUT (QUOTE %")
+				  DSP)
+		       (SETQ SEPRFLG T))
+	    (T (SETQ SEPRFLG (SELECTQ (OR SINGLECHAR (NTHCHAR VAL -1))
+				      (%.                    (* want to space twice after this)
+					  (QUOTE % ))
+				      ((%( %[ { ~ &lt;)         (* Don't space after these paren entities)
+					NIL)
+				      T))))))))(RPAQ? IRREGULAR.PLURALS NIL)(RPAQ? SCRIPTFILE NIL)(RPAQ? EOL (CHARACTER 13))(COND ((OR (NULL (FNTYP 'SPRINTT))	   (EQ (FNTYP 'SPRINTT)	       'EXPR))       (COND ((FMEMB (QUOTE SPRINTT)		     ADVISEDFNS)	      (UNADVISE SPRINTT)	      (MOVD (QUOTE DSPRINTT)		    (QUOTE SPRINTT))	      (READVISE SPRINTT))	     (T (MOVD 'DSPRINTT 'SPRINTT)))))(PUTPROPS SPRINT COPYRIGHT ("Schlumberger Technology Corporation" 1984 1900 1985))(DECLARE: DONTCOPY  (FILEMAP (NIL (1292 27845 (A/AN 1302 . 1750) (DSPRINTT 1752 . 1901) (PLURALIZE? 1903 . 2553) (SCHANGEFONT 2555 . 2833) (SPRINT 2835 . 8284) (SPRINTTERPRI 8286 . 8467) (SMULTIFONTP 8469 . 9005) (SPRINTOUT 9007 . 9187) (STAB 9189 . 9413) (SPRINT1 9415 . 14900) (SPRINTLINELENGTH 14902 . 15274) (SPRINTOPEN 15276 . 15839) (SPRINTSEPR 15841 . 18510) (SPRINTX 18512 . 27843)))))STOP</pre>
+  </body>
+</html>

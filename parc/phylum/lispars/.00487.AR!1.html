@@ -1,0 +1,11 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [phylum]&lt;LispARs>00487.AR!1</title>
+  </head>
+  <body>
+    <pre>
+Number: 487Date:  3-Apr-84 17':55':07Submitter: Sannella.PASource: JonL.paSubject: BROWSER should construct "paths" tree breadth-firstLisp Version: Description: 'Date': 10 Mar 84 15':42 PST'From': JonL.pa'Subject': Lisp': BROWSER''s "boxing"'To': LispSupport.pa'cc': JonL.pa'Lisp-System-Date':  7-Mar-84 13':56':45'Machine-Type': Dorado''It appears as though BROWSER is doing a depth-first search when it constructs its "paths" tree;  I''d prefer a breadth-first.  Example -- '''This is the current structure':''        -BoxedFn1'       /'TopFn----BoxedFn2'       \'        -UnboxedFn3--BoxedFn2--BoxedFn1--UnboxedFn4--BoxedFn2'''This is what I''d rather see''        -BoxedFn1--UnboxedFn4--BoxedFn2'       /'TopFn----BoxedFn2--BoxedFn1'       \'        -UnboxedFn3--BoxedFn2'''The latter format gives preference to the topmost&amp;leftmost "boxed" instance of a function node as being the primary node for that funciton; the other "boxed" nodes with the same label can then be viewed as "continuation" pointers.'Workaround: Test Case: Edit-By: Edit-Date: Attn: Burton.paAssigned To: In/By: Disposition: System: Windows and GraphicsSubsystem: LibraryMachine: Disk: Microcode Version: Memory Size: File Server: Server Software Version: Difficulty: Frequency: EverytimeImpact: AnnoyingPriority: UnlikelyStatus: WishProblem Type: Design - UISource Files: </pre>
+  </body>
+</html>

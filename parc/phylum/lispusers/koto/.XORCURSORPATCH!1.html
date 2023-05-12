@@ -1,0 +1,11 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [phylum]&lt;LISPUSERS>koto>XORCURSORPATCH!1</title>
+  </head>
+  <body>
+    <pre>
+(FILECREATED " 7-Oct-86 18:56:37" {XDE:MCS:STANFORD}&lt;LISPUSERS&gt;KOTO&gt;XORCURSORPATCH.;7              changes to:  (FNS DOVE.XOR.CURSOR)		   (VARS XORCURSORPATCHCOMS)		   (ADVICE \DoveDisplay.SetVideoColor-IN-VIDEOCOLOR \RESETTERMINAL)      previous date: " 7-Oct-86 14:12:03" {XDE:MCS:STANFORD}&lt;LISPUSERS&gt;KOTO&gt;XORCURSORPATCH.;1)(PRETTYCOMPRINT XORCURSORPATCHCOMS)(RPAQQ XORCURSORPATCHCOMS ((FNS DOVE.XOR.CURSOR)			     (INITVARS (\DoveDisplay.VideoColor 1))			     (GLOBALVARS \DoveDisplay.VideoColor)			     (ADVISE (\DoveDisplay.SetVideoColor IN VIDEOCOLOR))))(DEFINEQ(DOVE.XOR.CURSOR  [LAMBDA (FLG)                                              (* cdl " 7-Oct-86 18:56")    (SELECTQ (MACHINETYPE)	       (DOVE (if (EQP \DoveDisplay.VideoColor 1)			 then (if FLG				    then (SETQ \DoveDisplay.VideoColor (if (NUMBERP FLG)									       then FLG									     else 9)))		       else (if (NULL FLG)				  then (SETQ \DoveDisplay.VideoColor 1)))		     (\DoveDisplay.SetCursorMix \DoveDisplay.VideoColor)		     T)	       NIL]))(RPAQ? \DoveDisplay.VideoColor 1)(DECLARE: DOEVAL@COMPILE DONTCOPY(GLOBALVARS \DoveDisplay.VideoColor))(PUTPROPS \DoveDisplay.SetVideoColor-IN-VIDEOCOLOR READVICE ((VIDEOCOLOR . 	     \DoveDisplay.SetVideoColor)	   (AFTER NIL (SELECTQ (MACHINETYPE)			       (DOVE (if (NOT INVERSE?)					 then					 (\DoveDisplay.SetCursorMix \DoveDisplay.VideoColor)))			       NIL))))(READVISE \DoveDisplay.SetVideoColor-IN-VIDEOCOLOR)STOP</pre>
+  </body>
+</html>

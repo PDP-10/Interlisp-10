@@ -1,0 +1,11 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [phylum]&lt;LispARs>00928.AR!2</title>
+  </head>
+  <body>
+    <pre>
+Number: 928Date:  2-May-84 12':43':49Submitter: Sannella.PASource: JonL.paSubject: Want UNPACKFILENAME and FILENAMEFIELD to take FileSystemType argAssigned To: Attn: kaplan, jonlStatus: OpenIn/By: Problem Type: Design - ImplImpact: ModerateDifficulty: EasyFrequency: EverytimePriority: PerhapsSystem: Operating SystemSubsystem: Generic File OperationsMachine: Disk: Lisp Version: Source Files: Microcode Version: Memory Size: File Server: Server Software Version: Disposition: Description: 'Date': 20 Apr 84 16':33 PST'From': JonL.pa'Subject': Lisp': Want AR on filename parsing to be OS-dependent'To': LispSupport.pa'cc': Sybalsky, JonL.pa''Lisp System Date': 20-Apr-84 09':45':40'Machine': Dorado (DaVinci)'Microcode version': 24,4'Memory size': 10000'Frequency': Always'Impact':  Serious''A number of file-system complaints would vanish if functions like UNPACKFILENAME and FILENAMEFIELD admitted a "FileSystemType" parameter; thus one would see quite different results between' (UNPACKFILENAME "abc/def" NIL ''TENEX)' (UNPACKFILENAME "abc/def" NIL ''UNIX)'Not only would the "/" key the unix parser into sub-directories, but the TENEX parser would U-CASE the items (whereas the UNIX one wouldn''t?).''The second part of this "wish" is that UNPACKFILENAME be smart enough to pick up the TENEX part from NETWORKOSTYPES after first parsing the host in'  (UNPACKFILENAME "{MAXC}abc/def")''Then the third part is to have a global variable (maybe a process global?) DEFAULTFILESYSTEMTYPE, probably initially TENEX, which these parsers would use when there was neither an explicit argument or a known system type in the host part.'Workaround: Test Case: Edit-By: SybalskyEdit-Date:  5-Jun-84 11':03':47</pre>
+  </body>
+</html>

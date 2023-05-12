@@ -1,0 +1,11 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [phylum]&lt;JLisp>PATCHCORE!2</title>
+  </head>
+  <body>
+    <pre>
+(FILECREATED " 3-Aug-84 19:13:25" {PHYLUM}&lt;JLISP&gt;PATCHCORE.;2 1477         changes to:  (VARS PATCHCORECOMS)		   (FNS PATCHCORE)      previous date: " 3-Aug-84 18:59:30" {PHYLUM}&lt;JLISP&gt;PATCHCORE.;1)(* Copyright (c) 1984 by Xerox Corporation. All rights reserved.)(PRETTYCOMPRINT PATCHCORECOMS)(RPAQQ PATCHCORECOMS ((FNS \CORE.READPAGE \CORE.READPAGES PATCHCORE)		      (P (PATCHCORE))))(DEFINEQ(\CORE.READPAGE  [LAMBDA (STREAM PAGENUMBER BUFFER)                         (* rmk: "24-OCT-83 13:19")    (\MOVEWORDS (\CORE.FINDPAGE STREAM PAGENUMBER)		0 BUFFER 0 WordsPerPage)    (COND      ((ILESSP PAGENUMBER (fetch EPAGE of STREAM))	BYTESPERPAGE)      ((EQ PAGENUMBER (fetch EPAGE of STREAM))	(fetch EOFFSET of STREAM))      (T 0])(\CORE.READPAGES  [LAMBDA (STREAM FIRSTPAGE# BUFFERS)                        (* rmk: " 1-NOV-83 22:00")    (for BUF inside BUFFERS as PAGE from FIRSTPAGE# sum (\CORE.READPAGE STREAM PAGE BUF])(PATCHCORE  [LAMBDA (NAME)                                             (* rmk: " 3-Aug-84 18:58")                                                             (* This patches a CORE device so that \MAPPAGE will 							     work.)    (replace READPAGES of (\GETDEVICEFROMNAME (OR NAME (QUOTE CORE))) with (FUNCTION \CORE.READPAGES]))(PATCHCORE)(PUTPROPS PATCHCORE COPYRIGHT ("Xerox Corporation" 1984))(DECLARE: DONTCOPY  (FILEMAP (NIL (408 1385 (\CORE.READPAGE 418 . 795) (\CORE.READPAGES 797 . 1019) (PATCHCORE 1021 . 1383)))))STOP</pre>
+  </body>
+</html>

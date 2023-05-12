@@ -1,0 +1,11 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [phylum]&lt;LispARs>01020.AR!3</title>
+  </head>
+  <body>
+    <pre>
+Number: 1020Date:  8-May-84  9':57':26Submitter: Roach.paSource: Roach.paSubject: Want record package to add typecheck in ACCESSFNS of DATATYPEsAssigned To: Attn: MasinterStatus: OpenIn/By: Problem Type: Design - UIImpact: AnnoyingDifficulty: ModerateFrequency: EverytimePriority: System: Programming EnvironmentSubsystem: Record PackageMachine: Disk: Lisp Version: Source Files: Microcode Version: Memory Size: File Server: Server Software Version: Disposition: '["masinter" "14-Sep-84 15':14':51" Attn': Status':(Declined-&gt;Open) Problem% Type':(Bug-&gt;Design% -% UI) Difficulty':(Hard-&gt;Moderate)]Description: If you have a record declaration such as'     (DATATYPE FOO (BAR COUGH)'       (ACCESSFNS ((MEEF (\ADDBASE DATUM 2)))))'then Interlisp will not complain if you try'     (fetch (FOO MEEF) of NIL).'Would it not be better if taking the MEEF of a non-FOO generated the same kind of error that taking the BAR of a non-FOO would generate?'Workaround: (DATATYPE FOO (BAR COUGH) (ACCESSFNS ((MEEF (\ADDBASE (\DTEST DATUM ''FOO) 2))))) -- do the type check yourself. I can think of some situations where you wouldn''t want it.Test Case: Edit-By: masinterEdit-Date: 14-Sep-84 15':14':52</pre>
+  </body>
+</html>

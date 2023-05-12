@@ -1,0 +1,44 @@
+;
+;
+;
+;NNGS INTERPRETER ENTRY
+              EXTRN    INTERPF:FAR
+;
+;
+STACK1        SEGMENT PARA STACK 'GROUP1'
+;
+;DEFINE 256 BYTES OF STACK AREA
+              DB   256 DUP('STACK ')
+STACK1        ENDS
+;
+;
+;
+DEMO          SEGMENT PARA      'GROUP1'
+              ASSUME CS:DEMO,DS:DEMO
+START         PROC FAR
+;
+;
+;
+;DOS ENTRY
+              PUSH DS
+              SUB  AX,AX
+              PUSH AX
+;
+;ADDRESS TO WORK AREA
+              MOV  AX,CS
+              MOV  DS,AX
+              MOV  ES,AX
+;
+; DRAW TEST PATTERN
+              CALL GRAF
+              RET
+;
+START         ENDP
+;
+;
+;             INCLUDE C:SCAN.ASM
+              INCLUDE C:TEST.ASM
+DEMO          ENDS
+              END
+ 
+                                     

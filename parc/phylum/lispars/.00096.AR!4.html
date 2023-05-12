@@ -1,0 +1,11 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [phylum]&lt;LispARs>00096.AR!4</title>
+  </head>
+  <body>
+    <pre>
+Number: 96Date: 17-Mar-84  0':13':41Submitter: le.pasaSource: Schlumberger DollSubject: Need to Permanently disable scrollingLisp Version: Fugue.4Description: 'A user-created window, W, has scrolling disabled.  When (PRINTOUT W ...) is called scrolling is re-enabled.  The user needs to be able to permanently disable scrolling.'Date': 12 Apr 84 14':44 PST'From': Burton.pa'Subject': ar 96 - disable scrolling'To': Le.pasa, lispsupport.pa'''I''m not sure I understand this AR.  I assume it is about the DSPSCROLL aspect of a window.  This aspect is only changed by TTYDISPLAYSTREAM (so that typein is not lost).  I have tried (PRINTOUT W ...) to a window with (DSPSCROLL NIL W) (the default by the way)  and it does not scroll.  Is W being used as the TTYDISPLAYSTREAM of a process?  If so, the solution is to not use a different window as the tty or notice when the tty is changed and re-disable scrolling as part of the tty switch.  If not, please get a more specific statement of the problem.''richard'' Workaround: Test Case: Edit-By: sybalsky.paEdit-Date: 12-Apr-84 17':40':12Attn: Burton.paAssigned To: In/By: Disposition: System: Windows and GraphicsSubsystem: Window SystemMachine: 1108Disk: Microcode Version: Memory Size: File Server: Server Software Version: Difficulty: Frequency: IntermittentImpact: ModeratePriority: Status: IncompleteProblem Type: Design - ImplSource Files: </pre>
+  </body>
+</html>

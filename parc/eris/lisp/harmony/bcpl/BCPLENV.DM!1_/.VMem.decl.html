@@ -1,0 +1,11 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [eris]&lt;Lisp>Harmony>BCPL>BCPLENV.DM!1>VMem.decl</title>
+  </head>
+  <body>
+    <pre>
+// VMem.decl - data structures and constants common to VMemInit and VMemB// File created on November 20, 1980  12:23 AM by Beau Sheilstructure BPT:			// length is known in Vmema.asm [ NEXT word			// next buffer in chain *** MUST BE FIRST   VP word = [ STATE byte	// various hibyte values indicate empty or NA                blank byte             ]   FWORD word = [ LOCK bit	// page is locked                   FILEP bit 15	// page number in file                ] ]manifest [ LastVirtualPage = #37777	// for 22-bit address space   lBPT = size BPT/16   EMPTY = 64			// assumes 22-bit addresses!   UNAVAIL = 65 ]// Hardware memory map definitions - Dorado Serial 1 compatiblemanifest  [	REFbit   = #100000	DIRTYbit =  #10000	VACANT   =  #30000	OCCUPIED =      #0  ]external [ @Bpt; @BptLast; BptSize; @BufVp; @BufRP; @RPoffset; LogPagingFlag ]</pre>
+  </body>
+</html>

@@ -1,0 +1,1692 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [eris]&lt;LispCore>SOURCES>CMLDEFFER!32</title>
+  </head>
+  <body>
+    <pre>
+$ od -c -N 50000 [eris]&lt;LispCore>SOURCES>CMLDEFFER!32
+0000000    (   D   E   F   I   N   E   -   F   I   L   E   -   I   N   F
+0000020    O     247   R   E   A   D   T   A   B   L   E       "   X   C
+0000040    L   "     247   P   A   C   K   A   G   E       "   I   N   T
+0000060    E   R   L   I   S   P   "   )  \r 006 001   (   F   I   L   E
+0000100    C   R   E   A   T   E   D       "   3   0   -   O   c   t   -
+0000120    8   6       0   2   :   5   6   :   0   7   "     006 004   {
+0000140    E   R   I   S   }   <   L   I   S   P   C   O   R   E   >   S
+0000160    O   U   R   C   E   S   >   C   M   L   D   E   F   F   E   R
+0000200    .   \   ;   3   2 006 001       2   7   6   5   1          \r
+0000220   \r                           |   c   h   a   n   g   e   s   |
+0000240        |   t   o   :   |           (   F   U   N   C   T   I   O
+0000260    N   S       \   \   D   E   F   I   N   E   -   T   Y   P   E
+0000300    -   S   A   V   E   -   D   E   F   N   )  \r  \r            
+0000320                |   p   r   e   v   i   o   u   s   |       |   d
+0000340    a   t   e   :   |       "   3   0   -   O   c   t   -   8   6
+0000360        0   1   :   0   7   :   4   7   "       {   E   R   I   S
+0000400    }   <   L   I   S   P   C   O   R   E   >   S   O   U   R   C
+0000420    E   S   >   C   M   L   D   E   F   F   E   R   .   \   ;   3
+0000440    1   )  \r  \r  \r   ;       C   o   p   y   r   i   g   h   t
+0000460        (   c   )       1   9   8   6   ,       1   9   0   0    
+0000500    b   y       X   e   r   o   x       C   o   r   p   o   r   a
+0000520    t   i   o   n   .           A   l   l       r   i   g   h   t
+0000540    s       r   e   s   e   r   v   e   d   .  \r  \r   (   P   R
+0000560    E   T   T   Y   C   O   M   P   R   I   N   T       C   M   L
+0000600    D   E   F   F   E   R   C   O   M   S   )  \r  \r   (   R   P
+0000620    A   Q   Q     006 002   C   M   L   D   E   F   F   E   R   C
+0000640    O   M   S 006 001       (   (   *       |   ;   ;   ;   |    
+0000660   \r               "   D   E   F   -   D   E   F   I   N   E   -
+0000700    T   Y   P   E       a   n   d       D   E   F   D   E   F   I
+0000720    N   E   R       -   -       Y   o   u   r       O   n   e   -
+0000740    S   t   o   p       P   r   o   v   i   d   e   r   s       o
+0000760    f       C   u   s   t   o   m   i   z   e   d       F   i   l
+0001000    e       M   a   n   a   g   e   r       F   a   c   i   l   i
+0001020    t   i   e   s   .   "  \r                                    
+0001040                                                                 
+0001060    )  \r                                                        
+0001100                                    (   *       |   ;   ;   |    
+0001120    "   B   E       V   E   R   Y       C   A   R   E   F   U   L
+0001140        C   H   A   N   G   I   N   G       A   N   Y   T   H   I
+0001160    N   G       I   N       T   H   I   S       F   I   L   E   !
+0001200    !   !           I   t       i   s       h   e   a   v   i   l
+0001220    y       s   e   l   f   -   r   e   f   e   r   e   n   t   i
+0001240    a   l       a   n   d       t   h   i   c   k       w   i   t
+0001260    h       b   o   o   t   s   t   r   a   p   p   i   n   g    
+0001300    p   r   o   b   l   e   m   s   .           A   l   l       b
+0001320    u   t       t   h   e       m   o   s   t       t   r   i   v
+0001340    i   a   l       c   h   a   n   g   e   s       (   a   n   d
+0001360        s   o   m   e       o   f       t   h   o   s   e   )    
+0001400    a   r   e       v   e   r   y       t   r   i   c   k   y    
+0001420    t   o       m   a   k   e       w   i   t   h   o   u   t    
+0001440    b   l   o   w   i   n   g       y   o   u   r   s   e   l   f
+0001460        o   u   t       o   f       t   h   e       w   a   t   e
+0001500    r   .   .   .           Y   o   u       h   a   v   e       b
+0001520    e   e   n       w   a   r   n   e   d   .   "  \r            
+0001540                                                                 
+0001560                            )  \r                                
+0001600                                                            (   I
+0001620    N   I   T   V   A   R   S       (   F   I   L   E   P   K   G
+0001640    F   L   G       N   I   L   )   )  \r                        
+0001660                                                                 
+0001700    (   *       |   ;   ;   |       "   T   h   e       d   e   f
+0001720    i   n   e   r       d   a   t   a       s   t   r   u   c   t
+0001740    u   r   e   s       a   n   d       m   a   n   i   p   u   l
+0001760    a   t   i   o   n       f   u   n   c   t   i   o   n   s   "
+0002000    )  \r                                                        
+0002020                                    (   V   A   R   I   A   B   L
+0002040    E   S       *   D   E   F   I   N   I   T   I   O   N   -   H
+0002060    A   S   H   -   T   A   B   L   E   *   )  \r                
+0002100                                                                 
+0002120            (   F   U   N   C   T   I   O   N   S       P   P   R
+0002140    I   N   T   -   D   E   F   I   N   E   R       R   E   M   O
+0002160    V   E   -   C   O   M   M   E   N   T   S   )  \r            
+0002200                                                                 
+0002220                (   V   A   R   I   A   B   L   E   S       *   R
+0002240    E   M   O   V   E   -   I   N   T   E   R   L   I   S   P   -
+0002260    C   O   M   M   E   N   T   S   *   )  \r                    
+0002300                                                                 
+0002320        (   F   U   N   C   T   I   O   N   S       \   \   D   E
+0002340    F   I   N   E   -   T   Y   P   E   -   D   E   L   D   E   F
+0002360        \   \   D   E   F   I   N   E   -   T   Y   P   E   -   G
+0002400    E   T   D   E   F       \   \   D   E   F   I   N   E   -   T
+0002420    Y   P   E   -   S   A   V   E   -   D   E   F   N   )  \r    
+0002440                                                                 
+0002460                        (   *       |   ;   ;   |       "   T   h
+0002500    e       g   r   o   u   n   d   w   o   r   k       f   o   r
+0002520        b   o   o   t   s   t   r   a   p   p   i   n   g   "   )
+0002540   \r                                                            
+0002560                                (   D   E   F   I   N   E   -   T
+0002600    Y   P   E   S       D   E   F   I   N   E   -   T   Y   P   E
+0002620    S       F   U   N   C   T   I   O   N   S       V   A   R   I
+0002640    A   B   L   E   S   )  \r                                    
+0002660                                                        (   *    
+0002700    |   ;   ;   |       "   P   r   o   t   o   t   y   p   e    
+0002720    d   e   f   i   n   i   t   i   o   n       f   a   c   i   l
+0002740    i   t   y   "   )  \r                                        
+0002760                                                    (   V   A   R
+0003000    I   A   B   L   E   S       X   C   L   :   :   *   D   E   F
+0003020    I   N   I   T   I   O   N   -   P   R   O   T   O   T   Y   P
+0003040    E   S   *   )  \r                                            
+0003060                                                (   F   U   N   C
+0003100    T   I   O   N   S       X   C   L   :   :   A   D   D   -   P
+0003120    R   O   T   O   T   Y   P   E   -   F   N       X   C   L   :
+0003140    :   P   R   O   T   O   T   Y   P   E   -   D   E   F   N   -
+0003160    T   Y   P   E   S      \r                                    
+0003200                                                                 
+0003220                    X   C   L   :   :   P   R   O   T   O   T   Y
+0003240    P   E   -   D   E   F   I   N   E   R   S   -   F   O   R   -
+0003260    T   Y   P   E       X   C   L   :   :   M   A   K   E   -   P
+0003300    R   O   T   O   T   Y   P   E   )  \r                        
+0003320                                                                 
+0003340    (   *       |   ;   ;   |       "   D   e   f   D   e   f   i
+0003360    n   e   r       i   t   s   e   l   f       a   n   d       f
+0003400    r   i   e   n   d   s   "   )  \r                            
+0003420                                                                (
+0003440    F   U   N   C   T   I   O   N   S       S   I   :   :   E   X
+0003460    P   A   N   S   I   O   N   -   F   U   N   C   T   I   O   N
+0003500        S   I   :   :   M   A   C   R   O   -   F   U   N   C   A
+0003520    L   L   )  \r                                                
+0003540                                            (   F   U   N   C   T
+0003560    I   O   N   S       D   E   F   D   E   F   I   N   E   R    
+0003600    \   \   D   E   L   E   T   E   -   D   E   F   I   N   E   R
+0003620        D   E   F   -   D   E   F   I   N   E   -   T   Y   P   E
+0003640        W   I   T   H   O   U   T   -   F   I   L   E   P   K   G
+0003660    )  \r                                                        
+0003700                                    (   *       |   ;   ;   |    
+0003720    "   T   h   e       m   o   s   t       c   o   m   m   o   n
+0003740    l   y   -   u   s   e   d       d   e   f   i   n   e   r   s
+0003760    "   )  \r                                                    
+0004000                                        (   F   U   N   C   T   I
+0004020    O   N   S       C   L   :   D   E   F   U   N       D   E   F
+0004040    I   N   L   I   N   E       D   E   F   M   A   C   R   O   )
+0004060   \r                                                            
+0004100                                (   F   U   N   C   T   I   O   N
+0004120    S       C   L   :   D   E   F   V   A   R       C   L   :   D
+0004140    E   F   P   A   R   A   M   E   T   E   R       C   L   :   D
+0004160    E   F   C   O   N   S   T   A   N   T       D   E   F   G   L
+0004200    O   B   A   L   V   A   R      \r                            
+0004220                                                                 
+0004240                            D   E   F   G   L   O   B   A   L   P
+0004260    A   R   A   M   E   T   E   R   )  \r                        
+0004300                                                                 
+0004320    (   *       |   ;   ;   |       "   D   o   n   '   t       n
+0004340    o   t   e       c   h   a   n   g   e   s       t   o       t
+0004360    h   e   s   e       p   r   o   p   e   r   t   i   e   s   /
+0004400    v   a   r   i   a   b   l   e   s   "   )  \r                
+0004420                                                                 
+0004440            (   P   R   O   P       P   R   O   P   T   Y   P   E
+0004460        M   A   C   R   O   -   F   N       U   N   D   E   F   I
+0004500    N   E   R   S       D   E   F   I   N   E   R   -   F   O   R
+0004520        D   E   F   I   N   E   D   -   B   Y   )  \r            
+0004540                                                                 
+0004560                (   *       |   ;   ;   |       "   A   r   r   a
+0004600    n   g   e       f   o   r       t   h   e       c   o   r   r
+0004620    e   c   t       c   o   m   p   i   l   e   r       t   o    
+0004640    b   e       u   s   e   d   .   "   )  \r                    
+0004660                                                                 
+0004700        (   P   R   O   P       F   I   L   E   T   Y   P   E    
+0004720    C   M   L   D   E   F   F   E   R   )   )   )  \r  \r  \r  \r
+0004740  006 004   (   *       |   ;   ;   ;   |      \r   "   D   E   F
+0004760    -   D   E   F   I   N   E   -   T   Y   P   E       a   n   d
+0005000        D   E   F   D   E   F   I   N   E   R       -   -       Y
+0005020    o   u   r       O   n   e   -   S   t   o   p       P   r   o
+0005040    v   i   d   e   r   s       o   f       C   u   s   t   o   m
+0005060    i   z   e   d       F   i   l   e       M   a   n   a   g   e
+0005100    r       F   a   c   i   l   i   t   i   e   s   .   "   ) 006
+0005120  001  \r  \r  \r  \r  \r 006 004   (   *       |   ;   ;   |    
+0005140   \r   "   B   E       V   E   R   Y       C   A   R   E   F   U
+0005160    L       C   H   A   N   G   I   N   G       A   N   Y   T   H
+0005200    I   N   G       I   N       T   H   I   S       F   I   L   E
+0005220    !   !   !           I   t       i   s       h   e   a   v   i
+0005240    l   y       s   e   l   f   -   r   e   f   e   r   e   n   t
+0005260    i   a   l       a   n   d       t   h   i   c   k       w   i
+0005300    t   h       b   o   o   t   s   t   r   a   p   p   i   n   g
+0005320        p   r   o   b   l   e   m   s   .           A   l   l    
+0005340    b   u   t       t   h   e       m   o   s   t       t   r   i
+0005360    v   i   a   l       c   h   a   n   g   e   s       (   a   n
+0005400    d       s   o   m   e       o   f       t   h   o   s   e   )
+0005420        a   r   e       v   e   r   y       t   r   i   c   k   y
+0005440        t   o       m   a   k   e       w   i   t   h   o   u   t
+0005460        b   l   o   w   i   n   g       y   o   u   r   s   e   l
+0005500    f       o   u   t       o   f       t   h   e       w   a   t
+0005520    e   r   .   .   .           Y   o   u       h   a   v   e    
+0005540    b   e   e   n       w   a   r   n   e   d   .   "  \r   ) 006
+0005560  001  \r  \r  \r   (   R   P   A   Q   ?     006 002   F   I   L
+0005600    E   P   K   G   F   L   G 006 001       N   I   L   )  \r  \r
+0005620   \r  \r 006 004   (   *       |   ;   ;   |       "   T   h   e
+0005640        d   e   f   i   n   e   r       d   a   t   a       s   t
+0005660    r   u   c   t   u   r   e   s       a   n   d       m   a   n
+0005700    i   p   u   l   a   t   i   o   n       f   u   n   c   t   i
+0005720    o   n   s   "   ) 006 001  \r  \r   (   D   E   F   G   L   O
+0005740    B   A   L   V   A   R     006 002   *   D   E   F   I   N   I
+0005760    T   I   O   N   -   H   A   S   H   -   T   A   B   L   E   *
+0006000  006 001       (   *       |   ;   ;   ;   |       "   T   h   i
+0006020    s       i   s       t   h   e       r   e   p   o   s   i   t
+0006040    o   r   y       f   o   r       a   l   l       D   E   F   D
+0006060    E   F   I   N   E   R   s   '       d   e   f   i   n   i   t
+0006100    i   o   n   s   .           I   t       i   s       a       t
+0006120    w   o   -   l   e   v   e   l       h   a   s   h   -   t   a
+0006140    b   l   e   .           T   h   e       f   i   r   s   t    
+0006160    l   e   v   e   l       h   a   s   h   e   s       o   n    
+0006200    t   h   e       n   a   m   e       o   f       t   h   e    
+0006220    t   y   p   e       o   f       t   h   e       d   e   f   i
+0006240    n   i   t   i   o   n   ,       u   s   i   n   g       a   n
+0006260        E   Q       t   e   s   t   .           E   a   c   h    
+0006300    t   y   p   e       m   a   p   s       t   o       a   n   o
+0006320    t   h   e   r       h   a   s   h   -   t   a   b   l   e    
+0006340    t   h   a   t   ,       i   n       t   u   r   n   ,       m
+0006360    a   p   s       t   h   e       n   a   m   e   s       o   f
+0006400        i   t   e   m   s       i   n   t   o       t   h   e   i
+0006420    r       d   e   f   i   n   i   t   i   o   n   s   .        
+0006440    T   h   e       s   e   c   o   n   d   -   l   e   v   e   l
+0006460        h   a   s   h   -   t   a   b   l   e   s       u   s   e
+0006500        a   n       E   Q   U   A   L       t   e   s   t       s
+0006520    o       a   s       t   o       a   l   l   o   w       n   o
+0006540    n   -   a   t   o   m   i   c       `   `   n   a   m   e   s
+0006560    '   '   .   "  \r                                            
+0006600                                                                 
+0006620                                                            )    
+0006640  006 006 006 001                             006 006   (   *    
+0006660    |   ;   ;   |      \r 006 001                                
+0006700                  006 006   "   H   A   S   H   A   R   R   A   Y
+0006720        i   s       u   s   e   d       h   e   r   e       i   n
+0006740    s   t   e   a   d       o   f       M   A   K   E   -   H   A
+0006760    S   H   -   A   R   R   A   Y       b   e   c   a   u   s   e
+0007000        i   t   '   s       e   a   r   l   i   e   r       i   n
+0007020        t   h   e       l   o   a   d   u   p   .   .   .   "   )
+0007040  006 001  \r               (   H   A   S   H   A   R   R   A   Y
+0007060        2   0   )   )  \r  \r   (   C   L   :   D   E   F   U   N
+0007100      006 002   P   P   R   I   N   T   -   D   E   F   I   N   E
+0007120    R 006 001       (   D   E   F   I   N   E   -   E   X   P   R
+0007140    E   S   S   I   O   N   )  \r               (   C   O   N   D
+0007160   \r                           (   (   C   L   :   A   T   O   M
+0007200        (   C   D   R       D   E   F   I   N   E   -   E   X   P
+0007220    R   E   S   S   I   O   N   )   ) 006 006 006 001            
+0007240                              006 006   (   *       \   ;       "
+0007260    H   a   n   d   l   e       t   h   e       c   a   s   e   s
+0007300        (   d   e   f   u   n   )       a   n   d       (   d   e
+0007320    f   u   n       .       f   o   o   )   "   ) 006 001  \r    
+0007340                            (   P   R   I   N   T   O   U   T    
+0007360    N   I   L       "   (   "       |   .   P   2   |       (   C
+0007400    A   R       D   E   F   I   N   E   -   E   X   P   R   E   S
+0007420    S   I   O   N   )   )  \r                               (   C
+0007440    L   :   U   N   L   E   S   S       (   N   U   L   L       (
+0007460    C   D   R       D   E   F   I   N   E   -   E   X   P   R   E
+0007500    S   S   I   O   N   )   )  \r                                
+0007520                            (   P   R   I   N   T   O   U   T    
+0007540    N   I   L       "       .       "   )  \r                    
+0007560                                        (   P   R   I   N   T   D
+0007600    E   F       (   C   D   R       D   E   F   I   N   E   -   E
+0007620    X   P   R   E   S   S   I   O   N   )  \r                    
+0007640                                                                 
+0007660    T       T   )   )  \r                               (   P   R
+0007700    I   N   1       "   )   "       N   I   L   )  \r            
+0007720                    N   I   L   )  \r                           (
+0007740    T       (   L   E   T       (   (   D   E   F   I   N   E   R
+0007760        ( 006 002   |   p   o   p   | 006 001       D   E   F   I
+0010000    N   E   -   E   X   P   R   E   S   S   I   O   N   )   )  \r
+0010020                                                                (
+0010040    D   E   F   I   N   E   D       ( 006 002   |   p   o   p   |
+0010060  006 001       D   E   F   I   N   E   -   E   X   P   R   E   S
+0010100    S   I   O   N   )   )  \r                                    
+0010120                            (   C   U   R   R   E   N   T       (
+0010140    D   S   P   X   P   O   S   I   T   I   O   N   )   )  \r    
+0010160                                                            (   \
+0010200    #   R   P   A   R   S   )   )  \r                            
+0010220                                ( 006 002   D   E   C   L   A   R
+0010240    E 006 001       (   S   P   E   C   V   A   R   S       \   #
+0010260    R   P   A   R   S   )   )  \r                                
+0010300                            (   P   R   I   N   T   O   U   T    
+0010320    N   I   L       "   (   "       |   .   P   2   |       D   E
+0010340    F   I   N   E   R       \   ,   )  \r                        
+0010360                                    ( 006 002   |   i   f   | 006
+0010400  001       (   L   I   S   T   P       D   E   F   I   N   E   D
+0010420    )  \r                                                        
+0010440                  006 002   |   t   h   e   n   | 006 001       (
+0010460    P   R   I   N   T   O   U   T       N   I   L       "   (   "
+0010500        .   F   O   N   T       P   R   E   T   T   Y   C   O   M
+0010520    F   O   N   T       |   .   P   2   |       (   C   A   R    
+0010540    D   E   F   I   N   E   D   )  \r                            
+0010560                                                                 
+0010600                                        .   F   O   N   T       D
+0010620    E   F   A   U   L   T   F   O   N   T       \   ,       \   #
+0010640        (   P   R   I   N   T   D   E   F       (   C   D   R    
+0010660    D   E   F   I   N   E   D   )  \r                            
+0010700                                                                 
+*
+0010760                                    T       T       T   )  \r    
+0011000                                                                 
+0011020                                                                "
+0011040    )   "   )  \r                                                
+0011060                  006 002   |   e   l   s   e   | 006 001       (
+0011100    P   R   I   N   T   O   U   T       N   I   L       .   F   O
+0011120    N   T       P   R   E   T   T   Y   C   O   M   F   O   N   T
+0011140        |   .   P   2   |       D   E   F   I   N   E   D       .
+0011160    F   O   N   T       D   E   F   A   U   L   T   F   O   N   T
+0011200    )   )  \r                                                    
+0011220        ( 006 002   |   i   f   | 006 001       (   L   I   S   T
+0011240    P       (   C   A   R       D   E   F   I   N   E   -   E   X
+0011260    P   R   E   S   S   I   O   N   )   )  \r                    
+0011300                                                      006 002   |
+0011320    t   h   e   n   | 006 001       (   S   P   A   C   E   S    
+0011340    1   )  \r                                                    
+0011360                                                (   P   R   I   N
+0011400    T   D   E   F       ( 006 002   |   p   o   p   | 006 001    
+0011420    D   E   F   I   N   E   -   E   X   P   R   E   S   S   I   O
+0011440    N   )  \r                                                    
+0011460                                                                 
+0011500            T       N   I   L   )   )  \r                        
+0011520                                    ( 006 002   |   i   f   | 006
+0011540  001       (   O   R       (   S   T   R   I   N   G   P       (
+0011560    C   A   R       D   E   F   I   N   E   -   E   X   P   R   E
+0011600    S   S   I   O   N   )   )  \r                                
+0011620                                                                 
+0011640    (   E   Q       (   C   A   R       (   L   I   S   T   P    
+0011660    (   C   A   R       D   E   F   I   N   E   -   E   X   P   R
+0011700    E   S   S   I   O   N   )   )   )  \r                        
+0011720                                                                 
+0011740                            C   O   M   M   E   N   T   F   L   G
+0011760    )   )  \r                                                    
+0012000                      006 002   |   t   h   e   n   | 006 001    
+0012020    (   S   P   A   C   E   S       1   )  \r                    
+0012040                                                                 
+0012060                (   P   R   I   N   T   D   E   F       ( 006 002
+0012100    |   p   o   p   | 006 001       D   E   F   I   N   E   -   E
+0012120    X   P   R   E   S   S   I   O   N   )  \r                    
+0012140                                                                 
+0012160                                            T       T   )   )  \r
+0012200                                                            ( 006
+0012220  002   |   i   f   | 006 001       (   N   O   T       (   F   I
+0012240    T   P       D   E   F   I   N   E   -   E   X   P   R   E   S
+0012260    S   I   O   N       T       T   )   )  \r                    
+0012300                                                      006 002   |
+0012320    t   h   e   n   | 006 001       (   T   E   R   P   R   I   )
+0012340   \r                                                            
+0012360                                        (   D   S   P   X   P   O
+0012400    S   I   T   I   O   N       C   U   R   R   E   N   T   )  \r
+0012420                                                                 
+0012440                                    (   S   P   A   C   E   S    
+0012460    3   )  \r                                                    
+0012500              006 002   |   e   l   s   e   | 006 001       (   S
+0012520    P   A   C   E   S       1   )   )  \r                        
+0012540                                    (   P   R   I   N   T   D   E
+0012560    F       D   E   F   I   N   E   -   E   X   P   R   E   S   S
+0012600    I   O   N       T       T       T   )  \r                    
+0012620                                        (   P   R   I   N   1    
+0012640    "   )   "       N   I   L   )  \r                            
+0012660                                (   T   E   R   P   R   I       N
+0012700    I   L   )   )   )   )   )  \r  \r   (   C   L   :   D   E   F
+0012720    U   N     006 002   R   E   M   O   V   E   -   C   O   M   M
+0012740    E   N   T   S 006 001       (   X   )     006 006 006 001    
+0012760                                                                 
+0013000              006 006   (   *       |   ;   ;   ;   |      \r 006
+0013020  001                                                            
+0013040                                                                 
+0013060                                      006 006   "   R   e   m   o
+0013100    v   e   s       S   E   d   i   t   -   s   t   y   l   e    
+0013120    c   o   m   m   e   n   t   s       f   r   o   m       t   h
+0013140    e       g   i   v   e   n       l   i   s   t       s   t   r
+0013160    u   c   t   u   r   e   .   "   ) 006 001  \r               (
+0013200    C   O   N   D  \r                           (   (   N   L   I
+0013220    S   T   P       X   )  \r                               X   )
+0013240   \r                           (   (   A   N   D       (   E   Q
+0013260        (   C   A   A   R       X   )  \r                        
+0013300                                            '   *   )  \r        
+0013320                                            (   O   R       (   F
+0013340    M   E   M   B       (   C   A   D   A   R       X   )  \r    
+0013360                                                                 
+0013400                            '   (   \   ;       |   ;   ;   |    
+0013420    |   ;   ;   ;   |   )   ) 006 006 006 001                    
+0013440                                                                 
+0013460  006 006   (   *       \   ;       "   a       s   e   d   i   t
+0013500        c   o   m   m   e   n   t   "   ) 006 001  \r            
+0013520                                                        (   E   Q
+0013540        *   R   E   M   O   V   E   -   I   N   T   E   R   L   I
+0013560    S   P   -   C   O   M   M   E   N   T   S   *       T   ) 006
+0013600  006 006 001                                             006 006
+0013620    (   *       \   ;       "   a   l   w   a   y   s       s   t
+0013640    r   i   p   "   ) 006 001  \r                                
+0013660                                    (   P   R   O   G   N       (
+0013700  006 002   |   i   f   | 006 001       (   E   Q       *   R   E
+0013720    M   O   V   E   -   I   N   T   E   R   L   I   S   P   -   C
+0013740    O   M   M   E   N   T   S   *       '   :   W   A   R   N   )
+0013760   \r                                                            
+0014000                                                  006 002   |   t
+0014020    h   e   n   | 006 001       (   C   L   :   W   A   R   N    
+0014040    "   P   o   s   s   i   b   l   e       c   o   m   m   e   n
+0014060    t       n   o   t       s   t   r   i   p   p   e   d       ~
+0014100    S   "       X   )   )  \r                                    
+0014120                                                            N   I
+0014140    L   )   )   )  \r                               (   R   E   M
+0014160    O   V   E   -   C   O   M   M   E   N   T   S       (   C   D
+0014200    R       X   )   )   )  \r                           (   T    
+0014220    (   P   R   O   G       (   (   A       (   R   E   M   O   V
+0014240    E   -   C   O   M   M   E   N   T   S       (   C   A   R    
+0014260    X   )   )   )  \r                                            
+0014300                        (   D       (   R   E   M   O   V   E   -
+0014320    C   O   M   M   E   N   T   S       (   C   D   R       X   )
+0014340    )   )   )  \r                                                
+0014360                (   R   E   T   U   R   N       (   C   O   N   D
+0014400   \r                                                            
+0014420                                                (   (   A   N   D
+0014440        (   E   Q       A       (   C   A   R       X   )   )  \r
+0014460                                                                 
+*
+0014520    (   E   Q       D       (   C   D   R       X   )   )   )  \r
+0014540                                                                 
+0014560                                                X   )  \r        
+0014600                                                                 
+0014620                                    (   T       (   C   O   N   S
+0014640        A       D   )   )   )   )   )   )   )   )  \r  \r   (   C
+0014660    L   :   D   E   F   V   A   R     006 002   *   R   E   M   O
+0014700    V   E   -   I   N   T   E   R   L   I   S   P   -   C   O   M
+0014720    M   E   N   T   S   * 006 001       '   :   W   A   R   N    
+0014740   \r                                                            
+0014760                                                                 
+0015000                                            "   E   i   t   h   e
+0015020    r       N   I   L       (   d   o   n   '   t   )       T    
+0015040    (   a   l   w   a   y   s       d   o   )       o   r       :
+0015060    W   A   R   N       (   d   o   n   '   t       a   n   d    
+0015100    w   a   r   n   )   "  \r               )  \r  \r   (   C   L
+0015120    :   D   E   F   U   N     006 002   \   \   D   E   F   I   N
+0015140    E   -   T   Y   P   E   -   D   E   L   D   E   F 006 001    
+0015160    (   N   A   M   E       T   Y   P   E   )     006 006 006 001
+0015200                              006 006   (   *       |   ;   ;   |
+0015220       \r 006 001                                                
+0015240                                                                 
+*
+0015300                      006 006   "   D   E   L   E   T   E       d
+0015320    e   f   i   n   i   t   i   o   n       o   f       d   e   f
+0015340    i   n   e   r   -   d   e   f   i   n   e   d       N   A   M
+0015360    E       a   s       T   Y   P   E       "   ) 006 001  \r    
+0015400            (   L   E   T   *       (   (   H   T       (   C   L
+0015420    :   G   E   T   H   A   S   H       T   Y   P   E       *   D
+0015440    E   F   I   N   I   T   I   O   N   -   H   A   S   H   -   T
+0015460    A   B   L   E   *   )   )   )  \r                            
+0015500            (   A   N   D       H   T       (   R   E   M   H   A
+0015520    S   H       N   A   M   E       H   T   )   )  \r            
+0015540                            ( 006 002   F   O   R 006 001       F
+0015560    N     006 002   I   N 006 001       (   G   E   T       T   Y
+0015600    P   E       '   U   N   D   E   F   I   N   E   R   S   )    
+0015620  006 002   D   O 006 001       (   C   L   :   F   U   N   C   A
+0015640    L   L       F   N       N   A   M   E   )   )  \r            
+0015660                            N   A   M   E   )   )  \r  \r   (   C
+0015700    L   :   D   E   F   U   N     006 002   \   \   D   E   F   I
+0015720    N   E   -   T   Y   P   E   -   G   E   T   D   E   F 006 001
+0015740        (   N   A   M   E       T   Y   P   E       O   P   T   I
+0015760    O   N   S   )     006 006 006 001  \r                        
+0016000                                                                 
+*
+0016040                                                  006 006   (   *
+0016060        |   ;   ;   |       "   G   E   T   D   E   F       m   e
+0016100    t   h   o   d       f   o   r       a   l   l       d   e   f
+0016120    i   n   e   r   s   .           T   h   e       E   D   I   T
+0016140        i   s       s   o       t   h   a   t       w   h   e   n
+0016160        y   o   u       s   a   y       E   D   I   T   D   E   F
+0016200        y   o   u       g   e   t       a       c   o   p   y    
+0016220    &       c   a   n       k   n   o   w       w   h   e   n    
+0016240    y   o   u       m   a   d   e       e   d   i   t   s   .   "
+0016260    ) 006 001  \r               (   L   E   T   *       (   (   C
+0016300    L   :   H   A   S   H   -   T   A   B   L   E       (   C   L
+0016320    :   G   E   T   H   A   S   H       T   Y   P   E       *   D
+0016340    E   F   I   N   I   T   I   O   N   -   H   A   S   H   -   T
+0016360    A   B   L   E   *   )   )  \r                                
+0016400            (   D   E   F   N       (   A   N   D       C   L   :
+0016420    H   A   S   H   -   T   A   B   L   E       (   C   L   :   G
+0016440    E   T   H   A   S   H       N   A   M   E       C   L   :   H
+0016460    A   S   H   -   T   A   B   L   E   )   )   )   )  \r        
+0016500                                (   C   L   :   I   F       (   E
+0016520    Q   M   E   M   B       '   E   D   I   T       O   P   T   I
+0016540    O   N   S   )  \r                                            
+0016560                        (   C   L   :   C   O   P   Y   -   T   R
+0016600    E   E       D   E   F   N   )  \r                            
+0016620                                        D   E   F   N   )   )   )
+0016640   \r  \r   (   C   L   :   D   E   F   U   N     006 002   \   \
+0016660    D   E   F   I   N   E   -   T   Y   P   E   -   S   A   V   E
+0016700    -   D   E   F   N 006 001       (   N   A   M   E       T   Y
+0016720    P   E       D   E   F   I   N   I   T   I   O   N   )  \r    
+0016740            (   L   E   T       (   (   C   L   :   H   A   S   H
+0016760    -   T   A   B   L   E       (   C   L   :   G   E   T   H   A
+0017000    S   H       T   Y   P   E       *   D   E   F   I   N   I   T
+0017020    I   O   N   -   H   A   S   H   -   T   A   B   L   E   *   )
+0017040    )   )  \r                                   (   C   L   :   W
+0017060    H   E   N       (   N   U   L   L       C   L   :   H   A   S
+0017100    H   -   T   A   B   L   E   )  \r                            
+0017120                                    (   C   L   :   W   A   R   N
+0017140        "   C   o   u   l   d   n   '   t       f   i   n   d    
+0017160    a       h   a   s   h   -   t   a   b   l   e       f   o   r
+0017200        ~   S       d   e   f   i   n   i   t   i   o   n   s   .
+0017220    ~   %   O   n   e       w   i   l   l       b   e       c   r
+0017240    e   a   t   e   d   .   "       T   Y   P   E   )  \r        
+0017260                                                        (   S   E
+0017300    T   Q       C   L   :   H   A   S   H   -   T   A   B   L   E
+0017320        (   C   L   :   S   E   T   F       (   C   L   :   G   E
+0017340    T   H   A   S   H       T   Y   P   E       *   D   E   F   I
+0017360    N   I   T   I   O   N   -   H   A   S   H   -   T   A   B   L
+0017400    E   *   )  \r                                                
+0017420                                                                 
+0017440                                                            (   C
+0017460    L   :   M   A   K   E   -   H   A   S   H   -   T   A   B   L
+0017500    E       :   T   E   S   T       '   C   L   :   E   Q   U   A
+0017520    L       :   S   I   Z   E       5   0       :   R   E   H   A
+0017540    S   H   -   S   I   Z   E      \r                            
+0017560                                                                 
+*
+0017620                                            5   0   )   )   )   )
+0017640   \r                                   (   L   E   T       (   (
+0017660    O   L   D   -   D   E   F   I   N   I   T   I   O   N       (
+0017700    C   L   :   G   E   T   H   A   S   H       N   A   M   E    
+0017720    C   L   :   H   A   S   H   -   T   A   B   L   E   )   )   )
+0017740   \r                                                       (   C
+0017760    L   :   U   N   L   E   S   S       (   C   L   :   E   Q   U
+0020000    A   L       D   E   F   I   N   I   T   I   O   N       O   L
+0020020    D   -   D   E   F   I   N   I   T   I   O   N   )  \r        
+0020040                                                                 
+0020060            (   C   L   :   W   H   E   N       (   A   N   D    
+0020100    O   L   D   -   D   E   F   I   N   I   T   I   O   N       (
+0020120    N   E   Q       D   F   N   F   L   G       T   )   )  \r    
+0020140                                                                 
+0020160                                            (   F   O   R   M   A
+0020200    T       *   T   E   R   M   I   N   A   L   -   I   O   *    
+0020220    "   ~   &   N   e   w       ~   A       d   e   f   i   n   i
+0020240    t   i   o   n       f   o   r       ~   S   "       T   Y   P
+0020260    E       N   A   M   E   )   )  \r                            
+0020300                                                        (   C   L
+0020320    :   S   E   T   F       (   C   L   :   G   E   T   H   A   S
+0020340    H       N   A   M   E       C   L   :   H   A   S   H   -   T
+0020360    A   B   L   E   )  \r                                        
+0020400                                                                 
+0020420        D   E   F   I   N   I   T   I   O   N   )  \r            
+0020440                                                                 
+0020460        (   M   A   R   K   A   S   C   H   A   N   G   E   D    
+0020500    N   A   M   E       T   Y   P   E       (   C   L   :   I   F
+0020520        O   L   D   -   D   E   F   I   N   I   T   I   O   N    
+0020540    '   C   H   A   N   G   E   D       '   D   E   F   I   N   E
+0020560    D   )   )   )   )   )   )  \r  \r  \r  \r  \r 006 004   (   *
+0020600        |   ;   ;   |       "   T   h   e       g   r   o   u   n
+0020620    d   w   o   r   k       f   o   r       b   o   o   t   s   t
+0020640    r   a   p   p   i   n   g   "   ) 006 001  \r  \r   (   D   E
+0020660    F   -   D   E   F   I   N   E   -   T   Y   P   E     006 002
+0020700    D   E   F   I   N   E   -   T   Y   P   E   S 006 001       "
+0020720    D   e   f   i   n   i   t   i   o   n       t   y   p   e   "
+0020740        )  \r  \r   (   D   E   F   -   D   E   F   I   N   E   -
+0020760    T   Y   P   E     006 002   F   U   N   C   T   I   O   N   S
+0021000  006 001       "   f   u   n   c   t   i   o   n   s       o   r
+0021020        m   a   c   r   o   s   "       :   U   N   D   E   F   I
+0021040    N   E   R       C   L   :   F   M   A   K   U   N   B   O   U
+0021060    N   D   )  \r  \r   (   D   E   F   -   D   E   F   I   N   E
+0021100    -   T   Y   P   E     006 002   V   A   R   I   A   B   L   E
+0021120    S 006 001       "   C   o   m   m   o   n       L   i   s   p
+0021140        v   a   r   i   a   b   l   e   s   "       )  \r  \r  \r
+0021160   \r  \r 006 004   (   *       |   ;   ;   |       "   P   r   o
+0021200    t   o   t   y   p   e       d   e   f   i   n   i   t   i   o
+0021220    n       f   a   c   i   l   i   t   y   "   ) 006 001  \r  \r
+0021240    (   D   E   F   G   L   O   B   A   L   V   A   R     006 002
+0021260    X   C   L   :   :   *   D   E   F   I   N   I   T   I   O   N
+0021300    -   P   R   O   T   O   T   Y   P   E   S   * 006 001       N
+0021320    I   L     006 006 006 001             006 006   (   *       |
+0021340    ;   ;   |       "   \   "   A       p   r   o   p   e   r   t
+0021360    y       l   i   s   t       m   a   p   p   i   n   g       f
+0021400    i   l   e   -   m   a   n   a   g   e   r       t   y   p   e
+0021420    s       t   o       p   r   o   p   e   r   t   y       l   i
+0021440    s   t   s       f   r   o   m       d   e   f   i   n   e   r
+0021460    -   n   a   m   e   s       t   o       p   r   o   t   o   t
+0021500    y   p   e   -   f   u   n   c   t   i   o   n   s   "   ) 006
+0021520  001  \r   )  \r  \r   (   D   E   F   M   A   C   R   O     006
+0021540  002   X   C   L   :   :   A   D   D   -   P   R   O   T   O   T
+0021560    Y   P   E   -   F   N 006 001       (   T   Y   P   E       C
+0021600    L   :   :   D   E   F   I   N   E   R       C   L   :   :   P
+0021620    R   O   T   O   T   Y   P   E   -   F   N   )     006 006 006
+0021640  001  \r                                                        
+0021660                                                                 
+*
+0021720                  006 006   (   *       |   ;   ;   |       "   I
+0021740    f       t   h   i   s       d   e   f   i   n   e   r       d
+0021760    i   d   n   '   t       a   l   r   e   a   d   y       h   a
+0022000    v   e       a       P   R   O   T   O   T   Y   P   E   -   F
+0022020    N   ,       a   d   d       o   n   e   .           I   f    
+0022040    i   t       a   l   r   e   a   d   y       h   a   d       o
+0022060    n   e   ,       c   h   a   n   g   e       i   t       t   o
+0022100        t   h   e       n   e   w       o   n   e   .       M   u
+0022120    s   t       b   e       a       m   a   c   r   o       t   o
+0022140        a   v   o   i   d       b   o   o   t   s   t   r   a   p
+0022160    p   i   n   g       p   r   o   b   l   e   m   s   "   ) 006
+0022200  001  \r               `   (   C   L   :   S   E   T   F       (
+0022220    C   L   :   G   E   T   F       (   C   L   :   G   E   T   F
+0022240        X   C   L   :   :   *   D   E   F   I   N   I   T   I   O
+0022260    N   -   P   R   O   T   O   T   Y   P   E   S   *       '   ,
+0022300    T   Y   P   E   )  \r                                        
+0022320                                            ,   C   L   :   :   D
+0022340    E   F   I   N   E   R   )  \r                                
+0022360                ,   C   L   :   :   P   R   O   T   O   T   Y   P
+0022400    E   -   F   N   )   )  \r  \r   (   C   L   :   D   E   F   U
+0022420    N     006 002   X   C   L   :   :   P   R   O   T   O   T   Y
+0022440    P   E   -   D   E   F   N   -   T   Y   P   E   S 006 001    
+0022460    N   I   L     006 006 006 001                                
+0022500          006 006   (   *       |   ;   ;   ;   |      \r 006 001
+0022520      006 006   "   R   e   t   u   r   n       a       l   i   s
+0022540    t       o   f       t   h   e       f   i   l   e   -   m   a
+0022560    n   a   g   e   r       t   y   p   e   s       f   o   r    
+0022600    w   h   i   c   h       s   o   m   e       d   e   f   i   n
+0022620    e   r       c   a   n       p   r   o   v   i   d   e       a
+0022640        p   r   o   t   o   t   y   p   e       d   e   f   i   n
+0022660    i   t   i   o   n   .   "   ) 006 001  \r                    
+0022700                                                                 
+*
+0022740                ( 006 002   F   O   R 006 001       X     006 002
+0022760    O   N 006 001       X   C   L   :   :   *   D   E   F   I   N
+0023000    I   T   I   O   N   -   P   R   O   T   O   T   Y   P   E   S
+0023020    *  \r                                                        
+0023040                                                                 
+0023060                                                      006 002   W
+0023100    H   E   N 006 001       (   C   A   D   R       X   )     006
+0023120  002   C   O   L   L   E   C   T 006 001       (   C   A   R    
+0023140    X   )   )   )  \r  \r   (   C   L   :   D   E   F   U   N    
+0023160  006 002   X   C   L   :   :   P   R   O   T   O   T   Y   P   E
+0023200    -   D   E   F   I   N   E   R   S   -   F   O   R   -   T   Y
+0023220    P   E 006 001       (   T   Y   P   E   )     006 006 006 001
+0023240  006 006   (   *       |   ;   ;   ;   |       "   R   e   t   u
+0023260    r   n       a       l   i   s   t       o   f       t   h   e
+0023300        d   e   f   i   n   e   r   s       t   h   a   t       c
+0023320    l   a   i   m       t   o       b   e       a   b   l   e    
+0023340    t   o       p   r   o   v   i   d   e       a       p   r   o
+0023360    t   o   t   y   p   e       d   e   f   i   n   i   t   i   o
+0023400    n       o   f       t   h   e       g   i   v   e   n       t
+0023420    y   p   e   .   "   ) 006 001  \r               ( 006 002   F
+0023440    O   R 006 001       X     006 002   O   N 006 001       (   C
+0023460    L   :   G   E   T   F       X   C   L   :   :   *   D   E   F
+0023500    I   N   I   T   I   O   N   -   P   R   O   T   O   T   Y   P
+0023520    E   S   *       T   Y   P   E   )     006 002   B   Y 006 001
+0023540        C   D   D   R     006 002   W   H   E   N 006 001       (
+0023560    C   A   D   R       X   )  \r                         006 002
+0023600    C   O   L   L   E   C   T 006 001       (   C   A   R       X
+0023620    )   )   )  \r  \r   (   C   L   :   D   E   F   U   N     006
+0023640  002   X   C   L   :   :   M   A   K   E   -   P   R   O   T   O
+0023660    T   Y   P   E 006 001       (   C   L   :   :   N   A   M   E
+0023700        T   Y   P   E       C   L   :   :   D   E   F   I   N   E
+0023720    R   )       (   L   E   T       (   (   C   L   :   :   P   R
+0023740    O   T   O   T   Y   P   E   -   F   N       (   C   L   :   G
+0023760    E   T   F  \r                                                
+0024000                                                                 
+*
+0024100                                (   C   L   :   G   E   T   F    
+0024120   \r                                                            
+0024140                                                                 
+*
+0024220                                            X   C   L   :   :   *
+0024240    D   E   F   I   N   I   T   I   O   N   -   P   R   O   T   O
+0024260    T   Y   P   E   S   *      \r                                
+0024300                                                                 
+*
+0024420            T   Y   P   E   )  \r                                
+0024440                                                                 
+*
+0024540                                                C   L   :   :   D
+0024560    E   F   I   N   E   R   )   )   )  \r                        
+0024600                                                                 
+*
+0024660                                        (   A   N   D       C   L
+0024700    :   :   P   R   O   T   O   T   Y   P   E   -   F   N  \r    
+0024720                                                                 
+*
+0025020                (   C   L   :   F   U   N   C   A   L   L       C
+0025040    L   :   :   P   R   O   T   O   T   Y   P   E   -   F   N    
+0025060   \r                                                            
+0025100                                                                 
+*
+0025160                                                    C   L   :   :
+0025200    N   A   M   E       T   Y   P   E       C   L   :   :   D   E
+0025220    F   I   N   E   R   )  \r                                    
+0025240                                                                 
+*
+0025320                                                )   )   )  \r  \r
+0025340   \r  \r  \r 006 004   (   *       |   ;   ;   |       "   D   e
+0025360    f   D   e   f   i   n   e   r       i   t   s   e   l   f    
+0025400    a   n   d       f   r   i   e   n   d   s   "   ) 006 001  \r
+0025420   \r   (   C   L   :   D   E   F   U   N     006 002   S   I   :
+0025440    :   E   X   P   A   N   S   I   O   N   -   F   U   N   C   T
+0025460    I   O   N 006 001       (   S   I   :   :   N   A   M   E    
+0025500    S   I   :   :   A   R   G   -   L   I   S   T       S   I   :
+0025520    :   B   O   D   Y   )     006 006 006 001  \r                
+0025540                                                                 
+*
+0025600                                                          006 006
+0025620    (   *       |   ;   ;   ;   |       "   S   h   a   r   e   d
+0025640        c   o   d   e       b   e   t   w   e   e   n       D   E
+0025660    F   M   A   C   R   O       a   n   d       D   E   F   D   E
+0025700    F   I   N   E   R   .           T   a   k   e   s       t   h
+0025720    e       p   a   r   t   s       o   f       a       D   E   F
+0025740    M   A   C   R   O       a   n   d       r   e   t   u   r   n
+0025760    s       t   w   o       v   a   l   u   e   s   :       a    
+0026000    L   A   M   B   D   A       f   o   r   m       f   o   r    
+0026020    t   h   e       e   x   p   a   n   s   i   o   n       f   u
+0026040    n   c   t   i   o   n   ,       a   n   d       t   h   e    
+0026060    d   o   c   u   m   e   n   t   a   t   i   o   n       s   t
+0026100    r   i   n   g       f   o   u   n   d   ,       i   f       a
+0026120    n   y   .   "   ) 006 001  \r               (   C   L   :   M
+0026140    U   L   T   I   P   L   E   -   V   A   L   U   E   -   B   I
+0026160    N   D       (   S   I   :   :   P   A   R   S   E   D   -   B
+0026200    O   D   Y       S   I   :   :   P   A   R   S   E   D   -   D
+0026220    E   C   L   A   R   A   T   I   O   N   S       S   I   :   :
+0026240    P   A   R   S   E   D   -   D   O   C   S   T   R   I   N   G
+0026260    )  \r                                           (   P   A   R
+0026300    S   E   -   D   E   F   M   A   C   R   O       S   I   :   :
+0026320    A   R   G   -   L   I   S   T       '   S   I   :   :   $   $
+0026340    M   A   C   R   O   -   F   O   R   M       S   I   :   :   B
+0026360    O   D   Y       S   I   :   :   N   A   M   E       N   I   L
+0026400        :   E   N   V   I   R   O   N   M   E   N   T  \r        
+0026420                                                                '
+0026440    S   I   :   :   $   $   M   A   C   R   O   -   E   N   V   I
+0026460    R   O   N   M   E   N   T   )  \r                            
+0026500                (   C   L   :   V   A   L   U   E   S       `   (
+0026520    C   L   :   L   A   M   B   D   A       (   S   I   :   :   $
+0026540    $   M   A   C   R   O   -   F   O   R   M       S   I   :   :
+0026560    $   $   M   A   C   R   O   -   E   N   V   I   R   O   N   M
+0026600    E   N   T   )  \r                                            
+0026620                                                                 
+0026640            ,   @   S   I   :   :   P   A   R   S   E   D   -   D
+0026660    E   C   L   A   R   A   T   I   O   N   S  \r                
+0026700                                                                 
+0026720                                        (   C   L   :   B   L   O
+0026740    C   K       ,   S   I   :   :   N   A   M   E       ,   S   I
+0026760    :   :   P   A   R   S   E   D   -   B   O   D   Y   )   )    
+0027000    S   I   :   :   P   A   R   S   E   D   -   D   O   C   S   T
+0027020    R   I   N   G   )   )   )  \r  \r   (   D   E   F   M   A   C
+0027040    R   O     006 002   S   I   :   :   M   A   C   R   O   -   F
+0027060    U   N   C   A   L   L 006 001       (   S   I   :   :   E   X
+0027100    P   A   N   S   I   O   N   -   F   U   N   C   T   I   O   N
+0027120        S   I   :   :   M   A   C   R   O   -   C   A   L   L    
+0027140    S   I   :   :   E   N   V   )     006 006 006 001  \r        
+0027160                                                                 
+*
+0027240  006 006   (   *       |   ;   ;   ;   |       "   U   s   e   d
+0027260        b   y       D   E   F   D   E   F   I   N   E   R       a
+0027300    s       a       m   e   c   h   a   n   i   s   m       f   o
+0027320    r       d   e   l   a   y   i   n   g       m   a   c   r   o
+0027340    -   e   x   p   a   n   s   i   o   n       u   n   t   i   l
+0027360        a   f   t   e   r       c   h   e   c   k   i   n   g    
+0027400    t   h   e       v   a   l   u   e       o   f       D   F   N
+0027420    F   L   G   .           T   h   e       a   r   g   u   m   e
+0027440    n   t   s       (   u   n   e   v   a   l   u   a   t   e   d
+0027460    )       a   r   e       a       m   a   c   r   o   -   e   x
+0027500    p   a   n   s   i   o   n       f   u   n   c   t   i   o   n
+0027520        a   n   d       a       c   a   l   l       o   n       t
+0027540    h   a   t       m   a   c   r   o   .           T   h   e    
+0027560    c   a   l   l       t   o       M   A   C   R   O   -   F   U
+0027600    N   C   A   L   L       s   h   o   u   l   d       e   x   p
+0027620    a   n   d       i   n   t   o       t   h   e       r   e   s
+0027640    u   l   t       o   f       e   x   p   a   n   d   i   n   g
+0027660        t   h   e       g   i   v   e   n       m   a   c   r   o
+0027700    -   c   a   l   l   .   "   ) 006 001  \r               (   C
+0027720    L   :   F   U   N   C   A   L   L       S   I   :   :   E   X
+0027740    P   A   N   S   I   O   N   -   F   U   N   C   T   I   O   N
+0027760        S   I   :   :   M   A   C   R   O   -   C   A   L   L    
+0030000    S   I   :   :   E   N   V   )   )  \r  \r   (   D   E   F   D
+0030020    E   F   I   N   E   R       ( 006 002   D   E   F   D   E   F
+0030040    I   N   E   R 006 001       (   :   N   A   M   E       (   C
+0030060    L   :   L   A   M   B   D   A       (   C   L   :   :   W   H
+0030100    O   L   E   )  \r                                            
+0030120                                                                 
+0030140                                                (   L   E   T    
+0030160    (   (   C   L   :   :   N   A   M   E       (   C   L   :   S
+0030200    E   C   O   N   D       C   L   :   :   W   H   O   L   E   )
+0030220    )   )  \r                                                    
+0030240                                                                 
+0030260                                                            (   C
+0030300    L   :   I   F       (   C   L   :   C   O   N   S   P       C
+0030320    L   :   :   N   A   M   E   )  \r                            
+0030340                                                                 
+*
+0030400                                                (   C   A   R    
+0030420    C   L   :   :   N   A   M   E   )  \r                        
+0030440                                                                 
+*
+0030500                                                    C   L   :   :
+0030520    N   A   M   E   )   )   )   )  \r                            
+0030540                                                                 
+0030560        (   :   P   R   O   T   O   T   Y   P   E       (   C   L
+0030600    :   L   A   M   B   D   A       (   C   L   :   :   N   A   M
+0030620    E   )  \r                                                    
+0030640                                                                 
+0030660                                                            (   A
+0030700    N   D       (   C   L   :   S   Y   M   B   O   L   P       C
+0030720    L   :   :   N   A   M   E   )  \r                            
+0030740                                                                 
+*
+0031000                                        `   (   D   E   F   D   E
+0031020    F   I   N   E   R       ( 006 002   \   \   \   , 006 001    
+0031040    C   L   :   :   N   A   M   E   )       "   T   y   p   e   "
+0031060        (   "   A   r   g   -   l   i   s   t   "   )  \r        
+0031100                                                                 
+*
+0031220            "   B   o   d   y   "   )  \r   )   )   )  \r        
+0031240                                                                 
+0031260                            (   :   U   N   D   E   F   I   N   E
+0031300    R       C   L   :   :   \   \   D   E   L   E   T   E   -   D
+0031320    E   F   I   N   E   R   )   )  \r               F   U   N   C
+0031340    T   I   O   N   S  \r               (   C   L   :   :   N   A
+0031360    M   E       T   Y   P   E       C   L   :   :   A   R   G   -
+0031400    L   I   S   T       &   B   O   D   Y       C   L   :   :   B
+0031420    O   D   Y   )  \r               (   L   E   T   *  \r        
+0031440            (   (   C   L   :   :   O   P   T   I   O   N   S    
+0031460    (   C   O   N   D  \r                                        
+0031500                                                (   (   C   L   :
+0031520    C   O   N   S   P       C   L   :   :   N   A   M   E   )  \r
+0031540                                                                 
+0031560                            (   P   R   O   G   1       (   C   D
+0031600    R       C   L   :   :   N   A   M   E   )  \r                
+0031620                                                                 
+0031640                                        (   C   L   :   S   E   T
+0031660    Q       C   L   :   :   N   A   M   E       (   C   A   R    
+0031700    C   L   :   :   N   A   M   E   )   )   )   )  \r            
+0031720                                                                 
+0031740            (   T       N   I   L   )   )   )  \r                
+0031760        (   C   L   :   :   N   A   M   E   -   F   N       '   C
+0032000    L   :   S   E   C   O   N   D   )  \r                       (
+0032020    C   L   :   :   U   N   D   E   F   I   N   E   R       N   I
+0032040    L   )  \r                       (   C   L   :   :   P   R   O
+0032060    T   O   T   Y   P   E   -   F   N       N   I   L   )   )  \r
+0032100                    ( 006 002   F   O   R 006 001       C   L   :
+0032120    :   O   P   T   -   L   I   S   T     006 002   I   N 006 001
+0032140        C   L   :   :   O   P   T   I   O   N   S     006 002   D
+0032160    O 006 001       (   C   A   S   E       (   C   A   R       C
+0032200    L   :   :   O   P   T   -   L   I   S   T   )  \r            
+0032220                                                                 
+*
+0032260                                                (   (   :   U   N
+0032300    D   E   F   I   N   E   R   )  \r                            
+0032320                                                                 
+*
+0032360                                    (   C   L   :   S   E   T   Q
+0032400        C   L   :   :   U   N   D   E   F   I   N   E   R       (
+0032420    C   A   D   R       C   L   :   :   O   P   T   -   L   I   S
+0032440    T   )   )   )  \r                                            
+0032460                                                                 
+*
+0032520                (   (   :   N   A   M   E   )  \r                
+0032540                                                                 
+*
+0032600                                                (   C   L   :   S
+0032620    E   T   Q       C   L   :   :   N   A   M   E   -   F   N    
+0032640    (   C   A   D   R       C   L   :   :   O   P   T   -   L   I
+0032660    S   T   )   )   )  \r                                        
+0032700                                                                 
+*
+0032740                    (   (   :   P   R   O   T   O   T   Y   P   E
+0032760    )  \r                                                        
+0033000                                                                 
+*
+0033040        (   C   L   :   S   E   T   Q       C   L   :   :   P   R
+0033060    O   T   O   T   Y   P   E   -   F   N       (   C   A   D   R
+0033100        C   L   :   :   O   P   T   -   L   I   S   T   )   )   )
+0033120   \r                                                            
+0033140                                                                 
+0033160                                                                (
+0033200    C   L   :   O   T   H   E   R   W   I   S   E       (   C   L
+0033220    :   C   E   R   R   O   R       "   I   g   n   o   r   e    
+0033240    t   h   e       b   o   g   u   s       o   p   t   i   o   n
+0033260    "      \r                                                    
+0033300                                                                 
+*
+0033360        "   U   n   r   e   c   o   g   n   i   z   e   d       o
+0033400    p   t   i   o   n       t   o       D   e   f   D   e   f   i
+0033420    n   e   r   :       ~   S   "      \r                        
+0033440                                                                 
+*
+0033520                                                        C   L   :
+0033540    :   O   P   T   -   L   I   S   T   )   )   )   )  \r        
+0033560            (   C   L   :   M   U   L   T   I   P   L   E   -   V
+0033600    A   L   U   E   -   B   I   N   D  \r                       (
+0033620    C   L   :   :   E   X   P   A   N   S   I   O   N   -   F   N
+0033640        C   L   :   :   D   O   C   )  \r                       (
+0033660    S   I   :   :   E   X   P   A   N   S   I   O   N   -   F   U
+0033700    N   C   T   I   O   N       C   L   :   :   N   A   M   E    
+0033720    C   L   :   :   A   R   G   -   L   I   S   T       C   L   :
+0033740    :   B   O   D   Y   )  \r                       `   (   P   R
+0033760    O   G   N       (   C   L   :   S   E   T   F       (   G   E
+0034000    T       '   ,   C   L   :   :   N   A   M   E       '   D   E
+0034020    F   I   N   E   R   -   F   O   R   )  \r                    
+0034040                                                                '
+0034060    ,   T   Y   P   E   )  \r                                    
+0034100                    (   C   L   :   P   U   S   H   N   E   W    
+0034120    '   ,   C   L   :   :   N   A   M   E       (   G   E   T    
+0034140    '   ,   T   Y   P   E       '   D   E   F   I   N   E   D   -
+0034160    B   Y   )   )  \r                                            
+0034200            (   D   E   F   M   A   C   R   O       ( 006 002   \
+0034220    \   \   , 006 001       C   L   :   :   N   A   M   E   )    
+0034240    (   &   W   H   O   L   E       C   L   :   :   O   R   I   G
+0034260    I   N   A   L   -   M   A   C   R   O   -   C   A   L   L    
+0034300    &   E   N   V   I   R   O   N   M   E   N   T       C   L   :
+0034320    :   E   N   V   )  \r                                        
+0034340                            (   L   E   T   *       (   (   C   L
+0034360    :   :   M   A   C   R   O   -   C   A   L   L   -   W   I   T
+0034400    H   O   U   T   -   C   O   M   M   E   N   T   S       (   R
+0034420    E   M   O   V   E   -   C   O   M   M   E   N   T   S       C
+0034440    L   :   :   O   R   I   G   I   N   A   L   -   M   A   C   R
+0034460    O   -   C   A   L   L   )   )  \r                            
+0034500                                                                 
+0034520    (   C   L   :   :   D   E   F   I   N   E   D   -   O   B   J
+0034540    E   C   T   -   N   A   M   E       (   ,   C   L   :   :   N
+0034560    A   M   E   -   F   N       C   L   :   :   M   A   C   R   O
+0034600    -   C   A   L   L   -   W   I   T   H   O   U   T   -   C   O
+0034620    M   M   E   N   T   S   )   )   )  \r                        
+0034640                                                                 
+0034660    `   (   P   R   O   G   N       (   W   I   T   H   O   U   T
+0034700    -   F   I   L   E   P   K   G     006 006 006 001            
+0034720  006 006   (   *       |   ;   ;   |       "   T   h   e       ,
+0034740    #   '   ,   F   O   O       i   s       r   e   a   l   l   y
+0034760        j   u   s   t       l   i   k   e       ,   '   ,   F   O
+0035000    O       (   w   h   i   c   h       i   s       u   s   e   d
+0035020        s   i   m   p   l   y       t   o       g   e   t       t
+0035040    h   e       e   v   a   l   u   a   t   i   o   n       o   f
+0035060        F   O   O       t   o       h   a   p   p   e   n       i
+0035100    n       t   h   e       o   u   t   e   r       b   a   c   k
+0035120    -   q   u   o   t   e   '   s       c   o   n   t   e   x   t
+0035140    )   .           I   n       t   h   i   s       c   a   s   e
+0035160    ,       h   o   w   e   v   e   r   ,       r   a   t   h   e
+0035200    r       t   h   a   n       s   i   m   p   l   y       p   r
+0035220    e   v   e   n   t   i   n   g       f   u   r   t   h   e   r
+0035240        e   v   a   l   u   a   t   i   o   n       (   u   s   i
+0035260    n   g       Q   U   O   T   E   )   ,       w   e       w   a
+0035300    n   t       t   o       e   n   c   o   u   r   a   g   e    
+0035320    t   h   e       c   o   m   p   i   l   e   r       t   o    
+0035340    c   o   m   p   i   l   e       t   h   e       L   A   M   D
+0035360    A   -   e   x   p   r   e   s   s   i   o   n       t   h   a
+0035400    t       i   s       t   h   e       v   a   l   u   e       o
+0035420    f       E   X   P   A   N   S   I   O   N   -   F   N   .    
+0035440        T   h   u   s   ,       w   e       u   s   e       #   '
+0035460        i   n   s   t   e   a   d       o   f       '   .   "   )
+0035500  006 001  \r                                                    
+0035520                                                                 
+0035540                                    (   S   I   :   :   M   A   C
+0035560    R   O   -   F   U   N   C   A   L   L       ,   #   '   ,   C
+0035600    L   :   :   E   X   P   A   N   S   I   O   N   -   F   N    
+0035620    ,  \r                                                        
+0035640                                                                 
+0035660                                                            C   L
+0035700    :   :   M   A   C   R   O   -   C   A   L   L   -   W   I   T
+0035720    H   O   U   T   -   C   O   M   M   E   N   T   S       ,   C
+0035740    L   :   :   E   N   V   )   )  \r                            
+0035760                                                                 
+0036000                                (   C   L   :   E   V   A   L   -
+0036020    W   H   E   N       (   C   L   :   E   V   A   L   )  \r    
+0036040                                                                 
+*
+0036100                    (   C   L   :   U   N   L   E   S   S       (
+0036120    N   U   L   L       F   I   L   E   P   K   G   F   L   G   )
+0036140   \r                                                            
+0036160                                                                 
+0036200                                                        (   \   \
+0036220    D   E   F   I   N   E   -   T   Y   P   E   -   S   A   V   E
+0036240    -   D   E   F   N  \r                                        
+0036260                                                                 
+*
+0036320                '   ,   C   L   :   :   D   E   F   I   N   E   D
+0036340    -   O   B   J   E   C   T   -   N   A   M   E  \r            
+0036360                                                                 
+*
+0036420                                            '   ,   '   ,   T   Y
+0036440    P   E  \r                                                    
+0036460                                                                 
+*
+0036520    '   ,   C   L   :   :   O   R   I   G   I   N   A   L   -   M
+0036540    A   C   R   O   -   C   A   L   L   )   )   )  \r            
+0036560                                                                 
+0036600                                                '   ,   C   L   :
+0036620    :   D   E   F   I   N   E   D   -   O   B   J   E   C   T   -
+0036640    N   A   M   E   )   )   )  \r  \r                            
+0036660                            ,   @   (   A   N   D       C   L   :
+0036700    :   U   N   D   E   F   I   N   E   R       `   (   (   C   L
+0036720    :   P   U   S   H   N   E   W       '   ,   C   L   :   :   U
+0036740    N   D   E   F   I   N   E   R       (   G   E   T       '   ,
+0036760    C   L   :   :   N   A   M   E       '   U   N   D   E   F   I
+0037000    N   E   R   S   )   )   )   )  \r                            
+0037020                            ,   @   (   A   N   D       C   L   :
+0037040    :   P   R   O   T   O   T   Y   P   E   -   F   N       `   (
+0037060    (   X   C   L   :   :   A   D   D   -   P   R   O   T   O   T
+0037100    Y   P   E   -   F   N       '   ,   T   Y   P   E       '   ,
+0037120    C   L   :   :   N   A   M   E       #   '   ,   C   L   :   :
+0037140    P   R   O   T   O   T   Y   P   E   -   F   N   )   )  \r    
+0037160                                                                 
+0037200                )  \r                                            
+0037220            ,   @   (   A   N   D       C   L   :   :   D   O   C
+0037240        `   (   (   C   L   :   S   E   T   F       (   C   L   :
+0037260    D   O   C   U   M   E   N   T   A   T   I   O   N       '   ,
+0037300    C   L   :   :   N   A   M   E       '   C   L   :   F   U   N
+0037320    C   T   I   O   N   )  \r                                    
+0037340                                                                 
+0037360                                                    ,   C   L   :
+0037400    :   D   O   C   )   )   )   )   )   )   )  \r  \r   (   C   L
+0037420    :   D   E   F   U   N     006 002   \   \   D   E   L   E   T
+0037440    E   -   D   E   F   I   N   E   R 006 001       (   N   A   M
+0037460    E   )       (   A   N   D       (   C   L   :   S   Y   M   B
+0037500    O   L   P       N   A   M   E   )  \r                        
+0037520                                                                 
+*
+0037560        (   L   E   T       (   (   T   Y   P   E       (   G   E
+0037600    T       N   A   M   E       '   D   E   F   I   N   E   R   -
+0037620    F   O   R   )   )   )  \r                                    
+0037640                                                                 
+*
+0037700                (   /   R   E   M   P   R   O   P       N   A   M
+0037720    E       '   D   E   F   I   N   E   R   -   F   O   R   )  \r
+0037740                                                                 
+*
+0040000                                                    (   C   L   :
+0040020    W   H   E   N       T   Y   P   E     006 006 006 001  \r    
+0040040                                                                 
+*
+0040120          006 006   (   *       |   ;   ;   |       "   n   e   e
+0040140    d       t   o       r   e   m   o   v   e       t   h   e    
+0040160    p   r   o   t   o   t   y   p   e       f   u   n   c   t   i
+0040200    o   n   !   "   ) 006 001  \r                                
+0040220                                                                 
+*
+0040260                                                (   /   P   U   T
+0040300    P   R   O   P       T   Y   P   E       '   D   E   F   I   N
+0040320    E   D   -   B   Y  \r                                        
+0040340                                                                 
+*
+0040420    (   R   E   M   O   V   E       N   A   M   E       (   G   E
+0040440    T       T   Y   P   E       '   D   E   F   I   N   E   D   -
+0040460    B   Y   )   )   )   )   )   )   )  \r  \r   (   D   E   F   D
+0040500    E   F   I   N   E   R       ( 006 002   D   E   F   -   D   E
+0040520    F   I   N   E   -   T   Y   P   E 006 001       (   :   P   R
+0040540    O   T   O   T   Y   P   E       (   L   A   M   B   D   A    
+0040560    (   N   A   M   E   )  \r                                    
+0040600                                                                 
+*
+0040640            (   A   N   D       (   C   L   :   S   Y   M   B   O
+0040660    L   P       N   A   M   E   )  \r                            
+0040700                                                                 
+*
+0040740                                        `   (   D   E   F   -   D
+0040760    E   F   I   N   E   -   T   Y   P   E       ( 006 002   \   \
+0041000    \   , 006 001       N   A   M   E   )       "   D   e   s   c
+0041020    r   i   p   t   i   o   n       s   t   r   i   n   g   "  \r
+0041040                                                                 
+*
+0041120                    )  \r   )   )   )   )       D   E   F   I   N
+0041140    E   -   T   Y   P   E   S  \r                       (   N   A
+0041160    M   E       D   E   S   C   R   I   P   T   I   O   N       &
+0041200    K   E   Y       U   N   D   E   F   I   N   E   R       &   A
+0041220    U   X       (   C   H   A   N   G   E   L   S   T       (   C
+0041240    L   :   I   N   T   E   R   N       (   C   L   :   C   O   N
+0041260    C   A   T   E   N   A   T   E       '   S   T   R   I   N   G
+0041300        "   C   H   A   N   G   E   D   "  \r                    
+0041320                                                                 
+*
+0041420                (   S   T   R   I   N   G       N   A   M   E   )
+0041440   \r                                                            
+0041460                                                                 
+*
+0041540                                        "   L   S   T   "   )  \r
+0041560                                                                 
+*
+0041640                                                        (   C   L
+0041660    :   S   Y   M   B   O   L   -   P   A   C   K   A   G   E    
+0041700    N   A   M   E   )   )   )   )  \r                       "   D
+0041720    e   f   i   n   e       N   A   M   E       a   s       a    
+0041740    n   e   w       d   e   f   i   n   i   t   i   o   n       t
+0041760    y   p   e   " 006 006 006 001                             006
+0042000  006   (   *       |   ;   ;   |       "   T   h   i   s       d
+0042020    e   f   i   n   i   t   i   o   n       i   s       a       c
+0042040    l   e   a   n       i   n   t   e   r   f   a   c   e       t
+0042060    o       a       h   o   k   e   y       i   m   p   l   e   m
+0042100    e   n   t   a   t   i   o   n   .           I   t       w   o
+0042120    r   k   s       e   v   e   n       b   e   f   o   r   e    
+0042140    t   h   e       f   i   l   e       p   a   c   k   a   g   e
+0042160        i   s       l   o   a   d   e   d   .   "   ) 006 001  \r
+0042200                        `   (   P   R   O   G   N       (   C   L
+0042220    :   S   E   T   F       (   C   L   :   D   O   C   U   M   E
+0042240    N   T   A   T   I   O   N       '   ,   N   A   M   E       '
+0042260    D   E   F   I   N   E   -   T   Y   P   E   S   )  \r        
+0042300                                                                 
+0042320            '   ,   D   E   S   C   R   I   P   T   I   O   N   )
+0042340   \r                                                       (   C
+0042360    L   :   P   U   S   H   N   E   W       '   (   ,   N   A   M
+0042400    E       X       (   P     006 002   * 006 001       (   M   A
+0042420    P   C   A   R       '   X       (   F   U   N   C   T   I   O
+0042440    N       (   L   A   M   B   D   A       (   I   T   E   M   )
+0042460   \r                                                            
+0042500                                                                 
+*
+0042560    (   C   L   :   D   O  \r                                    
+0042600                                                                 
+*
+0042660                                (   (   D   E   F       (   G   E
+0042700    T   D   E   F       I   T   E   M  \r                        
+0042720                                                                 
+*
+0043020                                '   ,   N   A   M   E   )   )   )
+0043040   \r                                                            
+0043060                                                                 
+*
+0043140        (   D   E   F       D   E   F   )  \r                    
+0043160                                                                 
+*
+0043240                                                (   C   L   :   C
+0043260    E   R   R   O   R       "   R   e   -   f   e   t   c   h    
+0043300    t   h   e       d   e   f   i   n   i   t   i   o   n   "    
+0043320   \r                                                            
+0043340                                                                 
+*
+0043420                                    "   N   o       ~   S       d
+0043440    e   f   i   n   i   t   i   o   n       f   o   r       ~   S
+0043460    "  \r                                                        
+0043500                                                                 
+*
+0043560                                        '   ,   N   A   M   E    
+0043600    I   T   E   M   )   )   )   )   )   )   )      \r            
+0043620                                                                 
+0043640        P   R   E   T   T   Y   D   E   F   M   A   C   R   O   S
+0043660        :   T   E   S   T       '   C   L   :   E   Q   U   A   L
+0043700    ) 006 006 006 001  \r                                        
+0043720                                                                 
+*
+0043760                                  006 006   (   *       |   ;   ;
+0044000    |       "   t   h   e       i   n   f   o   r   m   a   t   i
+0044020    o   n       a   b   o   u   t       a       t   y   p   e    
+0044040    i   n       t   h   e       f   i   l   e       p   a   c   k
+0044060    a   g   e       i   s       s   p   l   i   t       u   p    
+0044100    i   n   t   o       a       n   u   m   b   e   r       o   f
+0044120        d   i   f   f   e   r   e   n   t       p   l   a   c   e
+0044140    s   .       P   R   E   T   T   Y   T   Y   P   E   L   S   T
+0044160        c   o   n   t   a   i   n   s       a       r   a   n   d
+0044200    o   m       a   m   o   u   n   t   :       t   h   e       c
+0044220    h   a   n   g   e   l   i   s   t       i   s       t   h   e
+0044240        v   a   r   i   a   b   l   e       w   h   o   s   e    
+0044260    t   o   p       l   e   v   e   l       v   a   l   u   e    
+0044300    c   o   n   t   a   i   n   s       t   h   e       l   i   s
+0044320    t       o   f       c   h   a   n   g   e   d       i   t   e
+0044340    m   s   ,       a   n   d       t   h   e       d   e   s   c
+0044360    r   i   p   t   i   o   n       i   s       a       s   t   r
+0044400    i   n   g       u   s   e   d       b   y       f   i   l   e
+0044420    s   ?       T   h   i   s       i   s       d   u   p   l   i
+0044440    c   a   t   e   d       i   n       t   h   e       C   L   :
+0044460    D   O   C   U   M   E   N   T   A   T   I   O   N       m   e
+0044500    c   h   a   n   i   s   m   "   ) 006 001  \r                
+0044520                                        (   C   L   :   P   U   S
+0044540    H   N   E   W       '   (   ,   C   H   A   N   G   E   L   S
+0044560    T       ,   N   A   M   E       ,   D   E   S   C   R   I   P
+0044600    T   I   O   N   )       P   R   E   T   T   Y   T   Y   P   E
+0044620    L   S   T       :   T   E   S   T       '   C   L   :   E   Q
+0044640    U   A   L   )  \r                                            
+0044660            (   D   E   F   G   L   O   B   A   L   V   A   R    
+0044700    ( 006 002   \   \   \   , 006 001       C   H   A   N   G   E
+0044720    L   S   T   )       N   I   L   )  \r 006 006 006 001        
+0044740                                                                 
+*
+0045020  006 006   (   *       |   ;   ;   |       "   t   h   e       d
+0045040    e   f   i   n   i   t   i   o   n       h   a   s   h       t
+0045060    a   b   l   e       i   s       w   h   e   r   e       t   h
+0045100    e       d   e   f   i   n   i   t   i   o   n   s       a   r
+0045120    e       r   e   a   l   l   y       s   t   o   r   e   d   .
+0045140        C   r   e   a   t   e       a   n       e   n   t   r   y
+0045160        f   o   r       t   h   i   s       t   y   p   e   .    
+0045200    N   o   t   e       t   h   a   t       d   e   f   i   n   i
+0045220    t   i   o   n   s       a   r   e       c   o   m   p   a   r
+0045240    e   d       u   s   i   n   g       C   L   :   E   Q   U   A
+0045260    L       s   o       t   h   a   t       n   a   m   e   s    
+0045300    c   a   n       b   e       s   t   r   i   n   g   s   ,    
+0045320    l   i   s   t   s   ,       e   t   c   .   "   ) 006 001  \r
+0045340                                                        (   C   L
+0045360    :   U   N   L   E   S   S       (   C   L   :   G   E   T   H
+0045400    A   S   H       '   ,   N   A   M   E       *   D   E   F   I
+0045420    N   I   T   I   O   N   -   H   A   S   H   -   T   A   B   L
+0045440    E   *   )  \r                                                
+0045460                                    (   C   L   :   S   E   T   F
+0045500        (   C   L   :   G   E   T   H   A   S   H       '   ,   N
+0045520    A   M   E       *   D   E   F   I   N   I   T   I   O   N   -
+0045540    H   A   S   H   -   T   A   B   L   E   *   )  \r            
+0045560                                                                 
+0045600                                    (   C   L   :   M   A   K   E
+0045620    -   H   A   S   H   -   T   A   B   L   E       :   T   E   S
+0045640    T       '   C   L   :   E   Q   U   A   L       :   S   I   Z
+0045660    E       5   0       :   R   E   H   A   S   H   -   S   I   Z
+0045700    E       5   0   )   )   )  \r                                
+0045720                        (   C   L   :   P   U   S   H   N   E   W
+0045740        '   ,   N   A   M   E       F   I   L   E   P   K   G   T
+0045760    Y   P   E   S   )  \r                                        
+0046000                (   C   L   :   S   E   T   F       (   G   E   T
+0046020        '   ,   N   A   M   E       '   G   E   T   D   E   F   )
+0046040   \r                                                            
+0046060                        '   \   \   D   E   F   I   N   E   -   T
+0046100    Y   P   E   -   G   E   T   D   E   F   )  \r                
+0046120                                        (   C   L   :   S   E   T
+0046140    F       (   G   E   T       '   ,   N   A   M   E       '   D
+0046160    E   L   D   E   F   )  \r                                    
+0046200                                                '   \   \   D   E
+0046220    F   I   N   E   -   T   Y   P   E   -   D   E   L   D   E   F
+0046240    )  \r                                                       (
+0046260    C   L   :   S   E   T   F       (   G   E   T       '   ,   N
+0046300    A   M   E       '   F   I   L   E   P   K   G   C   O   N   T
+0046320    E   N   T   S   )  \r                                        
+0046340                                            '   N   I   L   L   )
+0046360   \r                                                       ,   @
+0046400    (   C   L   :   W   H   E   N       U   N   D   E   F   I   N
+0046420    E   R       `   (   (   C   L   :   P   U   S   H   N   E   W
+0046440        '   ,   U   N   D   E   F   I   N   E   R       (   G   E
+0046460    T       '   ,   N   A   M   E       '   U   N   D   E   F   I
+0046500    N   E   R   S   )   )   )   )   )   )  \r  \r   (   D   E   F
+0046520    M   A   C   R   O     006 002   W   I   T   H   O   U   T   -
+0046540    F   I   L   E   P   K   G 006 001       (   &   B   O   D   Y
+0046560        B   O   D   Y   )       `   (   P   R   O   G   N       (
+0046600    C   L   :   E   V   A   L   -   W   H   E   N       (   C   L
+0046620    :   L   O   A   D   )  \r                                    
+0046640                                                                 
+*
+0046700                                                        ,   @   B
+0046720    O   D   Y   )  \r                                            
+0046740                                                                 
+*
+0047000                    (   C   L   :   E   V   A   L   -   W   H   E
+0047020    N       (   C   L   :   E   V   A   L   )  \r                
+0047040                                                                 
+*
+0047120            (   C   L   :   U   N   L   E   S   S       (   O   R
+0047140        (   E   Q       D   F   N   F   L   G       '   P   R   O
+0047160    P   )  \r                                                    
+0047200                                                                 
+*
+0047260                                    (   E   Q       D   F   N   F
+0047300    L   G       '   A   L   L   P   R   O   P   )   )  \r        
+0047320                                                                 
+*
+0047400                                                (   L   E   T    
+0047420    (   F   I   L   E   P   K   G   F   L   G       (   D   F   N
+0047440    F   L   G       T   )   )  \r                                
+0047460                                                                 
+*
+0047540                                            ,   @   B   O   D   Y
+0047560    )   )   )   )   )  \r  \r  \r  \r  \r 006 004   (   *       |
+0047600    ;   ;   |       "   T   h   e       m   o   s   t       c   o
+0047620    m   m   o   n   l   y   -   u   s   e   d       d   e   f   i
+0047640    n   e   r   s   "   ) 006 001  \r  \r   (   D   E   F   D   E
+0047660    F   I   N   E   R       ( 006 002   C   L   :   D   E   F   U
+0047700    N 006 001       (   :   P   R   O   T   O   T   Y   P   E    
+0047720    (   C   L   :   L   A   M   B   D   A       (   C   L   :   :
+0047740    N   A   M   E   )  \r                                        
+0047760                                                                 
+0050000                                                                (
+0050020    A   N   D       (   C   L   :   S   Y   M   B   O   L   P    
+0050040    C   L   :   :   N   A   M   E   )  \r                        
+0050060                                                                 
+*
+0050120                                    `   (   C   L   :   D   E   F
+0050140    U   N       ( 006 002   \   \   \   , 006 001       C   L   :
+0050160    :   N   A   M   E   )       (   "   A   r   g       L   i   s
+0050200    t   "   )       "   B   o   d   y   "       )  \r   )   )   )
+0050220    )       F   U   N   C   T   I   O   N   S       (   C   L   :
+0050240    :   N   A   M   E       C   L   :   :   A   R   G   S       &
+0050260    B   O   D   Y       (   C   L   :   :   B   O   D   Y       C
+0050300    L   :   :   D   E   C   L   S       C   L   :   D   O   C   U
+0050320    M   E   N   T   A   T   I   O   N   )   )  \r                
+0050340                                `   (   P   R   O   G   N       (
+0050360    C   L   :   S   E   T   F       (   C   L   :   S   Y   M   B
+0050400    O   L   -   F   U   N   C   T   I   O   N       '   ,   C   L
+0050420    :   :   N   A   M   E   )  \r                                
+0050440                                                                 
+0050460            #   '   (   C   L   :   L   A   M   B   D   A       ,
+0050500    C   L   :   :   A   R   G   S       ,   @   C   L   :   :   D
+0050520    E   C   L   S       (   C   L   :   B   L   O   C   K       ,
+0050540    C   L   :   :   N   A   M   E       ,   @   C   L   :   :   B
+0050560    O   D   Y   )   )   )  \r                                    
+0050600                                            ,   @   (   A   N   D
+0050620        C   L   :   D   O   C   U   M   E   N   T   A   T   I   O
+0050640    N       `   (   (   C   L   :   S   E   T   F       (   C   L
+0050660    :   D   O   C   U   M   E   N   T   A   T   I   O   N       '
+0050700    ,   C   L   :   :   N   A   M   E       '   C   L   :   F   U
+0050720    N   C   T   I   O   N   )  \r                                
+0050740                                                                 
+*
+0051000                                                    ,   C   L   :
+0051020    D   O   C   U   M   E   N   T   A   T   I   O   N   )   )   )
+0051040    )   )  \r  \r   (   D   E   F   D   E   F   I   N   E   R    
+0051060    ( 006 002   D   E   F   I   N   L   I   N   E 006 001       (
+0051100    :   P   R   O   T   O   T   Y   P   E       (   L   A   M   B
+0051120    D   A       (   N   A   M   E   )  \r                        
+0051140                                                                 
+0051160                                                                (
+0051200    A   N   D       (   C   L   :   S   Y   M   B   O   L   P    
+0051220    N   A   M   E   )  \r                                        
+0051240                                                                 
+*
+0051300    `   (   D   E   F   I   N   L   I   N   E       ( 006 002   \
+0051320    \   \   , 006 001       N   A   M   E   )       (   "   A   r
+0051340    g       L   i   s   t   "   )       "   B   o   d   y   "    
+0051360    )  \r   )   )   )   )       F   U   N   C   T   I   O   N   S
+0051400        (   N   A   M   E       A   R   G   L   I   S   T       &
+0051420    B   O   D   Y       B   O   D   Y       &   E   N   V   I   R
+0051440    O   N   M   E   N   T       E   N   V   ) 006 006 006 001  \r
+0051460                                                                 
+*
+0051540          006 006   (   *       |   ;   ;   ;   |       "   T   h
+0051560    i   s       i   s       a   n       I   N   T   E   R   I   M
+0051600        v   e   r   s   i   o   n       o   f       D   E   F   I
+0051620    N   L   I   N   E   .           E   v   e   n   t   u   a   l
+0051640    l   y   ,       t   h   i   s       w   i   l   l       j   u
+0051660    s   t       t   u   r   n       i   n   t   o       a       D
+0051700    E   F   U   N       a   n   d       a       P   R   O   C   L
+0051720    A   I   M       I   N   L   I   N   E   .           (   I   t
+0051740        s   a   y   s       s   o       r   i   g   h   t       h
+0051760    e   r   e   .   )           I   f       y   o   u   '   r   e
+0052000        u   s   i   n   g       t   h   i   s       o   n   e   ,
+0052020        D   O       N   O   T       m   a   k   e       a   n   y
+0052040        r   e   c   u   r   s   i   v   e       c   a   l   l   s
+0052060        i   n       t   h   e       b   o   d   y       o   f    
+0052100    t   h   e       D   E   F   I   N   L   I   N   E   .        
+0052120    I   f       y   o   u       d   o   ,       t   h   e       c
+0052140    o   m   p   i   l   e   r       w   i   l   l       r   u   n
+0052160        f   o   r   e   v   e   r       t   r   y   i   n   g    
+0052200    t   o       e   x   p   a   n   d       t   h   e       o   p
+0052220    t   i   m   i   z   e   r   .   .   .           O   n   c   e
+0052240        t   h   e       I   N   L   I   N   E       v   e   r   s
+0052260    i   o   n       g   e   t   s       w   o   r   k   i   n   g
+0052300        (   i   n       t   h   e       P   a   v   C   o   m   p
+0052320    i   l   e   r       o   n   l   y   )       t   h   a   t    
+0052340    r   e   s   t   r   i   c   t   i   o   n       w   i   l   l
+0052360        b   e       l   i   f   t   e   d   .   "   ) 006 001  \r
+0052400                                                (   C   L   :   M
+0052420    U   L   T   I   P   L   E   -   V   A   L   U   E   -   B   I
+0052440    N   D       (   C   O   D   E       D   E   C   L   S       D
+0052460    O   C   )  \r                                                
+0052500                            (   P   A   R   S   E   -   B   O   D
+0052520    Y       B   O   D   Y       E   N   V       T   )  \r        
+0052540                                                                 
+0052560    (   L   E   T       (   (   N   E   W   -   L   A   M   B   D
+0052600    A       `   (   C   L   :   L   A   M   B   D   A       ,   A
+0052620    R   G   L   I   S   T       ,   @   D   E   C   L   S       (
+0052640    C   L   :   B   L   O   C   K       ,   N   A   M   E       ,
+0052660    @   C   O   D   E   )   )   )   )  \r                        
+0052700                                                                 
+0052720        `   (   P   R   O   G   N       (   C   L   :   D   E   F
+0052740    U   N       ( 006 002   \   \   \   , 006 001       N   A   M
+0052760    E   )       ,   A   R   G   L   I   S   T       ,   @   B   O
+0053000    D   Y   )  \r  \r                                            
+0053020                                                                 
+0053040                    (   D   E   F   O   P   T   I   M   I   Z   E
+0053060    R       ( 006 002   \   \   \   , 006 001       N   A   M   E
+0053100    )       ,   (   X   C   L   :   P   A   C   K       (   L   I
+0053120    S   T       "   d   e   f   i   n   l   i   n   e   -   "    
+0053140    N   A   M   E   )  \r                                        
+0053160                                                                 
+*
+0053240                                (   C   L   :   S   Y   M   B   O
+0053260    L   -   P   A   C   K   A   G   E       N   A   M   E   )   )
+0053300   \r                                                            
+0053320                                                                 
+0053340                (   &   R   E   S   T       A   R   G   S   )  \r
+0053360                                                                 
+*
+0053420            (   C   O   N   S       '   ,   N   E   W   -   L   A
+0053440    M   B   D   A       A   R   G   S   )   )  \r   )   )   )   )
+0053460   \r  \r   (   D   E   F   D   E   F   I   N   E   R       ( 006
+0053500  002   D   E   F   M   A   C   R   O 006 001       (   :   P   R
+0053520    O   T   O   T   Y   P   E       (   C   L   :   L   A   M   B
+0053540    D   A       (   C   L   :   :   N   A   M   E   )  \r        
+0053560                                                                 
+*
+0053620                                (   A   N   D       (   C   L   :
+0053640    S   Y   M   B   O   L   P       C   L   :   :   N   A   M   E
+0053660    )  \r                                                        
+0053700                                                                 
+*
+0053740    `   (   D   E   F   M   A   C   R   O       ( 006 002   \   \
+0053760    \   , 006 001       C   L   :   :   N   A   M   E   )       (
+0054000    C   L   :   :   A   R   G   -   L   I   S   T   )       "   B
+0054020    o   d   y   "       )  \r   )   )   )   )       F   U   N   C
+0054040    T   I   O   N   S       (   N   A   M   E       D   E   F   M
+0054060    A   C   R   O   -   A   R   G   S       &   B   O   D   Y    
+0054100    D   E   F   M   A   C   R   O   -   B   O   D   Y   ) 006 006
+0054120  006 001  \r                                                    
+0054140                                                                 
+*
+0054200                      006 006   (   *       |   ;   ;   |       "
+0054220    T   h   e       E   V   A   L   -   W   H   E   N       b   e
+0054240    l   o   w       s   h   o   u   l   d       b   e       a    
+0054260    P   R   O   G   N       a   s       s   o   o   n       a   s
+0054300        t   h   e       o   l   d       B   y   t   e   C   o   m
+0054320    p   i   l   e   r   /   C   O   M   P   I   L   E   -   F   I
+0054340    L   E       h   a   c   k       i   s       d   o   n   e    
+0054360    a   w   a   y       w   i   t   h   .           T   h   e    
+0054400    P   a   v   C   o   m   p   i   l   e   r       u   n   d   e
+0054420    r   s   t   a   n   d   s       D   E   F   M   A   C   R   O
+0054440    '   s       c   o   r   r   e   c   t   l   y       a   n   d
+0054460        d   o   e   s   n   '   t       s   i   d   e   -   e   f
+0054500    f   e   c   t       t   h   e       e   n   v   i   r   o   n
+0054520    m   e   n   t   .   "   ) 006 001  \r                        
+0054540                        (   C   L   :   U   N   L   E   S   S    
+0054560    (   A   N   D       N   A   M   E       (   C   L   :   S   Y
+0054600    M   B   O   L   P       N   A   M   E   )   )  \r            
+0054620                                                                (
+0054640    C   L   :   E   R   R   O   R       "   I   l   l   e   g   a
+0054660    l       n   a   m   e       u   s   e   d       i   n       D
+0054700    E   F   M   A   C   R   O   :       ~   S   "       N   A   M
+0054720    E   )   )  \r                                               (
+0054740    L   E   T       (   (   C   M   A   C   R   O   N   A   M   E
+0054760        (   X   C   L   :   P   A   C   K       (   L   I   S   T
+0055000        "   e   x   p   a   n   d   -   "       N   A   M   E   )
+0055020   \r                                                            
+0055040                                                                 
+0055060                        (   C   L   :   S   Y   M   B   O   L   -
+0055100    P   A   C   K   A   G   E       N   A   M   E   )   )   )   )
+0055120   \r                                                            
+0055140        (   C   L   :   M   U   L   T   I   P   L   E   -   V   A
+0055160    L   U   E   -   B   I   N   D  \r                            
+0055200                                            (   E   X   P   A   N
+0055220    S   I   O   N   -   F   N       D   O   C   -   S   T   R   I
+0055240    N   G   )  \r                                                
+0055260                        (   S   I   :   :   E   X   P   A   N   S
+0055300    I   O   N   -   F   U   N   C   T   I   O   N       N   A   M
+0055320    E       D   E   F   M   A   C   R   O   -   A   R   G   S    
+0055340    D   E   F   M   A   C   R   O   -   B   O   D   Y   )  \r    
+0055360                                                                 
+0055400    `   (   C   L   :   E   V   A   L   -   W   H   E   N       (
+0055420    C   L   :   E   V   A   L       C   L   :   C   O   M   P   I
+0055440    L   E       C   L   :   L   O   A   D   )  \r                
+0055460                                                                 
+0055500                        (   C   L   :   S   E   T   F       (   C
+0055520    L   :   S   Y   M   B   O   L   -   F   U   N   C   T   I   O
+0055540    N       '   ,   C   M   A   C   R   O   N   A   M   E   )  \r
+0055560                                                                 
+*
+0055620    #   '   ,   E   X   P   A   N   S   I   O   N   -   F   N   )
+0055640   \r                                                            
+0055660                                            (   C   L   :   S   E
+0055700    T   F       (   C   L   :   M   A   C   R   O   -   F   U   N
+0055720    C   T   I   O   N       '   ,   N   A   M   E   )  \r        
+0055740                                                                 
+0055760                                                            '   ,
+0056000    C   M   A   C   R   O   N   A   M   E   )  \r                
+0056020                                                                 
+0056040                        ,   @   (   A   N   D       D   O   C   -
+0056060    S   T   R   I   N   G       `   (   (   C   L   :   S   E   T
+0056100    F       (   C   L   :   D   O   C   U   M   E   N   T   A   T
+0056120    I   O   N       '   ,   N   A   M   E       '   C   L   :   F
+0056140    U   N   C   T   I   O   N   )  \r                            
+0056160                                                                 
+*
+0056220                                                        ,   D   O
+0056240    C   -   S   T   R   I   N   G   )   )   )   )   )   )   )  \r
+0056260   \r   (   D   E   F   D   E   F   I   N   E   R       ( 006 002
+0056300    C   L   :   D   E   F   V   A   R 006 001       (   :   P   R
+0056320    O   T   O   T   Y   P   E       (   C   L   :   L   A   M   B
+0056340    D   A       (   C   L   :   :   N   A   M   E   )  \r        
+0056360                                                                 
+*
+0056420                                    (   A   N   D       (   C   L
+0056440    :   S   Y   M   B   O   L   P       C   L   :   :   N   A   M
+0056460    E   )  \r                                                    
+0056500                                                                 
+*
+0056540            `   (   C   L   :   D   E   F   V   A   R       ( 006
+0056560  002   \   \   \   , 006 001       C   L   :   :   N   A   M   E
+0056600    )       )  \r   )   )   )   )       V   A   R   I   A   B   L
+0056620    E   S       (   C   L   :   :   N   A   M   E       &   O   P
+0056640    T   I   O   N   A   L       (   C   L   :   :   I   N   I   T
+0056660    I   A   L   -   V   A   L   U   E       N   I   L       C   L
+0056700    :   :   I   V   P   )  \r                                    
+0056720                                                        C   L   :
+0056740    D   O   C   U   M   E   N   T   A   T   I   O   N   )  \r    
+0056760                                            `   (   P   R   O   G
+0057000    N       (   C   L   :   P   R   O   C   L   A   I   M       '
+0057020    (   C   L   :   S   P   E   C   I   A   L       ,   C   L   :
+0057040    :   N   A   M   E   )   )  \r                                
+0057060                                                ,   @   (   A   N
+0057100    D       C   L   :   :   I   V   P       `   (   (   O   R    
+0057120    (   B   O   U   N   D   P       '   ,   C   L   :   :   N   A
+0057140    M   E   )  \r                                                
+0057160                                                                 
+0057200                                                    (   S   E   T
+0057220    Q       ,   C   L   :   :   N   A   M   E       ,   C   L   :
+0057240    :   I   N   I   T   I   A   L   -   V   A   L   U   E   )   )
+0057260    )   )  \r                                                    
+0057300                            ,   @   (   A   N   D       C   L   :
+0057320    D   O   C   U   M   E   N   T   A   T   I   O   N       `   (
+0057340    (   C   L   :   S   E   T   F       (   C   L   :   D   O   C
+0057360    U   M   E   N   T   A   T   I   O   N       '   ,   C   L   :
+0057400    :   N   A   M   E       '   C   L   :   :   V   A   R   I   A
+0057420    B   L   E   )  \r                                            
+0057440                                                                 
+*
+0057500                                        ,   C   L   :   D   O   C
+0057520    U   M   E   N   T   A   T   I   O   N   )   )   )   )   )  \r
+0057540   \r   (   D   E   F   D   E   F   I   N   E   R       ( 006 002
+0057560    C   L   :   D   E   F   P   A   R   A   M   E   T   E   R 006
+0057600  001       (   :   P   R   O   T   O   T   Y   P   E       (   C
+0057620    L   :   L   A   M   B   D   A       (   C   L   :   :   N   A
+0057640    M   E   )  \r                                                
+0057660                                                                 
+*
+0057720                    (   A   N   D       (   C   L   :   S   Y   M
+0057740    B   O   L   P       C   L   :   :   N   A   M   E   )  \r    
+0057760                                                                 
+*
+0060040                    `   (   C   L   :   D   E   F   P   A   R   A
+0060060    M   E   T   E   R       ( 006 002   \   \   \   , 006 001    
+0060100    C   L   :   :   N   A   M   E   )       "   V   a   l   u   e
+0060120    "      \r                                                    
+0060140                                                                 
+*
+0060240            "   D   o   c   u   m   e   n   t   a   t   i   o   n
+0060260        s   t   r   i   n   g   "   )  \r   )   )   )   )       V
+0060300    A   R   I   A   B   L   E   S       (   C   L   :   :   N   A
+0060320    M   E       C   L   :   :   I   N   I   T   I   A   L   -   V
+0060340    A   L   U   E       &   O   P   T   I   O   N   A   L       C
+0060360    L   :   D   O   C   U   M   E   N   T   A   T   I   O   N   )
+0060400   \r                                               `   (   P   R
+0060420    O   G   N       (   C   L   :   P   R   O   C   L   A   I   M
+0060440        '   (   C   L   :   S   P   E   C   I   A   L       ,   C
+0060460    L   :   :   N   A   M   E   )   )  \r                        
+0060500                                                        (   S   E
+0060520    T   Q       ,   C   L   :   :   N   A   M   E       ,   C   L
+0060540    :   :   I   N   I   T   I   A   L   -   V   A   L   U   E   )
+0060560   \r                                                            
+0060600                    ,   @   (   A   N   D       C   L   :   D   O
+0060620    C   U   M   E   N   T   A   T   I   O   N       `   (   (   C
+0060640    L   :   S   E   T   F       (   C   L   :   D   O   C   U   M
+0060660    E   N   T   A   T   I   O   N       '   ,   C   L   :   :   N
+0060700    A   M   E       '   C   L   :   :   V   A   R   I   A   B   L
+0060720    E   )  \r                                                    
+0060740                                                                 
+*
+0061000                                ,   C   L   :   D   O   C   U   M
+0061020    E   N   T   A   T   I   O   N   )   )   )   )   )  \r  \r   (
+0061040    D   E   F   D   E   F   I   N   E   R       ( 006 002   C   L
+0061060    :   D   E   F   C   O   N   S   T   A   N   T 006 001       (
+0061100    :   P   R   O   T   O   T   Y   P   E       (   C   L   :   L
+0061120    A   M   B   D   A       (   C   L   :   :   N   A   M   E   )
+0061140   \r                                                            
+0061160                                                                 
+*
+0061220    (   A   N   D       (   C   L   :   S   Y   M   B   O   L   P
+0061240        C   L   :   :   N   A   M   E   )  \r                    
+0061260                                                                 
+*
+0061320                                                                `
+0061340    (   C   L   :   D   E   F   C   O   N   S   T   A   N   T    
+0061360    ( 006 002   \   \   \   , 006 001       C   L   :   :   N   A
+0061400    M   E   )       "   V   a   l   u   e   "      \r            
+0061420                                                                 
+*
+0061520                                                    "   D   o   c
+0061540    u   m   e   n   t   a   t   i   o   n       s   t   r   i   n
+0061560    g   "   )  \r   )   )   )   )       V   A   R   I   A   B   L
+0061600    E   S       (   C   L   :   :   N   A   M   E       C   L   :
+0061620    :   V   A   L   U   E       &   O   P   T   I   O   N   A   L
+0061640        C   L   :   D   O   C   U   M   E   N   T   A   T   I   O
+0061660    N   )  \r                                               `   (
+0061700    P   R   O   G   N       (   S   E   T   Q       ,   C   L   :
+0061720    :   N   A   M   E       ,   C   L   :   :   V   A   L   U   E
+0061740    )  \r                                                        
+0061760                        (   P   U   T   H   A   S   H       '   ,
+0062000    C   L   :   :   N   A   M   E       '   (   C   O   N   S   T
+0062020    A   N   T       ,   C   L   :   :   N   A   M   E   )       C
+0062040    O   M   P   V   A   R   M   A   C   R   O   H   A   S   H   )
+0062060   \r                                                            
+0062100                    ,   @   (   A   N   D       C   L   :   D   O
+0062120    C   U   M   E   N   T   A   T   I   O   N       `   (   (   C
+0062140    L   :   S   E   T   F       (   C   L   :   D   O   C   U   M
+0062160    E   N   T   A   T   I   O   N       '   ,   C   L   :   :   N
+0062200    A   M   E       '   C   L   :   :   V   A   R   I   A   B   L
+0062220    E   )  \r                                                    
+0062240                                                                 
+*
+0062300                                ,   C   L   :   D   O   C   U   M
+0062320    E   N   T   A   T   I   O   N   )   )   )   )   )  \r  \r   (
+0062340    D   E   F   D   E   F   I   N   E   R       ( 006 002   D   E
+0062360    F   G   L   O   B   A   L   V   A   R 006 001       (   :   P
+0062400    R   O   T   O   T   Y   P   E       (   C   L   :   L   A   M
+0062420    B   D   A       (   C   L   :   :   N   A   M   E   )  \r    
+0062440                                                                 
+*
+0062500                                                    (   A   N   D
+0062520        (   C   L   :   S   Y   M   B   O   L   P       C   L   :
+0062540    :   N   A   M   E   )  \r                                    
+0062560                                                                 
+*
+0062620                                        `   (   D   E   F   G   L
+0062640    O   B   A   L   V   A   R       ( 006 002   \   \   \   , 006
+0062660  001       C   L   :   :   N   A   M   E   )       )  \r   )   )
+0062700    )   )       V   A   R   I   A   B   L   E   S       (   C   L
+0062720    :   :   N   A   M   E       &   O   P   T   I   O   N   A   L
+0062740        (   C   L   :   :   I   N   I   T   I   A   L   -   V   A
+0062760    L   U   E       N   I   L       C   L   :   :   I   V   P   )
+0063000   \r                                                            
+0063020                                C   L   :   D   O   C   U   M   E
+0063040    N   T   A   T   I   O   N   )  \r                            
+0063060                    `   (   P   R   O   G   N       (   C   L   :
+0063100    P   R   O   C   L   A   I   M       '   (   G   L   O   B   A
+0063120    L       ,   C   L   :   :   N   A   M   E   )   )  \r        
+0063140                                                                 
+0063160        ,   @   (   A   N   D       C   L   :   :   I   V   P    
+0063200    `   (   (   O   R       (   B   O   U   N   D   P       '   ,
+0063220    C   L   :   :   N   A   M   E   )  \r                        
+0063240                                                                 
+*
+0063300            (   S   E   T   Q       ,   C   L   :   :   N   A   M
+0063320    E       ,   C   L   :   :   I   N   I   T   I   A   L   -   V
+0063340    A   L   U   E   )   )   )   )  \r                            
+0063360                                                    ,   @   (   A
+0063400    N   D       C   L   :   D   O   C   U   M   E   N   T   A   T
+0063420    I   O   N       `   (   (   C   L   :   S   E   T   F       (
+0063440    C   L   :   D   O   C   U   M   E   N   T   A   T   I   O   N
+0063460        '   ,   C   L   :   :   N   A   M   E       '   C   L   :
+0063500    :   V   A   R   I   A   B   L   E   )  \r                    
+0063520                                                                 
+*
+0063560                                                                ,
+0063600    C   L   :   D   O   C   U   M   E   N   T   A   T   I   O   N
+0063620    )   )   )   )   )  \r  \r   (   D   E   F   D   E   F   I   N
+0063640    E   R       ( 006 002   D   E   F   G   L   O   B   A   L   P
+0063660    A   R   A   M   E   T   E   R 006 001       (   :   P   R   O
+0063700    T   O   T   Y   P   E       (   C   L   :   L   A   M   B   D
+0063720    A       (   C   L   :   :   N   A   M   E   )  \r            
+0063740                                                                 
+*
+0064020    (   A   N   D       (   C   L   :   S   Y   M   B   O   L   P
+0064040        C   L   :   :   N   A   M   E   )  \r                    
+0064060                                                                 
+*
+0064140                `   (   D   E   F   G   L   O   B   A   L   P   A
+0064160    R   A   M   E   T   E   R       ( 006 002   \   \   \   , 006
+0064200  001       C   L   :   :   N   A   M   E   )       "   V   a   l
+0064220    u   e   "  \r                                                
+0064240                                                                 
+*
+0064320    "   D   o   c   u   m   e   n   t   a   t   i   o   n       s
+0064340    t   r   i   n   g   "   )  \r   )   )   )   )       V   A   R
+0064360    I   A   B   L   E   S       (   C   L   :   :   N   A   M   E
+0064400        C   L   :   :   I   N   I   T   I   A   L   -   V   A   L
+0064420    U   E       &   O   P   T   I   O   N   A   L       C   L   :
+0064440    D   O   C   U   M   E   N   T   A   T   I   O   N   )  \r    
+0064460                                            `   (   P   R   O   G
+0064500    N       (   C   L   :   P   R   O   C   L   A   I   M       '
+0064520    (   G   L   O   B   A   L       ,   C   L   :   :   N   A   M
+0064540    E   )   )  \r                                                
+0064560                                (   S   E   T   Q       ,   C   L
+0064600    :   :   N   A   M   E       ,   C   L   :   :   I   N   I   T
+0064620    I   A   L   -   V   A   L   U   E   )  \r                    
+0064640                                                            ,   @
+0064660    (   A   N   D       C   L   :   D   O   C   U   M   E   N   T
+0064700    A   T   I   O   N       `   (   (   C   L   :   S   E   T   F
+0064720        (   C   L   :   D   O   C   U   M   E   N   T   A   T   I
+0064740    O   N       '   ,   C   L   :   :   N   A   M   E       '   C
+0064760    L   :   :   V   A   R   I   A   B   L   E   )  \r            
+0065000                                                                 
+*
+0065060        ,   C   L   :   D   O   C   U   M   E   N   T   A   T   I
+0065100    O   N   )   )   )   )   )  \r  \r  \r  \r  \r 006 004   (   *
+0065120        |   ;   ;   |       "   D   o   n   '   t       n   o   t
+0065140    e       c   h   a   n   g   e   s       t   o       t   h   e
+0065160    s   e       p   r   o   p   e   r   t   i   e   s   /   v   a
+0065200    r   i   a   b   l   e   s   "   ) 006 001  \r  \r  \r   (   P
+0065220    U   T   P   R   O   P   S     006 002   M   A   C   R   O   -
+0065240    F   N       P   R   O   P   T   Y   P   E 006 001       F   U
+0065260    N   C   T   I   O   N   S   )  \r  \r   (   P   U   T   P   R
+0065300    O   P   S     006 002   U   N   D   E   F   I   N   E   R   S
+0065320        P   R   O   P   T   Y   P   E 006 001       I   G   N   O
+0065340    R   E   )  \r  \r   (   P   U   T   P   R   O   P   S     006
+0065360  002   D   E   F   I   N   E   R   -   F   O   R       P   R   O
+0065400    P   T   Y   P   E 006 001       I   G   N   O   R   E   )  \r
+0065420   \r   (   P   U   T   P   R   O   P   S     006 002   D   E   F
+0065440    I   N   E   D   -   B   Y       P   R   O   P   T   Y   P   E
+0065460  006 001       I   G   N   O   R   E   )  \r  \r  \r  \r 006 004
+0065500    (   *       |   ;   ;   |       "   A   r   r   a   n   g   e
+0065520        f   o   r       t   h   e       c   o   r   r   e   c   t
+0065540        c   o   m   p   i   l   e   r       t   o       b   e    
+0065560    u   s   e   d   .   "   ) 006 001  \r  \r  \r   (   P   U   T
+0065600    P   R   O   P   S     006 002   C   M   L   D   E   F   F   E
+0065620    R       F   I   L   E   T   Y   P   E 006 001       C   L   :
+0065640    C   O   M   P   I   L   E   -   F   I   L   E   )  \r   (   P
+0065660    U   T   P   R   O   P   S       C   M   L   D   E   F   F   E
+0065700    R       C   O   P   Y   R   I   G   H   T       (   "   X   e
+0065720    r   o   x       C   o   r   p   o   r   a   t   i   o   n   "
+0065740        1   9   8   6       1   9   0   0   )   )  \r   (   D   E
+0065760    C   L   A   R   E   \   :       D   O   N   T   C   O   P   Y
+0066000   \r           (   F   I   L   E   M   A   P       (   N   I   L
+0066020    )   )   )  \r   S   T   O   P  \r                            
+0066031
+</pre>
+  </body>
+</html>

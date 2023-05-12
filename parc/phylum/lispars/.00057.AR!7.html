@@ -1,0 +1,11 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [phylum]&lt;LispARs>00057.AR!7</title>
+  </head>
+  <body>
+    <pre>
+Number: 57Date: 17-Mar-84  0':04':03Submitter: Sannella.PASource: MASINTER.PASubject: want BIN in DLion 12K Control Store UCodeAssigned To: Attn: CharnleyStatus: OpenIn/By: Problem Type: PerformanceImpact: ModerateDifficulty: ModerateFrequency: EverytimePriority: HopefullySystem: Language SupportSubsystem: MicrocodeMachine: Disk: Lisp Version: Source Files: Microcode Version: Memory Size: File Server: Server Software Version: Disposition: [I took some of the ideas in this and submitted separate ARs. lmm - 17Aug 84] Description: 'Date': 13 MAR 84 22':15 PST'From': MASINTER.PA'Subject': DLion microcode priorities'To':   charnley'cc':   LispSupport''The next set of opcodes which seem'to be relevant are':''a) more GCRECLAIMCELL'b) EVAL (for interpreter)'c) BIN''I think those are the relevant ones for current benchmarks.''A separate AR is to please automate and document benchmarks. ''-----''Date': 27 Mar 84 23':06 PST'From': Masinter.pa'Subject': Lisp': microcode enhancements'To': LispSupport.pa'cc': sheil (fyi)'Lisp-System-Date': 27-Mar-84 08':53':34'Machine-Type': Dorado''This is one of several ARs on rewriting ALL microcodes to include new opcodes. Looking at the function inside Rosie that is taking up the most time, I believe it would be helped substantially by (not necessarily in this order)':''(a) microcoded ELT'(b) microcoded LLSH'(c) microcde combining CAR/CDR chains to length 2 or 3'(e.g., CAAR, CDDR, CADR, although CDDR is most prevelant)'(d) JEQ (if faster than EQ/TJUMP)'(e) stack relative addressing, if it enabled the stack optimization I had partially implemented'(f) microcoded FASSOC'(g) special (CONS x NIL) opcode, maybe (LIST X Y) opcode.''[big memory helps if memory/compute time is large; compute time can dominate with bad compiled code]''-----'''Workaround: Test Case: Edit-By: MasinterEdit-Date: 17-Aug-84 12':28':24</pre>
+  </body>
+</html>

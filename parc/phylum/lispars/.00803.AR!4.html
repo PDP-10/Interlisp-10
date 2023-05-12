@@ -1,0 +1,11 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [phylum]&lt;LispARs>00803.AR!4</title>
+  </head>
+  <body>
+    <pre>
+Number: 803Date: 23-Apr-84 15':24':54Submitter: Sannella.PASource: Masinter.paSubject: CHAT takes too long updating caretAssigned To: vanMelleAttn: Status: ClosedIn/By: Problem Type: PerformanceImpact: AnnoyingDifficulty: ModerateFrequency: EverytimePriority: PerhapsSystem: CommunicationsSubsystem: PUP ProtocolsMachine: Disk: Lisp Version: Source Files: Microcode Version: Memory Size: File Server: Server Software Version: Disposition: '["Sannella.PA" "16-Aug-84 11':39':18" Attn': Status':(Fixed-&gt;Closed)]Description: 'Date': 20 Apr 84 15':32 PST'From': Masinter.pa'Subject': chat very slow in recent loadup -- suspect caretology'To': burton, vanMelle, LispSupport'cc': Masinter.pa''-----''Date': 22 Apr 84 23':10 PST'From': vanMelle.pa'Subject': Re': chat very slow in recent loadup -- suspect caretology'In-reply-to': Masinter.pa''s message of 20 Apr 84 15':32 PST'To': Masinter.pa'cc': burton.pa, vanMelle.pa, LispSupport.pa''Indeed.  Stats on Dolphin show it spending 'over 4 times as long per character under TAKEDOWNCARET (in PROCESS.EVALV, \SMASHLINK, \DECUSECOUNT, \INCUSECOUNT, \DOHARDRETURN1), as it is spending actually printing the character (CHAT.HANDLECHARACTER, \DSPPRINTCHAR, \BLTCHAR).''It has to call TAKEDOWNCARET on each character printed, even though that is usually a no-op, since the typeout process has no way of knowing when the typein process has snuck in and raised the caret. ''I edited Chat to use the undocumented \TAKEDOWNCARET interface, wherein one passes the caret object instead of the window/process.  Seems much better behaved now.''SPY, by the way, gave completely different information': it showed me spending about 3 times longer under CHAT.HANDLECHARACTER than under TAKEDOWNCARET.  So I''m not sure how much I trust it.''	Bill'Workaround: Test Case: Edit-By: Sannella.PAEdit-Date: 16-Aug-84 11':39':22</pre>
+  </body>
+</html>

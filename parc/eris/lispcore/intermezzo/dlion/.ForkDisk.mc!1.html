@@ -1,0 +1,11 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [eris]&lt;LispCore>Intermezzo>dlion>ForkDisk.mc!1</title>
+  </head>
+  <body>
+    <pre>
+{ File name: ForkDisk.mc   Author: Lichtenberg    Description: Stub to fork different versions of Lisp uCode so both SAx000 and Trident can be coresident    This uses a very crude (very very crude) hack to determine disk type.  It looks at the IOCB page and at what would be the trident header operation.  If they do not match, it assumes Shugart.      Comparison:  real memory location B0114 should = 117 for Trident, SAx000 otherwise.  }    AnyDiskStart: SetTask[4], StartAddress[AnyDiskStart],	RHCnt &larr; 0B, c1;	RCnt &larr; 1, c2;	RCnt &larr; RCnt LRot8, c3;	MAR &larr; [RHCnt,RCnt + 14], c1;	RCnt &larr; RCnt + 17, CANCELBR[$,2], c2;	RAdr &larr; MD, c3;		[] &larr; RAdr xor RCnt, ZeroBr, c1;	BRANCH[FShugart,FTrident], c2;	FShugart: GOTO[ShugartStart], c3;	FTrident: GOTO[TridentStart], c3;		   { E N D }         	</pre>
+  </body>
+</html>

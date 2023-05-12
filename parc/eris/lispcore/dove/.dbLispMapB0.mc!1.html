@@ -1,0 +1,11 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [eris]&lt;LispCore>Dove>dbLispMapB0.mc!1</title>
+  </head>
+  <body>
+    <pre>
+{File name dbLispMapB0.mcCreated: 24-Apr-84 10:00:25 }SetTask[0];{*************************	Read Map Update Subroutine **************************}{Timing: 4 cycles}{Enter at cycle 3, returns to cycle1}{returns thru L0 if map fixed ok}{returns thru L1 if wants to trap}{  nobody calls this yetRLMapFixB2:	Xbus &larr; Rx LRot0, XwdDisp,	c3;	Map &larr; [rhTT,TT], DISP2[RFixRFlagsB2],	c1;	MDR &larr; Rx or 80, L0Disp, GOTO[ReReadB2],	c2, at[PgClean, 4, RFixRFlagsB2];	MDR &larr; Rx or 80, L0Disp, GOTO[ReReadB2],	c2, at[PgDirty, 4, RFixRFlagsB2];	MDR &larr; Rx or 80, L0Disp, GOTO[ReReadB2],	c2, at[PgProt, 4, RFixRFlagsB2];	L1Disp, GOTO[RWTrapB2],	c2, at[PgVacant, 4, RFixRFlagsB2];ReReadB2:	Xbus &larr; ReadOK, XDisp, RET[RMapFixCallerB2],	c3;}{*************************	Write Map Update Subroutine **************************}{Timing: 4 cycles}{Enter at cycle 3, returns to cycle1}{returns thru L0 if map fixed ok}{returns thru L1 if wants to trap}WLMapFixB2:	Xbus &larr; Rx LRot0, XwdDisp,	c3;	Map &larr; [rhTT, TT], WriteDISP2[FixWFlagsB2],	c1;	MDR &larr; Rx or 0C0, L0Disp, GOTO[ReWriteB2],	c2, at[PgWrtOK, 4, FixWFlagsB2];	L1Disp, GOTO[RWTrapB2],	c2, at[PgNoWrt, 4, FixWFlagsB2];ReWriteB2:	Xbus &larr; PgDirty, XDisp, RET[WMapFixCallerB2],	c3;RWTrapB2:	DISP4[TrapFixesB2],	c3;	GOTO[TrapFixesDoneB2c2],	c1, at[L1.NoFixesB2, 10, TrapFixesB2];	TOS &larr; uTOS,	c1, at[L1.RestoreTosB2, 10, TrapFixesB2];	TOSH &larr; uTOSH, GOTO[TrapFixesDoneB2c3],	c2;TrapFixesDoneB2c2:	,	c2;TrapFixesDoneB2c3:	,	c3;B2CrossToPFaultc1:	,	c1;	L1 &larr; L1.NoFixes,	c2;	GOTO[PFault],	c3;	{ E N D }</pre>
+  </body>
+</html>

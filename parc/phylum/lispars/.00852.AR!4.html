@@ -1,0 +1,11 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [phylum]&lt;LispARs>00852.AR!4</title>
+  </head>
+  <body>
+    <pre>
+Number: 852Date: 27-Apr-84 13':26':41Submitter: le.pasaSource: Porter at NCR-Dering.pasaSubject: BitBlt of DEdit window failsLisp Version:  Fugue6Description:  If the SOURCEBITMAP  argument to BITBLT is a DEdit window,   the DESTINATIONBITMAP argument is a bitmap with width and height equal to DEdit window,  and all other arguments to BITBLT are NIL,  then BITBLT returns an empty bitmap, no bits are moved .''------'Date': 27 Apr 84 17':08 PST'From': Burton.pa'Subject': Re': AR#852'In-reply-to': le.pasa''s message of 27 Apr 84 21':35':41 PST (Friday)'To': le.pasa'cc': lispsupport.pa, Sheil.pa''change - status to declined''I think his problem is that DEdit changes the window''s coordinate system so that the visible portion of the window has a Y coordinate of around 64000.  BITBLT default NIL left and bottom arguments to 0 so that described BITBLT is clipped.''fyi': The function DSPCLIPPINGREGION will return the region of a window that is visible.  The following code will do what he wants':''(SETQ CLIPREG (DSPCLIPPINGREGION NIL WINDOW))'(BITBLT SOURCEBITMAP NIL NIL WINDOW '		(fetch (REGION LEFT) OF CLIPREG)'		(fetch (REGION BOTTOM)  OF CLIPREG))''richard'''Workaround: Test Case: Edit-By: Sannella.PAEdit-Date: 30-Apr-84  8':32':14Attn: Sheil.paAssigned To: In/By: Disposition: System: Programming EnvironmentSubsystem: Code EditorMachine: Disk: Microcode Version: Memory Size: File Server: Server Software Version: Difficulty: Frequency: EverytimeImpact: ModeratePriority: Status: DeclinedProblem Type: BugSource Files: </pre>
+  </body>
+</html>

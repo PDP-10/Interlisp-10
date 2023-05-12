@@ -1,0 +1,11 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [phylum]&lt;LispARs>00235.AR!2</title>
+  </head>
+  <body>
+    <pre>
+Number: 235Date: 21-Mar-84 21':11':51Submitter: Sannella.PASource: Stansbury.paSubject: Can''t run multiple compilers in different processesAssigned To: Attn: Masinter.paStatus: OpenIn/By: Problem Type: Design - ImplImpact: ModerateDifficulty: Very HardFrequency: EverytimePriority: PerhapsSystem: Language SupportSubsystem: Compiler, Code FormatMachine: Disk: Lisp Version: Source Files: Microcode Version: Memory Size: File Server: Server Software Version: Disposition: '["Masinter" "11-Sep-84 17':34':21" Subject':]Description: 'Date': 19 Mar 84 13':59 PST'From': Stansbury.pa'Subject': Re': your list'In-reply-to': MASINTER.PA''s message of 18 MAR 84 17':43 PST'To': MASINTER.PA'cc': stansbury.PA, lispsupport.PA''...''(2)  You can''t run multiple instances of the compiler at once.  Since the compiler doesn''t block, this is a problem we won''t really experience until we have a preemtive scheduler.  By the time we have a preemtive scheduler, I would think that ideally we should restructure the compiler so that it does not depend upon global state, but a shorter-term solution might be to monitor-lock the global state the compiler uses, so that different instances wait for each other instead of jumping all over each other.''Workaround: Test Case: Edit-By: MasinterEdit-Date: 11-Sep-84 17':34':22</pre>
+  </body>
+</html>

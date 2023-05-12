@@ -1,0 +1,11 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [phylum]&lt;LispARs>00921.AR!2</title>
+  </head>
+  <body>
+    <pre>
+Number: 921Date:  1-May-84 19':01':42Submitter: Sannella.PASource: Kaplan.paSubject: \TEXTPEEKBIN fails to obey NOERRORFLGLisp Version: Description: 'Date': 18 Apr 84 21':10 PST'From': Kaplan.pa'Subject': TEdit': \TEXTPEEKBIN still fails to obey the NOERRORFLG'To': TEditSupport.pa''TEdit System Date': 13-Apr-84 11':44':53'Lisp System Date': 18-Apr-84 20':52':50'Machine': Dorado (Ahwahnee)'Microcode version': 24,4'Memory size': 10000'Frequency': Always'Impact': Fatal (for me)''When \TEXTPEEKBIN gets called from \PEEKBIN with NOERRORFLG=T, it turns out that the \TEXTPEEKBIN then calls \PEEKBIN again (presumably on the stream for a particular piece), and this \PEEKBIN is passed a NOERRORFLG of NIL.  It then calls \TEXTPEEKBIN again (why?), which results in an end-of-file error if at the end of the file instead of causing NIl to be returned from the first \PEEKBIN.  Seems like the NOERRORFLG should be passed along from call to call.''This is a serious problem for me--please let me know when there is a patch I can load if there isn''t going to be a new loadup soon (= Thursday?).''--Ron ''-----''Date': 20 Apr 84 14':29 PST'From': Sybalsky.pa'Subject': Re': TEdit': \TEXTPEEKBIN still fails to obey the NOERRORFLG'In-reply-to': Kaplan.pa''s message of 18 Apr 84 21':10 PST'To': Kaplan.pa'cc': TEditSupport.pa''Fixed;'Workaround: Test Case: Edit-By: Sannella.PAEdit-Date: 19-Jun-84 19':30':54Attn: Assigned To: Sybalsky.paIn/By: CarolDisposition: System: TextSubsystem: TEditMachine: Disk: Microcode Version: Memory Size: File Server: Server Software Version: Difficulty: ModerateFrequency: EverytimeImpact: SeriousPriority: HopefullyStatus: ClosedProblem Type: BugSource Files: </pre>
+  </body>
+</html>

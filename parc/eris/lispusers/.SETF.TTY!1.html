@@ -1,0 +1,11 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [eris]&lt;LispUsers>SETF.TTY!1</title>
+  </head>
+  <body>
+    <pre>
+				SETF     By Kelly Roach.  Last Revised 1-Mar-84.  SETF (SET Field)modifies the record package slightly to get the user the MACLISPSETF-style record accessing.  Less verbose than CLISP fetch &amp; replace,but without the drawbacks of packing record accesses into atoms aswith CLISP infixes ":" and ".".  To use, LOAD &lt;LISP&gt;LIBRARY&gt;SETF.DCOM.     (1) RECORD ACCESS.  For any record name "r" and field name "f",SETF makes the following translations:	(r.f d)  =&gt;  (fetch (r f) of d)	(SETF (r.f d) v)  =&gt;  (replace (r f) of d with v)(More precisely, these forms translate to what the fetch &amp; replaceforms translate to).     (2) ARRAY ACCESS.  SETF can be used with ELT:	(SETF (ELT ARRAY N) V)  =&gt; (SETA ARRAY N V)     (3) CAR &amp; CDR ACCESS.  SETF can be used with CAR &amp; CDR:	(SETF (CAR X) Y)  =&gt;  (RPLACA X Y)	(SETF (CDR X) Y)  =&gt;  (RPLACD X Y)     (4) USER HOOK.  The user can define his own SETF translationsusing property SETFDEF (This is how SETF for ELT, CAR, &amp; CDR isimplemented).  If the user does	(PUTPROP 'CADR 'SETFDEF '(RPLACA (CDR DATUM) NEWVALUE))	(PUTPROP 'ASSOC 'SETFDEF 'FOOFN)then SETF will make the translations	(SETF (CADR X) Y)  =&gt;  (RPLACA (CDR X) Y)	(SETF (ASSOC KEY ALST) V)  =&gt;	     what (FOOFN '(ASSOC KEY ALST)) evals to.     In general, if the user does	(PUTPROP a 'SETFDEF setfdef)then SETF makes the translation	(SETF (a d) n)  =&gt;	     setdef with d &amp; n substituted for DATUM &amp; NEWVALUEif "setfdef" is a list and	(SETF (a ...) ...)  =&gt;	     what (setfdef '(SETF (a ...) ...)) evals toif "setfdef" is a litatom.</pre>
+  </body>
+</html>

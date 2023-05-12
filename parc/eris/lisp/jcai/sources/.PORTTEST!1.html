@@ -1,0 +1,11 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [eris]&lt;Lisp>JCAI>sources>PORTTEST!1</title>
+  </head>
+  <body>
+    <pre>
+(FILECREATED " 3-Aug-84 13:25:36" {ERIS}&lt;LISPCORE&gt;SOURCES&gt;PORTTEST.;4 3417Q        changes to:  (FNS PORTTEST PPLOOPBACK PPSHRINK PPCHECK)		   (VARS PORTTESTCOMS)      previous date: " 3-Aug-84 11:41:18" {ERIS}&lt;LISPCORE&gt;SOURCES&gt;PORTTEST.;1)(* Copyright (c)  by NIL. All rights reserved.)(PRETTYCOMPRINT PORTTESTCOMS)(RPAQQ PORTTESTCOMS ((FNS PORTTEST PPCHECK PPLOOPBACK PPSHRINK)))(DEFINEQ(PORTTEST  [LAMBDA (NOPRINT)                                          (* edited: " 3-Aug-84 13:23")    (for I from 0 to 10Q       do (PPLOOPBACK (LRSH 200Q I)		      (NOT NOPRINT))	  (PPLOOPBACK (LOGXOR 377Q (LRSH 200Q I))		      (NOT NOPRINT])(PPCHECK  [LAMBDA (R N)                                              (* edited: " 3-Aug-84 12:34")    (EQ (LOGAND 50125Q (LRSH R 1))	(LOGAND 50125Q (LOGXOR R 177777Q])(PPLOOPBACK  [LAMBDA (N PRINTFLG)                                       (* edited: " 3-Aug-84 13:22")    (\DEVICE.OUTPUT (LLSH (LOGOR 1 N)			  10Q)		    16Q)    (PROG [L (R (LOGXOR 177777Q (\DEVICE.INPUT 7]          (SETQ L (LIST "OK=" (PPCHECK R N)			(EQ (LOGOR 1 N)			    (PPSHRINK R))			"SEND BYTE="			(LOGOR 1 N)			"RCVD BYTE="			(PPSHRINK R)			"SEND="			(LOGOR 400Q (LLSH N 10Q))			"RECEIVE=" R))          (if PRINTFLG	      then (PRINT L))          (RETURN (if (AND (PPCHECK R N)			   (EQ (LOGOR 1 N)			       (PPSHRINK R)))		      then NIL		    else L])(PPSHRINK  [LAMBDA (N)                                                (* edited: " 3-Aug-84 13:09")    (LOGXOR 1	    (for I from 0 to 7	       sum (LLSH [LOGAND 1				 (LRSH N				       (CAR (NTH '(11Q 13Q 15Q 17Q 1 3 5 7)						 (ADD1 I]			 I]))(DECLARE: DONTCOPY  (FILEMAP (NIL (622Q 3371Q (PORTTEST 634Q . 1266Q) (PPCHECK 1270Q . 1552Q) (PPLOOPBACK 1554Q . 2742Q) (PPSHRINK 2744Q . 3367Q)))))STOP</pre>
+  </body>
+</html>

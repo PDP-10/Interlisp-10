@@ -1,0 +1,11 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [phylum]&lt;LispARs>01563.AR!4</title>
+  </head>
+  <body>
+    <pre>
+Number: 1563Date: 28-Jun-84 16':57':04Submitter: le.pasaSource: Tom Lipkis -&lt;LIPKIS@USC-ISIF.ARPA&gt;-MersfelderSubject: Bug in textstreams (superseded by AR 1536)Lisp Version:  Fugue6Description: The following illustrates a bug with the filepointer of text streams.'''41&larr;PL TEXTOFD'FILEDATES ': ((" 2-Mar-84 16':47':13" . {PHYLUM}&lt;TEDIT&gt;TEXTOFD.;28))'FILE ': ((TEXTOFDCOMS . Compiled))'42&larr;(SETQ f (OPENTEXTSTREAM]'{STREAM}#5,154360'43&larr;(for x to 10 do (BOUT f x]'NIL'44&larr;(GETFILEPTR f)'10'45&larr;(GETEOFPTR f)'10'46&larr;(SETFILEPTR f 8)'8'47&larr;(BIN f)'9'48&larr;(GETFILEPTR f)'9'49&larr;(BIN f)'10'50&larr;(GETFILEPTR f)'10'51&larr;(BIN f)		; Shouldn''t this generate an EOF error?'NIL'52&larr;(GETFILEPTR f)	; When EOF is reached, the file pointer reverts back'8			; to the last place it was set.'53&larr;(EOFP f)'T'54&larr;(SETFILEPTR f 4)'4'55&larr;(to 7 collect (BIN f]'(5 6 7 8 9 10 NIL)'56&larr;(GETFILEPTR f)'4'57&larr;DRIBBLE)'''	In the previous version (&lt;SYBALSKY&gt;TEXTOFD.;165 from 14-OCT-83),'the EOF error also didn''t happen, but the file pointer was correct after'EOF was reached.'''Tom''Workaround: Test Case: Edit-By: Sannella.PAEdit-Date: 17-Aug-84  9':57':31Attn: Assigned To: In/By: AR 1536Disposition: System: Operating SystemSubsystem: Generic File OperationsMachine: Disk: Microcode Version: Memory Size: File Server: Server Software Version: Difficulty: Frequency: EverytimeImpact: ModeratePriority: Status: SupersededProblem Type: BugSource Files: </pre>
+  </body>
+</html>

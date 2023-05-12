@@ -1,0 +1,11 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [eris]&lt;Lisp>Harmony>BCPL>BCPLENV.DM!1>LispBcpl.decl</title>
+  </head>
+  <body>
+    <pre>
+// LispBcpl.decl. Declarations file for InterLisp-D Bcpl code// Allegro change October 12, 1981  11:13 PM by Bill van Melle// Allegro change August 4, 1981  4:21 PM by Beau Sheil// Last change August 2, 1981  2:49 PM by Beau Sheil// Tone change April 5, 1981  2:26 PM by Beau Sheil// Trill change February 24, 1981  10:40 AM by Beau Sheil// Last change February 19, 1981  2:53 PM by Beau Sheil	get "LispBcpl.params"		// Definitions from Lispmanifest [ BcplVersion    = #34 lshift 8 + #003           MinRamForBcpl  = #12 lshift 8 + #000           MinLispForBcpl = #20 lshift 8 + #002  ]compileif (BcplVersion ls MinBcplVersion) % (LispVersion ls MinLispForBcpl)     then [ Error("Lisp/Bcpl compile version mismatch") ]manifest [				// miscellaneous	StackEnd = #335			// checked by GetFrame	Dolphin = 4			// Dolphins are Alto IV's	Dorado = 5			// Dorados are Alto V's	PagesPerSegment = 256	WordsPerPage = 256	]structure [ HiByte byte; LoByte byte ]	// for extracting bytes from wordsstructure VA:				// 24-bit virtual address in 2 words   [	vahi word = [ blank byte; segment byte ]	valo word = [ pageN byte; wordN byte ]   ]structure VP:				// virtual page   [	segment byte; page byte ]manifest InterfacePageVP = INTERFACEspace lshift 8 + INTERFACEbase rshift 8</pre>
+  </body>
+</html>

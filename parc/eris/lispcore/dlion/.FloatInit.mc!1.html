@@ -1,0 +1,11 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [eris]&lt;LispCore>dlion>FloatInit.mc!1</title>
+  </head>
+  <body>
+    <pre>
+{File name FloatInit.mcDescription:  DandeLion InterLisp InitializationAuthor: CharnleyLast modified: Charnley              5-Jun-84 14:12:42Created:  31-May-84 11:52:00}{	ask the floating point chip to FLOAT 2 and check the result }{RegDef[ufloat, U, 042],}LispFloatInit:	stackP &larr; 2,	c1;	TT &larr; 2,	c2;	STK &larr; TT,	c3;	ufloat &larr; 0,	c1;	FloatMode.RN.AI.FAST, FloatFLOW,	c2;	FloatA &larr; ufloat, FLFloatA,	c3;	FloatA &larr; STK,	c1;	FloatStartFlow,	c2;	Rx &larr; 4,	c3;	Rx &larr; Rx LRot12,	c1;{4000 = High Half Floating Point 2.0}	Noop,	c2;	FloatUMS,	c3;	FloatULS,	c1;	TT &larr; FloatResult,	c2;	Xbus &larr; FloatResult,	c3;	Ybus &larr; TT xor Rx, ZeroBr,	c1;	BRANCH[NoChips, ChipsPresent],	c2;NoChips:	uCHIP &larr; PV xor ~PV, GOTO[LispFloatInitDone],	c3;ChipsPresent:	uCHIP &larr; 0, GOTO[LispFloatInitDone],	c3;	{ E N D }</pre>
+  </body>
+</html>

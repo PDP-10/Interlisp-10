@@ -1,0 +1,103 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>[eris]&lt;LispUsers>NOTEPAD.BRAVO!4</title>
+  </head>
+  <body>
+    <div style="width: 442pt; margin-left: 84pt; margin-top: 8pt; text-align: justify">
+<span style="font: bold 10pt serif">NOTEPAD documentation</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 8pt; text-align: justify">
+<span style="font: 10pt serif">D. Austin Henderson, Jr. <br>Last revised: April 25, 1983</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 20pt; text-align: justify">
+<span style="font: bold 10pt serif">&lt;LISPUSERS&gt;NOTEPAD</span><span style="font: 10pt serif"> (and </span><span style="font: bold 10pt serif">.DCOM</span><span style="font: 10pt serif">, </span><span style="font: bold 10pt serif">.BRAVO</span><span style="font: 10pt serif">, </span><span style="font: bold 10pt serif">.PRESS</span><span style="font: 10pt serif">) is a package for creating NOTEPAD windows - windows in which one can do artwork at the bitmap level. The ideas in this package come pretty directly from other people&rsquo;s work, both inside and outside Xerox, including Markup, Draw and Smalltalk. Notepad as it stands is the product of about a man-week of work, using standard Interlisp-D as released and the EDITBITMAP package of bitmap manipulation functions. It provides a </span><span style="font: italic 10pt serif; text-decoration: underline">nearly unusable</span><span style="font: 10pt serif"> interface to some distinctly interesting functionality. Comments and suggestions are welcomed.</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 18pt; text-align: justify">
+<span style="font: bold 10pt serif">NOTEPAD (BITMAP COLORFLG)</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 11pt; text-align: justify">
+<span style="font: 10pt serif">Creates a NOTEPAD window. If BITMAP is NIL, then you are prompted for region for the window. Otherwise, a region is defined from the size of BITMAP, and you are prompted to move it to a desired position. If COLORFLG is non-NIL, the NOTEPAD window will be used only for control (for menu&rsquo;s, etc.), and all the painting will take place on the color screen.</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 11pt; text-align: justify">
+<span style="font: 10pt serif">There are two menus: one in the </span><span style="font: 10pt serif; text-decoration: underline">title of the window</span><span style="font: 10pt serif">, and one in the </span><span style="font: 10pt serif; text-decoration: underline">window proper</span><span style="font: 10pt serif">. Both are invoked by buttoning with either left or middle buttons.</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 18pt; text-align: justify">
+<span style="font: bold 10pt serif">Title menu</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 11pt; text-align: justify">
+<span style="font: 10pt serif">This menu gives access to commands for manipulating the window as a whole:<br></span><span class="tab" val="67"></span><span style="font: 10pt serif">New Notepad<br></span><span class="tab" val="67"></span><span style="font: 10pt serif">Copy Notepad<br></span><span class="tab" val="67"></span><span style="font: 10pt serif">Save as a bitmap.</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 18pt; text-align: justify">
+<span style="font: bold 10pt serif">Window menu</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 11pt; text-align: justify">
+<span style="font: 10pt serif">This menu has two columns of commands: those in the left column of the menu are for </span><span style="font: 10pt serif; text-decoration: underline">painting/erasing</span><span style="font: 10pt serif"> material into/from the bitmap (if this menu is invoked with the left button, painting is implied; if with the middle button, erasing); those in the right column of the menu are for changing the </span><span style="font: 10pt serif; text-decoration: underline">style</span><span style="font: 10pt serif"> in which the operations work. </span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 18pt; text-align: justify">
+<span style="font: bold 10pt serif">Painting/Erasing</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 11pt; text-align: justify">
+<span style="font: 10pt serif">You can paint/erase using </span><span style="font: 10pt serif; text-decoration: underline">trajectories</span><span style="font: 10pt serif">, or using (or editing) single </span><span style="font: 10pt serif; text-decoration: underline">objects</span><span style="font: 10pt serif">. The commands in the left column of the menu are divided into two sets which reflect rthis division.</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 18pt; text-align: justify">
+<span style="font: bold 10pt serif">Trajectories</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 11pt; text-align: justify">
+<span style="font: 10pt serif; text-decoration: underline">Sketch</span><span style="font: 10pt serif">: follows the mouse to define a trajectory of points at which to sketch.</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 11pt; text-align: justify">
+<span style="font: 10pt serif; text-decoration: underline">Line</span><span style="font: 10pt serif">: prompts for endpoints (fix and rubberband) and uses the points on the line as a trajectory.</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 11pt; text-align: justify">
+<span style="font: 10pt serif; text-decoration: underline">Circle</span><span style="font: 10pt serif">: prompts for center and a point on the circumference, and uses the points on the line as a trajectory.</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 11pt; text-align: justify">
+<span style="font: 10pt serif; text-decoration: underline">Ellipse</span><span style="font: 10pt serif">: prompts for center, end of semi-major axis and end of semi-minor axis, and uses the points on the line as a trajectory.</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 11pt; text-align: justify">
+<span style="font: 10pt serif; text-decoration: underline">Open curve</span><span style="font: 10pt serif">: prompts for first point and one or more subsequent points. You indicate that you are finished by depressing the left shift key on the last point defining the curve. A smooth curve is fitted through these points and used as a trajectory.</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 11pt; text-align: justify">
+<span style="font: 10pt serif; text-decoration: underline">Closed curve</span><span style="font: 10pt serif">: Like open curve, except that the fitted curve is closed, starting at the last point given, and proceeding to the first and then subsequent points.</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 18pt; text-align: justify">
+<span style="font: bold 10pt serif">Objects/editing</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 11pt; text-align: justify">
+<span style="font: 10pt serif; text-decoration: underline">Text</span><span style="font: 10pt serif">: prompts for text, and permits positioning it with the mouse.</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 11pt; text-align: justify">
+<span style="font: 10pt serif; text-decoration: underline">Area of the screen</span><span style="font: 10pt serif">: Prompts for a (rectangular) region of the screen and places permits placing them where you want in the window.</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 11pt; text-align: justify">
+<span style="font: 10pt serif; text-decoration: underline">Shade rectangle</span><span style="font: 10pt serif">: prompts for a region, and paints/erases it with the current shade (a shade of black does complete paint and erase).</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 11pt; text-align: justify">
+<span style="font: 10pt serif; text-decoration: underline">Fill</span><span style="font: 10pt serif">: Prompts for a region within which to fill, and a point within the area to be filled; fills the area (not necessarily a rectangle, but defined by being closed rectilinearly) with the current shade. </span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 11pt; text-align: justify">
+<span style="font: 10pt serif; text-decoration: underline">Edit area</span><span style="font: 10pt serif">: prompts for a region of the window and invokes the (Trillium) bitmap editor (standard Interlisp-D bitmap editor is the "hand-edit" choice on the submenu; others allow reflecting, rotating, shifting, inverting, putting on borders, etc.) on it. If the bitmap resulting from the edit is the same size as the original, it replaces the original region; if not, you are promtped for a place to put it.</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 18pt; text-align: justify">
+<span style="font: bold 10pt serif">Style</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 11pt; text-align: justify">
+<span style="font: 10pt serif">Notepad operations (see above) are carried out in a style. The style at any given moment is given by a collection of characteristics. The current style can be saved (use the command SAVE.STYLE) under a name and restored (RESTORE.STYLE). Styles may be deleted  (DELETE.STYLE) from the collection of saved styles. The style collection is currently part of notepad. Consequently, moving styles between loadups is not directly supported. (It is always possibole to save it on a separate file. The styles are stored as the value of NOTEPAD.STYLES. It includes bitmaps, and msut therefore be added as an UGLYVARS.)</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 11pt; text-align: justify">
+<span style="font: 10pt serif">The characteristics in the style are:</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 11pt; text-align: justify">
+<span style="font: 10pt serif; text-decoration: underline">Brush</span><span style="font: 10pt serif">: A bitmap which is either painted or erased at each point on or resulting from (see symmetry) a trajectory (see the operations paint, line, circle, ellipse). DEFINE.BRUSH prompts for a region which will then become the brush. EDIT.BRUSH permits editing of the brush bitmap (using the same editor as the operation EDIT.AREA - see above). BRUSH=COOKIE.CUT.WITH.MASK also defines a brush (see mask, below).</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 11pt; text-align: justify">
+<span style="font: 10pt serif; text-decoration: underline">Use mask</span><span style="font: 10pt serif">: An indication of whether of not to use the masking function (see mask, below) before painting/erasing. USE.MASK toggles this setting.</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 11pt; text-align: justify">
+<span style="font: 10pt serif; text-decoration: underline">Mask</span><span style="font: 10pt serif">: A bitmap which is used to clear out an area before the brush is used. The mask is erased if the brush is painting, and visa-versa. DEFINE.MASK prompts for a region which will then become the mask. EDIT.MASK permits editing of the mask bitmap (using the same editor as the operation EDIT.AREA - see above). MASK=OUTLINE.OF.BRUSH defines the mask to be the same size as the brush, with a pattern (of black) which is the filled-in outline of the brush. BRUSH=COOKIE.CUT.WITH.MASK allows you to move the mask over a section of the window and define the brush as the points so covered.</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 11pt; text-align: justify">
+<span style="font: 10pt serif; text-decoration: underline">Use grid</span><span style="font: 10pt serif">: An indication of whether of not to use the gridding function (see grid, below) while painting/erasing. USE.GRID toggles this setting.</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 11pt; text-align: justify">
+<span style="font: 10pt serif; text-decoration: underline">Grid</span><span style="font: 10pt serif">: An origin and the point (1, 1) of a grid to be used to "attract" the points used in following a trajectory. DEFINE.GRID prompts for the origin and (1, 1) point of the grid.</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 11pt; text-align: justify">
+<span style="font: 10pt serif; text-decoration: underline">Use symmetry</span><span style="font: 10pt serif">: An indication of what sort of symmetry function to use while painting/erasing. USE.SYMMETRY permits setting it as you choose. The choices are none, left/right, up/down, 4-fold (both left/right and up/down) and 8-fold (4-fold plus reflecting about the 45-degree diagonals). The brush/mask used when painting/erasing symmetrically can themselves be either identical to the brush/mask in use or symmetrically reflected. USE.SYMMETRIC.BRUSH/MASK toggles this setting.</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 11pt; text-align: justify">
+<span style="font: 10pt serif; text-decoration: underline">Point of symmetry</span><span style="font: 10pt serif">: The point with respect to which the symmetry functions are defined. POINT.OF.SYMMETRY prompts for this point.</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 11pt; text-align: justify">
+<span style="font: 10pt serif; text-decoration: underline">Text font</span><span style="font: 10pt serif">: The font in which text is printed. DEFINE.FONT permits choosing one of the fonts already loaded or OTHER (in which case you can type in the font description (family size face)).</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 11pt; text-align: justify">
+<span style="font: 10pt serif; text-decoration: underline">Shade</span><span style="font: 10pt serif">: The shade used for the rectangle and fill operations. EDIT.SHADE permits you to edit the shade (using the standard Interlisp-D shade editor).</span></div>
+<script>function do_tabs() { // unit = px
+  var tabs = document.getElementsByClassName("tab");
+  for (var i = 0; i < tabs.length; ++i) {
+    var span = tabs[i];
+    var val = span.getAttribute("val");
+    if (val == null) console.log("Couldn't get val");
+    var rect = span.getBoundingClientRect();
+    var tabstop;
+    if (val > 0) tabstop = Math.ceil(rect.left / val) * val;
+    else tabstop = -val;
+    console.log("do_tabs", val, tabstop)
+    if (tabstop > 0) {
+      var width = tabstop - rect.left;
+      span.style.display = "inline-block";
+      span.style.width = width + "px";
+    }
+  }
+}
+do_tabs();
+</script>
+  </body>
+</html>

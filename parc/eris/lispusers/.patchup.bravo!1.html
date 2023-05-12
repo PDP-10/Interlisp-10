@@ -1,0 +1,45 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>[eris]&lt;LispUsers>patchup.bravo!1</title>
+  </head>
+  <body>
+    <div style="width: 442pt; margin-left: 84pt; margin-top: 12pt; text-align: center">
+<span style="font: bold 12pt serif">LispUsers Package  PATCHUP</span><span class="tab" val="24"></span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 12pt; text-align: center">
+<span style="font: bold 12pt serif">Danny Bobrow</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 12pt; text-align: center">
+<span style="font: bold 12pt serif">7 November 1982</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 12pt; text-align: justify">
+<span style="font: 10pt serif">PATCHUP is a LISPUSERS package which facilitates multiuser interaction on a system.  It is designed to allow dumping of a patch file containing changes from a number of files.  One calls:</span></div>
+<div style="width: 405pt; margin-left: 121pt; margin-top: 12pt; text-align: justify">
+<span style="font: bold 10pt serif">(PatchUp filesOrEditFlg patchFileName)</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 12pt; text-align: justify">
+<span style="font: 10pt serif">If filesOrEditFlg = a list of file names, then changes which have been made to items on those files will be dumped on patchFileName.  Also included will be any changes that have not been associated with any file.</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 12pt; text-align: justify">
+<span style="font: 10pt serif">If filesOrEditFlg=T, then a COMS list of all changes in the system will be computed, and the user will be left in the editor editing this COMS list.  Upon exiting from the editor, the revised COMS list will be used for dumping.</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 12pt; text-align: justify">
+<span style="font: 10pt serif">If patchFileName is not given, then a file name of the form<br></span><span class="tab" val="24"></span><span style="font: 10pt serif">&lt;date&gt;-&lt;userName&gt;.PATCH<br>is used.  For example,<br></span><span class="tab" val="24"></span><span style="font: 10pt serif">(PatchUp LOOPSFILES)<br>could dump all changes made to items on LOOPSFILES to a file named<br></span><span class="tab" val="24"></span><span style="font: 10pt serif">9-NOV-82-BOBROW.PATCH</span></div>
+<script>function do_tabs() { // unit = px
+  var tabs = document.getElementsByClassName("tab");
+  for (var i = 0; i < tabs.length; ++i) {
+    var span = tabs[i];
+    var val = span.getAttribute("val");
+    if (val == null) console.log("Couldn't get val");
+    var rect = span.getBoundingClientRect();
+    var tabstop;
+    if (val > 0) tabstop = Math.ceil(rect.left / val) * val;
+    else tabstop = -val;
+    console.log("do_tabs", val, tabstop)
+    if (tabstop > 0) {
+      var width = tabstop - rect.left;
+      span.style.display = "inline-block";
+      span.style.width = width + "px";
+    }
+  }
+}
+do_tabs();
+</script>
+  </body>
+</html>

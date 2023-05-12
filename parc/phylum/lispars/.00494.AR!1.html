@@ -1,0 +1,11 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [phylum]&lt;LispARs>00494.AR!1</title>
+  </head>
+  <body>
+    <pre>
+Number: 494Date:  4-Apr-84 11':24':03Submitter: Sannella.PASource: ROACH.PASubject: HELPFLAG = BREAK! should cause breaks on every errorLisp Version: Description: 'Date':  3 APR 84 16':04 PST'From': ROACH.PA'Subject': (RPAQQ HELPFLAG BREAK%!) doesn''t work right'To':   LISPSUPPORT'cc':   ROACH''     I''ve been told that my'	(MOVD ''TRUE ''BREAKCHECK)'is undesirable because of NLSETQ forms in the system code.  Jon L White'suggests I set system global HELPFLAG to BREAK!--a strategy I''ve tried before.'According to the IRM (p 9.11) "If HELPFLAG=BREAK!, a break will always occur'following an error."  If only it were true.  Doing'	(RPAQQ HELPFLAG BREAK%!)'doesn''t work as advertised.  I can get interaction like''	52&larr;(FOOBAR X)''	UNDEFINED CAR OF FORM'	FOOBAR''	53&larr;HELPFLAG'	BREAK!''without breaking.  I am therefore still stuck with the'(MOVD ''TRUE ''BREAKCHECK), must redefine SMARTARGLIST, and count on'the SINGLEFILEINDEX package to work properly.'     Impact &larr; Annoying'				Kelly'Workaround: Test Case: Edit-By: Edit-Date: Attn: Burton.paAssigned To: In/By: Disposition: System: Programming EnvironmentSubsystem: Break PackageMachine: Disk: Microcode Version: Memory Size: File Server: Server Software Version: Difficulty: Frequency: IntermittentImpact: ModeratePriority: PerhapsStatus: OpenProblem Type: BugSource Files: </pre>
+  </body>
+</html>

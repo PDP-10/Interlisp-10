@@ -1,0 +1,11 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [phylum]&lt;LispARs>01906.AR!2</title>
+  </head>
+  <body>
+    <pre>
+Number: Date: 19-Aug-84 11':24':29Submitter: RoachSource: RoachSubject: running create with undefined field turns &larr; into SETQAssigned To: Attn: MasinterStatus: OpenIn/By: Problem Type: BugImpact: AnnoyingDifficulty: Frequency: EverytimePriority: PerhapsSystem: Programming EnvironmentSubsystem: Record PackageMachine: 1132Disk: Lisp Version: 17-Aug-84 17':18':00Source Files: Microcode Version: 5124Memory Size: 4096File Server: Server Software Version: Disposition: '["Masinter" "21-Aug-84 14':38':15" Subject':]Description: Say you have a record'     (RECORD FOO (A B C D))'and a function'     (DEFINEQ (BAR (LAMBDA (A E C D)'       (CREATE FOO'               A &larr; A'               E &larr; E'               C &larr; C'               D &larr; D))))'Now if you EVAL (BAR), you get "{in BAR} undefined field name/at ... (SETQ E E) (SETQ C C) (SETQ D D))/'in (create FOO A &larr; --)".  BAR is munged into'     (DEFINEQ (BAR (LAMBDA (A E C D)'       (CREATE FOO'               A &larr; A'               (SETQ E E)'               (SETQ C C)'               (SETQ D D)))))'which means you have to not only correct the inclusion of E''s in BAR, you have to clean up the SETQ mess DWIM left behind for you.  In general, I''m rather against DWIM making ANY changes in my code--e.g., uppercase CLISP should work without being coerced into lower case and changing my code.'Workaround: Test Case: Edit-By: MasinterEdit-Date: 21-Aug-84 14':38':16</pre>
+  </body>
+</html>

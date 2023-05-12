@@ -1,0 +1,473 @@
+ 
+TEST    PROC NEAR
+;
+;SCROLL THE SCREEN
+;
+GRAF:   CALL PIX_DMA
+        MOV AX,OFFSET INIT$NNGS
+        PUSH AX
+        CALL INTERPF
+ 
+        CALL PIX_DMA
+        CALL CLEAR
+        CALL CLEAR_PAL
+        CALL RGBW_PAL
+ 
+        CALL LOTSALINES
+ 
+        MOV AX,OFFSET FRAME_SCREEN
+        PUSH AX
+        CALL INTERPF
+ 
+        MOV AX,OFFSET DRAW_STUFF
+        PUSH AX
+        CALL INTERPF
+;
+ 
+ 
+        MOV CX,20
+        MOV SI,0
+ZUMT:   PUSH CX
+        MOV AH,8
+        INT 21H
+        MOV AL,ZUMTAB [SI]
+        INC SI
+        MOV BYTE PTR ZUM [2],AL
+        CALL VSYNC
+        MOV AX,OFFSET ZUM
+        PUSH AX
+        CALL INTERPF
+        POP CX
+        LOOP ZUMT
+ 
+        CALL ROT
+ 
+        RET
+ 
+LOTSALINES:     PUSH DX
+                PUSH BX
+                MOV  AX,0
+                MOV  BX,0FFH
+                MOV  CX,0FFH
+ 
+LL1:            MOV  RLINEX1,AX
+                MOV  RLINEX2,AX
+                MOV  RLINECOL,BX
+                MOV DX,OFFSET RLINE
+                PUSH DX
+                CALL INTERPF
+                INC  AX
+                MOV  RLINEX1,AX
+                MOV  RLINEX2,AX
+                MOV DX,OFFSET RLINE
+                PUSH DX
+                CALL INTERPF
+ 
+                INC  AX
+                DEC  BX
+                JNZ  GO_ON
+                MOV  BX,0FFH
+GO_ON:          LOOP LL1
+                POP  BX
+                POP  DX
+                RET
+ 
+ 
+RGBW_PAL:       PUSH BX
+ 
+;       SET COLOR SCALES IN THREE PALETTES
+                MOV  BX,OFFSET RED_COPY
+                MOV  DI,RED_PART
+                CALL STEP_PAL
+ 
+                MOV  BX,OFFSET GREEN_COPY
+                MOV  DI,GREEN_PART
+                CALL STEP_PAL
+ 
+                MOV  BX,OFFSET BLUE_COPY
+                MOV  DI,BLUE_PART
+                CALL STEP_PAL
+ 
+;       SET WHITE PARTS OF ALL THREE PALETTES
+                MOV  BX,OFFSET RED_COPY
+                MOV  DI,WHITE_PART
+                CALL STEP_PAL
+                MOV  BX,OFFSET GREEN_COPY
+                MOV  DI,WHITE_PART
+                CALL STEP_PAL
+                MOV  BX,OFFSET BLUE_COPY
+                MOV  DI,WHITE_PART
+                CALL STEP_PAL
+ 
+                CALL PALMOV
+ 
+                POP BX
+                RET
+ 
+STEP_PAL:       MOV  AL,00
+                MOV  CX,040H
+RGBW1:          MOV  BYTE PTR [BX+DI],AL
+                ADD  AL,4
+                INC  DI
+                LOOP RGBW1
+                RET
+ 
+;
+ 
+GDC_SEG         DW 0C000H
+STAT_PORT       DW 00H
+SWITCH          DW  0C070H
+DMA_MODE        DW 04
+DMA_ENABLE      DW 07
+BANK0           DW 05
+BANK1           DW 06
+;
+RED_GUN         DW 0C010H
+GREEN_GUN       DW 0C020H
+BLUE_GUN        DW 0C030H
+ALL_GUN         DW 0C030H
+;
+RED_PART        DW 000H
+GREEN_PART      DW 040H
+BLUE_PART       DW 080H
+WHITE_PART      DW 0C0H
+;
+TEXT_SEG DW 0
+PIC_SEG  DW 0
+ 
+;TEST FOR START OF VERTICAL SYNC
+VSYNC:          PUSH DS
+                MOV  DI,STAT_PORT
+                MOV  AX,GDC_SEG
+                MOV  DS,AX
+VSYNC1:         MOV  AL,[DI]
+                AND  AL,020H
+                JNZ  VSYNC1
+;
+VSYNC2:         MOV  AL,[DI]
+                AND  AL,020H
+                JZ   VSYNC2
+                POP  DS
+                RET
+ 
+;CLEAR PALETTES
+CLEAR_PAL:      PUSH ES
+                MOV  AX,RED_GUN
+                MOV  ES,AX
+;
+                MOV  AX,0000H
+                MOV  DI,0
+                MOV  CX,0180H
+                REP  STOSW
+ 
+                POP  ES
+                RET
+ 
+;CLEAR ALL OF MEMORY
+CLEAR:          PUSH ES
+                PUSH DS
+ 
+                MOV AX,SWITCH
+                MOV DS,AX
+ 
+ 
+                MOV  AX,0A000H
+                MOV  ES,AX
+;
+                MOV  DI,05H
+                MOV  BYTE PTR [DI],00H
+                INC DI
+                MOV  BYTE PTR [DI],00H
+                MOV  AX,0000H
+                MOV  DI,0
+                MOV  CX,08000H
+                REP  STOSW
+;
+;
+                MOV  DI,05H
+                MOV  BYTE PTR [DI],0FFH
+                INC DI
+                MOV  BYTE PTR [DI],00H
+;
+                MOV  AX,0000H
+                MOV  DI,0
+                MOV  CX,08000H
+                REP  STOSW
+;
+                MOV  DI,05H
+                MOV  BYTE PTR [DI],000H
+                INC DI
+                MOV  BYTE PTR [DI],0FFH
+;
+                MOV  AX,0000H
+                MOV  DI,0
+                MOV  CX,08000H
+                REP  STOSW
+;
+;
+                MOV  DI,05H
+                MOV  BYTE PTR [DI],0FFH
+                INC DI
+                MOV  BYTE PTR [DI],0FFH
+;
+                MOV  AX,0000H
+                MOV  DI,0
+                MOV  CX,08000H
+                REP  STOSW
+ 
+                POP  DS
+                POP  ES
+                RET
+;
+;
+;
+;    **** ROTATE ALL OF MEMORY ***
+;
+ROT:            PUSH ES
+                PUSH DS
+ 
+                MOV CX,08
+ROT1:           PUSH CX
+ 
+ 
+                MOV AX,0C070H
+                MOV DS,AX
+ 
+;
+                MOV  DI,05H
+                MOV  BYTE PTR [DI],00H
+                INC DI
+                MOV  BYTE PTR [DI],00H
+                CALL ROTATE
+;
+                MOV  DI,05H
+                MOV  BYTE PTR [DI],0FFH
+                INC DI
+                MOV  BYTE PTR [DI],00H
+;
+                CALL ROTATE
+;
+                MOV  DI,05H
+                MOV  BYTE PTR [DI],000H
+                INC DI
+                MOV  BYTE PTR [DI],0FFH
+;
+                CALL ROTATE
+;
+;
+                MOV  DI,05H
+                MOV  BYTE PTR [DI],0FFH
+                INC DI
+                MOV  BYTE PTR [DI],0FFH
+                CALL ROTATE
+;
+                POP  CX
+                LOOP ROT1
+ 
+                POP  DS
+                POP  ES
+                RET
+;
+ 
+ROTATE:         PUSH DS
+                MOV  AX,0A000H
+                MOV DS,AX
+ 
+ 
+                MOV  DI,0
+                MOV  CX,0FFFFH
+ROTATE1:        ROR  BYTE PTR [DI],1
+                INC  DI
+                LOOP ROTATE1
+ 
+                POP DS
+                RET
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+;
+;ENABLE PIXEL MODE DMA ACCESS
+;
+PIX_DMA:        PUSH ES
+                MOV  AX,SWITCH
+                MOV  ES,AX
+;
+                MOV  DI,DMA_MODE
+                MOV  AL,0FFH
+                MOV  ES:[DI],AL
+                MOV  DI,DMA_ENABLE
+                MOV  ES:[DI],AL
+                POP  ES
+                RET
+;
+;
+;
+;
+;ENABLE PLANE MODE DMA ACCESS
+;
+PLANE_DMA:      PUSH ES
+                MOV  AX,SWITCH
+                MOV  ES,AX
+;
+                MOV  DI,DMA_MODE
+                MOV  AL,000H
+                MOV  ES:[DI],AL
+                MOV  AL,0FFH
+                MOV  DI,DMA_ENABLE
+                MOV  ES:[DI],AL
+                POP  ES
+                RET
+;
+;PRESET COPY OF  PALLETE TO 256 GRAY LEVEL
+;
+GRAY:           MOV  AL,00
+                MOV  CX,0100H
+                MOV  DI,00
+GRAY1:          MOV  BYTE PTR RED_COPY [DI],AL
+                MOV  BYTE PTR GREEN_COPY [DI],AL
+                MOV  BYTE PTR BLUE_COPY [DI],AL
+                INC  AL
+                INC  DI
+                LOOP GRAY1
+                RET
+;
+;
+; MOVE PALLETE OVER
+;
+;
+;RED PALLETE
+PALMOV:         PUSH ES
+                MOV  AX,RED_GUN
+                MOV  ES,AX
+                MOV  SI,OFFSET RED_COPY
+                MOV  DI,0
+                MOV  CX,0128
+                REP  MOVSW
+;
+;GREEN PALLETE
+                MOV  AX,GREEN_GUN
+                MOV  ES,AX
+                MOV  SI,OFFSET GREEN_COPY
+                MOV  DI,0
+                MOV  CX,0128
+                REP  MOVSW
+;
+;BLUE PALLETE
+                MOV  AX,BLUE_GUN
+                MOV  ES,AX
+                MOV  SI,OFFSET BLUE_COPY
+                MOV  DI,0
+                MOV  CX,0128
+                REP  MOVSW
+;
+                POP  ES
+                RET
+ 
+ 
+ 
+ 
+ 
+ 
+;
+XINIT           EQU  09H
+XGRAF           EQU  0CH
+XTEXT           EQU  0DH
+ 
+XW1             EQU  23H
+XW2             EQU  24H
+XW3             EQU  28H
+XW4             EQU  29H
+ 
+XVEC            EQU  30H
+XCIR            EQU  31H
+XREC            EQU  32H
+XCHAR           EQU  33H
+STEXT           EQU  36H
+SET             EQU  03H
+BLACK           EQU  00H
+WHITE           EQU  0FFH
+;
+;
+X               EQU  0512D
+Y               EQU  0416D
+;
+;
+;
+;
+;
+;               ***  INSTRUCTION STRINGS
+;
+;      INTERPRETER COMMANDS
+INIT$NNGS       DW XINIT
+;               DW 06,0240
+;               DW 08,3,3,38
+ 
+                DW 0FFFFH
+;
+FRAME_SCREEN    DW 32H,0,0,01FFH,01FFH,0FFH,3,0
+                DW 0FFFFH
+;
+DRAW_STUFF      DW 30H,0,0,01FFH,01FFH,0FFH,3H
+                DW 30H,01FFH,0,0,01FFH,0FFH,3H
+                DW 30H,0100H,0,0100H,01FFH,0FFH,3H
+                DW 30H,1,0FFH,01FEH,0FFH,0FFH,3H
+ 
+                DW 31H,0FFH,0FFH,0,0168H,080H,0FFH,3H
+                DW 32H,07FH,07FH,0101H,0101H,0FFH,3H,0
+ 
+                DW 0FFFFH
+ 
+ 
+ZUMTAB          DB 0,4,0,8,1,6,4,9,10,3,4,9,1,0,5,3,7,8,0,0,0,0
+ 
+ 
+ 
+ 
+ 
+ 
+;
+RLINE           DW 30H
+RLINEX1         DW 1
+RLINEY1         DW 1
+RLINEX2         DW 1
+RLINEY2         DW 01FEH
+RLINECOL        DW 07FH
+                DW 3H
+                DW 0FFFFH
+;
+ZUM             DW 025H,00H,0FFFFH
+;
+;SCROLL POINTERS
+WIND1           DW XW1,0000,0000,0256
+                DW 0FFFFH
+ 
+WIND2           DW XW2,0000,0000,0256
+                DW 0FFFFH
+ 
+WIND3           DW XW3,0000,0000,0256
+                DW 0FFFFH
+ 
+WIND4           DW XW4,0000,0000,0256
+                DW 0FFFFH
+ 
+;
+RED_COPY                DW 128 DUP (0)
+GREEN_COPY              DW 128 DUP (0)
+BLUE_COPY               DW 128 DUP (0)
+ 
+;
+TEST            ENDP
+ 
+070H
+                MOV DS,AX
+ 
+;
+                MOV  DI,05H
+                MOV  BYTE PTR [DI],00H
+             

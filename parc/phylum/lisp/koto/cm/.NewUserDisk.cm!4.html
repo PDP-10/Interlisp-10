@@ -1,0 +1,11 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [phylum]&lt;LISP>KOTO>CM>NewUserDisk.cm!4</title>
+  </head>
+  <body>
+    <pre>
+// NewUserDisk.CM -- create a new user disk// Be sure that you have a clean partition.  If you have never run// Lisp, be sure to use DIEX init headers, then BFS at least 100 passes.// You should first install new operating system, and ERASE disk//   so that CREATEFILE can find contiguous blocks.// You should also delete unnecessary ucode files after this finishesdelete DMT.boot // garbage file// Install Swat (just in case) and make small Lisp VMEM fileFTP/-EA Phylum Dir/c Alto Ret/&gt;A InstallSwat.run Sys.Errors CreateFile.runInstallSwatDelete installswat.runCREATEFILE.run LISP.VIRTUALMEM 15002DDelete CREATEFILE.run// Bring over Lisp filesFTP/-EA PHYLUM Dir/C &lt;Lisp&gt;Koto&gt;Basics&gt; Ret/C LISP.run LISP.syms DoradoLispMC.EB AltoD1MC.eb   FTP/-EA PHYLUM Dir/C &lt;Lisp&gt;Current&gt; Ret/S PARC-INIT.DCOM INIT.LISP FTP/-EA PHYLUM Dir/C &lt;Lisp&gt;Koto&gt;CM&gt; Ret/S UpdateLisp.cm UpdateLisp.cm   </pre>
+  </body>
+</html>

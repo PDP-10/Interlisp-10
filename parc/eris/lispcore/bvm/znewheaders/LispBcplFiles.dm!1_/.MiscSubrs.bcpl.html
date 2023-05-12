@@ -1,0 +1,11 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [eris]&lt;LispCore>BVM>ZNewHeaders>LispBcplFiles.dm!1>MiscSubrs.bcpl</title>
+  </head>
+  <body>
+    <pre>
+// MiscSubrs.bcpl - Miscellaneous SUBRs// Last change July 20, 1983  2:11 PM by Bill van Melle// Last change May 25, 1983  10:42 AM by Bill van Melle// Last change April 5, 1983  4:38 PM by Bill van Melle// major pruning December 14, 1982  3:13 PM by Bill van Melle// Last change June 25, 1982  2:52 PM by Bill van Melle// Last change June 8, 1982  6:43 PM by Bill van Melle// Last change March 20, 1982  8:57 PM by Bill van Melle// Last change February 2, 1982  12:00 PM by Bill van Melle// Last change January 5, 1982  2:52 PM by van Melle, Masinter at kbd// Last change November 2, 1981  10:40 PM by Bill van Melle	get "LispBcpl.decl"external [	// subrs defined here	BACKGROUNDSUBR	NOOPSUBR	DISKPARTITION	LOOPFOREVER	DSPRATE	CHECKBCPLPASSWORD		// statics used	@lvNIL; @lvKT		// procedures used	EqNIL; MkSmallPos; SmallUnbox; EmUnbox	DspRateInstr; DskPartInstr; DeImplementedSubr		// OS procedures	Block; Password	]let BACKGROUNDSUBR() = valof   [   Block()   resultis lvNIL   ]and NOOPSUBR() = valof   [   resultis lvNIL   ]and LOOPFOREVER() be   [ ] repeatand DSPRATE(ac0, ac1, ac2) = 	// sets display rate, returns old value   MkSmallPos (DspRateInstr(SmallUnbox(ac0), SmallUnbox(ac1), SmallUnbox(ac2)))// Interesting values:// Dolphin:   normal ac0 = 11b	(77hz)//         videotape ac0 = 213b	(60hz)// Dorado:  normal ac0-2 = 22b 16b 656b//   Ball bros videotape = 22b 16b 1060b//    Phillips videotape = 72b 31b 1010band DISKPARTITION(par; numargs na) = 	// sets/returns default disk partition   MkSmallPos (DskPartInstr(na eq 0 % EqNIL(par)? 0, SmallUnbox(par)))and CHECKBCPLPASSWORD(pass, vector) = 	// checks a password   Password(EmUnbox(pass), EmUnbox(vector), false)? lvKT, lvNIL</pre>
+  </body>
+</html>

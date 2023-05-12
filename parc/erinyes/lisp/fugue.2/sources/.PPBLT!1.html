@@ -1,0 +1,11 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [Erinyes]&lt;LISP>FUGUE.2>Sources>PPBLT!1</title>
+  </head>
+  <body>
+    <pre>
+(FILECREATED " 7-JAN-83 17:12:20" {PHYLUM}&lt;LISPCORE&gt;SOURCES&gt;PPBLT.;1 1167         changes to:  (VARS PPBLTCOMS)		   (FNS \PRINTERPORTBLT))(* Copyright (c) 1983 by Xerox Corporation)(PRETTYCOMPRINT PPBLTCOMS)(RPAQQ PPBLTCOMS ((FNS \PRINTERPORTBLT)))(DEFINEQ(\PRINTERPORTBLT  [LAMBDA (BASE BYTECOUNT)                                   (* scp " 7-JAN-83 17:10")    (PROG NIL      LP                                                     (* check interupts or faults)          (IF (ZEROP BYTECOUNT)	      THEN (RETURN NIL))          (IF (NOT (ZEROP (LOGAND (READPRINTERPORT)				  32768)))	      THEN (RETURN BYTECOUNT))          (WRITEPRINTERPORT (GETBASEBYTE BASE 0))          (WRITEPRINTERPORT 256)          (SETQ BYTECOUNT (SUB1 BYTECOUNT))          (IF (NOT (ZEROP (LOGAND (READPRINTERPORT)				  32768)))	      THEN (RETURN BYTECOUNT))          (WRITEPRINTERPORT (GETBASEBYTE BASE 1))          (WRITEPRINTERPORT 256)          (SETQ BYTECOUNT (SUB1 BYTECOUNT))          (SETQ BASE (ADDBASE BASE 1))          (GO LP]))(PUTPROPS PPBLT COPYRIGHT ("Xerox Corporation" 1983))(DECLARE: DONTCOPY  (FILEMAP (NIL (267 1091 (\PRINTERPORTBLT 277 . 1089)))))STOP</pre>
+  </body>
+</html>

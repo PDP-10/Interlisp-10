@@ -1,0 +1,33 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>[eris]&lt;LispCore>32mbdlioninitial>trident>Protected.mc!1</title>
+  </head>
+  <body>
+    <div style="width: 442pt; margin-left: 84pt; margin-top: 0pt; text-align: justify">
+<span style="font: 8pt serif">{File name:  Protected.mc<br><br>Last Edited: Amy Fasnacht November 16, 1981  2:22 PM: Change register names<br>Last Edited: Jozef Furst November 4, 1981  3:18 PM: multiple allocation corrected (Carry changed to RefCarry)<br>Last Edited: Amy Fasnacht October 23, 1981  11:40 AM: Change register names to prevent conflict with SAx00Initial.mc names<br>Last Edited: Amy Fasnacht September 11, 1981  9:52 AM: make clock update atomic<br>Last Edited: Jim Frandeen August 19, 1981  4:30 PM: add clock update to refresh task.<br>Description: Protected microcode for Initial,<br>Author: Jarvis,<br>Created: December 5, 1980,<br>}<br></span></div>
+<div style="width: 491pt; margin-left: 84pt; margin-top: 0pt; text-align: left">
+<span style="font: 8pt serif">Set[OverlayStart, Add[ProtectFence, 1]];<br><br>Reserve[OverlayStart, 0FFF];<br></span><span class="tab" val="79"></span><span style="font: 8pt serif">{<br></span><span class="tab" val="79"></span><span style="font: 8pt serif">Phase0Protected (Protected.mc, IOPBoot.mc) resides in 0 - 00FF<br></span><span class="tab" val="79"></span><span style="font: 8pt serif">Phase0 (Phase0.mc, DiskBootDLion.mc, EtherBootDLion.mc) resides in 0100 - 0FDF<br></span><span class="tab" val="79"></span><span style="font: 8pt serif">The BootKernel resides in 0FE0 - 0FFF<br></span><span class="tab" val="79"></span><span style="font: 8pt serif">Part of the BootKernel that can be overlaid resides in 0FD8 - 0FDF<br></span><span class="tab" val="79"></span><span style="font: 8pt serif">}<br><br>SetTask[0];<br><br>{clobber only rC before going to external fault handler}<br><br>Trap:</span><span class="tab" val="79"></span><span style="font: 8pt serif">rC&larr; RRot1 ErrnIBnStkp, ClrIntErr, CANCELBR[$, 0F],</span><span class="tab" val="79"></span><span style="font: 8pt serif">c1, at[0];<br></span><span class="tab" val="79"></span><span style="font: 8pt serif">[]&larr; passTraps, ZeroBr,</span><span class="tab" val="79"></span><span style="font: 8pt serif">c2;<br></span><span class="tab" val="79"></span><span style="font: 8pt serif">BRANCH[$, Trap1],</span><span class="tab" val="79"></span><span style="font: 8pt serif">c3;<br></span><span class="tab" val="213"></span><span style="font: 8pt serif">GOTOABS[ErrorHandlerLoc],</span><span class="tab" val="79"></span><span style="font: 8pt serif">c1; {pass the trap on}<br>Trap1:</span><span class="tab" val="79"></span><span style="font: 8pt serif">acR&larr; bootTrap, GOTO[catchAll2],</span><span class="tab" val="79"></span><span style="font: 8pt serif">c1;<br><br>catchAll1:</span><span class="tab" val="79"></span><span style="font: 8pt serif">Noop,</span><span class="tab" val="79"></span><span style="font: 8pt serif">c1, at[Maintenance1Loc];<br>catchAll2:</span><span class="tab" val="79"></span><span style="font: 8pt serif">Noop,</span><span class="tab" val="79"></span><span style="font: 8pt serif">c2, at[Maintenance2Loc];<br>catchAll3:</span><span class="tab" val="79"></span><span style="font: 8pt serif">rB&larr; 0, rBrh&larr; 0,</span><span class="tab" val="79"></span><span style="font: 8pt serif">c3, at[Maintenance3Loc];<br></span><span class="tab" val="79"></span><span style="font: 8pt serif">MAR&larr; [rBrh, rB+1],</span><span class="tab" val="79"></span><span style="font: 8pt serif">c1;<br></span><span class="tab" val="79"></span><span style="font: 8pt serif">MDR&larr; acR and 0FF, CANCELBR[$, 0],</span><span class="tab" val="79"></span><span style="font: 8pt serif">c2;<br></span><span class="tab" val="79"></span><span style="font: 8pt serif">IOPCtl&larr; IOPInMode,</span><span class="tab" val="79"></span><span style="font: 8pt serif">c3; {enable IOP}<br>infinite:</span><span class="tab" val="79"></span><span style="font: 8pt serif">GOTO[infinite],</span><span class="tab" val="79"></span><span style="font: 8pt serif">c*, at[IdleLoc];<br><br>SetTask[1];  StartAddress[Refresh];<br><br></span><span class="tab" val="79"></span><span style="font: 8pt serif">{We come here once per line, or every 28.8 usec. <br></span><span class="tab" val="79"></span><span style="font: 8pt serif">That means 34,722 times per second}<br>Refresh:</span><span class="tab" val="79"></span><span style="font: 8pt serif">rJ &larr; rJ - 1 {Decrement clock low}, ZeroBr, Refresh, CANCELBR[$, 0F],</span><span class="tab" val="79"></span><span style="font: 8pt serif">c1;<br></span><span class="tab" val="79"></span><span style="font: 8pt serif">BRANCH[NoCarry, RefCarry],</span><span class="tab" val="79"></span><span style="font: 8pt serif">c2;<br><br>RefCarry:</span><span class="tab" val="79"></span><span style="font: 8pt serif">rG &larr; rG - 1 {Decrement clock high}, GOTO[TestTimeout],</span><span class="tab" val="79"></span><span style="font: 8pt serif">c3;<br>NoCarry:<br></span><span class="tab" val="79"></span><span style="font: 8pt serif">Noop,</span><span class="tab" val="79"></span><span style="font: 8pt serif">c3;<br>TestTimeout:<br></span><span class="tab" val="79"></span><span style="font: 8pt serif">Ybus &larr; rJ or rG, ZeroBr, Refresh,</span><span class="tab" val="79"></span><span style="font: 8pt serif">c1;<br></span><span class="tab" val="79"></span><span style="font: 8pt serif">rN &larr; 1, BRANCH[$, Timeout],</span><span class="tab" val="79"></span><span style="font: 8pt serif">c2;<br></span><span class="tab" val="79"></span><span style="font: 8pt serif">ClrDPRq, GOTO[Refresh],</span><span class="tab" val="79"></span><span style="font: 8pt serif">c3;<br><br>Timeout:</span><span class="tab" val="79"></span><span style="font: 8pt serif">uTimeout &larr; rN, ClrDPRq, GOTO[Refresh],</span><span class="tab" val="79"></span><span style="font: 8pt serif">c3;<br><br><br></span></div>
+<script>function do_tabs() { // unit = px
+  var tabs = document.getElementsByClassName("tab");
+  for (var i = 0; i < tabs.length; ++i) {
+    var span = tabs[i];
+    var val = span.getAttribute("val");
+    if (val == null) console.log("Couldn't get val");
+    var rect = span.getBoundingClientRect();
+    var tabstop;
+    if (val > 0) tabstop = Math.ceil(rect.left / val) * val;
+    else tabstop = -val;
+    console.log("do_tabs", val, tabstop)
+    if (tabstop > 0) {
+      var width = tabstop - rect.left;
+      span.style.display = "inline-block";
+      span.style.width = width + "px";
+    }
+  }
+}
+do_tabs();
+</script>
+  </body>
+</html>

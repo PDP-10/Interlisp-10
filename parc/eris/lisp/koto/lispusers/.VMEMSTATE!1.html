@@ -1,0 +1,11 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [eris]&lt;Lisp>KOTO>LISPUSERS>VMEMSTATE!1</title>
+  </head>
+  <body>
+    <pre>
+(FILECREATED " 1-Feb-85 09:29:04" {PHYLUM}&lt;LFG&gt;CSLI&gt;VMEMSTATE.;2 1988         changes to:  (FNS VMEMSTATE)      previous date: " 1-Feb-85 08:59:23" {PHYLUM}&lt;LFG&gt;CSLI&gt;VMEMSTATE.;1)(* Copyright (c) 1985 by Xerox Corporation. All rights reserved.)(PRETTYCOMPRINT VMEMSTATECOMS)(RPAQQ VMEMSTATECOMS ([DECLARE: FIRST (P (MOVD? (QUOTE LOGOUT)						(QUOTE REALLOGOUT))					 (MOVD? (QUOTE SAVEVM)						(QUOTE REALSAVEVM]		      (FNS PURELOGOUT VMEMSTATE)))(DECLARE: FIRST (MOVD? (QUOTE LOGOUT)       (QUOTE REALLOGOUT))(MOVD? (QUOTE SAVEVM)       (QUOTE REALSAVEVM)))(DEFINEQ(PURELOGOUT  [LAMBDA (FLG)                                              (* rmk: " 1-Feb-85 08:49")    (REALLOGOUT T])(VMEMSTATE  [LAMBDA (MODE)                                             (* edited: " 1-Feb-85 09:28")    (PROG1 (SELECTQ (EQP (GETD (QUOTE LOGOUT))			 (GETD (QUOTE REALLOGOUT)))		    (T (QUOTE PRIVATE))		    (QUOTE PUBLIC))	   (SELECTQ MODE		    (NIL)		    (PUBLIC (SETQ BackgroundMenuCommands (REMOVE (SASSOC (QUOTE SaveVM)									 BackgroundMenuCommands)								 BackgroundMenuCommands))			    (SETQ BackgroundMenu NIL)			    (VMEM.PURE.STATE T)			    (MOVD (QUOTE PURELOGOUT)				  (QUOTE LOGOUT))			    (MOVD (QUOTE NILL)				  (QUOTE SAVEVM)))		    (PRIVATE [OR (SASSOC (QUOTE SaveVM)					 BackgroundMenuCommands)				 (SETQ BackgroundMenuCommands (NCONC1 BackgroundMenuCommands								      (QUOTE (SaveVM (QUOTE (SAVEVM))										     								    "Updates the virtual memory."]			     (SETQ BackgroundMenu NIL)			     (VMEM.PURE.STATE NIL)			     (MOVD (QUOTE REALLOGOUT)				   (QUOTE LOGOUT))			     (MOVD (QUOTE REALSAVEVM)				   (QUOTE SAVEVM)))		    (\ILLEGAL.ARG MODE]))(PUTPROPS VMEMSTATE COPYRIGHT ("Xerox Corporation" 1985))(DECLARE: DONTCOPY  (FILEMAP (NIL (591 1908 (PURELOGOUT 601 . 732) (VMEMSTATE 734 . 1906)))))STOP</pre>
+  </body>
+</html>

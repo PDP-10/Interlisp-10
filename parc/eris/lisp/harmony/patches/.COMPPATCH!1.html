@@ -1,0 +1,11 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [eris]&lt;Lisp>Harmony>Patches>COMPPATCH!1</title>
+  </head>
+  <body>
+    <pre>
+(FILECREATED "27-Dec-84 19:14:36" {PHYLUM}&lt;LISP&gt;HARMONY&gt;PATCHES&gt;COMPPATCH.;1 1636Q        changes to:  (VARS COMPPATCHCOMS))(* Copyright (c) 1984 by Xerox Corporation. All rights reserved.)(PRETTYCOMPRINT COMPPATCHCOMS)(RPAQQ COMPPATCHCOMS ((FNS OPT.FRAMELOCAL)))(DEFINEQ(OPT.FRAMELOCAL  [LAMBDA (F)                                                (* lmm "27-Dec-84 19:13")    (PROG (VARS)          (COND	    ((AND (OASSOC (QUOTE AVAR)			  (SETQ VARS (fetch (FRAME VARS) of F)))		  (OPT.CLEANFRAME F))                        (* make vars local when no external calls)	      (for X in VARS WHEN (NOT (FMEMB (fetch OPARG of X)					      SYSSPECVARS))		 do (replace OPNAME of X with (QUOTE HVAR)))	      (RETURN T]))(PUTPROPS COMPPATCH COPYRIGHT ("Xerox Corporation" 3700Q))(DECLARE: DONTCOPY  (FILEMAP (NIL (433Q 1515Q (OPT.FRAMELOCAL 445Q . 1513Q)))))STOP</pre>
+  </body>
+</html>

@@ -1,0 +1,11 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [phylum]&lt;LispARs>00504.AR!5</title>
+  </head>
+  <body>
+    <pre>
+Number: 504Date:  4-Apr-84 13':03':32Submitter: Sannella.PASource: ROACH.PASubject: Want to query lisp ARs on SourceAssigned To: Attn: SannellaStatus: FixedIn/By: Problem Type: Design - UIImpact: ModerateDifficulty: HardFrequency: EverytimePriority: UnlikelySystem: TextSubsystem: OtherMachine: Disk: Lisp Version: Source Files: Microcode Version: Memory Size: File Server: Server Software Version: Disposition: '["Sannella.PA" "29-Aug-84 14':49':13" Status':(Open-&gt;Fixed)]Description: 'Date':  3 APR 84 18':14 PST'From': ROACH.PA'Subject': Can''t Adobe Query on Source'To':   lispsupport''     There doesn''t appear to be a Source field in the Adobe Query'like there is in the Adobe Edit window.  I want to find out what'is becoming of all the ARs I submit.'				Kelly''-----''Subject': AR 504': Want to query lisp ARs on Source'In-reply-to': ROACH''s message of 3 APR 84 18':14 PST'To': ROACH''I tracked down the reason why Source doesn''t show up as a field in Adobe Query --- For whatever unfathomable reason, when the Lispar form was set up, the Source field was defined as an arbitrary-length string, like the Description field, rather than as a fixed-width field like Subject.  Therefore, Adobe doesn''t generate "accelerator files" for the source field, so you can''t query (or sort) by the contents of this field.''This was set in rock (i.e. programs) when the LispAR form was first set up, and the chance that it will be changed is nil.  I agree, it was a mistake.  For now, the only thing I would suggest is to hack something using the functions in AREDIT to generate a list of the ARs containing ROACH in the source field (using case-independent comparisons).''Workaround: Test Case: Edit-By: Sannella.PAEdit-Date: 29-Aug-84 14':49':14</pre>
+  </body>
+</html>

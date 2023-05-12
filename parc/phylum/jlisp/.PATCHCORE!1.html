@@ -1,0 +1,11 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [phylum]&lt;JLisp>PATCHCORE!1</title>
+  </head>
+  <body>
+    <pre>
+(FILECREATED " 3-Aug-84 18:59:30" {PHYLUM}&lt;JLISP&gt;PATCHCORE.;1 986          changes to:  (FNS PATCHCORE))(* Copyright (c) 1984 by Xerox Corporation. All rights reserved.)(PRETTYCOMPRINT PATCHCORECOMS)(RPAQQ PATCHCORECOMS ((FNS \CORE.READPAGES PATCHCORE)		      (P (PATCHCORE))))(DEFINEQ(\CORE.READPAGES  [LAMBDA (STREAM FIRSTPAGE# BUFFERS)                        (* rmk: " 1-NOV-83 22:00")    (for BUF inside BUFFERS as PAGE from FIRSTPAGE# sum (\CORE.READPAGE STREAM PAGE BUF])(PATCHCORE  [LAMBDA (NAME)                                             (* rmk: " 3-Aug-84 18:58")                                                             (* This patches a CORE device so that \MAPPAGE will 							     work.)    (replace READPAGES of (\GETDEVICEFROMNAME (OR NAME (QUOTE CORE))) with (FUNCTION \CORE.READPAGES]))(PATCHCORE)(PUTPROPS PATCHCORE COPYRIGHT ("Xerox Corporation" 1984))(DECLARE: DONTCOPY  (FILEMAP (NIL (296 894 (\CORE.READPAGES 306 . 528) (PATCHCORE 530 . 892)))))STOP</pre>
+  </body>
+</html>

@@ -1,0 +1,11 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [phylum]&lt;LispARs>02041.AR!1</title>
+  </head>
+  <body>
+    <pre>
+Number: 2041Date:  2-Sep-84 15':01':37Submitter: MasinterSource: Masinter, JonLSubject: want TYPEPROP opcode for compiling FIXP, ATOMAssigned To: Attn: JonL, Charnley, Herring, PurcellStatus: OpenIn/By: Problem Type: Impact: ModerateDifficulty: HardFrequency: EverytimePriority: PerhapsSystem: Language SupportSubsystem: MicrocodeMachine: Disk: Lisp Version: 31-Aug-84 16':17':57Source Files: Microcode Version: Memory Size: File Server: Server Software Version: Disposition: Description: Date':  1 Aug 84 16':09 PDT'From': JonL.pa'Subject': Need for ucode changes'To': vanMelle,Charnley'cc': Masinter,Purcell,Kaplan'. . . ''2) add a TYPEPROP opcode -- this would take an alphabyte and simply return T or NIL depending on whether the logand of this byte and  the hibyte of the mds typetable entry is zero.  There are currently  only two bits used in this hibyte --- \TT.NOREF and \TT.LISPREF.  I would propose reserving one bit for object-oriented usage (meaning  that this type has a class structure behind it), and leaving the   others for subsets of various types; the reason for this is to enable tests like FIXP, NUMBERP, ATOM, etc, to compile into one  TYPEPROP instruction, instead of the long sequence that they now   produce.  Larry and I have briefly talked about this one in the   context of simplifying the compilation of numeric predicates, but it would be generally more applicable;  at the very least, we could  get away from explicit dependencies on the type number assignments  and depend only upon the contents of the mds type table entries.'Workaround: Test Case: Edit-By: Edit-Date: </pre>
+  </body>
+</html>

@@ -1,0 +1,11 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [eris]&lt;LispCore>dlion>LispTrap.mc!1</title>
+  </head>
+  <body>
+    <pre>
+{File name LispTrap.mc -- for extra banksCreated by don --  24-Jan-84 10:48:52Last edited: XXX}SetTask[0];LispTraps:{ErrTrap:}	Rx &larr; RRot1 ErrnIBnStkp, ClrIntErr, CANCELBR[$, 0F],	c1, at[0];{ErrLoop:}	Xbus &larr; Rx LRot0, XwdDisp,	c2;	Xbus &larr; MStatus, XLDisp, DISP2[CSParErr],	c3;{CSParErr:}	Bank &larr; SinkBank, CANCELBR[$, 3],	c1, at[0, 4, CSParErr];	Q &larr; 0+1, KCtl &larr; 0, GOTO[CrossToSink],	c2;{MP9001}{LMemErr:}	Bank &larr; SinkBank, DISP2[LispAddrErr, 1],	c1, at[1, 4, CSParErr];{VirtAddrErr:}	Q &larr; 4, GOTO[CrossToSink],	c2, at[1, 4, LispAddrErr];{MP9004}{EmuMemErr:}	Q &larr; 5, GOTO[CrossToSink],	c2, at[3, 4, LispAddrErr];{MP9005}{StackErr:}	Bank &larr; SinkBank, CANCELBR[$, 3],	c1, at[2, 4, CSParErr];	Q &larr; 2, GOTO[CrossToSink],	c2;{MP9002}{IBEmptyErr:}	Bank &larr; SinkBank, CANCELBR[$, 3],	c1, at[3, 4, CSParErr];	Q &larr; 3, GOTO[CrossToSink],	c2;{MP9003}CrossToSink:	CROSS[B1sink1],	c3;	{ E N D }</pre>
+  </body>
+</html>

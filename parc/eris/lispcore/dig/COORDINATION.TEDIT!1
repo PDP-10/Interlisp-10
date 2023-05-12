@@ -1,0 +1,3486 @@
+DRAFTCoordination and the Flow of InformationThrough Phrase StructureBresnan, Kaplan, & PetersonLanguage is a process for transforming and transmitting information.  The flow of information in the process exhibits certain invariances that can be characterized as an abstract structure.  This is what a linguistic level of representation'' is.  For example, the computations involved in recognizing or producing sentences recur in a way that can be abstractly represented as phrase structure.  The phrase structure representation abstracts away from the order in which analysis paths may be chosen in the computational search space, and reflects instead the structure of an equivalence class of computations.Although phrase structure is a highly abstract representation, the information that it structuresnamely, the sequencing and categorization of words in a sentenceis relatively superficial among grammatical properties.  A study of the flow of deeper'' grammatical properties with respect to this phrase structure reveals a more abstract organization of linguistic information.  These deeper properties include information about the grammatical relations of wordstheir subjects, objects, and other arguments; control and anaphoric binding relations; inversion relations (in which, for example, a subject may be expressed as an object in the presence of an expletive or oblique subject); case assignment properties; thematic roles; referential indices; and grammatical number and number agreement.What does it mean to speak of the flow of grammatical properties with respect to phrase structure?  We suppose that partial information about the deeper grammatical properties is locally available in the surface form of any fragment of language, and that the partial information from each local piece of surface structure must be accumulated and combined with the information from other pieces in a order free, or monotonic, way (Bresnan and Kaplan 1982).  Indeed, this assumption seems the most plausible way to account for the ease and naturalness with which we understand arbitrary sentence fragments and for our extensive use of fragments in discourse contexts.  The computational problem of synthesizing this information under these conditions can be solved by a process of simultaneous constraint satisfaction, using a class of algorithms based on recursive unification over equality (Kay ref?, Kaplan and Bresnan 1982, other refs?).  If we abstract away from the possible computational orders in which this process may discover and combine grammatical properties, we can see certain invariances in how the information propagates or flows'' across regions of phrase structure.  These invariances can be abstractly characterized as a mapping from phrase structure to functional structure (Bresnan ed., Peters ref.).[Principles governing this mapping have been stated in Bresnan (C&C), Grimshaw ch. 2, and elsewhere.  In this study, we . . . .]I. Grammatical Properties of Coordinate StructuresI.1. objects and oblique argumentsObjects and oblique arguments distribute across conjoined verbs, as in (1)-(2):1)	John dedicated and gave a pie to Bill.2)	*John dedicated and ate a pie to Bill.The grammaticality of (1) and (2) is predictable from (1') and (2'), where the object and to-object are distributed'' as arguments to each of the conjoined verbs.1')	John dedicated a pie to Bill and John gave a pie to Bill.2')	*John dedicated a pie to Bill and John ate a pie to Bill.Example (2') is ungrammatical because the verb eat is subcategorized for an object only.  In general, the subcategorizations of V1 and V2 are satisfied in [S X [V1 Conj V2] Y] just in case they are satisfied in [S X V1 Y] Conj [S X V2 Y].An apparent counterexample to this generalization is example (3).3)	Bill belched and consumed the pie.3')	*Bill belched the pie and Bill consumed the pie.However, (3) is easily explained by an alternative analysis:  (3) contains not the conjoined verbs [V[Vbelched] and [Vconsumed]], but the conjoined VPs [VP[VPbelched] and [VPconsumed the pie]].  This analysis also explains the contrast between (4) and (5), because conjoined constituents commute.1 [Footnote 1: modulo implied temporal sequence and excluding pseudo-conjunctions like come and get it.]4)	Bill consumed the pie and belched.5)	*Bill consumed and belched the pie.I.2. subjectsSubjects distribute across conjoined VPs.  This fact is revealed by patterns of anaphora.  A reflexive pronoun may normally have either a subject or object antecedent within a simple clause:6)	Maryi asked Johnj about herselfi/himselfj.Yet an object in one of two conjoined VPs is not a possible antecedent for a reflexive in the other VP:7)	Maryi met Johnj and asked about herselfi/*himselfj.This fact is explained by the distributivity of subjects and the failure of the object John to distribute in this structure:7')	Mary met Johnj and Maryi asked about herselfi/*himselfj.An alternative explanation for the contrast between (6) and (7) is that John c-commands the reflexive in (6) but not in (7).  (6) and (7) have the respective phrase structures given schematically in (8) and (9).8)            S       NPi             VP               V      NPj        PP                             P         NPk9)              S         NPi               VP                 VP       Conj         VP             V       NPj           V       NPkNPj c-commands NPk in (8) because every node that dominates NPj also dominates NPk.  But NPj does not c-command NPk in (9) because there is a node (the left conjunct VP) which dominates NPj and does not also dominate NPk.  Perhaps the extra VP node in the coordinate structure of (9) prevents NPj's c-commanding NPk.However, c-command is known to fail as a condition on anaphora (Bresnan C&C; Bresnan, Halvorsen, and Maling).  In (10) and (11), for example, the antecedent John fails to c-command the reflexive, because it is dominated by a node (the PP) which does not also dominate the reflexive.10)	a.	I had an hour-long conversation with Johni yesterday about himselfi.b.	That's John, with whomi I had an hour-long conversation yesterday about himselfi.11)	a.	I talked for a long time to Johni about himselfi.		b.	John, to whomi I talked for a long time about himselfi, is a bore.		The adverbial phrases in (10) and (11) prevent reanalysis of the PP through verb-preposition incorporation (Jespersen ref, Bresnan pass), and the capability of these PPs to front shows that their constituency remains intact.2  [Footnote 2: However, when the PP containing the antecedent is focussed, the reflexive becomes relatively unacceptable: ?*To whom did you talk for such a long time about himself?, ??It's to John that I talked for such a long time about himself.  We know of no explanation for this.]One might attempt to redefine the c-command relation in such a way as to exclude problematic nodes like the PPs in (10) and (11).  In fact, Reinhart's (1976, LI) definition already requires either the first non-branching node above the c-commanding constituent, or the next higher node, if it is of the same type, to dominate the c-commanded constituent; and this formulation could, of course, be amended further to account for (10) and (11).  Applied to (12), Reinhart's formulation would allow himj to c-command Johnk because the coordinating VP node is presumably of the same type as the left conjunct VP that dominates himj..12)	Mary met himj and invited Johnk to join her team.  (not: j = k)Assuming with Reinhart (1976) that a pronoun cannot corefer to a nonpronominal NP that it c-commands, this formulation of c-command can account for the noncoference in (12).  But (12) has the structure of (9), so c-command now leaves us with no explanation for the contrast between (6) and (7).  The distributivity of subjects remains as an explanation for this contrast.I.3. controllersThe controller of conjoined complements distributes across the conjuncts:13)	Maryi made Johnj proud of himselfj and fond of heri.14)	*Maryi made Johnj proud of himj and fond of herselfi.Thus the pattern of anaphora in (13)-(14) follows from that in (13')-(14'), where the controller Johnj is distributed:13')	Maryi made Johnj proud of himselfj and Maryi made Johnj fond of heri.14')	*Maryi made Johnj proud of himj and Maryi made Johnj fond of herselfi.The same holds for the controlled infinitives in (15).15)	Maryi convinced Johnj to leave heri/*herselfi alone and to occupy himselfj/*himj otherwise.15')	Maryi convinced Johnj to leave heri/*herselfi alone and Maryi convinced Johnj to occupy himselfj/*himj otherwise.I.4. expletive inversionExpletive inversion is illustrated in (16) and (17):16)	a.	A driver was missing.		b.	There was a driver missing.		c.		That man       *     he        was a driver missing.3             it					Somewhere				That man  (Cf:        he        was a missing driver.)             it					Somewhere17)	a.	A cab was stolen.		b.	There was a cab stolen.		c.		That car       *    that         was a cab stolen.3             it					Somewhere				That car  (Cf:        that        was a stolen cab.)             it					Somewhere[Footnote 3:  In some dialects of English, it can replace there in this construction (Jespersen ref, Labov).  Moreover, a subject that refers to a situation rather than to an individual object can also replace there.  Cf: That's one more cab stolen.  *That car is one more cab stolen.  On the subject status of inverted locatives like somewhere in (16) and (17), see Levin thesis.]  These examples illustrate the generalization that the sequence NP be AP/VP can be inverted to be NP AP/VP only if there fills the subject position.  In effect, there triggers' the inverted order be NP AP/VP.  In coordinate structures such as (18), there triggers this inverted order in both conjuncts, allowing for a curious restriction on the presence of finite be:18)	There was a cab stolen and (*was) a driver missing.In other words, the inversion-triggering property of there distributes across the conjuncts:18')	There was a cab stolen and there was a driver missing.What is the source of the restriction on finite be? A possible explanation lies in Falk's (Lg) analysis of the English auxiliary.  If the finite be is dominated by S, as Falk (Lg) proposes, rather than VP, then the unacceptable form of (18) must involve conjoined Ss rather than conjoined VPs.  This means that the subject of the second conjunct must have been ellipted, as illustrated in (19).19)                        S            S               Conj                S     NP    Vaux   . . .        and          NP    Vaux    . . .     there   is                           there    isBut ellipsis of expletive there is severely restricted, compared to nonexpletive NPs, as the contrast between (20) and (21) shows.20)	That was a mistake, but was not a deliberate mistake.21)	*There was a mistake, but was not a deliberate mistake.This contrast would explain the restriction on (18): the bad form of the example involves S coordination and expletive subject ellipsis, while the good example involves non-S coordination.I.5. case assignmentThe case assignment to an argument of coordinated verbs is predictable from the coordination of the individual verb-argument combinations: that is, the grammaticality of [NP1-case [V1 Conj V2] NP2-case] is predictable from [NP1-case V1 NP2-case] Conj [NP1-case V2 NP2-case].  To see this, we will turn from English, whose case system is degenerate and eroding, to Icelandic.  (The following Icelandic examples are from Bresnan and Thrainsson, to appear.)The Icelandic examples (22) and (23) contrast in grammaticality:22)	Jon keypti og bordadi matinn.		J. bought and ate the-food-acc.23)	*Jon stal og bordadi matinn/matnum.		J. stole and ate the-food-acc/the-food-dat.The grammaticality of (22) and (23) is predictable from (22') and (23'), where the case-marked object is distributed'' across the verbs.22')	Jon keypti matinn og Jon bordadi matinn.		J. bought the-food-acc. and J. ate the-food-acc.23')	a.	*Jon stal matinn og Jon bordadi matinn.			J. stole the-food-acc. and J. ate the-food-acc.		b.	*Jon stal matnum og Jon bordadi matnum.			J. stole the-food-dat. and J. ate the-food-dat.(23')hence (23)is ungrammatical because stal takes a dative object and bordadi does not.Some Icelandic verbs lexically govern the case of their subjects (Thrainsson thesis; Andrews ref, ref; Maling and Zaenen 1983).  We would expect subject case assignment to behave the same as object case assignment with respect to distributivity, but the case of the subject in (24) is an apparent counterexample:24)	Baturinn flaut og rak.		the-boat-nom floated and drifted24')	*Baturinn flaut og baturinn rak.		the-boat-nom floated and the-boat-nom drifted(24') is ungrammatical because the verb rak takes an accusative subject:25)	Batinn rak.		the-boat-acc driftedYet in (24), the subject of rak is nominative.The apparent counterexample (24) can be explained by an alternative analysis shown in (26).26)                  S           S         Conj          S      NP        VP    og      NP       VP    baturinn       flaut          batinn      rak    the-boat-nom   floated   and   the-boat-acc   driftedIn (26) there is ellipsis of the subject of the second S conjunct. Such an alternative analysis is not available for (22) or (23): when both verbs are transitive, as in those examples, coordination of higher VP or S nodes would be revealed by the presence of two objects in the string of words; only when both verbs are intransitive as in (24) does the string admit of this structural ambiguity.Rognvaldsson (1982) cites examples similar to (24) as evidence that some coordinate VPs are derived by reduction from coordinate sentences.  (26) incorporates this basic idea by allowing subject ellipsis as distinct from VP and V coordination.  (26) predicts that the case marking of the subject must satisfy the first, not the second, verb (which has its own, ellipted, subject).  Hence if we commute the Ss, again ellipting the subject of the second conjunct, the result should be grammatical.  And if we commute the verbs only, the result should be ungrammatical.  Both predictions are correct:27)	Batinn rak og flaut		the-boat-acc drifted and floated28)	*Baturinn rak og flaut.		the-boat-nom drifted and floated(Note that ellipsis of the subject is restricted to the right conjunct.)While structure (26) provides a grammatical analysis of sentence (24), we expect structure (29) to be ungrammatical because the nominative subject cannot distribute across verbs which differ in their subject case-assignment properties.29)	*            S            NP         VP           baturinn       V                    V  Conj  V                   flaut  og   rakYes/no questions provide a further test of this prediction.In yes/no questions the Icelandic verb appears in initial position in the S.30)	Jon bordadi matinn.		J. ate the-food-acc.31)	Bordadi Jon matinn?		ate J. the-food-acc.The same is true of conjoined verbs.  Thus (32) is a possible question corresponding to example (22).32)	Keypti og bordadi Jon matinn?		bought and ate J. the-food-acc		Did John buy and eat the food?'Similarly, (34) is a possible question corresponding to (33), where both verbs assign accusative case to their subject:33)	Pig vantadi og dreymdi bakur		you-acc needed and dreamed-about books-acc34)	Vandadi og dreymdi Pig bakur?		needed and dreamed-about you-acc books-accConsider now the minimal pair of examples (22) and (35):22)	Baturinn flaut og rak.		the-boat-nom floated and drifted35)	Baturinn flaut og hossadist.		the-boat-nom floated and bobbedThese examples contrast only in their verbs, which differ in the subject case assignment property: those in (22) conflict, while those in (35) match.  We predict that only (35) will allow the conjoined verbs in initial position in the yes/no interrogative.  This prediction is correct: 36)	Flaut og hossadist baturinn?		floated and bobbed the-boat-nom		Did the boat float and bob?'37)	*Flaut og rak baturinn/batinn?		floated and drifted the-boat-nom/acc		Did the boat float and drift?'There is a well-formed yes/no question corresponding to sentence (22):38)	Flaut baturinn og rak? 		floated the-boat-nom and drifted(38) reflects the structure in (26): the verb appears in the initial position of each conjunct S, with the subject still ellipted from the second conjunct.  The full structure is apparent in a sentence without subject ellipsis, such as (39)-(40).439)	Baturinn flaut og skipid rak. 		the-boat-nom floated and the-ship-acc drifted40)	Flaut baturinn og rak skipid? 		floated the-boat-nom and drifted the-ship-acc[Footnote 4: Because of the distributivity of subjects (section I.2), we would also predict that coordinate VPs require identical case assignment to their shared subjects.  However, we do not yet have a test of the case-distributivity predictions that distinguishes conjoined VPs from conjoined Ss with right subject ellipsis, as in (26).]I.6. thematic rolesInformation about thematic roles appears to distribute across conjuncts.  In (41), for example, them is assigned the Agent role of kill and the Patient role of be killed.41)	As for the fish, don't let them kill each other or be killed by the cats.In (42), me is assigned the Agent role of laugh and the Theme role of be happy.42)	Nothing can make me laugh and be happy again.Note that subject ellipsis is not possible in these examples:43)	*Don't let them kill each other or them be killed by the cats.44)	*Nothing can make me laugh and me be happy again.Thus, thematic role assignment differs crucially from case assignment: while an NP cannot have multiple conflicting case assignments (I.5), it can have multiple thematic roles without conflict.  This contrast suggests that assumptions in the transformational tradition regarding the uniqueness of theta role assignment'' are incorrect.I.7. referential indicesIn example (1) the same pie is both dedicated and given, but in (1') different pies may be involved:1)	John dedicated and gave a pie to Bill.1')	John dedicated a pie to Bill and John gave a pie to Bill.Thus the truth conditions of (1) are not captured by the distributed form (1').  Is this then a nondistributive property?  We saw before that the arguments of conjoined verbs or verb phrases appear to distribute across the conjuncts (I.1-3).  We see now that any referential index (that is, any variable, indeterminate'' (Barwise & Perry), or discourse index'' (Kamp)) introduced by such an argument is also distributed across the conjuncts.  This property is not reflected in paraphrases like (1'), but it should presumably be reflected in the abstract structure that underlies (1), representing the organization of information in coordinated structures.Similarly, the same reporters are involved in the two actions described in (45), but not necessarily in (45').45)	Two reporters came up to John and asked him about himself.45')	Two reporters came up to John and two reporters asked him about himself.And Bach (Defense) notes the same point in an example like (46)-(46'):46)	John was attacked and bitten by a vicious dog.46')	John was attacked by a vicious dog and John was bitten by a vicious dog.In (46), under the conjoined verb analysis, trhe same dog has attacked and bitten; different dogs may be involved in (46').Would we expect the distributivity of referents to distinguish cases of VP or V coordination from S coordination with subject ellipsis (I.4-5)?  Not necessarily: an ellipted subject could be intepreted as a pronoun, picking up its reference from its antecedent.I.8. numberUnlike the properties previously discussed, the grammatical property of number does not distribute across conjuncts.  For example, the plural verb in (47) agrees with the coordinate subject, but not with the individual conjuncts (47'):47)	Sally and John are here.47')	*Sally are here and John are here.Similarly, the reflexive in (48) agrees in number with the conjoined subject, but not with the individual conjuncts (48'):48)	Both Sally and John talk a lot about themselves.48')	*Sally talks a lot about themselves and John talks a lot about themselves.Note that example (48) does have the distributed meaning that Sally talks a lot about herself and John talks a lot about himself, as well as the meaning that they each talk a lot about both of them.II. The Flow of Information Through Phrase StructureWe wish to solve the problem of coordination without merely classifying grammatical properties into those that do and those that do not distribute.  It is certainly useful to study and describe formally various modes of propagation that different grammatical features may have in coordinated and other structures (Sag, Gazdar, Wasow, Weisler 1983; Andrews ref).  However, our aim is to understand the structure of the information flow itself, insofar as it is general in language, and to derive the behavior of particular features from that abstract structure.For the reasons outlined at the outset, we assume the LFG.  . . .The solution we propose to the problem of coordination is based on a simple idea: the functional structure of a conjunction of constituents is the set of functional structures of the conjuncts.  The following rule schema expresses this idea:49)	X  !  X  Conj  X	          # e "    # e "In (49) either the left conjunct X or the right Conj X sequence can be iterated arbitrarily.  We will leave aside this and other questions about the details of categorial structure, such as the number and types of categories (Peterson ref) and the structural position(s) of the conjunctions (Gazdar ref).  These details do not affect the essential features of our analysis.  We will also ignore for the moment the contribution to the functional structure of the choice of conjunction.The effect of schema (49) is illustrated by the structures in (50).50)	annotated c-structure:            	                NP1    	             # e "          # e "                       	              NP2    Conj     NP3  	            Det   N   and   Det    N  	             a   boy         a    girl			f-structure:							f1		f2		DEF												PRED	BOY'									f3		DEF												PRED	GIRL'The c-structure is derived by taking X to be NP everywhere in rule (49).  The f-structure is derived by instantiating the annotations # e ".  The leftmost occurrence of # e " means that #, namely the f-structure corresponding to node NP2, is an element of ", namely, the f-structure corresponding to NP1.  We call the former f2 and the latter f1.  Thus, we know that f1 contains f2 as an element, and therefore that f1 is a set of f-structures.  We interpret the annotation on the right conjunct in the same way.  The result is that the f-structure corresponding to NP1namely f1is a set of two f-structures: f2, the f-structure of NP2, and f3, the f-structure of NP3.  The contents of f2 and f3 come from the familiar derivation of f-structures as described in Kaplan and Bresnan (1982), Bresnan (1982), and elsewhere. To attribute a simple grammatical property to an f-structure f, we write (f a) = v, where a is the grammatical attribute (a feature or function) and v is its value.  For example, we can attribute indefiniteness to f2 in (50) by writing (f2 DEF) = .  When an f-structure is a set of pairs, as f2 and f3 are in (50), (f a) = v is true just in case the pair <a v> e f.  Thus, in (50) (f2 DEF) =  and (f3 PRED) = GIRL', because <DEF > e f2 and <PRED GIRL'> e f3.  Boolean combinations of grammatical properties are also grammatical properties.  For example, (f2 DEF) =  _ (f2 PRED) = GIRL' is true of f2 in (50) because it is true that <DEF > e f2 or <PRED GIRL'> e f2.  See Kaplan and Bresnan (1982) for a detailed specification of functional descriptions.When an f-structure is a set of f-structures, as f1 is in (50), we must specify what it means to attribute grammatical properties to it.  The meaning we desire is of course the distributive one: a set of f-structures has a certain property just in case every f-structure element of the set has that property:51)	Definition of set properties:For any set S of f-structures, (S a) = v just in case for every f e S, (f a) = v.  In general, for any grammatical property P, P holds of S just in case for every f e S, P holds of f.    For example, it happens that for the set f1 in (50), (f1 DEF) =  is true, (f1 PRED) = GIRL' is false and (f1 DEF) =  _ (f1 PRED) = GIRL' is true.We will return below to a more detailed discussion of conjoined NPs.  Our next goal is to explore some consequences of the simple idea sketched above.  We will now show that the generalizations discussed in I.1-I.7 all follow from adding (49) and (51) to the theory of functional structure, and that a variety of other, sometimes surprising, results fall out as well.II.1. objects and oblique argumentsIn the conjoined verb structure of (52), the f-structure of the coordinate V nodeV1will be a set containing the f-structures for V2 and V3.52)                 S     (" SUBJ) = #                   " = #         NP                        VP                    " = #        (" OBJ) = #    (" OBLGO) = #        N            V1             NP           PP               " e #        " e #       John      V2   Conj    V3     Det   N     P      NP             dedicated  and    gave     a    pie     to      N                                                     BillThe f-structure for V1 is shown in (53).53)		f1		f2	SUBJ								TENSE	PAST'							PRED	DEDICATE <(f2 SUBJ) (f2 OBJ) (f2 OBLGO)>' 							OBJ									OBLGO							f3	SUBJ								TENSE	PAST'							PRED	GIVE <(f3 SUBJ) (f3 OBJ) (f3 OBLGO)>' 							OBJ									OBLGO	The indices within the lexical forms for dedicate and give come from instantiating the lexical schemata (" PRED) = DEDICATE <(" SUBJ) (" OBJ) (" OBLGO)>' and (" PRED) = GIVE <(" SUBJ) (" OBJ) (" OBLGO)>' (Kaplan and Bresnan 1982).  It is from these lexical schemata that the presence of SUBJ, OBJ and OBLGO functions in f2 ad f3 is inferred.  Thus a verb carries with it a skeleton form of the f-structures that it can occur in.  The actual values of the skeleton argumentsSUBJ, OBJ, etc.must be filled in by the surrounding lexical and syntactic structure.Since V1 is the head of VP, the f-structure of V1 will be identified with the f-structure of VP.  Therefore, the f-structure of VP must be the same set as that of V1, shown in (53).  It follows that any grammatical attribute of the VP f-structure must be a grammatical attribute of each of its f-structure elements, f2 and f3. For example, (f1 OBJ) = . . . means just that (f2 OBJ) = . . . and that (f3 OBJ) = . . . , by (51).  Hence, the f-structure of the VP in (52) must be that in (54).54)		f1		f2		SUBJ										TENSE		PAST'								PRED		DEDICATE <(f2 SUBJ) (f2 OBJ) (f2 OBLGO)>'								OBJ		f4	DEF 												PRED	PIE'								OBLGO	f5	PRED	BILL'						f3		SUBJ										TENSE		PAST'								PRED		GIVE <(f3 SUBJ) (f3 OBJ) (f3 OBLGO)>'								OBJ		f4								OBLGO	f5Observe that the same subsidiary f-structuresf4 and f5have functions in two different f-structures, f2 and f3.  In other words, the object and oblique object are shared by both conjuncts.  This explains the contrast between examples (1) and (2), repreated here:1)	John dedicated and gave a pie to Bill.2)	*John dedicated and ate a pie to Bill.With the PRED EAT <(f3 SUBJ) (f3 OBJ)>' replacing GIVE <(f3 SUBJ) (f3 OBJ) (f3 OBLGO)>' in (54), f3 will be incoherent.Finally, because VP is the functional head of S in (52) (Bresnan C&C), the f-structure of VP will be identified with the f-structure of S.  Therefore, the f-structure of S will be the same set as that of VP, shown in (54).  It follows that the SUBJ function, which is an attribute of the S f-structure, must be an attribute of f2 and f3, yielding the f-structure in (55).55)		f1			f2		SUBJ	f6	PRED	JOHN'								TENSE		PAST'								PRED		DEDICATE <(f2 SUBJ) (f2 OBJ) (f2 OBLGO)>'								OBJ		f4	DEF 												PRED	PIE'								OBLGO	f5	PRED	BILL'						f3		SUBJ	f6								TENSE		PAST'								PRED		GIVE <(f3 SUBJ) (f3 OBJ) (f3 OBLGO)>'								OBJ		f4								OBLGO	f5Again, the SUBJ f-structure f6 is shared by both conjuncts.While example (1) John dedicated and gave a pie to Bill has the c-structure and f-structure shown in (52) and (55), the distributed example (1') John dedicated a pie to Bill and John gave a pie to Bill, has the c-structure and f-structure shown in (52') and (55').52')                     S1     " e #                            " e #       S2                              S3NP             VP             NP             VPN      V      NP      PP      N       V     NP       PP John  dedicated  Det   N   P   NP   John    gave  Det   N   P   NP             a   pie  to   N                 a   pie   to   N                          Bill                            Bill55')		f1			f2		SUBJ	f4	PRED	JOHN'								TENSE		PAST'								PRED		DEDICATE <(f2 SUBJ) (f2 OBJ) (f2 OBLGO)>'								OBJ		f5	DEF 												PRED	PIE'								OBLGO	f6	PRED	BILL'						f3		SUBJ	f7	PRED	JOHN'								TENSE		PAST'								PRED		GIVE <(f3 SUBJ) (f3 OBJ) (f3 OBLGO)>'								OBJ		f8	DEF 												PRED	PIE'								OBLGO	f9	PRED	BILL'Note the difference between the f-structures of the nondistributed and distributed forms: in the latter, the OBJ within each conjunct evaluates to a distinct f-structure (f5 and f8), while in the former, the OBJ within each conjunct evaluates to the same f-structure (f4). Although f5 and f8 both contain the lexical contents of a pie, they represent different instantiations of the lexical features of a pie, corresponding to the different object NPs in the c-structure (91).  In the c-structure (52), in contrast, there is only one object NP, hence only one instantiation of features; the structure described by this instantiation is shared by the two conjunct f-structures.This difference in f-structures has semantic consequences.  The value of the PRED feature is a semantic form.  (In our representation of f-structures these are distinguished from other feature values by single quotes.)  Each instantiation of a semantic form creates a unique object for functional uniqueness andbecause it is functional structures that are semantically interpretedfor semantic interpretation (Kaplan and Bresnan 1982: p. 225). Thus, the two objects in the f-structures of distributed examples such as (55') can be interpreted differently, while the shared objects in examples such as (55) cannot be. See II.7.Note that tense is not a shared attribute of the conjuncts in (55).  This happens because tense is specified by the verbal inflections, and so must appear inside each verb's f-structure with all of the other lexical properties of the verb.  (See Bresnan C&C.)  This leads us to expect that the tense of conjoined verbs will be independent, as in fact it is:56)	a.	John either loves or loved Mrs. Charles.		b.	She was and is an irrepressible clown.		c.	Mary managed and now owns her father's store.Of course, there are discourse and other constraints on tense use.  For example, it is odd to say ??John dedicated and gives a pie to Bill for the same reason that it seems odd to say ??John dedicated a pie to Bill and John gives a pie to Bill.Observe now that when tense is specified as a property of the whole coordinated structure, tense sharing will occur, as (57) illustrates:57)               S     (" SUBJ) = #   " = #               " = #         NP        Vaux                  VP                              " = #          (" OBJ) = #        N         does           V1               NP                             " e #        " e #    Mrs. Charles          Conj   V2   Conj    V3       N                      either   love   or    hate       John(57) follows Falk's (Lg) analysis of the auxiliary.  In (57), the auxiliary does specifies a tense attribute of the matrix f-structure, which is identified with a set; tense will therefore distribute into the conjuncts.  This explains (58) and (59):58)	Mrs. Charles does either love or hate John.59)	*Mrs. Charles does either or love or hated John.The contrast between (58) and (59) supports the lexical theory of inflection over an analysis of tense (or INFL'') as an abstract constituent of S in phrase structure.  That is, the information about tense flows into a clause from the tense-inflected verbs in the surface form, and not from the canonical position of INFL'' in an abstract sentence structure of the form S ! NP INFL VP. II.2. subjectsIn the conjoined VP structure of (60), the VP f-structure will be a set, as in (61):60)	             S   (" SUBJ) = #                  " = #        NP                        VP                  " e #                       " e #      N            VP           Conj            VP             " = #    (" OBJ) = #          " = #  (" OBLTOP) = #     Mary       V        NP      and       V        PP              met        N               asked   P      NP                        John                   about   *himself                                                     61)		f1		f2		SUBJ										TENSE		PAST'								PRED		MET <(f2 SUBJ) (f2 OBJ)>'								OBJ			PRED	JOHN'						f3		SUBJ										TENSE		PAST'								PRED		ASK <(f3 SUBJ) (f3 OBLTOP)>'								OBLTH		PRED	PRO'											GEND	M											PERS	3											NCL	+Since the VP is the functional head of the S, the set f1 in (61) will also be the f-structure of S.  Therefore, the SUBJ attribute of the S f-structure will distribute into the conjunct f-structures, f2 and f3, as before in (55).  The result is (62).62)		f1		f2		SUBJ	f4	PRED	MARY'								TENSE		PAST'								PRED		MET <(f2 SUBJ) (f2 OBJ)>'								OBJ			PRED	JOHN'						f3		SUBJ	f4								TENSE		PAST'								PRED		ASK <(f3 SUBJ) (f3 OBLTOP)>'								OBLTH		PRED	PRO'											GEND	M											PERS	3											NCL	+Consequently, the subject Mary is shared by both conuncts.Now a reflexive, or [+ncl], pronoun must be assigned an antecedent in its nucleus, the minimal f-structure containing the reflexive and a SUBJ, (Bresnan, Halvorsen, and Maling ref). Therefore, the only possible antecedent for the reflexive pronoun in (62) is the subject Mary.  This explains the restrictions on the reflexives in (7):7)	Maryi met Johnj and asked about herselfi/*himselfj.II.3. controllersIn the conjoined AP structure of (63), the f-structure of AP1 will be the set shown in (64).63)           S (" SUBJ) = #           " = #     NP                VP        " = # (" OBJ) = #          (" XCOMP) = #    N     V    NP                  AP1                         " e #                " e #   Mary   made   N         AP2        Conj        AP3                       " = # (" OBLTH) = #       " = # (" OBLTH) = #               John    A       PP     and    A       PP                     proud  P     NP        fond    P    NP                          of    himself             of    her64)		f1		f2		SUBJ										PRED		PROUD-OF <(f2 SUBJ) (f2 OBLTH)>'								OBLTH		PRED	PRO'											GEND	MASC											NUM	SG											PERS	3											NCL	+						f3		SUBJ										PRED		FOND-OF <(f3 SUBJ) (f3 OBLTH)>'								OBLTH		PRED	PRO'											GEND	FEM											NUM	SG											PERS	3											NCL	Unlike the coordinate V and VP structures discussed previously, the coordinate AP is not the head of its matrix phrase.  It is a complement of the V make, and bears the function of open complement (XCOMP) in the VP f-structure f0, as shown in (65):65)	f0		.					.					.					XCOMP	f1		f2		SUBJ													PRED		PROUD-OF <(f2 SUBJ) (f2 OBLTH)>'											OBLTH		PRED	PRO'														GEND	MASC														NUM	SG														PERS	3														NCL	+									f3		SUBJ													PRED		FOND-OF <(f3 SUBJ) (f3 OBLTH)>'											OBLTH		PRED	PRO'														GEND	FEM														NUM	SG														PERS	3														NCL	By inspecting (63), we see that in addition to the XCOMP already shown in (65), f0 must contain the OBJ f-structure and the lexical features of the verb made.  These features include TENSE, the PRED of make, and a lexically induced functional control relation which identifies the object of make as the understood subject of its open complement (Bresnan C&C).  This relation is expressed by the control schema (" OBJ) = (" XCOMP SUBJ), which is a predictable lexical property of make.  In the context of (65), this control schema means that (f0 OBJ) = (f0 XCOMP SUBJ).  Since (f0 XCOMP) = f1, we have (f0 OBJ) = (f1 SUBJ).  But f1 is a set of f-structures, and so the functional control property distributes across its element f-structures, f2 and f3, yielding (f0 OBJ) = (f2 SUBJ) and (f0 OBJ) = (f3 SUBJ), as shown in (66).66)	f0		SUBJ							TENSE		PAST'					PRED		MAKE <(f0 SUBJ) (f0 OBJ) (f0 XCOMP)>'					OBJ		f4	PRED	JOHN'					XCOMP	f1		f2		SUBJ	f4											PRED		PROUD-OF <(f2 SUBJ) (f2 OBLTH)>'											OBLTH		PRED	PRO'														GEND	MASC														NUM	SG														PERS	3														NCL	+									f3		SUBJ	f4											PRED		FOND-OF <(f3 SUBJ) (f3 OBLTH)>'											OBLTH		PRED	PRO'														GEND	FEM														NUM	SG														PERS	3														NCL	Recall that the principles of bound anaphora require that the reflexive (+ncl) pronoun have an antecedent in its nucleus (f2), while the nonreflexive (ncl) pronoun not have an antecedent in its nucleus (f3) (Bresnan, Halvorsen, and Maling ref).  In either case, the only such antecedent is the subject, which has been identified with the matrix OBJ.  This explains (13) and (14).  In (13) John must be the antecedent of himself and must not be the antecedent of her, while in (14), him must not have John as an antecedent, and herself must.13)	Maryi made Johnj proud of himselfj and fond of heri.14)	*Mary made John proud of himj and fond of herselfi.II.4. expletive inversionIn the conjoined structure (67), we again follow Falk's (ref) analysis of auxiliary verb structures:67)           S (" SUBJ) = #           " = #     NP                VP         " = #                (" XCOMP) = #    there   Vaux                    VP1                     " e #                 " e #          was          VP2         Conj       VP3                   (" OBJ) = #  (" XCOMP) = #     (" OBJ) = #  (" XCOMP) = #                  NP       VP     and    NP       AP                Det   N     V          Det   N     A                 a   cab   stolen          a   driver  missingThe auxiliary position taken by the main verb was leaves the VP verbless.  This is effected by letting V be optional in VP; the general principles of coherence, completeness, and uniqueness then create the appearance of verb raising; see Bresnan, Kaplan, Peters, and Zaenen 1982, Falk ref, Ishikawa and Bresnan ref.  This analysis (67) accounts not only for the postnominal order of the modifiers (section I.4), but also for the absence of plural number with the conjoined phrases (see sections I.8 and II.8):68)	*There were a cab stolen and a driver missing.69)	There were a stolen cab and a missing driver (to contend with).5[Footnote 5. Note that speakers who employ the closest conjunct'' strategy for NP conjunction will reject (69) as well; see section II.8.]The f-structure corresponding to the coordinate node VP1 in (67) will be the set f1 shown in (70):70)		f1		f2		OBJ		f4	DEF												PRED	CAB'								XCOMP	f5	SUBJ												PRED	STEAL <O (f5 SUBJ)>'						f3		OBJ		f6	DEF												PRED	DRIVER'								XCOMP	f7	SUBJ												PRED	MISSING <(f7 SUBJ)>'Note that f5's PRED is the passive lexical form of steal, in which the SUBJ corresponds to the second (Theme) argument and the Agent is unexpressed (Bresnan pass).Since VP1 is the head of S in (67), the set f1 in (70) will also be the f-structure of S.  Therefore, the SUBJ attribute of the S f-structure will distribute into the conjunct f-structures, f2 and f3.  Furthermore, all the attributes of the Vaux was will distribute into the conjuncts.   These include the TENSE attribute, the PRED attribute, and the functional control attribute carried by be in expletive there constructions (Bresnan pass).  This last is expressed by the lexical schema (" OBJ) = (" XCOMP SUBJ).  In the context of (70) it implies that (f1 OBJ) = (f1 XCOMP SUBJ).  Hence, by (51) we have (f2 OBJ) = (f2 XCOMP SUBJ) and (f3 OBJ) = (f3 XCOMP SUBJ).  Similarly, from the lexical schema (" PRED) = BE <(" OBJ) (" XCOMP)>(" SUBJ)' it follows that (f2 PRED) =BE <(f2 OBJ) (f2 XCOMP)>(f2 SUBJ)' and (f3 PRED) =BE <(f3 OBJ) (f3 XCOMP)>(f3 SUBJ)'.  Thus, the f-structure of S will be (71): 71)		f1		f2		SUBJ	f8	PROX												LOC	+								TENSE		PAST'i								PRED		BE <(f2 OBJ) (f2 XCOMP)>(f2 SUBJ)'i								OBJ		f4	DEF												PRED	CAB'								XCOMP	f5	SUBJ  f4													PRED	STEAL <O (f5 SUBJ)>'						f3		SUBJ	f8								PRED		BE <(f3 OBJ) (f3 XCOMP)>(f3 SUBJ)'i								TENSE		PAST'i								OBJ		f6	DEF												PRED	DRIVER'								XCOMP	f7	SUBJ  f6												PRED	MISSING <(f7 SUBJ)>'The specific features of expletive there associated with the OBJ XCOMP construction are selected by the lexical form of be.  In (71) these features specify a locative nonproximate pronoun which is semantically empty (i.e. has no PRED).  This representation of expletive there differs minimally from that of the locative pronoun there (as in He is there), which presumably has a PRED value of PRO'.  The selection of there by was is then representable by a set of constraint equations in the lexical entry of be: (" SUBJ PROX) =c , (" SUBJ LOC) =c +, etc.In sum, the expletive subject there distributes (along with the verb was) across the conjuncts in the f-structure (71).  However, this will not happen in the conjoined S structure with subject ellipsis:72)	                    S        " e #                           " e #          S              Conj             SNP    Vaux       VP       and           Vaux     VPthere   was   NP       VP                was   NP         AP          Det   N    V                    Det    N      A           a   cab    stolen                  a    driver   missingIn (72) the subject NP of the right conjunct has been omitted, producing the incomplete f-structure that is characteristic of ellipsis.  (See Levin 1982.)  This is illustrated in (73).73)		f1		f2		SUBJ		PROX												LOC	+								TENSE		PAST'								PRED		BE <(f2 OBJ) (f2 XCOMP)>(f2 SUBJ)'								OBJ		f4	DEF												PRED	CAB'								XCOMP	f5	SUBJ  f4												PRED	STEAL <O (f5 SUBJ)>'						f3		SUBJ										PRED		BE <(f3 OBJ) (f3 XCOMP)>(f3 SUBJ)'								TENSE		PAST'								OBJ		f6	DEF												PRED	DRIVER'								XCOMP	f7	SUBJ  f6												PRED	MISSING <(f7 SUBJ)>'Observe that the subject there of the left conjunct f2 is not shared with the right conjunct f3.  As a result, the constraint equations of was in the right conjunct will fail to be satisfied, even if a rule of subject ellipsis interprets the empty SUBJ as an anaphoric element.6  This accounts for (18):18)	There was a cab stolen and (*was) a driver missing.[Footnote 6.  We assume that such a rule inserts the information (" SUBJ PRED) = PRO', but we leave for further research the question of whether the information is provided by lexical, syntactic, or discourse processes.]     (LIST ((PAGE NIL NIL (0 0 612 792) ((TEXT NIL NIL (0 2540 3387 22860) NIL))) (PAGE NIL NIL (0 0 612 792) ((FOLIO NIL (PARALOOKS (QUAD CENTERED) CHARLOOKS NIL) (16792 26776 2540 1270) NIL) (TEXT NIL NIL (0 2540 3387 22860) NIL))) (PAGE NIL NIL (0 0 612 792) ((FOLIO NIL (PARALOOKS (QUAD CENTERED) CHARLOOKS NIL) (16792 26776 2540 1270) NIL) (TEXT NIL NIL (0 2540 3387 22860) NIL)))))      d d    
+         NIL NIL              
+TIMESROMAN 
+              d d    
+         NIL NIL           )   
+TIMESROMAN 
+              d d    
+         NIL NIL              
+TIMESROMAN 
+              d d    
+         NIL NIL              
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              s d    
+         NIL NIL          e   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              s d    
+         NIL NIL             
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              s d    
+         NIL NIL          *   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              s d    
+         NIL NIL           Ä   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              d d    
+         NIL NIL           2   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              s d    
+         NIL NIL              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              s d    
+         NIL NIL              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              d d    
+         NIL NIL           "   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              s d    
+         NIL NIL           O   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              s d    
+         NIL NIL           )   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              s d    
+         NIL NIL           )   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              d d    
+         NIL NIL           §   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              s d    
+         NIL NIL           =   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              s d    
+         NIL NIL           =   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              d d    
+         NIL NIL           Å   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         )   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         
+   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              s d    
+         NIL NIL           A   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              s d    
+         NIL NIL           %   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              s d    
+         NIL NIL           4   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              d d    
+         NIL NIL           d   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         #   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         z   
+TIMESROMAN 
+              
+TIMESROMAN 
+          g   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              s d    
+         NIL NIL           %   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              s d    
+         NIL NIL           &   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              d d    
+         NIL NIL              
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              s d    
+         NIL NIL           æ   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              s d    
+         NIL NIL              
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              d d    
+         NIL NIL           g   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL              
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         	   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         	   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              d d    
+         NIL NIL           |   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL              
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         	   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         	   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL           ”   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL              
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         )   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         5   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL              
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         U   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              d d    
+         NIL NIL              
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         ,   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         	   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         I   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         K   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL             
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL           0   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              ã û    
+         NIL NIL              
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         8   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL           '   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL              
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         '   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              d d    
+         NIL NIL           ‡   
+TIMESROMAN 
+              
+TIMESROMAN 
+          z   
+TIMESROMAN 
+              
+TIMESROMAN 
+          ;   
+TIMESROMAN 
+              
+TIMESROMAN 
+          d   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL          Û   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         k   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL              
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸             
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              d d    
+         NIL NIL          s   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              d d    
+         NIL NIL              
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL           I   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL              
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         
+   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL           	   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         
+   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              d d    
+         NIL NIL           e   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL           	   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         
+   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         	   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         
+   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL           
+   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         
+   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         	   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         
+   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              d d    
+         NIL NIL           6   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t ã    
+         NIL NIL              
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         	   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t ã    
+         NIL NIL           	   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         	   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              d d    
+         NIL NIL              
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL           4   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL              
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL               
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL              
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+             
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL              
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL              
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL              
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL              
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+             
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL              
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              d d    
+         NIL NIL          Ó   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL           7   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              d d    
+         NIL NIL           \   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL           ;   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL          ä   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL           ]   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         $   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         B   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              d d    
+         NIL NIL           Ç   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL           9   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL           ;   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL           º   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              d d    
+         NIL NIL              
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL           ≠   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         º   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL           @   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL              
+TIMESROMAN 
+              HIPPO 
+              
+TIMESROMAN 
+              HIPPO 
+           	   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL           !   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL              
+TIMESROMAN 
+              HIPPO 
+              
+TIMESROMAN 
+              HIPPO 
+              
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL           -   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              d d    
+         NIL NIL           ä   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL           #   
+TIMESROMAN 
+              HIPPO 
+              
+TIMESROMAN 
+              HIPPO 
+           	   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL           2   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL           %   
+TIMESROMAN 
+              HIPPO 
+              
+TIMESROMAN 
+              HIPPO 
+           	   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL           2   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL           "   
+TIMESROMAN 
+              HIPPO 
+              
+TIMESROMAN 
+              HIPPO 
+           	   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL           2   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              d d    
+         NIL NIL           L   
+TIMESROMAN 
+              HIPPO 
+              
+TIMESROMAN 
+              HIPPO 
+              
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL          9   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL              
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL           "   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL           '   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL           /   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              d d    
+         NIL NIL           H   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL              
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL              
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              d d    
+         NIL NIL           .   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL           [   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL           ÿ   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              d d    
+         NIL NIL          ã   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL          V   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL              
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL           "   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL              
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL           "   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              d d    
+         NIL NIL           H   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL           Î   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL           ë   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              d d    
+         NIL NIL           ;   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL           L   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL              
+TIMESROMAN 
+              HIPPO 
+              
+TIMESROMAN 
+              HIPPO 
+           	   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL              
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL              
+TIMESROMAN 
+              HIPPO 
+              
+TIMESROMAN 
+              HIPPO 
+              
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL              
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              d d    
+         NIL NIL           e   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL              
+TIMESROMAN 
+              HIPPO 
+              
+TIMESROMAN 
+              HIPPO 
+              
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL               
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL           "   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              d d    
+         NIL NIL           w   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL              
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              HIPPO 
+              
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL           ,   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL           	   
+TIMESROMAN 
+              HIPPO 
+              
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         	   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL           ,   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              d d    
+         NIL NIL           8   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL              
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL           "   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL              
+TIMESROMAN 
+              HIPPO 
+              
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL           !   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              d d    
+         NIL NIL             
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL              
+TIMESROMAN 
+              HIPPO 
+              
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL           !   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL              
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL           $   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL           &   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL           !   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL           F   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL              
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL           "   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              d d    
+         NIL NIL           ˆ   
+TIMESROMAN 
+              
+TIMESROMAN 
+             1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL              
+TIMESROMAN 
+              HIPPO 
+              
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL           /   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL               
+TIMESROMAN 
+              HIPPO 
+              
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL           /   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              d d    
+         NIL NIL          S   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              d d    
+         NIL NIL              
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL           ™   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL           M   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              d d    
+         NIL NIL           O   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL           1   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              d d    
+         NIL NIL           =   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL           B   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL           5   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL          Q   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              d d    
+         NIL NIL              
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL           d   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL           )   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL           =   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              d d    
+         NIL NIL          ì   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL           n   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL           >   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL           M   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              d d    
+         NIL NIL           F   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL           2   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL           M   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              d d    
+         NIL NIL           {   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL             
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              d d    
+         NIL NIL              
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL           Î   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL              
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL           '   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              d d    
+         NIL NIL           z   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL           4   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL           O   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              d d    
+         NIL NIL           ∆   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              d d    
+         NIL NIL           4   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL          0   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL           A   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL           Ò   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL              
+TIMESROMAN 
+              SYMBOL 
+              
+TIMESROMAN 
+              SYMBOL 
+              
+TIMESROMAN 
+              HIPPO 
+              
+TIMESROMAN 
+              SYMBOL 
+              
+TIMESROMAN 
+              SYMBOL 
+              
+TIMESROMAN 
+              HIPPO 
+              
+TIMESROMAN 
+              SYMBOL 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              d d    
+         NIL NIL          ‰   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL           C   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL           :   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              SYMBOL 
+              
+TIMESROMAN 
+              HIPPO 
+              
+TIMESROMAN 
+              SYMBOL 
+           
+   
+TIMESROMAN 
+              SYMBOL 
+              
+TIMESROMAN 
+              HIPPO 
+              
+TIMESROMAN 
+              SYMBOL 
+           )   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         n   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         (   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              d d    
+         NIL NIL           Ü   
+TIMESROMAN 
+              SYMBOL 
+              
+TIMESROMAN 
+              HIPPO 
+              
+TIMESROMAN 
+              SYMBOL 
+              
+TIMESROMAN 
+              SYMBOL 
+              
+TIMESROMAN 
+              HIPPO 
+              
+TIMESROMAN 
+              SYMBOL 
+              
+TIMESROMAN 
+              SYMBOL 
+           1   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              SYMBOL 
+           -   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         $   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         ñ   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         	   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸             
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         }   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL           ◊   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         7   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         <   
+TIMESROMAN 
+              HIPPO 
+              
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         !   
+TIMESROMAN 
+              HIPPO 
+              
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              HIPPO 
+              
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         c   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         
+   
+TIMESROMAN 
+              SYMBOL 
+              
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         (   
+TIMESROMAN 
+              HIPPO 
+              
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              HIPPO 
+              
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         Y   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL           2   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸           
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL           !   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              ã ãÛ    
+         NIL NIL           B   
+TIMESROMAN 
+              HIPPO 
+           b   
+TIMESROMAN 
+              HIPPO 
+              
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              d d    
+         NIL NIL           *   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         
+   
+TIMESROMAN 
+              SYMBOL 
+              
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL          o   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              d d    
+         NIL NIL           #   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL           S   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         0   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL              
+TIMESROMAN 
+              SYMBOL 
+           	   
+TIMESROMAN 
+              SYMBOL 
+              
+TIMESROMAN 
+              SYMBOL 
+              
+TIMESROMAN 
+              SYMBOL 
+           ;   
+TIMESROMAN 
+              SYMBOL 
+              
+TIMESROMAN 
+              SYMBOL 
+           	   
+TIMESROMAN 
+              SYMBOL 
+              
+TIMESROMAN 
+              SYMBOL 
+              
+TIMESROMAN 
+              SYMBOL 
+              
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              SYMBOL 
+              
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         ,   
+TIMESROMAN 
+              SYMBOL 
+              HIPPO 
+              SYMBOL 
+              
+TIMESROMAN 
+              SYMBOL 
+              HIPPO 
+              SYMBOL 
+              
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         ó   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              d d    
+         NIL NIL              
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL              
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         .   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            SYMBOL 
+              
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            SYMBOL 
+              
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            SYMBOL 
+              
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         *   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            SYMBOL 
+              
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            SYMBOL 
+              
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            SYMBOL 
+              
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              d d    
+         NIL NIL           i   
+TIMESROMAN 
+              SYMBOL 
+              
+TIMESROMAN 
+              SYMBOL 
+              
+TIMESROMAN 
+              SYMBOL 
+              
+TIMESROMAN 
+              SYMBOL 
+              
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         	   
+TIMESROMAN 
+              SYMBOL 
+              
+TIMESROMAN 
+              SYMBOL 
+              
+TIMESROMAN 
+              SYMBOL 
+              
+TIMESROMAN 
+              SYMBOL 
+              
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         h   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         Á   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL              
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         (   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         s   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         ò   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸             
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         X   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL              
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         2   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         	   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         )   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         .   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         	   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              d d    
+         NIL NIL           /   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         0   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         ò   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL           )   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL           )   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              d d    
+         NIL NIL              
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         	   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL          H   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         #   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              d d    
+         NIL NIL              
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         >   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         )   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         .   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              d d    
+         NIL NIL              
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL             
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              d d    
+         NIL NIL              
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              SYMBOL 
+              HIPPO 
+              SYMBOL 
+              
+TIMESROMAN 
+              SYMBOL 
+              HIPPO 
+              SYMBOL 
+           	   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸        0   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              d d    
+         NIL NIL              
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         >   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         )   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         :   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         )   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              d d    
+         NIL NIL           ¨   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         Y   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸        Å   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL          s   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL          e   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL           /   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL           +   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL           2   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              d d    
+         NIL NIL           b   
+TIMESROMAN 
+              
+TIMESROMAN 
+          T   
+TIMESROMAN 
+              
+TIMESROMAN 
+          :   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL           â   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL              
+TIMESROMAN 
+              SYMBOL 
+           	   
+TIMESROMAN 
+              SYMBOL 
+              
+TIMESROMAN 
+              SYMBOL 
+              
+TIMESROMAN 
+              SYMBOL 
+              
+TIMESROMAN 
+              SYMBOL 
+              
+TIMESROMAN 
+              SYMBOL 
+              
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         3   
+TIMESROMAN 
+              SYMBOL 
+              
+TIMESROMAN 
+              SYMBOL 
+              
+TIMESROMAN 
+              SYMBOL 
+              
+TIMESROMAN 
+              SYMBOL 
+           #   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         /   
+TIMESROMAN 
+              SYMBOL 
+              HIPPO 
+              SYMBOL 
+              
+TIMESROMAN 
+              SYMBOL 
+              HIPPO 
+              SYMBOL 
+           #   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         G   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              d d    
+         NIL NIL           ˘   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL           /   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL           4   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL          x   
+TIMESROMAN 
+              SYMBOL 
+              
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              d d    
+         NIL NIL              
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL           T   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL              
+TIMESROMAN 
+              SYMBOL 
+           	   
+TIMESROMAN 
+              SYMBOL 
+              
+TIMESROMAN 
+              SYMBOL 
+              
+TIMESROMAN 
+              SYMBOL 
+           8   
+TIMESROMAN 
+              SYMBOL 
+              HIPPO 
+              SYMBOL 
+              
+TIMESROMAN 
+              SYMBOL 
+              HIPPO 
+              SYMBOL 
+           A   
+TIMESROMAN 
+              SYMBOL 
+              
+TIMESROMAN 
+              SYMBOL 
+              
+TIMESROMAN 
+              SYMBOL 
+              
+TIMESROMAN 
+              SYMBOL 
+           
+   
+TIMESROMAN 
+              SYMBOL 
+              
+TIMESROMAN 
+              SYMBOL 
+              
+TIMESROMAN 
+              SYMBOL 
+              
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              SYMBOL 
+           Î   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL              
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         -   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         	   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         )   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         -   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         	   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         B   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              d d    
+         NIL NIL           7   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         ë   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         )   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL              
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         9   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         (   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         -   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         B   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              d d    
+         NIL NIL           :   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL          N   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL              
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         	   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         	   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              d d    
+         NIL NIL              
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL           <   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              d d    
+         NIL NIL              
+TIMESROMAN 
+              SYMBOL 
+           	   
+TIMESROMAN 
+              SYMBOL 
+              
+TIMESROMAN 
+              SYMBOL 
+              
+TIMESROMAN 
+              SYMBOL 
+           #   
+TIMESROMAN 
+              SYMBOL 
+              
+TIMESROMAN 
+              SYMBOL 
+              
+TIMESROMAN 
+              SYMBOL 
+              
+TIMESROMAN 
+              SYMBOL 
+              
+TIMESROMAN 
+              SYMBOL 
+           
+   
+TIMESROMAN 
+              SYMBOL 
+           &   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              SYMBOL 
+              HIPPO 
+              SYMBOL 
+              
+TIMESROMAN 
+              SYMBOL 
+              HIPPO 
+              SYMBOL 
+              
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              SYMBOL 
+              
+TIMESROMAN 
+              SYMBOL 
+              
+TIMESROMAN 
+              SYMBOL 
+              
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              SYMBOL 
+              
+TIMESROMAN 
+              SYMBOL 
+              
+TIMESROMAN 
+              SYMBOL 
+              
+TIMESROMAN 
+              SYMBOL 
+              
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              SYMBOL 
+           µ   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL              
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         ^   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         V   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              d d    
+         NIL NIL           ‰   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL              
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         m   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         b   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              d d    
+         NIL NIL           Q   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸        I   
+TIMESROMAN 
+              SYMBOL 
+           	   
+TIMESROMAN 
+              SYMBOL 
+           x   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         
+   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         
+   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         p   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         
+   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         
+   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL              
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         (   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         m   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         b   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL           {   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         Q   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸        O   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL              
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         
+   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL               
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              d d    
+         NIL NIL              
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL           d   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              d d    
+         NIL NIL              
+TIMESROMAN 
+              SYMBOL 
+           	   
+TIMESROMAN 
+              SYMBOL 
+              
+TIMESROMAN 
+              SYMBOL 
+              
+TIMESROMAN 
+              SYMBOL 
+           $   
+TIMESROMAN 
+              SYMBOL 
+              
+TIMESROMAN 
+              SYMBOL 
+              
+TIMESROMAN 
+              SYMBOL 
+           
+   
+TIMESROMAN 
+              SYMBOL 
+              
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              SYMBOL 
+              HIPPO 
+              SYMBOL 
+              
+TIMESROMAN 
+              SYMBOL 
+              HIPPO 
+              SYMBOL 
+              
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              SYMBOL 
+              
+TIMESROMAN 
+              SYMBOL 
+              
+TIMESROMAN 
+              SYMBOL 
+           
+   
+TIMESROMAN 
+              SYMBOL 
+              
+TIMESROMAN 
+              SYMBOL 
+              
+TIMESROMAN 
+              SYMBOL 
+              
+TIMESROMAN 
+              SYMBOL 
+              
+TIMESROMAN 
+              SYMBOL 
+           
+   
+TIMESROMAN 
+              SYMBOL 
+           ´   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              d d    
+         NIL NIL          ˝   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL           2   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL           C   
+TIMESROMAN 
+              
+TIMESROMAN 
+             1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              d d    
+         NIL NIL           å   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL           7   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL              
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         ,   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              MATH 
+              
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         /   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              d d    
+         NIL NIL              
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         ó   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL              
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         $   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         ë   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         +   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         ı   
+TIMESROMAN 
+              SYMBOL 
+           	   
+TIMESROMAN 
+              SYMBOL 
+           8   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         
+   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         (   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         
+   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         
+   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         3   
+TIMESROMAN 
+              SYMBOL 
+              
+TIMESROMAN 
+              SYMBOL 
+              
+TIMESROMAN 
+              SYMBOL 
+           	   
+TIMESROMAN 
+              SYMBOL 
+              
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         
+   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         
+   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         3   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL              
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         .   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         
+   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         ,   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              MATH 
+              
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         
+   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         /   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         	   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              d d    
+         NIL NIL             
+TIMESROMAN 
+              SYMBOL 
+              
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              SYMBOL 
+              
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL               
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL           "   
+TIMESROMAN 
+              SYMBOL 
+              HIPPO 
+              SYMBOL 
+              
+TIMESROMAN 
+              SYMBOL 
+              HIPPO 
+              SYMBOL 
+           5   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         ≈   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              d d    
+         NIL NIL           ∏   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL              
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         C   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         
+   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         +   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              MATH 
+              
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         
+   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         ,   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         .   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸            
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              d d    
+         NIL NIL           5   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         (   
+TIMESROMAN 
+              
+TIMESROMAN 
+ˇ¸         ∂   
+TIMESROMAN 
+              
+TIMESROMAN 
+             
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              t d    
+         NIL NIL           7   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+              d d    
+         NIL NIL           B   
+TIMESROMAN 
+              SYMBOL 
+           ö   
+TIMESROMAN 
+              1(DEFAULTFONT 1 (GACHA 10) (GACHA 8) (TERMINAL 8)) 
+          ´“%z∏

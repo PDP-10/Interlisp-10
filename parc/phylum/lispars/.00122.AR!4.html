@@ -1,0 +1,11 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [phylum]&lt;LispARs>00122.AR!4</title>
+  </head>
+  <body>
+    <pre>
+Number: 122Date: 17-Mar-84  0':20':40Submitter: Sannella.PASource: Maxwell.paSubject: Can''t modify Init.LispLisp Version: 15-Mar-84 00':13':18Description: 'Date': 15 Mar 84 11':17 PST'From': Maxwell.pa'Subject': Lisp': modifying Init.Lisp'To': LispSupport.pa'Lisp-System-Date': 15-Mar-84 00':13':18'Machine-Type': Dorado''Something funny is happening with Init.Lisp.  If I just try editting it without loading it, it won''t complain until I try to clean it up.  If I load it first, it doesn''t notice that I''ve editted it.  I mentioned this to Ron Kaplan and he seemed to have some idea of what the problem might be.  He said it had something to do with the fact that the Init file got loaded in a funny way in the beginning.''Thanks,''John. '-----'Date': 15 Mar 84 20':32 PST'From': Kaplan.pa'Subject': Re': AR 125': DWIM breaks up bound var FSM.GENERATE'In-reply-to': Sannella.PA''s message of 15 Mar 84 19':58':59 PST (Thursday)'To': LispSupport.PA'cc': Masinter''He falls into that trap because the greeting guy doesn''t smash the filecoms for INIT, hence they are left around for him to edit with impunity--except that he can''t dump the file because it hasn''t been loaded.''Best solution would be to fix it so that greeting can be done by simply LOADing a file SYSLOAD, which would automatically smash the filecoms.  Why isn''t this done now?''--Ron'Workaround: Test Case: Edit-By: Masinter.PAEdit-Date: 17-Aug-84 21':56':45Attn: ReleaseAssigned To: MasinterIn/By: Disposition: [I changed it so that the system init gets loaded with (LOAD sysinit ''SYSLOAD) and the user init file gets loaded with (LOAD initfile T) . No more special processing for INIT.LISP. lmm 17 Aug 84]System: Programming EnvironmentSubsystem: HistoryMachine: Disk: Microcode Version: Memory Size: File Server: Server Software Version: Difficulty: Frequency: Impact: Priority: HopefullyStatus: FixedProblem Type: BugSource Files: </pre>
+  </body>
+</html>

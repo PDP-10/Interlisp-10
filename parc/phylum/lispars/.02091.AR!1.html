@@ -1,0 +1,11 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [phylum]&lt;LispARs>02091.AR!1</title>
+  </head>
+  <body>
+    <pre>
+Number: 2091Date:  6-Sep-84 17':19':12Submitter: MasinterSource: MasinterSubject: DATABASEFNS wrote wrong FILEDATES when file had extensionAssigned To: Shulman@RutgersAttn: ReleaseStatus: OpenIn/By: Problem Type: BugImpact: ModerateDifficulty: EasyFrequency: IntermittentPriority: PerhapsSystem: Programming EnvironmentSubsystem: MasterscopeMachine: Disk: Lisp Version:  4-Sep-84 19':45':00Source Files: Microcode Version: 5124Memory Size: 7167File Server: Server Software Version: Disposition: [submitted as fixed]'Description: Return-Path': &lt;SHULMAN@RUTGERS.ARPA&gt;'Received': from RUTGERS.ARPA by Xerox.ARPA ; 04 SEP 84 16':07':14 PDT'Date': 4 Sep 84 19':07':07 EDT'From': Jeffrey Shulman &lt;SHULMAN@RUTGERS.ARPA&gt;'Subject': DATABASEFNS bug fixed'To': 1100support.PA, lispsupport.pa'cc': masinter.pa'''	In the function DUMPDB the line that writes out the file dates property should be using (ROOTFILENAME FILE) and not FL.  It seems that MAKEFILE does not update the FILEDATES property of the atom that is just the file *name* without the extension (which is what FL is.)'	You have no problems if your files are named FOO.;* but if you use files called FOO.BAR;* this bug affects you.  I am surprized that it hasn''t been discovered before.''							Jeff''P.S. My thanks to Thu Le who finally sent out the sources to me.'-------Workaround: Test Case: Edit-By: Edit-Date: </pre>
+  </body>
+</html>

@@ -1,0 +1,11 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [phylum]&lt;LispARs>01833.AR!2</title>
+  </head>
+  <body>
+    <pre>
+Number: 1833Date: 13-Aug-84 12':10':56Submitter: RoachSource: RoachSubject: DEFAULTSUBITEMFN breaks if CAR/CDRERR = TAssigned To: Attn: BURTONStatus: FixedIn/By: Problem Type: Design - UIImpact: ModerateDifficulty: Frequency: EverytimePriority: PerhapsSystem: Windows and GraphicsSubsystem: Window SystemMachine: 1132Disk: Lisp Version: 10-Aug-84 18':02':13Source Files: Microcode Version: 5124Memory Size: 4096File Server: Server Software Version: Disposition: Description: When I set CAR/CDRERR = T, DEFAULTSUBITEMFN of the MENU package barfs when I try to update my "History Window".  The problem is that DEFAULTSUBITEMFN is trying to take the CADDDR of a menu item that is a dotted list.  This winds up trying to take the CDR of a non-list.'     So, either the current (CADDDR ITEM) in DEFAULTSUBITEMFN''s code should be written more carefully, or else it should be documented in the manual that menu items should not be dotted lists, and the HISTMENU package should be fixed.''rrb': fixed.Workaround: Test Case: Edit-By: Burton.paEdit-Date: 17-Aug-84 17':26':28</pre>
+  </body>
+</html>

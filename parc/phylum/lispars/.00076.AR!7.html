@@ -1,0 +1,11 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [phylum]&lt;LispARs>00076.AR!7</title>
+  </head>
+  <body>
+    <pre>
+Number: 76Date: 17-Mar-84  0':08':36Submitter: roach.PASource: Subject: TEXTSTREAM fileptr set to 0 before PRIN1Lisp Version: Description: 'Date': 21 FEB 84 22':45 PST'From': ROACH.PA'Subject': TEXTSTREAM FILEPTR BUG'To':   LISPSUPPORT'cc':   ROACH''     Sigh.  More TEXTSTREAM fileptr problems.''	(SETQ S (OPENTEXTSTREAM "FOOBAR" (CREATEW)))'	(READ S) (* = FOOBAR *)'	(GETFILEPTR S) (* = 6 *)'	(PRIN1 "MEEF" S)''I now see MEEFFOOBAR where I expected to see FOOBARMEEF, TEDIT'apparently beginning the PRIN1 at ptr = 0 instead of ptr = 6.''Workaround: Test Case: Edit-By: Sannella.PAEdit-Date: 19-Jun-84 18':55':56Attn: Assigned To: SybalskyIn/By: CarolDisposition: BOUT had been using the selection to decide where to put characters.  This was changed to use the fileptr.System: TextSubsystem: TEditMachine: Disk: Microcode Version: Memory Size: File Server: Server Software Version: Difficulty: ModerateFrequency: EverytimeImpact: AnnoyingPriority: AbsolutelyStatus: ClosedProblem Type: BugSource Files: TEDIT</pre>
+  </body>
+</html>

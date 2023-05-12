@@ -1,0 +1,39 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>[eris]&lt;LispUsers>CHUNK-MENU.bravo!1</title>
+  </head>
+  <body>
+    <div style="width: 442pt; margin-left: 84pt; margin-top: 8pt; text-align: justify">
+<span style="font: bold 10pt serif">CHUNK-MENU documentation</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 8pt; text-align: justify">
+<span style="font: 10pt serif">D. Austin Henderson, Jr.<br>Initially released: May 11, 1983 <br>Last revised: May 11, 1983</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 20pt; text-align: justify">
+<span style="font: bold 10pt serif">&lt;LISPUSERS&gt;CHUNK-MENU</span><span style="font: 10pt serif"> (and </span><span style="font: bold 10pt serif">.DCOM</span><span style="font: 10pt serif">) permits the creation and use of pop-up menus for long lists of items. The user sees one "chunk" of the list at a time. Menu items at the top and bottom allow him to move backward and forward in the list (to preceding or following chunks) and to "thumb" to a desired chunk via a menu of "first lines". Comments and suggestions welcome &lt;AHENDERSON.PA@PARC&gt;.</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 18pt; text-align: justify">
+<span style="font: bold 10pt serif">CHUNK.MENU.CREATE (ITEMS CHUNK.COUNT TITLE CENTERFLG MENUFONT ITEMWIDTH ITEMHEIGHT MENUBORDERSIZE MENUOUTLINESIZE)</span><span style="font: 10pt serif"> Creates a chunk menu for the menu items ITEMS. The chunks are menus with no more than CHUNK.COUNT items. The menus have menu characteristics given by the rest of the parameters (see the discussion of menus in the Interlisp-D User&rsquo;s Guide). Returns the chunk menu.</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 18pt; text-align: justify">
+<span style="font: bold 10pt serif">CHUNK.MENU.MENU (CHUNK.MENU POSITION)</span><span style="font: 10pt serif"> Activates (pops-up) CHUNK.MENU centered at POSITION. If position is not specified, the position of the cursor is used. The user can select items, or move to other chunks by using the up, down, and thumbing entries. All chunks appear centered at POSITION or the </span><span style="font: italic 10pt serif">original</span><span style="font: 10pt serif"> position of the cursor (prevents the menus from "walking" across the display. When an item is selected, the value returned is as specified for items of menus. CHUNK.MENU is modified so that the next activation will start in the chunk visible when the selction was made (it remembers which chunk the last selection was made in).</span></div>
+<script>function do_tabs() { // unit = px
+  var tabs = document.getElementsByClassName("tab");
+  for (var i = 0; i < tabs.length; ++i) {
+    var span = tabs[i];
+    var val = span.getAttribute("val");
+    if (val == null) console.log("Couldn't get val");
+    var rect = span.getBoundingClientRect();
+    var tabstop;
+    if (val > 0) tabstop = Math.ceil(rect.left / val) * val;
+    else tabstop = -val;
+    console.log("do_tabs", val, tabstop)
+    if (tabstop > 0) {
+      var width = tabstop - rect.left;
+      span.style.display = "inline-block";
+      span.style.width = width + "px";
+    }
+  }
+}
+do_tabs();
+</script>
+  </body>
+</html>

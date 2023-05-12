@@ -1,0 +1,252 @@
+1XEROX 1108 USER'S GUIDE1 XEROX 1108 USER'S GUIDEINPUT/OUTPUT1INPUT/OUTPUT1 7.	INPUT/OUTPUT6Input/output on the Xerox 1108 is supported in many ways:  by keyboard, display, mouse, rigid disk, Ethernet, floppy disk, and RS232 communications.  This chapter only covers aspects of the last two:  the floppy disk and RS232 communications.2Floppy Support1This section describes Interlisp-D's file device {Floppy}, which is used to interact with floppy drives on Xerox 1108 machines.Use an 8" double-sided, double-density, soft-sectored floppy disk (two kinds that will work are Datalife #18071 and Dysan #800803-02).   Insert the floppy into the floppy drive face up, the edge of the floppy with two 2"-long cover holes (one hole per side) going in first.  The write-protect notch will be on the same edge as and to the left of a cover hole as you look down on the floppy from above.In general, Interlisp-D can be used to read, write, and otherwise interact with files on Pilot-formatted floppy disks through standard Interlisp input/output functions.  All familiar operations such as LOAD, OPENFILE, READ, PRINT, BIN, BOUT, GETFILEINFO, SETFILEINFO, GETFILEPTR, SETFILEPTR, etc., work with floppies.   COPYFILE is commonly used to archive and unarchive files between floppies and other file devices.  Files on floppies can be compiled, edited, hard-copied, etc., just as files may be on all other ordinary file devices.  Naming, Erasing, and Formatting Floppies 1To erase and establish track information on a floppy, especially a floppy that is brand-new, call(FLOPPY.FORMAT NAMEAUTOCONFIRMFLG SLOWFLG)	[Function]The NAME argument becomes the name of your floppy.  It can be any string or atom of 106 or fewer characters.  It's a good idea to label the outside of your floppy with the same name using a sticky label and a soft marker. AUTOCONFIRMFLG controls questioning you about destroying the contents of a floppy that appears to contain valid information.  If AUTOCONFIRMFLG  is T, you will not be asked to confirm.SLOWFLG determines how thorough a formatting job is to be done on the floppy you format.  If SLOWFLG is T, FLOPPY.FORMAT completely erases your floppy, setting down track information and critical Pilot records on it.  When SLOWFLG is left NIL, only the Pilot records needed to give your floppy an empty directory are written.  Use SLOWFLG = T with a brand-new floppy.Typically you will leave AUTOCONFIRMFLG and SLOWFLG as NIL.  For example, doing (FLOPPY.FORMAT "My Floppy") will create a blank floppy named "My Floppy."   Because formatting a floppy is a very intensive operation for the input/output processor (IOP), the IOP has less time to look at the mouse and keyboard.  While you are formatting a floppy, the mouse cursor does not track the mouse as well and keystrokes may be lost.  This is normal behavior; it simply means you cannot do much else while formatting a floppy.To reset the name put onto a floppy by FLOPPY.FORMAT, use (FLOPPY.NAME NAME)	[Function]If NAME is NIL,  then FLOPPY.NAME reads the name put onto a floppy by FLOPPY.FORMAT or FLOPPY.NAME.Copying Floppies1The ability to copy Pilot floppies is supported through two functions:(FLOPPY.TO.FILE TOFILE)	[Function](FLOPPY.FROM.FILE FROMFILE)	[Function]FLOPPY.TO.FILE copies the contents of the current floppy to a file, and FLOPPY.FROM.FILE is FLOPPY.TO.FILE's inverse.  For instance, to copy the contents of one floppy onto another, insert the floppy to be copied into the floppy drive.  Then type (FLOPPY.TO.FILE 'ToFile).  Remove the first floppy and insert a blank floppy.   Type (FLOPPY.FROM.FILE 'FromFile). The first floppy has now been copied. The TOFILE produced by FLOPPY.TO.FILE is approximately 2,500 pages long and can be placed on a file server or a logical volume of your machine.  FLOPPY.FROM.FILE can be used more than once if you would like to make more than one copy.  As an alternative to using FLOPPY.SCAVENGE (described below), the TOFILE produced by FLOPPY.TO.FILE can be usefully edited to salvage the contents of a floppy that has been damaged.Archiving to Floppies1Two special functions are available to make archiving to floppies exceptionally easy.  These are: (FLOPPY.ARCHIVE FILES NAME)	[Function] (FLOPPY.UNARCHIVE HOST/DIRECTORY)	 [Function]FLOPPY.ARCHIVE formats a floppy inserted into the floppy drive, giving the floppy the name "NAME#1."  FLOPPY.ARCHIVE then copies each file in Files to the freshly formatted floppy.  If necessary, FLOPPY.ARCHIVE  overflows onto successive floppies, which it names NAME#2, NAME#3, etc., each time prompting you to insert a new floppy.   It is very convenient to archive an entire directory or subdirectory using FLOPPY. ARCHIVE in conjunction with Interlisp's DIRECTORY function.  For example, typing (FLOPPY.ARCHIVE (DIRECTORY '{Server}<User>Project> *) 'Project) will copy all files on {Server}<User>Project> to floppies.FLOPPY.UNARCHIVE is the inverse of FLOPPY.ARCHIVE.  FLOPPY.UNARCHIVE copies all files on the current floppy to the directory {Host}<Directory>.  Thus, (FLOPPY.UNARCHIVE '{Server}<User>Project>) will copy each file on the current floppy to the directory {Server} <User>Project>.  If there is more than one floppy to unarchive, you should separately FLOPPY. UNARCHIVE each  floppy.Loading Sysouts and Other Large Files Onto Floppies1Sysouts may be created on floppies through Interlisp's SYSOUT or MAKESYS functions, then later installed on the same or another Xerox 1108 using the System Tool.  Sysouts may also be taken from other file devices and put onto floppies through the use of the function FLOPPY.MODE (see below).  To copy a sysout to floppies, simply do one of the following functions:(SYSOUT '{FLOPPY})	[Function]	                 (MAKESYS '{FLOPPY})	[Function] You are prompted to insert new floppies as they are needed.  It generally takes three to five floppies to store a sysout.  To load in a sysout  from floppies, you can use the System Tool. The normal mode of operation for {FLOPPY} is  (FLOPPY.MODE 'PILOT)	[Function]Three special modes of operation for floppies, SYSOUT, HUGEPILOT, and CPM, are also available.  You can put floppies into either of the first two modes to copy sysouts or huge files from file servers to floppies or from floppies to file servers.In SYSOUT mode, you may use COPYFILE to move a sysout off another file device onto floppies.  To do this, you must first set the floppies into SYSOUT mode, then do the COPYFILE.  For example, (FLOPPY.MODE 'SYSOUT) (COPYFILE '{FileServer}<Directory>LISP.SYSOUT '{FLOPPY}) will put the current Interlisp-D LISP.SYSOUT onto floppies.  While in SYSOUT mode, you can copy as many sysouts as you like onto floppies.  The Installation Utility is then used to load these sysouts onto a Xerox 1108.  Similarly, sysouts can be copied from floppies onto another file device using COPYFILE when in SYSOUT mode.  For example, (FLOPPY.MODE 'SYSOUT (COPYFILE '{FLOPPY} '{YourFileServer}<YourDirectory>Your.Sysout) will copy the sysout onto your directory on a file server.  To get back to ordinary floppy operation,  type (FLOPPY.MODE 'PILOT).You can write and read huge Pilot files onto multiple floppies in HUGEPILOT mode, which can be set by typing (FLOPPY.MODE 'HUGEPILOT).  This mode is practically identical to SYSOUT mode, with the exception that you have control over the names of files and floppies. Using CPM-Formatted Floppies1CPM is a particular kind of operating system that runs on many smaller computers.  If those computers also have 8" floppy drives, like the Xerox 820-II, they can trade information with Xerox 1108 machines via CPM-formatted floppies.   A number of CPM formats exist, but single-density single-sided (SDSS) CPM is standard.  You can create, read, and write SDSS CPM-formatted floppies on 1108 machines.CPM-formatted floppies are formatted differently than Pilot floppies, so you should use FLOPPY.MODE to switch to CPM mode when planning to work with CPM floppies.  To create, read, or write CPM-formatted floppies, switch to CPM by typing (FLOPPY.MODE 'CPM).  After switching to CPM mode, you may use FLOPPY.FORMAT to create CPM-formatted floppies.  When the IOP is in CPM mode, the usual input/output operations work with CPM-formatted floppies just as they do with Pilot-formatted floppies when you are in PILOT mode.  There are a few limitations, however.  CPM file names are limited to eight or fewer characters, with extensions of  three or fewer characters.  They do not have directories or version numbers.  And CPM files are padded out with blanks to make file lengths multiples of 128.To switch back to ordinary floppy operations, type (FLOPPY.MODE 'PILOT).  This takes you out of CPM mode and puts you into PILOT mode, allowing you to resume formatting, reading, and writing ordinary Xerox Pilot floppies.Manipulating Floppy Space1The following function tells you how much space is left on a floppy.(FLOPPY.FREE.PAGES)	[Function]returns the number of free pages on the current floppy.  Pilot floppy files are contiguously represented on a floppy disk.  If you are using your floppy interactively (not just doing a simple series of COPYFILE commands after a FLOPPY.FORMAT),  don't cram your floppy to capacity.  Try to keep such a floppy less than 75 percent full.Testing Whether a Floppy is in the Drive1Three functions are available for testing whether a floppy is in the floppy drive.(FLOPPY.CAN.READP)	[Function]tests if there is a floppy in the floppy drive.  FLOPPY.CAN.READP does not provide any debouncing (protection against not fully closing the floppy drive door).  You may wish to use FLOPPY.WAIT.FOR.FLOPPY (see below).(FLOPPY.CAN.WRITEP)	[Function]tests if there is a floppy in the floppy drive and the floppy drive can write on this floppy.  (The floppy drive can only write on floppies whose write-protect notches are covered with tape.)(FLOPPY.WAIT.FOR.FLOPPY NEWFLG)	[Function]When NEWFLG is NIL, this command waits until a floppy is in the floppy drive before returning.  When NEWFLG is T, the function first waits until the existing floppy in the floppy drive, if any, is removed, then waits for a floppy to be inserted into the drive before returning.Scavenging Floppies1(FLOPPY.SCAVENGE)	[Function]attempts to repair a floppy whose critical records have become confused.  Also, if you accidentally delete floppy files you shouldn't have deleted, FLOPPY.SCAVENGE retrieves them (provided you don't wait till after they have been overwritten by new files).  2RS232 Support1Cable Configurations for RS232C Port and TTYPort1There are two ports on the Xerox 1108 capable of supporting RS232 communications:  the TTYPort  (which is  standard equipment) , and  the RS232C port, (which is the E30 equipment option).  Both ports exit the machine chassis at the rear, in female 25-pin D-shell connectors.  The E30 option will have a label like	J11 or	RS232for its associated connector. The TTYPort will be labeled either	Printer/DTEor	Printer 	K/B - TerminalHowever, the correct RS232C interface is only obtained by inserting the extension cable supplied with the E30 kit into the RS232 connector on the machine chassis.If the extension cable is not included with the E30 kit , a straight-through cable should be built with two 25- pin, D-shell male connectors.  Similarly, the correct interface for the TTYPort can only be obtained by the use of adaptor cables, which will be explained in more detail below.Looking at the RS232C port from the end of the extension cable, it is a standard  RS232C  configuration for DTE devices (DTE means "Data Terminal Equipment"; the word "terminal" should not invoke the image of a work station, but rather the terminus of a logical circuit).  A DTE device is supposed to terminate in a male connector.A female connector generally implies a DCE configuration (DCE means "Data Communications Equipment"), but  many manufacturers of RS232C interfaced devices do not consistently obey this convention.   Thus it is occasionally necessary to wire  an adaptor cable of some kind, and there is much latitude in configuring it.  In the normal case, such as using an off-the-shelf modem, the connector on the device will be female, and present a DCE interface.In order to connect  two DTE devices, it is necessary to use an adaptor cable which has female connectors on each end; this kind of adaptor is  called a "null modem", because it permits the two DTE devices to plug into what they may view as a DCE interface-- a modem.  It consists of two 25-pin, Female D-shell connectors on a moderate length of cable, and is wired as follows:pin 1	to	pin 1pin 2	to	pin 3pin 3  	to  	pin 2pin 4  	to 	pin 5pin 5  	to 	pin 4pin 6  	to 	pin 20pin 7 	to 	pin 7pin 20  	to  	pin 6This cable is symmetric, i.e. identical,  at both ends.Special Adaptor Cables for the TTYPort1There is no external RS232 cable supplied as standard equipment with the 1108, and it thus becomes necessary for the user to make one of two different kinds of cables depending on his needs. In order to present a true RS232 interface, the following non-symmetric cable must be constructed:The 1108 end of the cable must be a 25-pin D-shell male connector, with pins 4 and 8 shorted together; do not put any other wiring onto pin 4 or pin 8.  The other end should also be  a 25-pin D-shell male connector, and the wiring between pins is similar, but not identical, to that of the null modem above:	Xerox 1108 side  	External device side	pin    1  	pin   1		pin    2	pin   3 	pin    3	pin   2 	pin    6	pin   20 	pin    7	pin   7	pin   20	pin   6Using this adaptor cable, the TTYPort presents a DTE interface to the world, and may be connected to any modem or other DCE equipment.However, you may wire  a cable which includes the "null modem" capability, and so connect the TTYPort directly to a male connector on a VAX, a Xerox 1100, or a properly interfaced DTE connector of another Xerox 1108.Since a "null modem" reverses the same logical circuits that the above adaptor reverses (pins 2-3 and 6-20), then this short-cut cable is wired as follows:Xerox 1108 side	External device sideMale connector	Female connector	pin   1	pin   1	pin   2	pin   2	pin   3	pin   3	pin   6	pin   6	pin   7	pin   7	pin   20	pin   20This cable is non-symmetric and must have pin 4 and 8 shorted together on the 1108 side.As mentioned above, there is a growing tendency to put female connectors on the chassis of electronic equipment, regardless of whether or not the connection presents a DCE interface.  Generally, this implies that you must build an adaptor cable for such a device; but in practice, it is more useful to combine the adaptions for both the computer side and the device side into one single cable.Connecting Printers to the Xerox 11081Epson FX-80 to Xerox 1108To connect an 1108 work station to an Epson FX-80 printer, you may build a variation of the cable called a "short-cut" above, for use from the TTYPort only. The only difference is in the use of a male connector for the printer side.	1108 side	Epson FX-80 side	Male connector	Male connector	pin  1	pin  1	pin  2	pin  2	pin  3	pin  3	pin  6	pin  6	pin  7	pin  7	pin  20	pin  20This cable is non-symmetric and must have pins 4 and 8 shorted together on the 1108 side.To connect to an Epson FX-80 from the RS232C port, the following cable may be used, which differs from a null modem only in that male connectors are used instead of female.  It consists of two 25-pin, male D-shell connectors on a moderate length of cable, and is wired as follows:pin  1  	to 	pin  1pin  2 	to 	pin  3pin  3  	to 	pin  2pin  4  	to  	pin  5pin  5  	to  	pin  4pin  6  	to 	pin  20pin  7  	to 	pin  7pin  20 	to 	pin  6This cable is symmetric at both ends.  It will plug directly into the "J11 RS232" connector (rather than into the end of the standard adaptor cable).  You may also use a female connector on one end, and thus have a non-symmetric cable which will plug into the end of the standard adaptor cable; this may be more useful if it is difficult to reach the back of the machine.Centronics to Xerox 1108  Equipped with a CPE CardThis Xerox 1108 work station has a parallel port that  can be configured as a Centronics-compatible printer port.  (This is the upper connector, labeled "J2" on the Central Processor Extender card.)Note:	This port does not exist on all  Xerox 1108s.To configure the 1108's parallel port, you must purchase the correct part from your Xerox sales representative.  It should be wired as follows:Workstation			CentronicsEnd	Pin#	Direction	Signal	Pin#PO.0	37	--->	STROBE'	1PIO.7	12	--->	D7	2PIO.6	13	--->	D6	3PIO.5	14	--->	D5	4PIO.4	15	--->	D4	5PIO.3	16	--->	D3	6PIO.2	17	--->	D2	7PIO.1	18	--->	D1	8PIO.0	19	--->	D0	9PI.0	11	<---	ACK-			NOWLEDGE'	10PI.1	10	<---	BUSY	11PI.2	9	<---	PAPER OUT	12PI.3	8	<---	SELECT	13PO.1	35	--->	AUTO LF'	14GND	1		GND	16PI.4	7	<---	+5V	18GND	20		GND	20PO.2	33	--->	INPUTPRIME'	31PI.5	21	<---	ERROR'	32Note:	This cable configuration will work on most printers equipped with a Centronics interface; however,  not all devices described as being "Centronics-compatible" adhere to this standard. If you have a Xerox 1108, please check your device against the signals shown above before you connect it to your work station.Testing the Connection Between Two Xerox 11-- Machines1To test for a working RS232 connection between Machine A (a Xerox 1108) and Machine B (a Xerox 1108 or Xerox 1100) by moving a file between them, proceed as follows:1.	Load RS232CHAT.DCOM and RS232FTP.DCOM on both machines.2.	Call RS232INIT to set up parameters (see documentation.)3.	Do (RS232CHAT) on both machines. You will be prompted for a window.Whatever you type on machine A should be echoed on machine B, and vice versa.To transfer a file from machine A to machine B:1.	On machine A  type:  (RS232PUTFILE 'XYZ 'TEXT 'MODEM)2.	On machine B  type:  (RS232GETFILE 'XYZ 'TEXT 'MODEM)This will transfer file XYZ in "Text" or "ASCII" mode.Note:  For customers who have a Xerox 1100 as well as a Xerox 1108 (not connected by the Ethernet), a sysout can be transferred from one machine to the other, if there is enough space on the local {DSK} volume.Testing the Connection Between Xerox11-- Machines and a VAX  Running VMS1VAX side:Set baud rate at which files will be transferred on the VAX side using the VMS command SET.  For example, to set to 1200 baud, type:SET TERM TTA1:/SPEED=1200/PERM1108 side:After loading RS232FTP.DCOM, RS232CHAT. DCOM, initialize with RS232INIT.Example: To communicate with a VAX at 1200 baud, through the RS232C port:	VAX side:SET TERM TTA1:/SPEED=1200/PERM 	1108 side:(RS232INIT 1200 8 NIL 1 NIL 'RS232C), 	then (RS232CHAT)and press <CR>.  You should be able to use the Chat window like a VAX teletype terminal.By matching the baud rate on the VAX ( through SET TERM) with that on the 1108 (through RS232INIT) you can use any speed up to 9600 baud.File Transfer11.	After loading VMS Modem software (available from Xerox on magnetic tape), and setting the baud rate on the VAX side do either:a.	 File from VAX to 1108:1)	Type in the Chat window:  $MODEM file.name/SEND/DEV= (port name)/ TEXT or ASCII  2)	Type in the TTY window : (RS232GETFILE  filename filetype protocol) b.	File from 1108 to VAX:1)	Type in the Chat window:  $MODEM file.name/REC/DEV= (port name)/TEXT or ASCII2)	Type in the TTY window: (RS232PUTFILE filename filetype protocol)Example: a.	You have a file XYZ on the local disk of an 1108 and want to transfer this file to the VAX:1)	Type in the Chat window:  $MODEM XYZ/REC/DEV = TTA1:/TEXT2)	Type in TTY window:	(RS232PUTFILE '{DSK}XYZ 'TEXT  'MODEM)b.	You have a file called TEC.COM stored on the VAX and want to transfer it to an 1108:	1)	Type in the Chat window:  $MODEM TEC.COM/SEND/DEV = TTA1:/TEXT2)	Type in the TTY window:  (RS232GETFILE 'XYZ 'TEXT OR BINARY 'MODEM)  To transfer at  9600 baud, type:	SET TERM/PERM/ALT/SPEED=9600 TTA1: Using the  RS232 Login1Instead of opening a Chat window , you can use the function (RS232LOGIN  HOST USERNAME PASSWORD HOSTSYSTEMTYPE) to log onto the VAX.If you supply user name and password to the RS232LOGIN  function, you should not attempt type-in until the function has returned NIL.a.	To send a file to the VAX , type in the TTY window:(RS232PUTFILE  filename filetype protocol remote.command.string)b.	To receive a file from the VAX, type in the TTY window:(RS232GETFILE  filename filetype protocol remote.command.string)Example: To transfer file XYZ from an 1108 to the VAX, type in the TTY window:(RS232PUTFILE 'XYZ 'TEXT 'MODEM "MODEM XYZ/REC/DEV =TTA1:/ <CR>")To receive file TEC.com from VAX, type in the TTY window:(RS232GETFILE 'TEC.COM 'TEXT 'MODEM "MODEM TEC.COM/SEND/DEV=TTA1:/<CR>")(This page intentionally left blank)     (LIST ((PAGE NIL (PAPERSIZE Letter FOLIOINFO (ARABIC) STARTINGPAGE# 69) (0 0 612 792) ((FOLIO NIL (PARALOOKS (QUAD RIGHT) CHARLOOKS (SUPERSCRIPT 0 INVISIBLE OFF SELECTPOINT OFF PROTECTED OFF SIZE 10 FAMILY MODERN OVERLINE OFF STRIKEOUT OFF UNDERLINE OFF EXPANSION REGULAR SLOPE REGULAR WEIGHT MEDIUM INVERTED OFF USERINFO NIL STYLE NIL) FORMATINFO (ARABIC)) (180 204 288 36) NIL) (HEADING NIL (HEADINGTYPE FOOTINGR) (144 216 468 36) NIL) (TEXT NIL NIL (144 228 324 528) NIL))) (PAGE NIL (PAPERSIZE Letter FOLIOINFO (ARABIC)) (0 0 612 792) ((FOLIO NIL (PARALOOKS (QUAD LEFT) CHARLOOKS (SUPERSCRIPT 0 INVISIBLE OFF SELECTPOINT OFF PROTECTED OFF SIZE 10 FAMILY MODERN OVERLINE OFF STRIKEOUT OFF UNDERLINE OFF EXPANSION REGULAR SLOPE REGULAR WEIGHT MEDIUM INVERTED OFF USERINFO NIL STYLE NIL) FORMATINFO (ARABIC)) (144 204 288 36) NIL) (HEADING NIL (HEADINGTYPE FOOTINGV) (144 216 468 36) NIL) (HEADING NIL (HEADINGTYPE VERSOHEAD) (144 756 468 36) NIL) (TEXT NIL NIL (144 228 324 510) NIL))) (PAGE NIL (PAPERSIZE Letter FOLIOINFO (ARABIC)) (0 0 612 792) ((FOLIO NIL (PARALOOKS (QUAD RIGHT) CHARLOOKS (SUPERSCRIPT 0 INVISIBLE OFF SELECTPOINT OFF PROTECTED OFF SIZE 10 FAMILY MODERN OVERLINE OFF STRIKEOUT OFF UNDERLINE OFF EXPANSION REGULAR SLOPE REGULAR WEIGHT MEDIUM INVERTED OFF USERINFO NIL STYLE NIL) FORMATINFO (ARABIC)) (180 204 288 36) NIL) (HEADING NIL (HEADINGTYPE FOOTINGR) (144 216 468 36) NIL) (HEADING NIL (HEADINGTYPE RECTOHEAD) (144 756 468 36) NIL) (TEXT NIL NIL (144 228 324 510) NIL)))))      ; 1 f rD        f  r                          ( f fD                              )    D                    T         2 T TD 
+       ~  ˆ                T         1 T rD        r D                         : T TD         T  ê  ¥  ‰ &                          (    Œ                               : T TD         T  ê  ¥  ‰                            = T TD         T  f  ê  ¥  ‰                            1 T lD        l D                         . T TD       D                         (    D                              1 T TD        T D                         .    D       D                         .    D       D                         1 T TD         ~  ˆ                          4 l lD        l  ñ  ¥                          . T fD         f                          . T lD         l                          1 f rD        f  r                          . T fD 
+       f                          1 T rD        r D                         1 T fD 
+       f D                         (    D                              )    D                    T         . T TD                                 1 Ñ ÑD        l  Ñ                          ( x xD                              )             ‰Ï           T         ( ` `D                              1 Ñ êD        l  Ñ                          1 T TD        l  Ñ                          1    D        ~  ˆ                          1 T TD 
+       ~  ˆ                          1    D         ~  ˆ                          1 T TD         f  “                          1 T TD        ~  ˆ                          1 T TD        f  “                          1 T TD        x                            1 T TD        x                            1 T TD        f  “                          ( f fD                              (    D "                             (    D                              ( T TD                              ( T TD 
+                             (    D                              (    D H                             ( T TD $                             ( T TD                               ;    D           PAGEHEADING FOOTINGV               ;    D           PAGEHEADING FOOTINGR               (    D                              (    D                               ( T TD                             1 T TD 
+     DJ                         <    D             PAGEHEADING 	VERSOHEAD               <    D             PAGEHEADING 	RECTOHEAD               (                                            MODERN 
+       Ä  MODERN 
+      Ä  MODERN          MODERN 
+         MODERN          MODERN           MODERN          MODERN 
+         MODERN          MODERN 
+          	HELVETICA              4     HRULE.GETFN  MODERN                      4       
+      3     HRULE.GETFN  MODERN                      3       
+      :       
+      :     HRULE.GETFN  MODERN                      9       
+      9     HRULE.GETFN  MODERN                      8       	      2     HRULE.GETFN  MODERN                     7             1   Û    
+      0     HRULE.GETFN  MODERN                      /             6     HRULE.GETFN  MODERN                      .   Ä    
+      -  í    
+      -      
+      5   *          ,     HRULE.GETFN  MODERN                      .   b    
+             
+              
+      -       
+          ÷    
+      -          s    
+          *    
+      -          V    
+          {    
+          e    
+              
+      -       
+              
+         —    
+      -   ;    
+             
+              
+      -       
+          ]    
+      5             ,     HRULE.GETFN  MODERN                      .   G    
+             
+              
+             
+              
+      -  ë    
+      -       
+         $    
+          n    
+      5             ,     HRULE.GETFN  MODERN                      .   b    
+             
+              
+              
+              
+      -   [    
+          ß    
+              
+         [    
+      -  |    
+      5   4          ,     HRULE.GETFN  MODERN                      .  m    
+         O    
+         Ω    
+      -   .    
+         !    
+         ˆ    
+      -  ü    
+         ä    
+      -      
+                   ,     HRULE.GETFN  MODERN                      .  ë    
+      -  ^    
+      -  Ω    
+      -   ﬁ    
+                   ,     HRULE.GETFN  MODERN                      .   E    
+             
+      -  O    
+      5   )          ,     HRULE.GETFN  MODERN                      .   S    
+             
+      -   Ÿ    
+             
+      -   ¿    
+             
+              
+      -       
+          Z    
+          ´    
+      5             ,     HRULE.GETFN  MODERN                             
+      .      
+      +     HRULE.GETFN  MODERN 
+               
+      /             ,     HRULE.GETFN  MODERN                        1          ,     HRULE.GETFN  MODERN 
+                    .  :    
+             
+              
+             
+                   -   A    
+                    
+             
+             
+                          -   £    
+      -   ê    
+      -   í    
+      -  L    
+      -  √    
+      -  z    
+             
+             
+             
+             
+             
+             
+             
+             
+      -   8    
+         '          ,     HRULE.GETFN  MODERN 
+                    .  "    
+      -  4    
+      )   (    
+      '       
+      '       
+      '       
+      '       
+      '       
+      '       
+      ;       
+      (   á    
+      (   Ÿ    
+      (   ú    
+      &   %    
+      $        
+      '       
+      '       
+      '       
+      '       
+      '       
+      '       
+      %   Y    
+      %  ä    
+         &               HRULE.GETFN  MODERN                     "             "   È    
+      &       
+      $       
+      '       
+      '       
+      '       
+      '       
+      '       
+      '       
+      %   Z    
+      %      
+             
+             
+             
+             
+             
+             
+             
+             
+      %  t    
+         3             «    
+      
+       
+              
+         ê    
+      	       
+      	                                            	                                       
+             
+             
+             
+             
+             
+             
+             
+             
+             
+             
+             
+             
+             
+             
+             
+             
+             
+             
+             
+             
+             
+        =    
+      %       
+         7          #     HRULE.GETFN  MODERN                     "   ¶    
+         ;    
+         <    
+         G    
+      "   N    
+      "   0    
+         9    
+         9    
+      "   7    
+         ”    
+         I          #     HRULE.GETFN  MODERN 
+               
+      "   
+    
+         Ö    
+             
+      %       
+         I    
+      %   
+    
+         A    
+      *       
+              
+      *       
+         '    
+             
+         Y    
+      %   ä    
+      !             #     HRULE.GETFN  MODERN                        Ç    
+             
+         U    
+         H    
+             
+         Q    
+         E    
+          
+    
+         _    
+         =    
+         >    
+         Y    
+         B    
+         I    
+          !    
+          %    
+                    
+      6     HRULE.GETFN  MODERN 
+               
+      .   Ö    
+      -   Ü    
+         7    
+         A    
+         ;    
+         A    
+      -   O    
+         B    
+         :    
+         I    
+      ;       
+      ;       
+      ;       
+      ;       
+      ;       
+      ;       
+      ;       
+         %    
+        Q˘Nz∫

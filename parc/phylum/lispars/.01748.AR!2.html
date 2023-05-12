@@ -1,0 +1,11 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [phylum]&lt;LispARs>01748.AR!2</title>
+  </head>
+  <body>
+    <pre>
+Number: 1748Date:  2-Aug-84 12':30':28Submitter: sannella.PASource: Dietterich.paSubject: CHAT stuck in hard loop after attempt to KILLAssigned To: vanMelleAttn: ReleaseStatus: FixedIn/By: Problem Type: BugImpact: SeriousDifficulty: Frequency: IntermittentPriority: PerhapsSystem: CommunicationsSubsystem: PUP ProtocolsMachine: Disk: Lisp Version: Source Files: Microcode Version: Memory Size: File Server: Server Software Version: Disposition: '[bvm': presumed fixed by AR 1976]'["vanMelle" "30-Aug-84 17':20':46" Assigned% To': Attn': Status':(Open-&gt;Fixed) Disposition':]Description: 'Date': 31 Jul 84 11':38 PDT'From': Dietterich.pa'Subject': Lisp': CHAT stuck in hard loop after attempt to KILL'To': LispSupport.pa'cc': Dietterich.pa''Lisp System Date': 30-Jul-84 03':04':50'Machine': Dorado (LeParc)'Microcode version': 24,4'Memory size': 10000'Frequency': Intermittent'Impact': Near-fatal''I was running CHAT to MAXC2 (and from there to SUMEX-AIM via TN).  The connection to SUMEX seemed to hang.  For some dumb reason, I decided to just close the CHAT connection to MAXC.  I selected the CLOSE option on the middle-button menu but nothing happened.  I selected CLOSE on the right button menu.  That put it into some kind of loop in which it was going into GC every couple of seconds. I got a PSW and tried KILL, but this didn''t have any effect.  I managed to stop the thing by &uarr;C to RAID and &uarr;D.  The CHAT typein process was stuck in TAILP in RESETRESTORE in \BSP.PREPARE.OUTPUT in \BSP.GETNEXTBUFFER.  ''Note': I saw something similar to this happen to Jeff Shrager yesterday, except that when he did it, even &uarr;C didn''t work (I guess because CHAT was the current TTY process as well).  He had to abandon the lisp image.''--Tom''Workaround: Test Case: Edit-By: vanMelleEdit-Date: 30-Aug-84 17':20':46</pre>
+  </body>
+</html>

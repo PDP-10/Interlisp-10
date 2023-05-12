@@ -1,0 +1,11 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [phylum]&lt;LISP>KOTO>Lispusers>SNAPSCROLL!1</title>
+  </head>
+  <body>
+    <pre>
+(FILECREATED "28-Jun-84 23:20:55" {PHYLUM}&lt;SHRAGER&gt;LISP&gt;SNAPSCROLL.;1 1561         changes to:  (VARS SNAPSCROLLCOMS)		   (FNS SNAPSCROLLREPAINTFN SNAPSCROLL)		   (ADVICE SNAPW))(PRETTYCOMPRINT SNAPSCROLLCOMS)(RPAQQ SNAPSCROLLCOMS ((FNS SNAPSCROLL SNAPSCROLLREPAINTFN)		       (ADVISE SNAPW)))(DEFINEQ(SNAPSCROLL  [LAMBDA (W)                                                (* Jeff.Shrager "28-Jun-84 23:14")    (PROG ((WIDTH (WINDOWPROP W (QUOTE WIDTH)))	   (HEIGHT (WINDOWPROP W (QUOTE HEIGHT)))	   BITMAP)          (WINDOWPROP W (QUOTE BITMAP)		      (SETQ BITMAP (BITMAPCREATE WIDTH HEIGHT 1)))          (BITBLT W 0 0 BITMAP 0 0 WIDTH HEIGHT (QUOTE INPUT)		  (QUOTE REPLACE))          (WINDOWPROP W (QUOTE SCROLLFN)		      (QUOTE SCROLLBYREPAINTFN))          (WINDOWPROP W (QUOTE EXTENT)		      (create REGION			      LEFT &larr; 0			      BOTTOM &larr; 0			      WIDTH &larr; WIDTH			      HEIGHT &larr; HEIGHT))          (WINDOWPROP W (QUOTE REPAINTFN)		      (FUNCTION SNAPSCROLLREPAINTFN))          (RETURN W])(SNAPSCROLLREPAINTFN  [LAMBDA (W R)                                              (* Jeff.Shrager "28-Jun-84 23:19")    (BITBLT (WINDOWPROP W (QUOTE BITMAP))	    (fetch LEFT R)	    (fetch BOTTOM R)	    W	    (fetch LEFT R)	    (fetch BOTTOM R)	    (fetch WIDTH R)	    (fetch HEIGHT R)	    (QUOTE INPUT)	    (QUOTE REPLACE]))(PUTPROPS SNAPW READVICE (NIL (AROUND NIL (SNAPSCROLL *))))(READVISE SNAPW)(PUTPROPS SNAPSCROLL COPYRIGHT (NONE))(DECLARE: DONTCOPY  (FILEMAP (NIL (312 1418 (SNAPSCROLL 322 . 1049) (SNAPSCROLLREPAINTFN 1051 . 1416)))))STOP</pre>
+  </body>
+</html>

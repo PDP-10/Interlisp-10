@@ -1,0 +1,11 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [phylum]&lt;LispARs>00202.AR!3</title>
+  </head>
+  <body>
+    <pre>
+Number: 202Date: 19-Mar-84 18':27':02Submitter: Sannella.PASource: Masinter.paSubject: Closing T stream crashes systemLisp Version: Description: 'Date': 19 Mar 84 16':46 PST'From': Masinter.pa'Subject': [Nuyens.pa': Re': non-closable streams]'To': LISPSUPPORT'CC': LispCore&uarr;''Please submit AR': Closing T stream crashes system''with the following description':''(If it crashes your system, then either we should fix it or document it as dangerous. Priority': Possibly, Impact': Fatal, Frequency': Once)''Low priority because unlikely for users to do this except on purpose, but it is definitely a bug.''     ----- Forwarded Messages -----''Date': 19 Mar 84 16':05 PST'From': Nuyens.pa'Subject': Re': non-closable streams'In-reply-to': MASINTER.PA''s message of 18 MAR 84 23':28 PST'To': MASINTER.PA'cc': LispCore&uarr;.PA''I think you''ll find that one gets interesting results by closing the T stream.  Hardly a no-op.  I don''t want to trash my world right now trying it, but I saw Jim get in a weird state by doing it.''Greg''     ----- End of Forwarded Messages -----''Date': 20 Mar 84 19':55 PST'From': Kaplan.pa'Subject': AR 202':  closing T'To': Lispsupport''Fixed.  CLOSEF on all display streams is now a no-op.''But':  looking at the code, I don''t see how what Nuyens described could have happened.  CLOSEF already had a special check in it to make sure that it didn''t close T.'''Workaround: Test Case: Edit-By: Sannella.PAEdit-Date: 22-Mar-84  9':50':54Attn: Assigned To: In/By: AR 192Disposition: System: Operating SystemSubsystem: Generic File OperationsMachine: Disk: Microcode Version: Memory Size: File Server: Server Software Version: Difficulty: Frequency: OnceImpact: FatalPriority: PerhapsStatus: SupersededProblem Type: BugSource Files: </pre>
+  </body>
+</html>

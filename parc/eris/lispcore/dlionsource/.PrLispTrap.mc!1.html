@@ -1,0 +1,11 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [eris]&lt;LispCore>DLionSource>PrLispTrap.mc!1</title>
+  </head>
+  <body>
+    <pre>
+{File name PrLispTrap.mc -- for extra banksCreated by don --  24-Jan-84 10:48:52Last edited: 10-Jul-85 10:01:01}SetTask[0];PrLispTraps:	Rx &larr; RRot1 ErrnIBnStkp, ClrIntErr, CANCELBR[$, 0F],	c1, at[0];	Xbus &larr; Rx LRot0, XwdDisp,	c2;	Xbus &larr; MStatus, XLDisp, DISP2[PrCSParErr],	c3;	CANCELBR[$, 3],	c1, at[0, 4, PrCSParErr];	Q &larr; 0+1, KCtl &larr; 0, GOTO[PrSink],	c2;{MP9001}	DISP2[PrLispAddrErr, 1],	c1, at[1, 4, PrCSParErr];	Q &larr; 4, GOTO[PrSink],	c2, at[1, 4, PrLispAddrErr];{MP9004}	Q &larr; 5, GOTO[PrSink],	c2, at[3, 4, PrLispAddrErr];{MP9005}	CANCELBR[$, 3],	c1, at[2, 4, PrCSParErr];	Q &larr; 2, GOTO[PrSink],	c2;{MP9002}	CANCELBR[$, 3],	c1, at[3, 4, PrCSParErr];	Q &larr; 3, GOTO[PrSink],	c2;{MP9003}PrSink:	upTemp &larr; Q, L1 &larr; L1.PrSink,	c3;	,	c1;	PC &larr; PC - 1, PgCarryBr,	c2;	TT &larr; upVPClo, BRANCH[PrFixIt, PrSaveVPCforUI],	c3;	{ E N D }</pre>
+  </body>
+</html>

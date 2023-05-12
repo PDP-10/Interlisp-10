@@ -1,0 +1,11 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [eris]&lt;Lisp>Fugue.6>PATCHES>SAVEVMPATCH!1</title>
+  </head>
+  <body>
+    <pre>
+(FILECREATED "16-Jul-84 15:11:09" {ERIS}&lt;LISP&gt;FUGUE.6&gt;PATCHES&gt;SAVEVMPATCH.;1 1165         changes to:  (FNS SAVEVM)		   (VARS SAVEVMPATCHCOMS)      previous date: "16-Jul-84 15:09:42" {ERIS}&lt;LISP&gt;FUGUE.6&gt;PATCHES&gt;SAVEVMPATCH.;1)(* Copyright (c) 1984 by Xerox Corporation. All rights reserved.)(PRETTYCOMPRINT SAVEVMPATCHCOMS)(RPAQQ SAVEVMPATCHCOMS ((FNS SAVEVM)))(DEFINEQ(SAVEVM  (LAMBDA (RELEASEFLG)                                       (* JonL "25-Jun-84 02:27")    (DECLARE (GLOBALVARS \OPENFILES))          (* Save the virtual memory. This is similar to logging out, then back in, but is much faster, since it doesn't 	  lose any pages. Conceptually, this is like doing a sysout to Lisp.virtualmem)    (\USEREVENT (QUOTE BEFORESAVEVM))    (\DEVICEEVENT (QUOTE BEFORESAVEVM))    (COND      ((\FLUSHVM)	(\RESETKEYBOARD)                                     (* Returns T when starting up fresh)	(\DEVICEEVENT (QUOTE AFTERSAVEVM))	(SETQ \OPENFILES (\REVALIDATEFILELST \OPENFILES))	(\USEREVENT (QUOTE AFTERSAVEVM))	T)))))(PUTPROPS SAVEVMPATCH COPYRIGHT ("Xerox Corporation" 1984))(DECLARE: DONTCOPY  (FILEMAP (NIL (383 1083 (SAVEVM 393 . 1081)))))STOP</pre>
+  </body>
+</html>

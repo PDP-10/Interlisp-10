@@ -1,0 +1,11 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [eris]&lt;LispCore>DLionSource>StartLisp12K.mc!1</title>
+  </head>
+  <body>
+    <pre>
+{File name:  &lt;tajo&gt;StartLisp12K.mc don 29-Dec-83 10:17:06last modified by don    13-Mar-84 14:58:44 added logoutlast modified by don    8-Feb-84 18:29:05 for LCSlast modified by don    17-Sep-85 10:01:54 Removed Kernel reserved -- use HiRes. }SetTask[0];StartAddress[Germ];Germ:	TT{0FF00} &larr; ~0FF, CANCELBR[SetMDS,0F],	c1, at[0,2,Germ];	TT{0FF00}, CANCELBR[SetMDS,0F],	c1, at[1,2,Germ];SetMDS:	uFF00 &larr; TT,	c2;	Rx &larr; 41,	c3;	DCtl &larr; Rx LRot0,	c1;	Rx &larr; 40,	c2;	Rx &larr; Rx LRot8,	c3;	ClrIntErr,	c1;	IOPCtl &larr; IOPInMode,	c2;	rhTT &larr; TT &larr; uIOPage,	c3;{set all keys up; 1403D thru 14043 &larr; -1}	stackP &larr; 0,	c1;	TOSH &larr; 0,	c2;	Q &larr; 7,	c3;KeyLoop:	MAR &larr; [rhTT,IOPage.keyBitsm1+Q], BRANCH[$,KeyDone],	c1;	MDR &larr; L xor ~L, CANCELBR[$,0],	c2;	Q &larr; Q - 1, ZeroBr, GOTO[KeyLoop],	c3;KeyDone:	PC &larr; 0+1, CANCELBR[$,0],	c2;	uWDC &larr; PC,	c3;	Rx &larr; 88, CANCELBR[$, 0F],	c1;	Rx &larr; Rx LRot8,	c2;	PC &larr; 1 + PC + PC16,	c3;	MAR &larr; [rhTT, 0EB{WakeupLoc}+0],	c1;	MDR &larr; 0,	c2;	uWP &larr; 0,	c3;	MAR &larr; [rhTT, 0EC{DBitsLoc}+0],	c1;	MDR &larr; uFF00{was 0},	c2;	Q &larr; 71,	c3;	MAR &larr; [rhTT, 0ED{BorderLoc}+0],	c1;	MDR &larr; Rx{8800} or 22,	c2;	TOS &larr; LH.FMP,	c3;	DCtl&larr; Q LRot0,	c1;	TOS &larr; TOS LRot8,	c2;	TOS &larr; TOS or RH.FMP,	c3;Stall:	MAR &larr; [rhTT, IOPage.MP+0], BRANCH[Stall0, StallContinue],	c1;Stall0:	MDR &larr; TOS or 1, GOTO[StallJn],	c2;StallJn:	Rx &larr; Rx  - 1, ZeroBr, BRANCH[Stall, StallDone],	c3;StallContinue:	Q &larr; Q - 1, ZeroBr, GOTO[StallJn],	c2;Burdock:	IOPCtl &larr; 1, CANCELBR[$, 0F],	c1;	Rx &larr; 41,	c2;	DCtl &larr; Rx LRot0, TOSH &larr; 0,	c3;StallDone:	TOS &larr; KTval, CANCELBR[$],	c1;	Q &larr; 0,	c2;	TT &larr; 8,				c3;	Bank &larr; LispStartBank,,	c1;	uFLmode &larr; TT,	c2;	uSTATE &larr; 0, CROSS[LispStart],	c3;Off:	MAR &larr; [rhRx, IOPage.ProcessorCommand+0],	c1, at[LOGOUT];	MDR{4} &larr;  4,	c2;	Noop,  GOTO[Off],	c3;		{END}</pre>
+  </body>
+</html>

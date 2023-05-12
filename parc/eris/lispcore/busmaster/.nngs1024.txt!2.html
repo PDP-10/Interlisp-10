@@ -1,0 +1,11 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [eris]&lt;LispCore>busmaster>nngs1024.txt!2</title>
+  </head>
+  <body>
+    <pre>
+nngs1024.txtMemory Map for 1024x32 Number Nine Graphics cardsA000-AFFFF	64K Display bufferC0000		GDC Write Parameter, Read StatusC0001		GDC Write Command, Read DataC0400		Bank select  (4 bits)C0700	3400	FF	ZOOM 1	(FF default, 00 more blowup)C0701	3401	FF	ZOOM 2	(FF default, 00 more blowup)C0702	3402	FF	ZOOM 4	(FF default, 00 more blowup)C0703	3403	FF	ZOOM 8	(FF default, 00 more blowup)C0704	3404	FF	MODE 1	lsb (00 or FF) see belowC0705	3405	00	MODE 2	msb (00 or FF) see belowC0706	3406	00	OVERLAY Select (00 ls nibble, FF ms nibble)C0707	3407	FF	BUS ENABLE (00 disable, FF enable)	C1000-C1FFF	16x256 x 8 bit Red Look up tableC2000-C2FFF	16x256 x 8 bit Green Look up tableC3000-C3FFF	16x256 x 8 bit Blue Look up tableMODE BANK ADDR	Data---- ---- ----	----Gun mode		successive bytes pixels  00 00XX XXXX	Red bytes  00 01XX XXXX	Green bytes  00 10XX XXXX	Blue bytes  00 11XX XXXX	Overlay bytes  Concurrent mode: 8 bit emulation (overlay active) (clear faster)  01 00XX XXXX	Read Red; Write all Red, Green and Blue bytes  01 01XX XXXX	Read Green; Write all Red, Green and Blue bytes  01 10XX XXXX	Read Blue; Write all Red, Green and Blue bytes  01 11XX XXXX	Overlay bytes  Pixel mode  10 00XX XXXX	Top 1/4 screen R byte, G byte, B byte, O byte, R ...  10 01XX XXXX	2nd 1/4 screen  10 10XX XXXX	3rd 1/4 screen  10 11XX XXXX	bottom 1/4 screen  Pixel mode Write Protect overlay  11 00XX XXXX	Top 1/4 screen R, G, B, O (write protected), R ...  11 01XX XXXX	2nd 1/4 screen  11 10XX XXXX	3rd 1/4 screen  11 11XX XXXX	bottom 1/4 screen    Color Look Up table (LUT)Three Look Up tables: 4K x 8 each gun.12 bit address in and 8 bit data out.4 bits are the same for each color gun (high or low nib of overlay byte)8 bits for each color gun come from the R, G and B bytes of the pixel</pre>
+  </body>
+</html>

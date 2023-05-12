@@ -1,0 +1,11 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [phylum]&lt;LispARs>02262.AR!1</title>
+  </head>
+  <body>
+    <pre>
+Number: 2262Date: 25-Sep-84 13':12':29Submitter: Sannella.PASource: JonL.paSubject: COPYDEF shouldn''t substitute into QUOTEified expressionsAssigned To: Attn: Masinter, KaplanStatus: OpenIn/By: Problem Type: BugImpact: ModerateDifficulty: Frequency: Priority: PerhapsSystem: Programming EnvironmentSubsystem: File PackageMachine: 1132Disk: Lisp Version: 24-Sep-84 09':49':01Source Files: Microcode Version: 5124Memory Size: 4096File Server: Server Software Version: Disposition: Description: 'Date': 24 Sep 84 23':01 PDT'From': JonL.pa'Subject': Lisp': COPYDEF unwisely substitutes into QUOTEified expressions'To': LispSupport.pa'cc': JonL.pa,Bird.pasa, Masinter.pa''Lisp System Date': 23-Sep-84 17':48':34'Machine': Dorado (Pool-CIS)'Microcode version': 24,4'Memory size': 10000'Frequency':  Always'Impact':  Serious''(PUTPROPS FOO MACRO ((X) (GeneralExpander X ''FOO]'(COPYDEF ''FOO ''foo ''MACROS]''will convert ''FOO into ''foo.  This is a general problem for COPYDEF, that it does a SUBST rather than a CODE.SUBST.  [Actually, CODE.SUBST is still a "stubb" that hasn''t been fleshd out yet to "walk" down code doing the substition only a evaluable places.]''-- JonL --'Workaround: Test Case: Edit-By: Edit-Date: </pre>
+  </body>
+</html>

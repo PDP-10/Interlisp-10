@@ -1,0 +1,39 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>[eris]&lt;LispUsers>BROWSER.BRAVO!1</title>
+  </head>
+  <body>
+    <div style="width: 442pt; margin-left: 84pt; margin-top: 8pt; text-align: justify">
+<span style="font: 10pt serif">Browser documentation</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 8pt; text-align: justify">
+<span style="font: 10pt serif">Kurt A. VanLehn<br>Last revised: January 1, 1982</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 20pt; text-align: justify">
+<span style="font: 10pt monospace">&lt;LISPUSERS&gt;BROWSER</span><span style="font: 10pt serif"> modifies the </span><span style="font: 10pt monospace">SHOW PATHS</span><span style="font: 10pt serif"> command of Masterscope  so that the command&rsquo;s output is displayed as an undirected graph.  It loads </span><span style="font: 10pt monospace">&lt;LISPUSERS&gt;GRAPHER</span><span style="font: 10pt serif">.  The Browser calls </span><span style="font: 10pt monospace">LAYOUTFOREST</span><span style="font: 10pt serif"> to generate a graph showing the calling hierarchy.  The format is controled by the two variables </span><span style="font: 10pt monospace">BROWSERFORMAT</span><span style="font: 10pt serif"> and </span><span style="font: 10pt monospace">BROWSERBOXING</span><span style="font: 10pt serif"> (which are set intially to display horizontally and to box functions that occur more than once in the graph).  The graph is then displayed using </span><span style="font: 10pt monospace">SHOWGRAPH</span><span style="font: 10pt serif">.  In general, the Browser creates a new window for each </span><span style="font: 10pt monospace">SHOW PATHS</span><span style="font: 10pt serif"> command, but will reuse a window if that window has an earlier instance of the same </span><span style="font: 10pt monospace">SHOW PATHS</span><span style="font: 10pt serif"> command displayed in it.  The windows can be reshaped and scrolled with the normal window menu commands.  </span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 20pt; text-align: justify">
+<span style="font: 10pt serif">The windows are "active" in that nodes in the graph (i.e., functions) can be selected for printing or editting using the mouse.  The letting up on the red button causes the nearest function to be pretty printed in the Browser&rsquo;s printout window.  Selecting the same function again will describe the function, using the Masterscope </span><span style="font: 10pt monospace">DESCRIBE</span><span style="font: 10pt serif"> command, in the Browser&rsquo;s describe window.  Selecting a function with the yellow button will call the display editor on it.  The graph is not updated automatically when one returns from the editor; the user must give the </span><span style="font: 10pt monospace">SHOW PATHS</span><span style="font: 10pt serif"> command over if desired.   </span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 20pt; text-align: justify">
+<span style="font: 10pt serif">The Browser modification to Masterscope can be undone by calling </span><span style="font: 10pt monospace">(BROWSER NIL)</span><span style="font: 10pt serif">.  This restores the teletype-oriented output of </span><span style="font: 10pt monospace">SHOW</span><span style="font: 10pt serif"> </span><span style="font: 10pt monospace">PATHS</span><span style="font: 10pt serif">.  </span><span style="font: 10pt monospace">(BROWSER T)</span><span style="font: 10pt serif"> turns the Browser back on.</span></div>
+<script>function do_tabs() { // unit = px
+  var tabs = document.getElementsByClassName("tab");
+  for (var i = 0; i < tabs.length; ++i) {
+    var span = tabs[i];
+    var val = span.getAttribute("val");
+    if (val == null) console.log("Couldn't get val");
+    var rect = span.getBoundingClientRect();
+    var tabstop;
+    if (val > 0) tabstop = Math.ceil(rect.left / val) * val;
+    else tabstop = -val;
+    console.log("do_tabs", val, tabstop)
+    if (tabstop > 0) {
+      var width = tabstop - rect.left;
+      span.style.display = "inline-block";
+      span.style.width = width + "px";
+    }
+  }
+}
+do_tabs();
+</script>
+  </body>
+</html>

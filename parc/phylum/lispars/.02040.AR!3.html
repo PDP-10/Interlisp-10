@@ -1,0 +1,11 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [phylum]&lt;LispARs>02040.AR!3</title>
+  </head>
+  <body>
+    <pre>
+Number: 2040Date:  2-Sep-84 14':39':33Submitter: MasinterSource: Masinter, HalvorsenSubject: COPYFILE({MARXC}TEST {MAXC}TEST) gives ILLEGAL ARG (EOL LF)Assigned To: vanMelleAttn: ReleaseStatus: FixedIn/By: DPUPFTP dated 9/26/84Problem Type: BugImpact: Difficulty: EasyFrequency: EverytimePriority: HopefullySystem: CommunicationsSubsystem: PUP ProtocolsMachine: 1108Disk: Lisp Version: 31-Aug-84 16':17':57Source Files: Microcode Version: 5124Memory Size: 3071File Server: OtherServer Software Version: Disposition: '["Masinter" " 2-Sep-84 15':31':59" Source': Description':]'["vanMelle" "26-Sep-84 16':04':58" Assigned% To': Attn': Status':(Open-&gt;Fixed) In/By': Difficulty':(-&gt;Easy) Frequency':(-&gt;Everytime) Priority':(-&gt;Hopefully)]Description: MARXC is a Vax/Unix (EOL LF); MAXC is Tenex (EOL CRLF). Apparently the Maxc FTP server doesn''t like (EOL LF), but \FTP I think should just try again with another EOL. The "EOL" parameter in OPENFILE should be treated as a ''hint''.  (This also needs to be documented under the description of the PARAMETERS description of OPENFILE. While we are at it, why don''t we get rid of BYTESIZE as a separate arg, and define it''(OPENFILE file access recog parameters dummy)'and have code'(if (SMALLP parameters) then (SETQ parameters `(BYTESIZE , parameters) ., dummy))  elseif (NULL parameters) then (SETQ parameters dummy]''at the beginning to find all of the OPENFILEs and OPENSTREAMs that supplied a bytesize and convert them.'''Date': 20 Aug 84 18':17 PDT'From': halvorsen.pa'Subject': Lisp': Copyfile/OPENSTREAM breaks from VAX to MAXC'To': LispSupport.pa'cc': halvorsen.pa''OPENSTREAM breaks with illegal arg error': (EOL LF)'Workaround: Test Case: Edit-By: vanMelleEdit-Date: 26-Sep-84 16':05':00</pre>
+  </body>
+</html>

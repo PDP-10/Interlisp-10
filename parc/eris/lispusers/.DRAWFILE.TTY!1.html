@@ -1,0 +1,11 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [eris]&lt;LispUsers>DRAWFILE.TTY!1</title>
+  </head>
+  <body>
+    <pre>
+DRAWFILEContains two functions for reading and writing (color) DRAW-format files intoa Lisp figure data-structure.(READDRAW file fonts dashing)  Reads the (color) DRAW-format file into Lisp.     Fonts is an alist that maps draw font numbers into font-name font-ascent   pairs.  Dashing is the Interlisp-D style dashing characteristic   to be used for dashed curves.  If fonts is not given, the value of   DEFAULTDRAWFONTS is used, and similarly, DEFAULTDASHING is used for dashing.(WRITEDRAW file figure fonts)  Writes the Lisp figure data-structure onto file,   which may then be read into DRAW and displayed, edited, printed, etc.   Fonts is interpreted as in READDRAW, except that the mappings are   done in reverse.A Lisp figure data-structure is a list of figure elements, each one of whichis headed by either the atom CURVE, if it is a spline curve, or TEXT, if itis a text string.  A figure element may also be a list of figure elements, sothat do figures may be ORed together by either LIST or APPEND.The remainder of the elements are defined by the recordsCURVE, TEXT, and POSITION, which are included in this file.  Note that theserecords are not present on the compiled file--you should loadfrom or importthis file to get them, and then copy them to your own file of functions thatprocess figures.This figure format is identical to the one used by the Interlisp-Dfigure package for displaying, transforming, and editting figures.Comments and suggestions to Ron Kaplan</pre>
+  </body>
+</html>

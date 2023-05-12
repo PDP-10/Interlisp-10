@@ -1,0 +1,75 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>[eris]&lt;LispUsers>RPC.BRAVO!1</title>
+  </head>
+  <body>
+    <div style="width: 442pt; margin-left: 84pt; margin-top: 0pt; text-align: center">
+<span style="font: bold 10pt serif">The </span><span style="font: bold 12pt serif">Remote Procedure Call</span><span style="font: bold 10pt serif"> package</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 12pt; text-align: center">
+<span style="font: 10pt serif">Henry Thompson</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 12pt; text-align: left">
+<span style="font: 8pt serif">File:</span><span class="tab" val="24"></span><span style="font: 8pt serif">{ivy}&lt;hthompson&gt;lisp&gt;rpc&gt;rpc.bravo, .press<br>Revised:</span><span class="tab" val="24"></span><span style="font: 8pt serif">January 23, 1983  12:19 AM</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 12pt; text-align: justify">
+<span style="font: bold 10pt serif; text-decoration: underline">Remote Procedure Calls</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 12pt; text-align: justify">
+<span style="font: 10pt serif">The file </span><span style="font: 10pt monospace">&lt;lispusers&gt;rpc.dcom</span><span style="font: 10pt serif"> implements the (documentation forthcoming - ref. Andrew Birrell) Cedar RPC transport mechanism.  Its architecture is copied more or less directly from the Cedar implementation, to which reference should be made in difficulty.  It is designed to be used in conjunction with stubs produced by the Interlisp-D version of Lupine (see below) to provide remote service.</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 12pt; text-align: justify">
+<span style="font: 10pt serif">To start the RPC world, call </span><span style="font: 10pt monospace">InitRPC()</span><span style="font: 10pt serif"> - to turn it off, use </span><span style="font: 10pt monospace">StopRPC().</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 12pt; text-align: justify">
+<span style="font: bold 10pt serif; text-decoration: underline">L</span><span style="font: bold 8pt serif; text-decoration: underline">UPINE - </span><span style="font: bold 10pt serif; text-decoration: underline">Producing stubs</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 12pt; text-align: justify">
+<span style="font: 10pt serif">The goal of all this is to allow an Interlisp-D system to export services to or import services from remote machines.  The file </span><span style="font: 10pt monospace">&lt;lispusers&gt;lupine.dcom</span><span style="font: 10pt serif"> implements a stub creation mechanism modeled on the Cedar version (ref. Bruce Nelson&rsquo;s thesis (CSL-81-9) and the Lupine User&rsquo;s Guide - [indigo]&lt;cedar&gt;documentation&gt;LupineUsersGuide.press.).  In particular the function </span><span style="font: 10pt monospace">Lupine(packageName functionSpecList signalSpecList lupineTypeString)</span><span style="font: 10pt serif"> will produce a set of server stubs to interface between the RPC transport mechanisms and a set of vanilla Lisp functions, and a set of client stubs to communicate between callers of those functions and the RPC transpost mechanism.  This allows the network to intervene between the caller and the callee.  </span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 12pt; text-align: justify">
+<span style="font: 10pt serif">The crucial point to comprehend in the RPC world is that the semantics of a remote call are the same as the semantics of a local call - all the effort is directed at hiding the fact that anything out of the ordinary is going on - pay no attention to the man behind the curtain.</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 12pt; text-align: justify">
+<span style="font: 10pt serif">A trivial example will demonstrate the basic story - suppose we have the following Cedar interface spec:</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 12pt; text-align: left">
+<span style="font: 10pt monospace">Trivial: DEFINITIONS =<br><br>BEGIN<br>Trivial: PROC[arg1: INT, arg2: Rope.ROPE] RETURNS[result: BOOLEAN];<br><br>TrivialFailure: TYPE = { badNum, badString };<br><br>TrivialFailed: SIGNAL[why: TrivialFailure];<br><br>END.</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 12pt; text-align: left">
+<span style="font: 10pt serif">Translating this with Cedar Lupine will produce client and server interfaces to the RPC transport mechanisms.  To plug into those with from Lisp, or to plug Lisp to Lisp, we must supply the same information as is contained in the Cedar interface spec. to Lisp.  The following records from Lisp Lupine are used to specify an interface:</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 12pt; text-align: left">
+<span style="font: 10pt monospace">(RECORD FunctionSpec (fn args result resultArg))<br>(RECORD ArgSpec (argName argType argParm))<br>(RECORD ResultSpec (resRecord . resBits))<br>(RECORD ResBit (resField resType resParm))</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 12pt; text-align: justify">
+<span style="font: 10pt serif">The following are the equivalent for Lisp Lupine of the above interface spec:</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 12pt; text-align: left">
+<span style="font: 10pt monospace">(RPAQQ TrivialSpec (<br></span><span class="tab" val="24"></span><span style="font: 10pt monospace">(Trivial ((arg1 FIXP)(arg2 STRING)) BOOLEAN)  ))<br>(RPAQQ TrivialSignals (<br></span><span class="tab" val="24"></span><span style="font: 10pt monospace">(TrivialFailed ENUMERATION (badNum badString) NIL)  ))</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 12pt; text-align: justify">
+<span style="font: 10pt serif">The same format is used for both functions and signals, since signals are just functions by another name.  Signals are described in </span><span style="font: 10pt monospace">&lt;lispusers&gt;signal.press</span><span style="font: 10pt serif">.</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 12pt; text-align: justify">
+<span style="font: 10pt serif">The types available are</span><span style="font: 10pt monospace"> </span><span style="font: 10pt serif">{</span><span style="font: 10pt monospace">SSMALLP FIXP BOOLEAN STRING ATOM STREAM ENUMERATION</span><span style="font: 10pt serif">}, where </span><span style="font: 10pt monospace">SSMALLP</span><span style="font: 10pt serif"> is -2</span><span style="font: 10pt serif; vertical-align: 4pt">15</span><span style="font: 10pt serif"> - 2</span><span style="font: 10pt serif; vertical-align: 4pt">15</span><span style="font: 10pt serif">-1, and </span><span style="font: 10pt monospace">STREAM</span><span style="font: 10pt serif"> is like string but goes directly onto a stream.  The equivalent Cedar types are </span><span style="font: 10pt monospace">{INTEGER INT BOOLEAN Rope.ROPE ATOM Rope.ROPE &lt;enumerated type&gt;}</span><span style="font: 10pt serif">.  On the Lisp side, the latter two types take and additional specification - the name of the stream to use in the </span><span style="font: 10pt monospace">STREAM</span><span style="font: 10pt serif"> case, and the set of values in the </span><span style="font: 10pt monospace">ENUMERATION</span><span style="font: 10pt serif"> case.</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 12pt; text-align: justify">
+<span style="font: 10pt serif">The syntax of the spec is confused by the necessity for distinguishing single from multiple return values, and atomic from compound arguments to signals.  Thus the </span><span style="font: 10pt sans-serif">result</span><span style="font: 10pt serif"> field may either have a complex specification, giving the record name and field specifications for unpicking a multiple return, or it may simply give the type of a single return.  In the latter case, the </span><span style="font: 10pt sans-serif">resultArg</span><span style="font: 10pt serif"> field is used for the parameter of the type, if any.  This option of single vs. multiple is present for both the </span><span style="font: 10pt sans-serif">args</span><span style="font: 10pt serif"> and </span><span style="font: 10pt sans-serif">result</span><span style="font: 10pt serif"> fields of a signal spec, as the function Si</span><span style="font: 10pt sans-serif">gnal</span><span style="font: 10pt serif"> itself has only one parameter for the argument(s) to the signal being raised, so if this parameter is compound it too must have a record for unpicking and/or constructing it.  This leads to the following additional complexity, that if the single argument to a signal requires a parameter, then the rest of the spec. is displaced to make room for it.  This is shown in the example above, where the single argument is an enumerated type.  The </span><span style="font: 10pt sans-serif">NIL</span><span style="font: 10pt serif"> is the result spec. - any one of function arg, signal arg, function result, or signal result may be NIL.</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 12pt; text-align: justify">
+<span style="font: 10pt serif">If we call </span><span style="font: 10pt monospace">(Lupine &rsquo;Trivial TrivialSpec TrivialSignals "magic-string") </span><span style="font: 10pt serif">we will get back the names of a pair of filecoms for all the necessary stubs etc.  The </span><span style="font: italic 10pt serif">magic-string</span><span style="font: 10pt serif"> will be used as a default in the process of matching server and client at the time of initial connection.  If you want to allow it to default to the same value as the default generated by Cedar Lupine, you can read it out of the file </span><span style="font: 10pt monospace">TrivialRpcClientImpl.mesa</span><span style="font: 10pt serif">, at the point in the definition of </span><span style="font: 10pt monospace">ImportInterface</span><span style="font: 10pt serif"> where it says:</span></div>
+<div style="width: 405pt; margin-left: 121pt; margin-top: 12pt; text-align: justify">
+<span style="font: 10pt monospace">type:  IF ~IsNull[type]<br></span><span class="tab" val="24"></span><span style="font: 10pt monospace">THEN type ELSE "magic-string"L,</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 12pt; text-align: justify">
+<span style="font: 10pt serif">To actually export the interface so that clients can call you, you must create an instance of the record </span><span style="font: 10pt monospace">InterfaceName</span><span style="font: 10pt serif">, with the field </span><span style="font: 10pt monospace">instance</span><span style="font: 10pt serif"> set to the name of the service you wish to provide, which should be a Grapevine rName.  Then you can call </span><span style="font: 10pt monospace">ExportTrivial(&lt;the InterfaceName&gt; &lt;user&gt; &lt;password&gt;)</span><span style="font: 10pt serif">, where the user and password are owners of the rName in the interface.  Likewise to import an interface exported by someone else, use </span><span style="font: 10pt monospace">ImportTrivial(&lt;the InterfaceName&gt;).</span><span style="font: 10pt serif">  See the forthcoming Cedar RPC documentation for a discussion of all the options with respect to establishing connections.</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 12pt; text-align: justify">
+<span style="font: 10pt serif">A complete example is the easiest way to understand how all this works.  </span><span style="font: 10pt monospace">{ivy}&lt;hthompson&gt;lisp&gt;rpc&gt;simple </span><span style="font: 10pt serif">and </span><span style="font: 10pt sans-serif">...&gt;simpleuser</span><span style="font: 10pt serif"> are the basis for such an example.  The functions in </span><span style="font: 10pt sans-serif">simpleuser</span><span style="font: 10pt serif"> call the functions in </span><span style="font: 10pt sans-serif">simple</span><span style="font: 10pt serif">.  </span><span style="font: 10pt sans-serif">simple</span><span style="font: 10pt serif"> contains the necessary arguments for </span><span style="font: 10pt sans-serif">Lupine</span><span style="font: 10pt serif">.  </span><span style="font: 10pt sans-serif">...&gt;simpleclient</span><span style="font: 10pt serif"> and </span><span style="font: 10pt sans-serif">...&gt;simpleserver</span><span style="font: 10pt serif"> contain the stubs generated by </span><span style="font: 10pt sans-serif">Lupine</span><span style="font: 10pt serif">.  </span><span style="font: 10pt sans-serif">simpleuser </span><span style="font: 10pt serif">and</span><span style="font: 10pt sans-serif"> simpleclient</span><span style="font: 10pt serif"> would be loaded into one machine, and </span><span style="font: 10pt sans-serif">simple</span><span style="font: 10pt serif"> and </span><span style="font: 10pt sans-serif">simpleserver</span><span style="font: 10pt serif"> into another.   </span><span style="font: 10pt monospace">{ivy}&lt;hthompson&gt;cedar&gt;rpc&gt;simple.df</span><span style="font: 10pt serif"> is a directory of all the Cedar files needed to make up the equivalent server and/or client in Cedar.</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 12pt; text-align: justify">
+<span style="font: 10pt serif">Messages to </span><span style="font: 10pt monospace">HThompson.pa</span></div>
+<script>function do_tabs() { // unit = px
+  var tabs = document.getElementsByClassName("tab");
+  for (var i = 0; i < tabs.length; ++i) {
+    var span = tabs[i];
+    var val = span.getAttribute("val");
+    if (val == null) console.log("Couldn't get val");
+    var rect = span.getBoundingClientRect();
+    var tabstop;
+    if (val > 0) tabstop = Math.ceil(rect.left / val) * val;
+    else tabstop = -val;
+    console.log("do_tabs", val, tabstop)
+    if (tabstop > 0) {
+      var width = tabstop - rect.left;
+      span.style.display = "inline-block";
+      span.style.width = width + "px";
+    }
+  }
+}
+do_tabs();
+</script>
+  </body>
+</html>

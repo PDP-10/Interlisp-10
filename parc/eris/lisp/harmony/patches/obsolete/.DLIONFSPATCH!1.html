@@ -1,0 +1,11 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [eris]&lt;Lisp>Harmony>Patches>Obsolete>DLIONFSPATCH!1</title>
+  </head>
+  <body>
+    <pre>
+(FILECREATED "31-Oct-84 15:12:33" {ERIS}&lt;STANSBURY&gt;HARMONYDFS&gt;DLIONFSPATCH.;1 1929         changes to:  (VARS DLIONFSPATCHCOMS))(* Copyright (c) 1984 by Xerox Corporation. All rights reserved.)(PRETTYCOMPRINT DLIONFSPATCHCOMS)(RPAQQ DLIONFSPATCHCOMS ((DECLARE: EVAL@COMPILE DONTCOPY (FILES (LOADCOMP)								DLIONFS))			 (FNS \DFSGetStreamForFile)))(DECLARE: EVAL@COMPILE DONTCOPY (FILESLOAD (LOADCOMP)	   DLIONFS))(DEFINEQ(\DFSGetStreamForFile  [LAMBDA (NAME RECOG ACCESS OLDSTREAM CREATEFLG PAGES OTHERINFO)                                                             (* hts: "30-Oct-84 14:21")                                                             (* Creates a STREAM for dsk file NAME, creating it if 							     necessary when CREATEFLG is true.)    (PROG ((DIROFD (\DFSFileNameToDirectory NAME))	   FS fileID alreadyOpenStream)          (if (NOT DIROFD)	      then (RETURN NIL))          (SETQ FS (\DFSFileSpec NAME RECOG DIROFD))          (RETURN (COND		    [(fetch FSDIRPTR of FS)          (* * If the directory code found a pointer into the directory, then the file already exists;	  just open it up)		      (\DFSOpenOldFile FS (\DFSReadFileID (GetDirectory (fetch PARTNUM									   of (fetch UNAME										 of FS)))							  (fetch FSDIRPTR of FS]		    ((NULL (fetch VERSION of (fetch UNAME of FS)))		      NIL)		    ((IGREATERP (fetch VERSION of (fetch UNAME of FS))				MAX.SMALLP)		      (printout NIL "Version number limit is 65535 on 1108 File System" T)		      (DiskError "FILE SYSTEM RESOURCES EXCEEDED" FILE))		    (CREATEFLG (\DFSCreateFile (fetch (DFSFileSpec UNAME) of FS)					       PAGES OTHERINFO]))(PUTPROPS DLIONFSPATCH COPYRIGHT ("Xerox Corporation" 1984))(DECLARE: DONTCOPY  (FILEMAP (NIL (441 1846 (\DFSGetStreamForFile 451 . 1844)))))STOP</pre>
+  </body>
+</html>

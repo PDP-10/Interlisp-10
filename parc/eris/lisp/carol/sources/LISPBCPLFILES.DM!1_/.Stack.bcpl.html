@@ -1,0 +1,11 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [eris]&lt;Lisp>Carol>SOURCES>LISPBCPLFILES.DM!1>Stack.bcpl</title>
+  </head>
+  <body>
+    <pre>
+// Stack manipulation routines// Last change March 15, 1983  12:23 PM by van Melle// Last change December 14, 1982  3:27 PM by van Melle// Deleted obsolete subrs January 7, 1982  11:25 PM by van Melle// Allegro change August 2, 1981  11:15 PM by Beau Sheil// Last change July 19, 1981  7:23 PM by Beau Sheil// Last change July 17, 1981  2:02 PM by Beau Sheil// Last change June 2, 1981  3:56 PM by Beau Sheil// Post Tone change April 5, 1981  4:42 PM by Beau Sheil	get "LispBcpl.decl"	get "Stats.decl"external [		// declared herein	CONTEXTSWITCH			// SUBR (index) (obsolete)	StackOverflow			// Punt Subr (obsolete)	CtxtSwitch			// internal			// declared elsewhere	IGetBase; IPutBase	SmallUnbox; MkSmallPos	RAIDCode; GetStkBlkType			// statics	@lvNIL 	]let CONTEXTSWITCH(lvI) = valof		// switches context I and current FXP  [  CtxtSwitch(SmallUnbox(lvI))  resultis lvI  ]and CtxtSwitch(index) be  [  let newCFXP = IGetBase(IFPCurrentFXP+index)  test GetStkBlkType(newCFXP) eq FxtnBlock     ifso [	IPutBase(IFPCurrentFXP+index, IGetBase(IFPCurrentFXP))	IPutBase(IFPCurrentFXP, newCFXP)	 ]   ifnot RAIDCode ("Attempt to switch to damaged context", MkSmallPos(newCFXP))  ]// StackOverflow ensures at least N free words after current FXP, either by// collapsing free blocks and adding new stack pages, or by moving it// to another part of the stack. If the frame is copied, it will have// its quick return bit turned OFF.  ** Now done in Lisp **and StackOverflow(lvN) = RAIDCode("Stack ovflw punt")</pre>
+  </body>
+</html>

@@ -1,0 +1,181 @@
+filed on {rose}<lisp>Fugue6>DOC>SoftwareInstallation.TED3.  SOFTWARE INSTALLATIONThe installation of software on the 1108 is a three-step process. First the rigid disk must be partitioned into logical volumes.  Second, the Diagnostic  volume must be loaded with software for running diagnostic tests and initializing the local disk with Lisp software.  Finally each Lisp volume must be initialized with  a fresh Interlisp-D sysout.  As the Xerox 1108 arrives pre-partitioned and loaded with Interlisp-D software the user is usually concerned only with the last of these three operations.  However under certain circumstances  it  is necessary to re-partition  the rigid disk and install software  in the Diagnostic volume.  This chapter describes the entire installation sequence in detail.SETTING THE TIMEOccasionally it is necessary for users that are not on a network to set the time after booting the "Installation Utility" floppy.    The user will be prompted for time in the following format.         Time zone offset from Greenwich  (-12-12):  enter the appropriate value, e.g. -8 for PST.       First day of daylight savings time (0-366): 121  press RETURN       Last day of daylight savings time (0-366): 305  press RETURN       Please enter date and time:  enter date and time in the form  month/day/year  hours:minutes:seconds  e.g. 3/15/84 09:42:00       Set time to March 15, 1984  09:42       Do you wish to change the time?  respond "Y" or "N" PARTITIONING THE RIGID DISKThe Xerox 1108 is equipped with a 10, 29, or 42 Megabyte local disk.  The disk is partitioned into two or more logical volumes, depending on the disk size.  The 10 Megabyte disk is partitioned into two logical volumes named Diagnostics and Lisp.  The 29 Megabyte disk is partitioned four logical volumes:  Diagnostics, Lisp, Lisp2, BootLisp.  The 42 Megabyte disk is partitioned into logical volumes Diagnostics, Lisp, Lisp2, Lisp3, and BootLisp.The logical volume Diagnostics contains  a software package, the Install Lisp Tool, for initializing the local disk with Lisp software and moving between Interlisp-D volumes on local disk.  The Diagnostic volume contains 3,500 pages.  (1 page = 512 bytes)The logical volumes Lisp, Lisp2, and Lisp3 can each contain a complete Interlisp-D environment.  Each volume holds the Lisp virtual memory which is initialized from floppy disks, a file server, or another partition on the local disk.  On the 29 and 42 Megabyte disk, each Lisp logical volume is 16,200 pages.  The Lisp volume on a 10 Megabyte disk is 12,500 pages.The BootLisp volume on the 29 and 42 Megabyte disk  is a smaller Lisp volume that is suitable for use  with the remote boot function in Install Lisp Tool.  This allows  the Lisp virtual image to be copied from  one logical volume on the local disk to another.  (See the  description of  "Install Lisp Tool" for details.)The 1108 comes with the disk approporiately partitioned for your disk configuration.  However in the event of a new software release or a catastrophic software error  it may be necessary to repartition the rigid disk before reloading the Interlisp-D software.  The steps in the partitioning procedure are outlined below.1.  Boot the  floppy  labeled "Installation Utility" distributed with the  software kit.  (A 2-boot is used to boot floppies on the 1108.  Press both the B Reset and Alt B buttons on the Maintenance Panel.  Release B Reset.  When the front panel cycles to 0002 release Alt B button.  See "Booting the Processor"  in 1108 OPERATIONS BASICS for details.)    After about two minutes a list of utility options will be displayed.     If your 1108 is not on a network you will be prompted to set the time.  See Setting  the Time for details.2.  Select the menu item appropriate for partitioning your rigid disk.3.  You will be warned that the partitioning operation destroys the contents of the disk,  and asked to confirm.  Respond  'Y' to the prompt.  4.  When the  installation menu reappears, you may proceed with installing software. in the diagnostic volume.INSTALLING SOFTWARE ON THE DIAGNOSTICS VOLUMEIn order to load Interlisp-D on the Lisp volumes the Diagnostic volume must contain the following:  diagnostic software for  running tests on the mouse, keyboard,  display screen, and ethernet connection,  the Install Lisp Tool software ,  microcode  necessary for booting the rigid disk,  and a file  containing site-specific information.   Loading this software requires the floppy disks labeled "Installation Utility" and "Diagnostic Files" distributed with the Interlisp-D software kit.  1.  Boot the floppy labeled "Installation Utility".    (Floppy disks are booted with a 2-boot. See 1108 OPERATIONS BASICS.)  After about two minutes  a list of utility options  will be displayed.     If your 1108 is not on a network you may be prompted to set the time.   2.  Select the menu item "Install Diagnostics".   The message "Ready to install diagnostic boot files" will appear and you will be asked if you wish to continue.  Unload the floppy drive and load the floppy labeled "Diagnostic Files."  Respond "Y" to the "Continue?" prompt.3.  The microcode will be installed first.  When this operation is complete the message "Lisp  microcode installed" will appear.  Then the diagnostic files are installed.  This procedure takes several minutes.  The message "Diagnostic files installed" will inform you when this operation is complete.4.  At this point you are ready to load the Install Lisp Tool software.  When the installation menu reappears boot the rigid disk.  (A 1-boot will boot the rigid disk.)5.  In about two minutes, the cursor will change to a pointing arrow.  Activate the Executive window.  To do this, position the cursor over the word "Executive" in the small window in the bottom left- hand corner of the screen   and press the left mouse button.  The screen will then accept typein.  Press any mouse key to activate the input cursor.  You are now ready to begin typing.6.  Unload the floppy drive  and insert the Installation Utility floppy.7.  Type in "floppy read InstallLispTool.bcd".   You should be able to hear the floppy drive as the file InstallLispTool.bcd is transferred from the floppy disk to the rigid disk.  If this file does not appear on the Installation Utility floppy, you have the wrong version of the Installation Utility.8.   Type InstallLispTool .  This will load the file that should get you to the bouncing square on your display.  At this point you are ready to use the "ProfileTool" to create the  site-specific file  that  provides information used by the Install Lisp Tool.  YOU MUST  FOLLOW STEPS 9 AND 10 IN ORDER TO RETURN TO THE "BASE STATE"  AFTER A 1-BOOT.   IT IS ONLY FROM THIS STATE THAT IT IS POSSIBLE TO ENTER EITHER THE INSTALL LISP TOOL OR THE DIAGNOSTICS PACKAGE. 9.  Press both mouse buttons to activiate the ProfileTool.  Fill in the appropriate values  for the  various parameters.  If your 1108 is attaches to a Xerox NS Clearinghous, you must set the Domain and Organization parameters to the names defined in your Clearinghouse database.    Those users without an NS Clearinghouse may set these parameters to any reasonable names. You do not have to supply values for all of the parameters in the window.  In particular if a  password is supplied it is store on the disk in an unencrypted form.  The ProfileTool supplies default values for the various fields in the InstallLispTool.    See the description of the ProfileTool for details. 10.  After setting the appropriate parameters  execute the Set Profile! command  by positioning the cursor over the command and pressing either mouse button. Confirm with the left mouse button.  When the word "done" appears in the window select QUIT!  The ProfileTool window will disappear and you will return to the bouncing white box.  At this point you are ready to install Interlisp-D software into your  Lisp volumes.             INSTALLING INTERLISP-D  SOFTWAREThere are three ways to install the Interlisp-D software on a logical volume.  You may install from the floppies disks, from your file server, or from another logical volume on your local disk.   INSTALLING INTERLISP-D SOFTWARE FROM FLOPPIESYou may install the Interlisp sysout from the floppies distributed with the Interlisp-D software kit.1.  Boot the "Installation Utility" floppy distributed with the Interlisp-D software kit.  (Floppy disks are booted with a 2-boot.  See "Booting the  Processor"in 1108 OPERATIONS BASICS.)  If your 1108 is not on a network you may be prompted to set the time.   2.  When the Installation menu appears, select the item labeled "Install Interlisp on  ---  volume".  Note that the 10 Megabyte disk has one  Lisp volume,  the 29 Megabyte disk has  two Lisp volumes, and the 42 Megabyte disk has three Lisp volumes.  The 29 and 42 MB disks also have a BootLisp volume.3.  Follow the dialogue to load your Interlisp-D floppies.  A Lisp sysout file can require from three to five floppies.  After loading the floppy labeled "Lisp Sysout #3" your are asked if there is Another Disk?  If you mistakenly respond "Y"  you  do not have to redo the entire installation procedure.  A 1-boot will return you to the "Base State" of the 1108 from which you can start your Lisp volume.4.  After Interlisp is loaded  do a 1-boot to boot from the rigid disk.  This will return you to the "Base State" of the 1108.    LOADING INTERLISP-D FROM A FILE SERVERThose users with access to a an NS or IFS fileserver may use the Install Lisp Tool to load a Lisp sysout from their file server.1. From the "base state" of the 1108 click the left mouse button to activate the Install Lisp Tool.   If  booting the rigid disk does not get you to the  base state or bouncing white square, then make sure you have correctly carried out the instructions in  INSTALLING THE DIAGNOSTIC FILES.2.  Fill in the appropriate parameters . The File: parameter should be filled in with the  file name of the Lisp Sysout to be installed.  NOTE:  The VMem Size must be large enough to accomodate the  Sysout  file being installed.  If you Erase Volume! before you install the file from your file server the VMem Size will be defaulted  appropriately.  You may also use the Set Vmem Size! command.   See the documentation for the Install Lisp Tool under 1108 SYSTEM TOOLS  for details. For an IFS the file name is of the form:[Server]<Directory>Subdirectory>...>FileName.SysoutFor An NS file server the complete file name is of the form:[Server:Domain:Organization]<Directory>Subdirectory>...>FileName.Sysout3.  Select the Install File! command and confirm with the left mouse button.  The message window will  occasionally report the number of bytes transferred while the file is being fetched.4.  When  the sysout is installed  "done" will   appear in the message subwindow.INSTALLING INTERLISP-D FROM THE LOCAL DISKThe Remote Boot! command of the Install Lisp Tool may be used to install a fresh Insterlisp-D sysout from one logical volume on the local disk to another logical volume.  The  sysout on the source volume must be "untouched" , i. e.  the source volume must never have been started.  (This  is by far the quickest way to Install software on a volume,   taking about 5 seconds.)1.  From the "base state" of the 1108 click the left mouse button to activate the Install Lisp Tool.   If  booting the rigid disk does not get you to the  base state or bouncing white square, then make sure you have correctly carried out the instructions in  INSTALLING  SOFTWARE ON THE DIAGNOSTIC VOLUME.2.  Select the Remote Boot! command from the subwindow and confirm with the left mouse button.3.  Select the source volume as appropriate (Lisp, Lisp2, Lisp3, BootLisp)4.  Select the Destination volume.5.  Select the Start! command.6.  When the transfre is complete select Quit!.STARTING A LISP VOLUME      A 0-boot will  start the lisp volume that was  most recently in use.  Any logical volume with Interlisp-D software installed may be started using the Install Lisp Tool.1.  From the "base state" of the 1108 click the left mouse button to activate the Install Lisp Tool.   If  booting the rigid disk does not get you to the  base state or bouncing white square, then make sure you have correctly carried out the instructions in  INSTALLING SOFTWARE ON THE DIAGNOSTIC VOLUME.     If the machine hangs with a maintenance panel code of 0937 you must set the time before you can successfully boot the rigid disk.  You may boot the "Installation Utility" floppy and set time,  or  do a 0-boot to get back into a Lisp volume and use the function SETTIME.  See SETTING THE TIME for  the approppriate format when using the Installation Utility floppy. 2.  Set the Volume: parameter to the name of the Lisp volume you wish to start.  See the documentation on the Install Lisp Tool in  1108 SYSTEM TOOLS.3.  Select the Start Volume! command and confirm with the left mouse button.You may also start an Interlisp volume by using the "Installation Utility" floppy.  Boot the floppy and when the Installation Menu comes up, select the item "Start Interlisp from Lisp --- volume".         Ô             
+TIMESROMAN                 Ô             
+TIMESROMAN                 Ô          8   
+TIMESROMAN               
+TIMESROMAN                 Ô             
+TIMESROMAN                 Ô             
+TIMESROMAN 
+                 Ô             
+TIMESROMAN 
+                 Ô             
+TIMESROMAN              
+TIMESROMAN 
+                 Ô             
+TIMESROMAN 
+                 Ô             
+TIMESROMAN 
+                 Ô         Æ   
+TIMESROMAN 
+                 Ô             
+TIMESROMAN 
+                 Ô             
+TIMESROMAN              
+TIMESROMAN 
+                 Ô             
+TIMESROMAN 
+                 Ô          Ã   
+TIMESROMAN 
+                 Ô             
+TIMESROMAN 
+           ,   
+TIMESROMAN 
+          .   
+TIMESROMAN 
+           6   
+TIMESROMAN 
+             
+TIMESROMAN 
+           6   
+TIMESROMAN 
+             
+TIMESROMAN 
+           %   
+TIMESROMAN 
+          !   
+TIMESROMAN 
+           %   
+TIMESROMAN 
+             
+TIMESROMAN 
+           R   
+TIMESROMAN 
+             
+TIMESROMAN 
+              
+TIMESROMAN 
+             
+TIMESROMAN 
+              
+TIMESROMAN              
+TIMESROMAN 
+                 Ô         À   
+TIMESROMAN 
+                 Ô            
+TIMESROMAN 
+                 Ô         n   
+TIMESROMAN 
+                 Ô         B   
+TIMESROMAN 
+                 Ô         B   
+TIMESROMAN 
+                 Ô         <   
+TIMESROMAN 
+              
+TIMESROMAN 
+          §   
+TIMESROMAN 
+              
+TIMESROMAN 
+          V   
+TIMESROMAN 
+                 Ô          ‘   
+TIMESROMAN 
+                 Ô          q   
+TIMESROMAN 
+           -   
+TIMESROMAN              
+TIMESROMAN 
+             
+TIMESROMAN 
+                 Ô         î   
+TIMESROMAN 
+                 Ô          c   
+TIMESROMAN 
+              
+TIMESROMAN 
+         ®   
+TIMESROMAN 
+                 Ô         .   
+TIMESROMAN 
+                 Ô          ª   
+TIMESROMAN 
+                 Ô         Í   
+TIMESROMAN 
+                 Ô         /   
+TIMESROMAN 
+                 Ô         Ò   
+TIMESROMAN 
+                 Ô         ª   
+TIMESROMAN 
+                 Ô         ¶   
+TIMESROMAN 
+           "   
+TIMESROMAN              
+TIMESROMAN 
+                 Ô          Æ   
+TIMESROMAN 
+           -   
+TIMESROMAN 
+             
+TIMESROMAN 
+                 Ô          g   
+TIMESROMAN 
+                 Ô          £   
+TIMESROMAN 
+              
+TIMESROMAN 
+         ~   
+TIMESROMAN 
+                 Ô         –   
+TIMESROMAN 
+                 Ô          …   
+TIMESROMAN 
+           &   
+TIMESROMAN 
+             
+TIMESROMAN 
+                 Ô          ‚   
+TIMESROMAN 
+                 Ô         $   
+TIMESROMAN 
+                 Ô         Ã   
+TIMESROMAN 
+              
+TIMESROMAN 
+          ÷   
+TIMESROMAN 
+                 Ô            
+TIMESROMAN 
+           +   
+TIMESROMAN 
+             
+TIMESROMAN 
+                 Ô         y   
+TIMESROMAN 
+                 Ô         3   
+TIMESROMAN 
+                 Ô         !   
+TIMESROMAN 
+              
+TIMESROMAN 
+             
+TIMESROMAN 
+                 Ô          °   
+TIMESROMAN 
+                 Ô         1   
+TIMESROMAN 
+                 Ô            
+TIMESROMAN 
+              
+TIMESROMAN 
+          I   
+TIMESROMAN 
+                 Ô             
+TIMESROMAN 
+                 Ô          „   
+TIMESROMAN 
+              
+TIMESROMAN 
+            
+TIMESROMAN 
+          3Õ _z·

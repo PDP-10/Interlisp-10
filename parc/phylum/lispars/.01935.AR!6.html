@@ -1,0 +1,11 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [phylum]&lt;LispARs>01935.AR!6</title>
+  </head>
+  <body>
+    <pre>
+Number: 1935Date: 23-Aug-84 15':18':10Submitter: JonL.paSource: JonL.paSubject: Looping around \PAGED.GETNEXTBUFFER in PF* (and others)  Assigned To: Attn: vanMelle,KaplanStatus: OpenIn/By: Problem Type: BugImpact: AnnoyingDifficulty: ModerateFrequency: IntermittentPriority: PerhapsSystem: Operating SystemSubsystem: OtherMachine: Disk: Lisp Version: 15-Aug-84 20':42':17Source Files: Microcode Version: 5124Memory Size: 4096File Server: Server Software Version: Disposition: '["JonL.pa" "31-Aug-84 22':52':29" Subject': Attn': Status':(Incomplete-&gt;New) System':(Programming% Environment-&gt;Operating% System) Subsystem':(File% Package-&gt;Other) Disposition': Description':]'["JonL.pa" "31-Aug-84 22':58':42" Subject': Attn': Status':(Incomplete-&gt;New) System':(Programming% Environment-&gt;Operating% System) Subsystem':(File% Package-&gt;Other) Disposition': Description': Edit-Date':]'["masinter.PA" " 4-Sep-84 13':16':17" Status':(New-&gt;Open)]Description: [formerly, the Subject was "PF* (and others) fail to BLOCK when auto-updating a filemap].  When a filemap is discovered to be misplaced (possibly due to someone having edited the file on MAXC and PUPFTP''ing it to ERIS), then it seems that the call to FINDFNDEF, untimately below PF*, causes a deadlock condition between \BUFFERE.BIN and \PAGED.GETNEXTBUFFER; thus the world seems to go catatonic underneath the one call to READC in FINDFNDEF, which is done just after a lot of SETFILEPTRing around.  In  the current example of the bug (in the sysout from which this AR is being edited), I find that the leaf stream has COFFSET of 152 and CBUFSIZE of 0 and CBUFPTR of some-random-VMEMPAGEP.  A comment in \PAGED.GETNEXTBUFFER says, with respect to this situation, "Is ok, why were we called?", and proceeds to return T; yet \BUFFERED.BIN finds that the COFFSET is greater than the CBUFSIZE, and immediately calls \PAGED.GETNEXTBUFFER again.  An infinite, non-BLOCKing, loop.'  Workaround: Test Case: Edit-By: masinter.PAEdit-Date:  4-Sep-84 13':16':19</pre>
+  </body>
+</html>

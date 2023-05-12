@@ -1,0 +1,47 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>[eris]&lt;LispUsers>HEADLINE.BRAVO!1</title>
+  </head>
+  <body>
+    <div style="width: 442pt; margin-left: 84pt; margin-top: 8pt; text-align: justify">
+<span style="font: bold 10pt serif">HEADLINE documentation</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 8pt; text-align: justify">
+<span style="font: 10pt serif">D. Austin Henderson, Jr.<br>Last revised: August 5, 1982</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 20pt; text-align: justify">
+<span style="font: bold 10pt serif">&lt;LISPUSERS&gt;HEADLINE</span><span style="font: 10pt serif"> (and </span><span style="font: bold 10pt serif">.DCOM</span><span style="font: 10pt serif">) contains three functions for manipulating windows which contain headlines ("headline windows").</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 18pt; text-align: justify">
+<span style="font: bold 10pt serif">HEADLINE ( PHRASE FONT POSITION ALIGNMENT )</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 11pt; text-align: justify">
+<span style="font: 10pt serif">Creates a headline window with </span><span style="font: 10pt serif; text-decoration: underline">Phrase</span><span style="font: 10pt serif"> printed in font </span><span style="font: 10pt serif; text-decoration: underline">Font</span><span style="font: 10pt serif"> at position </span><span style="font: 10pt serif; text-decoration: underline">Position</span><span style="font: 10pt serif"> aligned as per </span><span style="font: 10pt serif; text-decoration: underline">Alignment</span><span style="font: 10pt serif">; the window is just large enough to hold the headline. </span><span style="font: 10pt serif; text-decoration: underline">Phrase</span><span style="font: 10pt serif"> is any Lisp object. </span><span style="font: 10pt serif; text-decoration: underline">Font</span><span style="font: 10pt serif"> defines a font as per FONTCREATE (eg. (TIMESROMAN 18 BOLD) ); if NIL, TimesromanD 36 is used. </span><span style="font: 10pt serif; text-decoration: underline">Position</span><span style="font: 10pt serif"> is a position giving the reference point for placing the window; if NIL, the user is given a chance to position the window with MOVEW. If </span><span style="font: 10pt serif; text-decoration: underline">Postion</span><span style="font: 10pt serif"> is given, </span><span style="font: 10pt serif; text-decoration: underline">Alignment</span><span style="font: 10pt serif"> gives the alignment of the window with respect to </span><span style="font: 10pt serif; text-decoration: underline">Position</span><span style="font: 10pt serif"> as (xalignment . yalignment) where xalignment is one of LEFT, CENTER, or RIGHT and yalignment is one of BOTTOM, CENTER, or TOP; for convenience, if Position is CENTER then it is taken to mean (CENTER . CENTER), etc.</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 18pt; text-align: justify">
+<span style="font: bold 10pt serif">BILLBOARD ( TITLES ALIGNMENT SEPARATION POSITION )</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 11pt; text-align: justify">
+<span style="font: 10pt serif">Creates a set of vertically arranged headline windows. </span><span style="font: 10pt serif; text-decoration: underline">Titles</span><span style="font: 10pt serif"> is a list of (phrase font) sublists where phrase and font are as in Headline. </span><span style="font: 10pt serif; text-decoration: underline">Alignment</span><span style="font: 10pt serif"> is one of LEFT, CENTER, or RIGHT, indicating how the windows are aligned with each other; defaults to CENTER. </span><span style="font: 10pt serif; text-decoration: underline">Separation</span><span style="font: 10pt serif"> indicates the spacing between the bottoms of the windows; defaults to 70. </span><span style="font: 10pt serif; text-decoration: underline">Position</span><span style="font: 10pt serif"> indicates where the top (first) of the windows is to appear; defaults to somewhere near the top center of the screen.</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 18pt; text-align: justify">
+<span style="font: bold 10pt serif">CLOSEHEADLINES ( )</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 11pt; text-align: justify">
+<span style="font: 10pt serif">Closes all the active headline windows.</span></div>
+<script>function do_tabs() { // unit = px
+  var tabs = document.getElementsByClassName("tab");
+  for (var i = 0; i < tabs.length; ++i) {
+    var span = tabs[i];
+    var val = span.getAttribute("val");
+    if (val == null) console.log("Couldn't get val");
+    var rect = span.getBoundingClientRect();
+    var tabstop;
+    if (val > 0) tabstop = Math.ceil(rect.left / val) * val;
+    else tabstop = -val;
+    console.log("do_tabs", val, tabstop)
+    if (tabstop > 0) {
+      var width = tabstop - rect.left;
+      span.style.display = "inline-block";
+      span.style.width = width + "px";
+    }
+  }
+}
+do_tabs();
+</script>
+  </body>
+</html>

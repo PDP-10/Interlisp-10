@@ -1,0 +1,11 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [phylum]&lt;LISP>Lyric>LIBRARY>INSTALL-tedit!1</title>
+  </head>
+  <body>
+    <pre>
+(LET (DIR)     (* ;; "Install TEdit LCOM files on a directory specified by the user.")  (CNDIR (QUOTE {FLOPPY}))  (FILESLOAD COPYFILES)  (repeatuntil (EQ (QUOTE Y)               (ASKUSER 10000 NIL                        (CONCAT "Are you sure you want to copy TEdit to the directory %" " DIR "%"?")))         do (SETQ DIR (PROMPTFORWORD "What device (or host) and directory do you want to install TEdit on?" "" NIL NIL NIL NIL (CHARCODE (CR LF ESC)) NIL)))  (COPYFILES (QUOTE (TEDIT.LCOM TEXTOFD.LCOM TEDITHCPY.LCOM TEDITPAGE.LCOM                     TEDITFIND.LCOM TEDITLOOKS.LCOM TEDITMENU.LCOM                     TFBRAVO.LCOM TEDITABBREV.LCOM IMAGEOBJ.LCOM                     TEDITHISTORY.LCOM TEDITSCREEN.LCOM TEDITFILE.LCOM                     TEDITCOMMAND.LCOM TEDITWINDOW.LCOM TEDITSELECTION.LCOM                     TEDITFNKEYS.LCOM TEDITDECLS.LCOM EDITBITMAP.LCOM                     READNUMBER.LCOM)) DIR (QUOTE &gt;A))  (PRINTOUT T "TEdit is now installed on the directory " DIR "." T T T))STOP</pre>
+  </body>
+</html>

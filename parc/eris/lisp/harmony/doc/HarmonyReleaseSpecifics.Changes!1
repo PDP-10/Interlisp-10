@@ -1,0 +1,487 @@
+=============In several places, replace "consistant" with "consistent" (a "consistent" error on my part).=============In section "Input/Output", replace the item "* 1100/1108 Parallel Port functions (2503)" with:* 1100/1108 Parallel Port functions (2503)The 1100 has a parallel port connector with 8 bidirectional data lines, 8 unidirectional output lines, and 5 unidirectional input lines.  The 1108 with Extended Processor Option (CPE) has a similar parallel port connector:  the differences are (1) it has 6 unidirectional input lines vs. 5, (2) the power lines of the connector are 5 volts vs. 12, and (3) the pin layouts are different.  The Interlisp functions WRITEPRINTERPORT and READPRINTERPORT are available for accessing the parallel port.  For more information, see Appendix C (1100 & 1108 CPE Parallel Port).=============In section "Printing", just BEFORE the item "* Can print bitmaps on PRESS printers (1206)", insert the following NEW item:* Can preview hardcopy on display using MAKEHARDCOPYSTREAMThe fonts used in the printers are not exactly the same as the display fonts, because low-resolution screen fonts don't look good when printed on high-resolution printers.  In particular, the character widths are not the same (even when scaled to take account of the printer resolution).  Because of this, it is difficult to format text on the display so that it is EXACTLY where you want it, since it will be slightly different when printed.  In order to allow users to "preview" hardcopy without actually printing it, the following functions are useful: (MAKEHARDCOPYSTREAM DISPLAYSTREAM IMAGETYPE)Changes the display stream so that measurements of character widths are consistent with the hardcopy device IMAGETYPE (PRESS, INTERPRESS, etc.).  This is useful for seeing on the screen how an image will look when it is hardcopied.  Caveat: This doesn't work for TEdit windows.(UNMAKEHARDCOPYSTREAM DISPLAYSTREAM)Changes a "hardcopy display stream" back into a regular display stream.Note:  When printing to a "hardcopy display stream", the text will not look as good as it will when printed.  In particular, the characters may look crunched together.  However, it accurately displays the relative positions of the letters, for formatting purposes.=============In section "Printing", replace the item "* Image streams allow printing arbitrary text and graphics on Press or Interpress printers (2291)" with the following:* Image streams allow printing arbitrary text and graphics on Press or Interpress printers (2291)Previously, the only documented way of printing text and graphics on Press or Interpress printers was to use one of the supported tools, such as Tedit.  While these tools are sufficient for many needs, there was a need for functions that users could call from their programs to print arbitrary text and graphics.  As part of a long-range effort to provide a simple, device-independent interface to the various graphics display routines, "image streams" were created.An image stream is an output stream which "knows" how to process graphic commands.  It can be passed as the FILE/STREAM argument to the ordinary character-output functions (PRINT, etc.) and to the graphic functions as well (DSPXPOSITION, DRAWCIRCLE, etc.).  Some image streams, such as display and local-printer streams, may simply execute the appropriate operations to cause the desired image to appear immediately on the output medium.  Other image streams (PRESS, INTERPRESS, etc.) interpret the graphic commands by saving information in a file of the appropriate format.  If this file is on the {LPT} device, it will automatically be transmitted to a printer device when it is closed by CLOSEF.  Non-LPT files can be transmitted later by explicit calls to LISTFILES and SEND.FILE.TO.PRINTER.Image streams are created by the following function:(OPENIMAGESTREAM FILE IMAGETYPE OPTIONS)Opens and returns an output stream of type IMAGETYPE on a destination specified by FILE.  IMAGETYPE can currently be either PRESS, INTERPRESS, or DISPLAY.  Eventually, other image types will be implemented for other devices.  FILE can name a file either on a normal storage device or on a printer device.  In the latter case, the file is sent to the printer when the stream is closed.FILE = NIL is equivalent to FILE = {LPT}.  Names for printer files are of the form {LPT}PRINTERNAME.TYPE, where PRINTERNAME, TYPE, or both may be omitted.  PRINTERNAME is the name of the particular printer to which the file will be transmitted on closing; it defaults to the first printer on DEFAULTPRINTINGHOST that can print IMAGETYPE files.  The TYPE extension supplies the IMAGETYPE when it is defaulted (see below).  OPENIMAGESTREAM will generate an error if the specified printer does not accept the kind of file specified by IMAGETYPE.If IMAGETYPE is NIL, the image type is inferred from the extension field of FILE and the EXTENSIONS properties in the list PRINTFILETYPES. Thus, a PRESS extension denotes a Press-format stream, while IP, IPR, and INTERPRESS indicate Interpress format.  If FILE is a printer file with no extension (of the form {LPT}PRINTERNAME), then IMAGETYPE will be the type that the indicated printer can print.  If FILE has no extension but is not on the printer device {LPT}, then IMAGETYPE will default to the type accepted by the first printer on DEFAULTPRINTINGHOST.  Example:  Assuming that IP: is an Interpress printer, P is a Press printer, and DEFAULTPRINTINGHOST is (IP: P):(OPENIMAGESTREAM)	returns an Interpress image stream on printer IP:(OPENIMAGESTREAM NIL 'PRESS)	returns a Press stream on P(OPENIMAGESTREAM '{LPT}.INTERPRESS)	returns an Interpress stream on IP:(OPENIMAGESTREAM '{CORE}FOO.PRESS)	returns a Press stream on the file {CORE}FOO.PRESSIf IMAGETYPE is DISPLAY, then the user is prompted for a window to open.  The file name in this case will be used as the title of the window.OPTIONS is a list in property list format that may be used to specify certain attributes of the image stream; not all attributes are meaningful or interpreted by all types of streams.  Among the properties are:REGION -- value is the region on the page (in stream scale units, 0,0 being the lower-left corner of the page) that text will fill up.  It establishes the initial values for DSPLEFTMARGIN, DSPRIGHTMARGIN, DSPBOTTOMMARGIN (the point at which carriage returns cause page advancement) and DSPTOPMARGIN (where the stream is positioned at the beginning of a new page).FONTS -- value is a list of fonts that are expected to be used in the stream.  Some streams (e.g. Interpress) are more efficient if the expected fonts are called out in advance, but this is not necessary.  The first font in this list will be the initial font of the stream, otherwise the DEFAULTFONT for that image type will be used.HEADING -- the heading to be placed automatically on each page, NIL means no heading.Other functions that are part of the device-independent graphics interface:(IMAGESTREAMP X IMAGETYPE)Returns X (possibly coerced to a stream) if it is an output image stream of type IMAGETYPE (or of any type if IMAGETYPE=NIL), otherwise NIL.(IMAGESTREAMTYPE STREAM)Returns the image type of STREAM.(DSPSCALE SCALE STREAM) Returns the scale of the image stream STREAM, a number indicating how many units in the streams coordinate system correspond to one screen point.  For example, DSPSCALE returns 1 for display streams, and 35.27778 for Press and Interpress streams (the number of micas per screen point).  In order to be device-independent, user graphics programs must either not specify position values absolutely, or must multiply absolute screen-point quantities by the DSPSCALE of the destination stream.  (The SCALE argument to DSPSCALE is currently ignored; in future releases it will enable the scale of the stream to be changed under user control, so that the necessary multiplication will be done internal to the stream interface).  Note:  Not all graphics operations can be properly executed for all image types.  Currently, only display streams support BITBLT, FILLCIRCLE, and the dashing argument to DRAWCURVE.  This functionality is still being developed, but even in the long run some operations may be beyond the physical or logical capabilities of some devices or image file formats.  In these cases, the stream will approximate the specified image as best it can.=============In section "Fonts", right AFTER the item "* Font functions take font in many forms", insert the following two NEW items:* FONTCREATE accepts streams for DEVICE argumentThe function FONTCREATE has been extended so that the DEVICE argument can be an image stream, not just an image type.  If a stream is given, the result will be a font appropriate for that stream.* New FONTPROP properties: SCALE, SPEC, DEVICESPECThe function FONTPROP has also been extended to recognize the new properties SCALE, SPEC, and DEVICESPEC.  The value of the SCALE property is the units per screen-point in which the font is measured.  For example, this is 35.27778 (the number of micas per screen point) for Press and Interpress fonts, which are measured in terms of micas.  The value of the SPEC property is the full specification of the font as it is known to Interlisp, a family-size-face-rotation-device quintuple.  The value of the DEVICESPEC property is the same as the value of the SPEC property, unless the system has had to coerce the font to another name to find the most appropriate rendering on a specific printing device. =============In section "Fonts", in item "* Incompatible Change: New font directory variables. (155)", replace the third and fourth paragraphs with:DISPLAYFONTEXTENSIONSValue is a list of file extensions used when searching DISPLAYFONTDIRECTORIES for display fonts.  Currently, Interlisp can read "STRIKE" and "AC" display font file formats.  Eventually, all Interlisp display fonts will be distributed with the extension .DISPLAYFONT.  Therefore, this variable should be initialized to (DISPLAYFONT STRIKE AC).  Note that the extension on the file is used to locate the file, but once the file is found Interlisp looks inside it to determine what format it is and how to read it.  The function (FONTFILEFORMAT FILE LEAVEOPEN) returns the format of a font file (AC, STRIKE, etc.). INTERPRESSFONTDIRECTORIESValue is a list of directories searched to find font widths files for Interpress fonts.  These files must have the extension "WD".=============In section "Fonts", replace the item "* Fontclasses are first-class data objects (1416 1552)", with:* Fontclasses are first-class data objects (1416 1552)Fontclasses have been introduced as a first-class data object which contains a set of related fonts for different devices.  The font functions accept fontclasses, from which they extract the appropriate font for their device.  The normal font class variables (DEFAULTFONT, CLISPFONT, etc.) are initialized to fontclass objects.  Fontclasses are created and manipulated with the following functions:(FONTCLASS NAME FONTLIST CREATEFORDEVICES)Returns a new fontclass object with the name NAME and  the device font components specified by FONTLIST, which should be a list of the form (<displayfont> <pressfont> <interpressfont> <otherfont1> <otherfont2> ...).  <otherfontN> should be a list of the form (<devicename> <font>).  Each of the fonts in FONTLIST may be either a font descriptor, or a "font specification list" that FONTCREATE would accept.  CREATEFORDEVICES is a list of the devices for which the fonts should be automatically created.  Otherwise, the fonts are not actually created until they are accessed.  Note: if a display font is specified in FONTLIST, it is always created.(FONTCLASSCOMPONENT FONTCLASS DEVICE FONT NOERRORFLG)Returns the font component of the fonctclass for the device DEVICE (DISPLAY, PRESS, INTERPRESS, etc.).  If FONT is non-NIL, the specified component is replaced.  If NOERRORFLG is non-NIL, FONTCLASSCOMPONENT return NIL if the component is unspecified in the fontclass, rather than causing an error.Note:  Because font classes are no longer represented by lists, old code which accesses the components of a font class with CAR, CADR, etc. will not work, and must be changed.=============In section "1108 Local File System", replace the item "* Incompatible Change: Local file system upgraded to Klamath file system; MUST reformat 1108 disks" with:* Incompatible Change: Local file system format changed; MUST reformat 1108 disksThe 1108 low-level disk format has been changed.  To use the Harmony release, do the following:  (1) copy any valuable local disk files to floppy or file server; (2) repartition the whole 1108 disk using the Harmony Installation Utility floppy (see the 1108 Users guide).  Note that this erases ALL information on the disk; and (3) use DFSCREATEDIRECTORY to recreate any Lisp directories on local disk logical volumes.Important Warning:  Because of the change in disk format, you cannot run a Carol sysout on a Harmony-partitioned 1108, nor a Harmony sysout on a Carol-partitioned 1108.  Attempting to do so may destroy information on the local disk.=============In section "1108 Floppy", replace the item "* FLOPPY.MODE no longer changed to SYSOUT after a sysout (207)", with:* FLOPPY.MODE no longer changed to SYSOUT after a sysout (207)(SYSOUT '{FLOPPY}) will automatically change the floppy mode to SYSOUT during the sysout.  However, after the sysout is completed, it is changed back to what it was before the sysout.=============Replace the whole section "RS232" with:RS232=====* 1108 optional RS232C port is supported; provides more reliable communicationThe Harmony release supports the optional RS232C port on the 1108.  This port is buffered independently of Lisp operations, so there is little, if any, chance of dropping characters.  Use of this port requires the E30 hardware option.* RS232 documentation totally revised; new functionsThe RS232 documentation has been totally revised so it doesn't focus on the implementation on the Xerox 1100.  A few of the minor additions explained in the new documentation:The function RS232SHUTDOWN is a "cleaner" way of doing (CLOSEF '{RS232})The function RS232INPUTSTRING inserts characters into the input ring buffer.  This permits a way to simulate the reception of characters through the actual UARTThe function RS232FORCEOUTPUT has a new argument which specifies whether the function should return before all the characters are transmitted (the default).RS232DEVICEERRORFN is a new global variable used when handling hardware errorsThe RS232LOGIN facility is now documented.  This provides a way for automating the login procedure when connecting to various hosts.* Incompatible Change: Global variable RS232XON\XOFF? replaced by function RS232XON\XOFF?The interface to the XON/XOFF protocol has been changed:  rather than setting the global variable RS232XON\XOFF?, the new function (RS232XON\XOFF? ON?) should be used to set and unset this state.  In future release of the I/O processor code, enabling/disabling XON/XOFF processing by the RS232C port will require a functional interface to what is now merely a global variable.* RS232 no longer breaks over LOGOUT/restart (1320 1393 2007)* RS232CHAT command ~LocalEcho works as specified (1652)=============In section "NS File Servers" in item "* Many NS filing reliability problems fixed (115 2010)" replace "timing-out" with "timing out"=============In section "NS File Servers", replace the item "* SETFILEINFO can set the TYPE attribute of NS files (1708)" with:* SETFILEINFO, GETFILEINFO can access the TYPE attribute of NS files (1708)GETFILEINFO and SETFILEINFO now accept the TYPE and FILE.TYPE attributes for NS files.  TYPE is the standard Lisp file type, with values TEXT and BINARY.  FILE.TYPE is the (server-dependent) numeric value of the file's FILE.TYPE property, which a 16-bit number for NS file servers.  Using the FILE.TYPE attribute, you can change the file type to other non-lisp file types.=============In section "NS Print Servers" in item "* ROTATATION argument to HARDCOPYW works to 8044 printers (1616)" replace "ROTATATION" with "ROTATION"=============In section "NS Print Servers", at the end of the item "* Can print to NS printers with A4 paper: variable NSPRINT.DEFAULT.MEDIUM (2023)" add the following:Note:  When using different paper sizes, it may be necessary to reset the variable DEFAULTPAGEREGION, the region on the page used for printing (measured in micas from the lower-left corner).=============In section "Window System", replace the item "* New Background menu when Copy-key pressed; allows copy-inserting a SNAP (1808)" with the following:* New Background menu when Copy-key pressed; allows copy-inserting a SNAP (1808)Various system utilities (TEdit, DEdit, TTYIN) allow information to be "copy-inserted" at the current cursor position by selecting it with the "copy" key held down.  (Normally the shift keys are the "copy" key, this action can be changed in the key action table.)  It is now possible to "copy-insert" the bitmap of a snap into a Tedit document.  If the right mouse button is pressed in the background with the copy key held down, a menu with the single item "SNAP" appears.  If this item is selected, the user is prompted to select a region, and a bitmap containing the bits in that region of the screen is inserted into the current tty process, if that process is able to accept image objects (like Tedit).This is implemented by the new variables BackgroundCopyMenu and BackgroundCopyMenuCommands, which are interpreted similar to BackgroundMenu and BackgroundMenuCommands.  If the right mouse button is pressed in the background when the copy key is down, the menu stored in the variable BackgroundCopyMenu is envoked.  If this is NIL, a new menu is created from the menu commands in BackgroundCopyMenuCommands.=============In section "Window System", replace the item "* Caret flashing doesn't bring window to top during buttoning or shift-selecting (681)" with the following:* Caret flashing doesn't bring window to top during buttoning or copy-selecting (681)The caret code has been changed so that it doesn't bring the flashing caret's window to the top if the user is buttoning or has a copy key down.  This prevents the destination window (which has the tty and caret flashing) from interfering with the window one is trying to select text to copy from.=============In section "Window System", MOVE the item "* Caret flashing doesn't bring window to top during buttoning or shift-selecting (681)" to just after the item "* Many changes to caret behavior (544 1164)".=============In section "Window System", replace the item "* DRAWCURVE works correctly in INVERT mode if BRUSH=1 (1978)" with the following:* DRAWCURVE to the display works correctly in INVERT mode if BRUSH=1 (1978)DRAWCURVE, DRAWCIRCLE, and DRAWELLIPSE to the display will work if the brush argument is 1, and the "operation" of the displaystream is INVERT.  For brushes larger than 1, the INVERT operation is the same as the ERASE operation.DRAWCURVE to other image streams generally only supports the PAINT operation.=============In section "Tedit" in item "* EOFP works correctly for test streams (1582)" replace "test" with "text".=============In section "Dedit" in item "* Edit buffer won't attach to incorrect window (745)" and in item "* Dedit won't reprint function on exit. (678)" replace "won't" with "doesn't".=============In section "File Package", replace the item "* Incompatible Change: Source/DCOM file location algorithm improved (100 671 509 1666)" with the following:* Incompatible Change: Source/DCOM file location algorithm changed (100 671 509 1666)Each Interlisp source and compiled code file contains the full filename of the file, including the host and directory names, in a FILECREATED expression.  The compiled code file also contains the full file name of the source file it was created from.  Previously, the file package used this information to locate the appropriate source file when "remaking" or recompiling a file.This has turned out to be a bad feature in distributed environments, where users frequently move files from one place to another, or where files are stored on removable media.  For example, suppose you MAKEFILE to a floppy, and then copy the file to a file server.  If you load and edit the file from a file server, and try to do MAKEFILE, it will break, trying to locate the source file on a floppy, which is probably no longer loaded.In the Harmony release, the file package searches for the source file on the connected directory, and on the directory search path (on the variable DIRECTORIES).  If it is not found, the host/directory information from the FILECREATED expression be used.Warning:  One situation where the new algorithm does the wrong thing is if you explicitly LOADFROM a file that is not on your directory search path.  Future MAKEFILEs and CLEANUPs will search the connected directory and DIRECTORIES to find the source file, rather than using the file that the LOADFROM was done from.  Even if the correct file is on the directory search path, you could still create a bad file if there is another version of the file in an earlier directory on the search path.  In general, you should either explicitly specify the SOURCEFILE argument to MAKEFILE to tell it where to get the old source, or connect to the directory where the correct source file is.=============In section "Storage & Data Types", in the item "* Advance Warning: CAR or CDR of non-list will cause error in future releases; new variable CAR/CDRERR (768 685)", change "enything" to "anything"=============In section "Storage & Data Types", in the item "* Hash arrays have been totally reimplemented -- better interface (1096)", change the title and the first paragraph to:* Hash arrays have been totally reimplemented; better performance, interface (1096)The hash array facility has been totally reimplemented, to improve performance and provide a better interface to the overflow behavior.  Old programs using hash arrays will still work, but not as efficiently as if they were recoded to take advantage of the new implementation.=============In section "Storage & Data Types", replace the item "* (CREATE ... SMASHING ...) translates into more efficient form (1343)" with:* (CREATE ... SMASHING ...) translates into more efficient form (1343)The translation of (CREATE ... SMASHING ...) forms has been changed for RECORD and TYPERECORD records, to produce forms that execute more efficiently when compiled.=============In section "Arithmetic", replace item "* Advance Warning: (ZEROP X) = (EQ X 0); will be changed to (EQP X 0) (317)" with:* Advance Warning: (ZEROP X) = (EQ X 0); will be equivalent to (EQP X 0) (317)In the Interlisp Reference Manual, (ZEROP X) is defined to be equivalent to (EQ X 0).  Some users have complained that this is inconsistent with other lisp dialects, and that (ZEROP 0.0) should not return NIL.  In a future release, (ZEROP X) will be equivalent to (EQP X 0).  Users who depend on (ZEROP 0.0) returning NIL should change their code to use (EQ X 0).=============In section "Library Packages", replace item "* CMLARRAY: Can store and load files containing CMLARRAYS (1039)"  with:* CMLARRAY: the CMLARRAYS file package command now works as advertised (1039)=============In section "Library Packages", replace item "* GRAPHER: Revised version, can generate hardcopy of graph (1392 2034)" with:* GRAPHER: Extensively revised; new function HARDCOPYGRAPH; node formatting extended (1392 2034)GRAPHER has been extensively revised, so that it uses much less memory space per node.  Whereas the old Grapher created a bitmap per node, the new one doesn't.  The price is that scrolling may take a little longer.  To REDISPLAYW a very large graph takes twice as long as it used to (if you don't like this, set CACHE/NODE/LABEL/BITMAPS/FLG to T).  Also, the GRAPHRECORD was changed to use half as many cons cells.  This version will not run in Carol or older <lispcore> systems if the user depends on nodefonts being defaulted to the DEFAULTFONT font class.(HARDCOPYGRAPH GRAPH/WINDOW FILE IMAGETYPE TRANS)Produces a file from a formated graph (e.g., like SHOWGRAPH, only for files).  If GRAPH/WINDOW is a window, HARDCOPYGRAPH will operate on the GRAPH property of the window.  If the device field of the file name is LPT, the file will automatically get sent to the appropriate printer.  IMAGETYPE is either PRESS or INTERPRESS, and defaults to INTERPRESS.  TRANS is a position in screen points of the lower left corner of the graph from the lower left corner of the piece of paper.  (DISPLAYGRAPH GRAPH STREAM CLIP/REG TRANS)Put the specified graph on STREAM (which can be any image stream) with coordinates translated to TRANS.  Some streams might also implement CLIP/REG as a clipping region.  This is primarily an efficiency hack for the display.GRAPHER now allows nodes to be "boxed" with borders of arbitrary shades and widths.  Borders work for regular labels and bitmap labels, but not for imageobject labels.  The old graphnode field BOXNODEFLG has been renamed NODEBORDER.  It takes the following values:     NIL		no border, as before     T		black border, 1 pixel wide, as before     0		no border     1,2,3...	black border of the given width     -1,-2...	white border of the given width     (w s)		where w is a fixp and s is a texture or a shade; yields a border w wide filled with the given shade s.A new graphnode field, NODELABELSHADE, contains the background shade of the node.  This allows GRAPHER to remember when a node is inverted.  When a node is displayed, the label area for the node is first painted as specified by NODELABELSHADE, then the label is printed in INVERT mode.  This does not apply to labels that are bitmaps or image objects.  The legal values for the field are: NIL (same as WHITESHADE), T (same as BLACKSHADE), a texture, or a bitmap.(RESET/NODE/BORDER <node> <border> <stream>)(RESET/NODE/LABELSHADE <node> <shade> <stream>)These functions reset the appropriate fields in the node.  If <stream> is a displaystream or a window, the old node will be erased and the new node will be displayed.  Both functions take the atom INVERT as a special value for <border> and <shade>.  It reads the node's current border or shade, calculates what would be needed to invert it, and does so.LAYOUTGRAPH previously used a 1-pixel black box to mark certain nodes in order to indicate where it had snapped links.  That is still the default action.  However, the appearance of marked nodes can be controlled by adding (MARK ....) to the FORMAT argument of LAYOUTGRAPH.   The tail of (MARK ....) is a property list.  If the property list is NIL, marking is suppressed altogether.  If a BORDER property is specified, the value will be used as the NODEBORDER of marked nodes.  If a LABELSHADE property is specified, its value will be used on the marked nodes.  Of course, you can specify both a BORDER and NODELABEL property.LAYOUTGRAPH will read, but not change, the fields NODEBORDER and NODELABELSHADE of the nodes given it (except for the marked nodes, of course).  Thus, if one is planning on installing black borders around the nodes after the nodes have been layed out, its a good idea to give LAYOUTGRAPH nodes that have white borders.  This will cause the nodes to be layed out far enough apart that when you blacken the borders later, the labels of adjacent nodes will not be overwritten.When a graphnode is created by the record package, the default values are now taken from the value of the following variables: DEFAULT.GRAPH.NODEBORDER, DEFAULT.GRAPH.NODELABELSHADE, and DEFAULT.GRAPH.NODEFONT.  GRAPHER initializes these to NIL.  To get the benefits of this new feature, the user will have to recompile functions that create graphnodesFLIPNODE now inverts a region that is 1 pixel bigger all around than the node's region.  This makes it possible to see black borders after the node has been flipped.LAYOUTGRAPH takes a new format token.  Adding REVERSE/DAUGHTERS to the list of format items will reflect horizontal graphs vertically, and vertical graphs horizontally.=============In section "Library Packages", replace last paragraph of item "* WHEREIS: Several changes to help users create and maintain their own databases (126 1625)" with:If NEWFLG is NIL, the information from the files in FILEGROUP is added to the database DATABASEFILE.  If NEWFLG is non-NIL, a new version of DATABASEFILE will be created containing the database for the functions specified in FILEGROUP.  If NEWFLG is a number, the hash file will be created with NEWFLG entries.  Otherwise, it will be created to allow 20000 entries.=============In section "Miscellaneous", replace item "* PROMPTFORWORD extensively revised. (891 553 1842)" with:* PROMPTFORWORD revised; doesn't grab TTY; argument renamed (891 553 1842)PROMPTFORWORD no longer grabs the tty stream by default.  Like READ, if it is called in a process that is not the tty process, it waits for the user to click the mouse in its window, then grabs the tty.The PROMPTFORWORD argument TIMELIMIT.secs has been renamed URGENCY.OPTION, which is interpreted as follows:  If NIL, PROMPTFORWORD quietly wait for input, as READ does; if a number, this is the number of seconds to wait for the user to respond; if T, this means to wait forever, but periodically flash the window to alert the user; if TTY, then PROMPTFORWORD grabs the TTY immediately.  When URGENCY.OPTION=TTY, the cursor is temporarily changed to a different shape to indicate the urgent nature of the request.The last argument to PROMPTFORWORD, OLDSTRING, has been deleted.Typing control-W now has the normal behavior (delete last word), rather than being a synonym of control-Q (delete all type-in).PROMPTFORWORD only calls RINGBELLS once to attract the attention of the user.=============                        NIL NIL              
+TIMESROMAN                                 NIL NIL              GACHA 
+                                NIL NIL           ]   
+TIMESROMAN                                 NIL NIL              
+TIMESROMAN                                 NIL NIL              
+TIMESROMAN                                 NIL NIL              GACHA 
+                                NIL NIL           -   GACHA 
+           #   GACHA 
+             GACHA 
+              GACHA               GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           #   GACHA 
+             GACHA 
+              GACHA               GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL          7   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL              
+TIMESROMAN                                 NIL NIL              GACHA 
+                                NIL NIL           -   GACHA 
+           %   GACHA 
+             GACHA 
+              GACHA            "   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           ;   GACHA 
+                               NIL NIL              GACHA 
+                               NIL NIL          ,   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           -   GACHA 
+                                NIL NIL             GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           %   GACHA 
+                                NIL NIL           H   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL          	   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL              
+TIMESROMAN                                 NIL NIL              GACHA 
+                                NIL NIL           )   GACHA 
+           Z   GACHA 
+             GACHA 
+              GACHA               GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           Z   GACHA 
+             GACHA 
+              GACHA               GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL          ”   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL             GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           5   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           )   GACHA 
+                                NIL NIL          Å   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL             GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL          1   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           p   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           3   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           $   GACHA 
+                                NIL NIL           %   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           #   GACHA 
+                                NIL NIL           4   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           é   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           ”   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL          l   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL          N   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           V   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           L   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           ç   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           "   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL          ‘   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL          ∑   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL              
+TIMESROMAN                                 NIL NIL              GACHA 
+                                NIL NIL           *   GACHA 
+           (   GACHA 
+          '   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           0   GACHA 
+             GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           ƒ   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           2   GACHA 
+             GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL          æ   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL              
+TIMESROMAN                                 NIL NIL              GACHA 
+                                NIL NIL              GACHA 
+           4   GACHA 
+             GACHA 
+              GACHA            1   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL          e   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           É   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL              
+TIMESROMAN                                 NIL NIL              GACHA 
+                                NIL NIL           &   GACHA 
+           *   GACHA 
+             GACHA 
+              GACHA            	   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           *   GACHA 
+             GACHA 
+              GACHA               GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL          è   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           +   GACHA 
+                                NIL NIL          à   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           6   GACHA 
+                                NIL NIL          *   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           ∞   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL              
+TIMESROMAN                                 NIL NIL              GACHA 
+                                NIL NIL           7   GACHA 
+           b   GACHA 
+             GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           Q   GACHA 
+             GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL          £   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           Ë   GACHA 
+              
+TIMESROMAN 
+                                NIL NIL              
+TIMESROMAN                                 NIL NIL              GACHA 
+                                NIL NIL           ,   GACHA 
+           8   GACHA 
+             GACHA 
+              GACHA            	   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           8   GACHA 
+             GACHA 
+              GACHA               GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           ∏   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL              
+TIMESROMAN                                 NIL NIL              GACHA 
+                                NIL NIL           (   
+TIMESROMAN                                 NIL NIL              
+TIMESROMAN                                 NIL NIL              GACHA           O   GACHA 
+             GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           Î   GACHA 
+                                NIL NIL              GACHA 
+                               NIL NIL           5   GACHA 
+                               NIL NIL              GACHA 
+                               NIL NIL           ∞   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           I   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           °   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           ù   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           O   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           Ö   GACHA 
+                                NIL NIL              GACHA 
+                               NIL NIL           Y   GACHA 
+             GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL          y   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           -   GACHA 
+             GACHA               GACHA 
+           1   GACHA 
+             GACHA 
+              GACHA               GACHA 
+                                NIL NIL              GACHA 
+              
+TIMESROMAN                                 NIL NIL              GACHA 
+                                NIL NIL           &   
+TIMESROMAN            +   GACHA 
+             GACHA 
+           
+   GACHA               
+TIMESROMAN            
+   GACHA 
+              
+TIMESROMAN                                 NIL NIL              
+TIMESROMAN                                 NIL NIL              
+TIMESROMAN                                 NIL NIL              GACHA 
+                                NIL NIL           0   GACHA 
+           4   GACHA 
+             GACHA 
+              GACHA               GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           D   GACHA 
+             GACHA 
+              GACHA               GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL          u   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL              
+TIMESROMAN                                 NIL NIL              GACHA 
+                                NIL NIL           '   
+TIMESROMAN            9   GACHA 
+             GACHA 
+              GACHA               
+TIMESROMAN            
+   GACHA 
+             
+TIMESROMAN            
+   GACHA 
+             
+TIMESROMAN                                 NIL NIL              
+TIMESROMAN                                 NIL NIL              
+TIMESROMAN                                 NIL NIL              GACHA 
+                                NIL NIL           7   GACHA 
+           I   GACHA 
+             GACHA 
+              GACHA               GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           ø   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL              
+TIMESROMAN                                 NIL NIL              GACHA 
+                                NIL NIL           .   GACHA 
+           I   GACHA 
+             GACHA 
+              GACHA               GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           I   GACHA 
+             GACHA 
+              GACHA           ∆   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL          ó   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL              
+TIMESROMAN                                 NIL NIL              GACHA 
+                                NIL NIL           .   GACHA 
+           P   GACHA 
+             GACHA 
+              GACHA               GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           O   GACHA 
+             GACHA 
+              GACHA               GACHA 
+                                NIL NIL          ,   GACHA 
+                                NIL NIL              
+TIMESROMAN                                 NIL NIL              GACHA 
+                                NIL NIL           +   GACHA 
+           P   GACHA 
+             GACHA 
+              GACHA               GACHA 
+               GACHA 
+             GACHA 
+           
+   GACHA               GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL              
+TIMESROMAN                                 NIL NIL              GACHA 
+                                NIL NIL           .   GACHA 
+           5   GACHA 
+             GACHA 
+              GACHA               GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL              GACHA 
+           D   GACHA 
+             GACHA 
+              GACHA               GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           Â   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           N   GACHA 
+                                NIL NIL              GACHA 
+              
+TIMESROMAN                                 NIL NIL              GACHA 
+                                NIL NIL              
+TIMESROMAN            '   GACHA 
+             GACHA 
+              GACHA               
+TIMESROMAN               GACHA 
+             
+TIMESROMAN               GACHA 
+             
+TIMESROMAN                                 NIL NIL              
+TIMESROMAN                                 NIL NIL              
+TIMESROMAN                                 NIL NIL              GACHA 
+                                NIL NIL              
+TIMESROMAN            .   GACHA 
+             GACHA 
+              GACHA               
+TIMESROMAN            '   GACHA 
+             GACHA 
+              GACHA               
+TIMESROMAN               GACHA 
+             
+TIMESROMAN               GACHA 
+             
+TIMESROMAN                                 NIL NIL              
+TIMESROMAN                                 NIL NIL              
+TIMESROMAN                                 NIL NIL              GACHA 
+                                NIL NIL           -   GACHA 
+           C   GACHA 
+             GACHA 
+              GACHA               GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           B   GACHA 
+             GACHA 
+              GACHA               GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL          |   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL          µ   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           ˇ   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL          ™   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL              
+TIMESROMAN                                 NIL NIL              GACHA 
+                                NIL NIL           0   GACHA 
+           f   GACHA 
+             GACHA 
+           	   GACHA            #   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL              
+TIMESROMAN                                 NIL NIL              GACHA 
+                                NIL NIL           0   GACHA 
+           A   GACHA 
+             GACHA 
+              GACHA            0   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           L   GACHA 
+             GACHA 
+              GACHA               GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL             GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL              
+TIMESROMAN                                 NIL NIL              GACHA 
+                                NIL NIL           5   GACHA 
+           ?   GACHA 
+             GACHA 
+              GACHA               GACHA 
+                                NIL NIL              GACHA 
+                               NIL NIL           ?   GACHA 
+             GACHA 
+              GACHA               GACHA 
+                                NIL NIL           §   GACHA 
+              
+TIMESROMAN                                 NIL NIL              
+TIMESROMAN                                 NIL NIL              
+TIMESROMAN                                 NIL NIL              GACHA 
+                                NIL NIL           '   
+TIMESROMAN            E   GACHA 
+             GACHA 
+              GACHA               
+TIMESROMAN                                 NIL NIL              
+TIMESROMAN                                 NIL NIL           H   GACHA 
+             GACHA 
+              GACHA               GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL          k   GACHA 
+              
+TIMESROMAN                                 NIL NIL              
+TIMESROMAN                                 NIL NIL              
+TIMESROMAN                                 NIL NIL              
+TIMESROMAN                                 NIL NIL           -   
+TIMESROMAN            9   GACHA 
+             GACHA 
+              GACHA            	   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           F   GACHA 
+             GACHA 
+              GACHA               GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL              
+TIMESROMAN                                 NIL NIL              
+TIMESROMAN                                 NIL NIL              
+TIMESROMAN               GACHA 
+              
+TIMESROMAN            ;   GACHA 
+             GACHA 
+              GACHA               GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           T   GACHA 
+             GACHA 
+              GACHA               
+TIMESROMAN                                 NIL NIL              GACHA 
+                                NIL NIL          /   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           2   GACHA 
+                                NIL NIL          ·   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           +   GACHA 
+                                NIL NIL           ·   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL          	   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           .   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           .   GACHA 
+                                NIL NIL           .   GACHA 
+                                NIL NIL           s   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL          œ   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           -   GACHA 
+                                NIL NIL           0   GACHA 
+                                NIL NIL          b   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL          t   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL          ⁄   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL          a   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           ¶   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           ©   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL              
+TIMESROMAN                                 NIL NIL              GACHA 
+                                NIL NIL           ?   
+TIMESROMAN            P   GACHA 
+             GACHA 
+           
+   GACHA               
+TIMESROMAN                                 NIL NIL              
+TIMESROMAN                                 NIL NIL          n   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL              
+TIMESROMAN                                 NIL NIL              GACHA 
+                                NIL NIL           *   
+TIMESROMAN            $   GACHA 
+             GACHA 
+              GACHA               
+TIMESROMAN                                 NIL NIL              
+TIMESROMAN                                 NIL NIL           ;   GACHA 
+             GACHA 
+              GACHA               GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           À   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL             GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           A   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           Ä   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL           N   GACHA 
+                                NIL NIL              GACHA 
+                                NIL NIL              
+TIMESROMAN                                 NIL NIL              GACHA 
+                                NIL NIL              GACHA 
+          v(Yz∏

@@ -1,0 +1,11 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>File [phylum]&lt;LispARs>01113.AR!4</title>
+  </head>
+  <body>
+    <pre>
+Number: 1113Date: 18-May-84 11':39':58Submitter: LE.PASASource:  Eric Schoen -- Schlumberger (Dering.pasa)Subject: Aborted Process does not release Monitor Lock?Assigned To: Attn: vanMelle.paStatus: IncompleteIn/By: Problem Type: BugImpact: SeriousDifficulty: HardFrequency: EverytimePriority: HopefullySystem: Operating SystemSubsystem: ProcessesMachine: Disk: Lisp Version:  Fugue4Source Files: Microcode Version: Memory Size: File Server: Server Software Version: Disposition: Description: 'Eric Schoen reports the following ':''One of our users got himself in a situation where he could not open a Leaf connection to a particular file server host.  His process would hang on OBTAIN.MONITORLOCK forever.  I broke the process and backtraced to find the lock he was waiting on (associated with the SEQUIN connection to this'server) was owned by a processes which had STACK OVERFLOWed and was aborted via &uarr; from the break window.  Once I manually freed the lock, he was able to connect to this host.''It seems there''s a case where a process can die and not release the locks it owns.  Very dangerous.''-------'Date': 22 May 84 16':02 PDT'From': vanMelle.pa'Subject': Re': AR#1113': Aborted Process does not release Monitor Lock'To': 1100Support.pasa'cc': vanMelle.pa''When a process is killed (or aborts itself), any monitorlocks it still owns DO get released, so that is not the problem.''The main way I know of a monitor lock not getting released is if you do a RETFROM around the code that obtained the lock (well-known bug concerning RESETLST).  But &uarr; doesn''t do that, so this does not explain the AR.''Anyway, if customer has a case where he can demonstrate a monitorlock not getting released without resorting to the previous paragraph, I would like to see it.''There is a slight possibility that the statements above are not true for Fugue4, so I would want to see an example in a newer release if possible.''	Bill''Workaround: Test Case: Edit-By: vanMelleEdit-Date: 12-Jul-84 15':09':09</pre>
+  </body>
+</html>

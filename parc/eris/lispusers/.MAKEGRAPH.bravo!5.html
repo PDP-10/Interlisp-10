@@ -1,0 +1,109 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>[eris]&lt;LispUsers>MAKEGRAPH.bravo!5</title>
+  </head>
+  <body>
+    <div style="width: 442pt; margin-left: 84pt; margin-top: 8pt; text-align: justify">
+<span style="font: bold 10pt serif">MAKEGRAPH documentation</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 8pt; text-align: justify">
+<span style="font: 10pt serif">D. Austin Henderson, Jr. <br>Last revised: March 17, 1983</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 20pt; text-align: justify">
+<span style="font: bold 10pt serif">&lt;LISPUSERS&gt;MAKEGRAPH</span><span style="font: 10pt serif"> (and </span><span style="font: bold 10pt serif">.DCOM</span><span style="font: 10pt serif">) is a package which sits on top of Grapher and helps one create graphs depicting a data structure by walking through it. The central idea is that each point in the walk  (and node in the graph) is characterized by a </span><span style="font: 10pt serif; text-decoration: underline">datum/state pair</span><span style="font: 10pt serif"> and motion is defined by a </span><span style="font: 10pt serif; text-decoration: underline">graph specification</span><span style="font: 10pt serif"> in the form of state transition function. This function is specified by a collection of </span><span style="font: 10pt serif; text-decoration: underline">state specifications</span><span style="font: 10pt serif">, each of which indicates how to display (</span><span style="font: 10pt serif; text-decoration: underline">label</span><span style="font: 10pt serif"> and </span><span style="font: 10pt serif; text-decoration: underline">font</span><span style="font: 10pt serif">) the datum when one is in that state and how to find the datum/state pairs which are the </span><span style="font: 10pt serif; text-decoration: underline">sons</span><span style="font: 10pt serif"> of that node. Also the state specification may specify additional </span><span style="font: 10pt serif; text-decoration: underline">roots</span><span style="font: 10pt serif"> for the walk. The generation of a branch of the graph ceases when either there are no sons of a node, or an already encountered node is revisited (identical datum </span><span style="font: italic 10pt serif">and</span><span style="font: 10pt serif"> identical state). The package contains a function for creating such graphs and an example of its use: a function which graphs the graph specifications themselves. Comments are welcomed.</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 11pt; text-align: justify">
+<span style="font: bold 12pt serif; text-decoration: underline">The main functions:</span></div>
+<div style="width: 319pt; margin-left: 207pt; text-indent: -122pt; margin-top: 18pt; text-align: justify">
+<span style="font: bold 10pt serif">MAKE.GRAPH (WINDOW TITLE GRAPH.SPECIFICATION ROOTS CONTEXT LEFTBUTTONFN MIDDLEBUTTONFN TOPJUSTIFYFLG DEPTH)</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 11pt; text-align: justify">
+<span style="font: 10pt serif">Creates a MAKEGRAPH window. If WINDOW is NIL, then a new one will be created and the user will be prompted to position it. Otherwise, the graph will be shown in WINDOW. The window will be titled with TITLE, will call LEFTBUTTONFN and MIDDLEBUTTONFN on nodes selected (or NIL if selection is made where no node is positioned), and will be justified as indicated by TOPJUSTIFYFLG (a la Grapher). The button functions are defaulted to MAKE.GRAPH.LEFTBUTTONFN (which scrolls the window so that the selected node is in the middle of the window, or if the left shift key is depressed, prints out information about it) and MAKE.GRAPH.MIDDLEBUTTONFN (which provides a menu of two choices: INSPECT - inspects the datum of the node selected, or if the left shift key is depressed, inspects the node itself; and SUB.GRAPH - which opens another MAKEGRAPH window with the same parameters as this one, but with graph starting at the selected node). The arguments to MAKE.GRAPH are added as properties to the window under their argument names. Selecting in the title invokes the functions which are the values of the window properties TITLE.LEFTBUTTONFN and TITLE.MIDDLEBUTTONFN (not in the calling sequence; set by the user if desired; called with a single argument - WINDOW; defaulted to a function which provides a menu of UPDATE and SHOW.GRAPH.SPEC (see functionality below)). The graph is created according to the GRAPH.SPECIFICATION (see below) to depth DEPTH, starting from ROOTS which are (DATUM . STATE) pairs. CONTEXT is an extra argument which is a passed along to all accessing expressions. </span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 11pt; text-align: justify">
+<span style="font: 10pt serif">A GRAPH.SPECIFICATION is a property list of  STATE.SPECIFICATIONs where the properties are the state names. A STATE.SPECIFICATION is a property list whose properties and values are as follows (in this, EXPR means a LISP form which will be evaluated in an environment in which DATUM is bound to the node&rsquo;s datum, STATE to the node&rsquo;s state, and CONTEXT to context):</span></div>
+<div style="width: 314pt; margin-left: 212pt; text-indent: -91pt; margin-top: 11pt; text-align: justify">
+<span style="font: 10pt serif">LABEL:</span><span class="tab" val="67"></span><span style="font: 10pt serif">an expression returning something which will be printed as the label of the node; if no LABEL property is provided, the string "???" will be used.</span></div>
+<div style="width: 314pt; margin-left: 212pt; text-indent: -91pt; margin-top: 11pt; text-align: justify">
+<span style="font: 10pt serif">FONT:</span><span class="tab" val="67"></span><span style="font: 10pt serif">an expression returning the font to be used for this node; if no FONT property is provided, the default font for the grapher will be used.</span></div>
+<div style="width: 314pt; margin-left: 212pt; text-indent: -91pt; margin-top: 11pt; text-align: justify">
+<span style="font: 10pt serif">SONS:</span><span class="tab" val="67"></span><span style="font: 10pt serif">a form indicating a list of (DATUM . STATE) pairs to be used in generating the sons of this node; the acceptable forms are any of the following:</span></div>
+<div style="width: 298pt; margin-left: 228pt; margin-top: 11pt; text-align: justify">
+<span style="font: 10pt serif">(data-expression state-expression) where data-expression returns a list of datum&rsquo;s for the son nodes, and state-expression is evaluated in the context of each of these in turn to produce the corresponding state of each.</span></div>
+<div style="width: 298pt; margin-left: 228pt; margin-top: 11pt; text-align: justify">
+<span style="font: 10pt serif">(</span><span style="font: bold 10pt serif">LIST</span><span style="font: 10pt serif"> (datum-expression state-expression) ... (datum-expression state-expression)) a template of expressions which are evaluated individually to produce a list of sons of the same form, viz. (DATUM . STATE) pairs.</span></div>
+<div style="width: 298pt; margin-left: 228pt; margin-top: 11pt; text-align: justify">
+<span style="font: 10pt serif">(</span><span style="font: bold 10pt serif">EVAL</span><span style="font: 10pt serif"> expression) the expression returns a list of (DATUM . STATE) pairs of the sons.</span></div>
+<div style="width: 298pt; margin-left: 228pt; margin-top: 11pt; text-align: justify">
+<span style="font: 10pt serif">(</span><span style="font: bold 10pt serif">UNION</span><span style="font: 10pt serif"> sons-spec ... sons-spec) where each sons-spec is any of these forms (recursively).</span></div>
+<div style="width: 298pt; margin-left: 228pt; margin-top: 11pt; text-align: justify">
+<span style="font: 10pt serif">(</span><span style="font: bold 10pt serif">TRACE</span><span style="font: 10pt serif"> sons-spec)  a device for helping debug graph specifications; the value is the value of </span><span style="font: 10pt serif; text-decoration: underline">sons-specs</span><span style="font: 10pt serif">; the user is given the chance to INSPECT them after they have been generated.</span></div>
+<div style="width: 314pt; margin-left: 212pt; text-indent: -91pt; margin-top: 11pt; text-align: justify">
+<span style="font: 10pt serif">ROOTS:</span><span class="tab" val="67"></span><span style="font: 10pt serif">like SONS, except the resulting (DATUM . STATE) pairs are used as possibly additional roots of the graph.</span></div>
+<div style="width: 319pt; margin-left: 207pt; text-indent: -122pt; margin-top: 18pt; text-align: justify">
+<span style="font: bold 10pt serif">MAKE.GRAPH.CONSTRUCT (GRAPH.SPECIFICATION INITIAL.ROOTS CONTEXT DEPTH)</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 11pt; text-align: justify">
+<span style="font: 10pt serif">This is the functional heart of MAKE.GRAPH broken out for those who wish to handle their own interacts with grapher and the window package. It produces a list of graphnodes with labels and sons as specified by GRAPH.SPECIFICATION (see MAKEGRAPH), starting from INITIAL.ROOTS which are (DATUM . STATE) pairs. CONTEXT is an extra argument which is a passed along to all accessing expressions. Returns the list of graphnodes.</span></div>
+<div style="width: 319pt; margin-left: 207pt; text-indent: -122pt; margin-top: 18pt; text-align: justify">
+<span style="font: bold 10pt serif">MAKE.GRAPH.FIND.ROOTS (GRAPH.SPECIFICATION INITIAL.ROOTS CONTEXT DEPTH)</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 11pt; text-align: justify">
+<span style="font: 10pt serif">Finds the real roots from a set of initial roots, using the same processing as MAKEGRAPH uses. This is helpful when you want to  hand a "correct" set of roots of a structure to MAKEGRAPH without having to explore the dependencies within that structure. As with MAKEGRAPH, the data structure is processed according to the GRAPH.SPECIFICATION (see MAKEGRAPH), starting from INITIAL.ROOTS which are (DATUM . STATE) pairs. CONTEXT is an extra argument which is a passed along to all accessing expressions. Returns the real roots as a list of (DATUM . STATE) pairs.</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 11pt; text-align: justify">
+<span style="font: bold 12pt serif; text-decoration: underline">Supporting functions:</span></div>
+<div style="width: 319pt; margin-left: 207pt; text-indent: -122pt; margin-top: 18pt; text-align: justify">
+<span style="font: bold 10pt serif">MAKE.GRAPH.UPDATE.WINDOW (WINDOW)</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 11pt; text-align: justify">
+<span style="font: 10pt serif">Uses the window properties (which may have been changed) to reinvoke MAKE.GRAPH on the window.</span></div>
+<div style="width: 319pt; margin-left: 207pt; text-indent: -122pt; margin-top: 18pt; text-align: justify">
+<span style="font: bold 10pt serif">MAKE.GRAPH.SHOW.SPEC (GRAPH.SPECIFICATION)</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 11pt; text-align: justify">
+<span style="font: 10pt serif">Uses MAKE.GRAPH to produced a graph of a GRAPH.SPECIFICATION. It uses as the graph.specification for this layout the value of the variable MAKE.GRAPH.SPEC.SPEC which presents GRAPH.SPECIFICATION (reflectively) as a graph.specification. (GRAPH.SPECIFICATION can serve as a template for other graph.specifications. It is a fairly complex 9-state specification. For a simpler example see below under MAKE.GRAPH.SHOW.LIST.)</span></div>
+<div style="width: 319pt; margin-left: 207pt; text-indent: -122pt; margin-top: 18pt; text-align: justify">
+<span style="font: bold 10pt serif">MAKE.GRAPH.EXAMPLE.1 ( )</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 11pt; text-align: justify">
+<span style="font: 10pt serif">Calls MAKE.GRAPH.SHOW.SPEC on MAKE.GRAPH.SPEC.SPEC.</span></div>
+<div style="width: 319pt; margin-left: 207pt; text-indent: -122pt; margin-top: 18pt; text-align: justify">
+<span style="font: bold 10pt serif">MAKE.GRAPH.SHOW.LIST (OBJECT)</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 11pt; text-align: justify">
+<span style="font: 10pt serif">Uses MAKE.GRAPH to produced a graph of an arbitrary Lisp object. It uses as the graph.specification for this layout the value of the variable MAKE.GRAPH.LIST.SPEC which presents OBJECT as a tree whose nodes are LISTPs and whose leaves are non-LISTPs. (MAKE.GRAPH.LIST.SPEC is the simple 1-state specification below, included here as an example of a graph.specification.</span></div>
+<div style="width: 405pt; margin-left: 121pt; margin-top: 11pt; text-align: justify">
+<span style="font: 8pt sans-serif">(OBJECT (</span><span class="tab" val="67"></span><span style="font: 8pt sans-serif">DOC (ANY LISP OBJECT)             - some documentation<br></span><span class="tab" val="67"></span><span style="font: 8pt sans-serif">LABEL (COND</span><span class="tab" val="67"></span><span style="font: 8pt sans-serif">((LISTP DATUM) "( )") <br></span><span class="tab" val="67"></span><span class="tab" val="67"></span><span style="font: 8pt sans-serif">(T DATUM))<br></span><span class="tab" val="67"></span><span style="font: 8pt sans-serif">SONS ((COND</span><span class="tab" val="67"></span><span style="font: 8pt sans-serif">((LISTP DATUM) DATUM)<br></span><span class="tab" val="67"></span><span class="tab" val="67"></span><span style="font: 8pt sans-serif">(T NIL))<br></span><span class="tab" val="67"></span><span style="font: 8pt sans-serif">    (QUOTE OBJECT))<br>        )<br> )</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 11pt; text-align: justify">
+<span style="font: 10pt serif">For a more complex example see above under MAKE.GRAPH.SHOW.SPEC.)</span></div>
+<div style="width: 319pt; margin-left: 207pt; text-indent: -122pt; margin-top: 18pt; text-align: justify">
+<span style="font: bold 10pt serif">MAKE.GRAPH.EXAMPLE.2 ( )</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 11pt; text-align: justify">
+<span style="font: 10pt serif">Calls MAKE.GRAPH.SHOW.LIST on MAKE.GRAPH.LIST.SPEC;  that is, produces a graph of this simple graph.specification </span><span style="font: 10pt serif; text-decoration: underline">as a list</span><span style="font: 10pt serif">. Notice that selecting the title command UPDATE in this window will yield a different graph of the same structure, viz. </span><span style="font: 10pt serif; text-decoration: underline">as a graph.specification</span><span style="font: 10pt serif">.</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 11pt; text-align: justify">
+<span style="font: bold 12pt serif; text-decoration: underline">Other useful functions:</span></div>
+<div style="width: 319pt; margin-left: 207pt; text-indent: -122pt; margin-top: 18pt; text-align: justify">
+<span style="font: bold 10pt serif">MAKE.GRAPH.DATUM (NODE)</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 11pt; text-align: justify">
+<span style="font: 10pt serif">Returns the DATUM associated with the graph node NODE.</span></div>
+<div style="width: 319pt; margin-left: 207pt; text-indent: -122pt; margin-top: 18pt; text-align: justify">
+<span style="font: bold 10pt serif">MAKE.GRAPH.STATE (NODE)</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 11pt; text-align: justify">
+<span style="font: 10pt serif">Returns the STATE associated with the graph node NODE.</span></div>
+<div style="width: 319pt; margin-left: 207pt; text-indent: -122pt; margin-top: 18pt; text-align: justify">
+<span style="font: bold 10pt serif">MAKE.GRAPH.FATHER (NODE)</span></div>
+<div style="width: 442pt; margin-left: 84pt; margin-top: 11pt; text-align: justify">
+<span style="font: 10pt serif">Returns the graph node which is the father of the graph node NODE.</span></div>
+<script>function do_tabs() { // unit = px
+  var tabs = document.getElementsByClassName("tab");
+  for (var i = 0; i < tabs.length; ++i) {
+    var span = tabs[i];
+    var val = span.getAttribute("val");
+    if (val == null) console.log("Couldn't get val");
+    var rect = span.getBoundingClientRect();
+    var tabstop;
+    if (val > 0) tabstop = Math.ceil(rect.left / val) * val;
+    else tabstop = -val;
+    console.log("do_tabs", val, tabstop)
+    if (tabstop > 0) {
+      var width = tabstop - rect.left;
+      span.style.display = "inline-block";
+      span.style.width = width + "px";
+    }
+  }
+}
+do_tabs();
+</script>
+  </body>
+</html>
